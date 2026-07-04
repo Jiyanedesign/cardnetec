@@ -10,7 +10,7 @@
     padding: 0.8rem 1.75rem;
     border-radius: var(--radius-sm); /* Bordes casi rectos, formales */
     font-family: var(--font-body);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.85rem;
     transition: var(--transition-fast);
     border: 1px solid transparent;
@@ -20,13 +20,15 @@
     text-transform: uppercase;
 }
 
+/* El botón principal de llamada a la acción ahora es del verde oficial de la marca */
 .btn-primary {
-    background-color: var(--dark);
+    background-color: var(--primary);
     color: var(--light);
 }
 
 .btn-primary:hover {
-    background-color: var(--dark-alt);
+    background-color: var(--primary-hover);
+    box-shadow: 0 4px 12px rgba(99, 174, 44, 0.2);
 }
 
 .btn-secondary {
@@ -41,12 +43,12 @@
 }
 
 .btn-accent {
-    background-color: var(--primary);
+    background-color: var(--dark);
     color: var(--light);
 }
 
 .btn-accent:hover {
-    background-color: var(--primary-hover);
+    background-color: var(--dark-alt);
 }
 
 .btn-white {
@@ -60,12 +62,12 @@
     border-color: var(--dark);
 }
 
-/* 2. Barra de Garantías Corporativas */
+/* 2. Barra de Garantías Corporativas (Con fondo suave del verde de la marca) */
 .satisfaction-bar {
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     padding: 1.25rem 0;
-    background-color: var(--light);
+    background-color: var(--primary-light); /* Verde translúcido sutil */
 }
 
 .satisfaction-grid {
@@ -80,7 +82,7 @@
     align-items: center;
     gap: 8px;
     font-size: 0.82rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-muted);
     flex-grow: 1;
     justify-content: center;
@@ -94,7 +96,7 @@
     width: 16px;
     height: 16px;
     stroke: var(--primary);
-    stroke-width: 2;
+    stroke-width: 2.2;
     fill: none;
     flex-shrink: 0;
 }
@@ -132,14 +134,14 @@
 }
 
 .brand-card:hover {
-    border-color: var(--dark);
-    background-color: var(--surface-light);
+    border-color: var(--primary);
+    background-color: var(--primary-light);
 }
 
 /* Destacado del Láser */
 .brand-card.laser-focus {
-    border-color: var(--dark);
-    background-color: var(--surface-light);
+    border-color: var(--primary);
+    background-color: var(--primary-light);
     position: relative;
     overflow: hidden;
 }
@@ -185,7 +187,7 @@
 }
 
 .product-card:hover {
-    border-color: var(--dark);
+    border-color: var(--primary);
     box-shadow: var(--shadow-sm);
 }
 
@@ -215,7 +217,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--text-muted);
+    color: var(--primary);
     margin-bottom: 0.35rem;
 }
 
@@ -240,7 +242,8 @@
 }
 
 .product-card-link:hover {
-    border-color: var(--dark);
+    color: var(--primary);
+    border-color: var(--primary);
 }
 
 .product-card-link::after {
@@ -280,7 +283,7 @@
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
     outline: none;
-    border-color: var(--dark);
+    border-color: var(--primary);
     background-color: var(--light);
 }
 

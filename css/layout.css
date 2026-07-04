@@ -59,7 +59,7 @@
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--primary);
     margin-bottom: 0.5rem;
     letter-spacing: 0.1em;
     border-left: 3px solid var(--primary);
@@ -106,16 +106,16 @@
 
 /* 3. Cabecera Corporativa Sobria */
 
-/* Barra de Anuncios Superior */
+/* Barra de Anuncios Superior (Verde Corporativo de la Marca) */
 .top-announcement-bar {
-    background-color: var(--dark-alt);
-    color: rgba(252, 253, 251, 0.75);
-    font-size: 0.72rem;
-    font-weight: 400;
+    background-color: var(--primary);
+    color: var(--light);
+    font-size: 0.75rem;
+    font-weight: 600;
     text-align: center;
     padding: 8px 0;
     letter-spacing: 0.03em;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: none;
 }
 
 /* Header Principal */
@@ -136,63 +136,17 @@
     gap: 1.5rem;
 }
 
-/* Logo Corporativo Real */
+/* Logo Real (Carga la Imagen logo.png del usuario) */
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
-    user-select: none;
     flex-shrink: 0;
 }
 
-.logo-symbol-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 38px;
-    height: 38px;
-}
-
-.logo-dandelion {
-    width: 100%;
-    height: 100%;
-}
-
-.logo-text-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.logo-text {
-    font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 1.55rem;
-    color: var(--dark);
-    line-height: 1;
-    letter-spacing: -0.02em;
-}
-
-.logo-net {
-    color: var(--primary);
-}
-
-.logo-suffix {
-    color: var(--accent-gold);
-    font-weight: 500;
-    font-size: 1.05rem;
-}
-
-.logo-subtext {
-    font-family: var(--font-body);
-    font-size: 0.65rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-    margin-top: 3px;
-    line-height: 1;
+.logo-img {
+    height: 48px;
+    width: auto;
+    display: block;
 }
 
 /* Barra de Búsqueda del Header (Centro) */
@@ -223,7 +177,7 @@
     
     .search-input:focus {
         background-color: var(--light);
-        border-color: var(--dark);
+        border-color: var(--primary);
         outline: none;
     }
     
@@ -438,10 +392,10 @@
     transform: translateY(-6px) rotate(-45deg);
 }
 
-/* 4. Footer Corporativo de Alta Sobriedad */
+/* 4. Footer Corporativo de Alta Sobriedad con Borde Verde de Marca */
 .main-footer {
     background-color: var(--light);
-    border-top: 1px solid var(--border);
+    border-top: 3px solid var(--primary);
     color: var(--text-muted);
     font-size: 0.85rem;
 }
@@ -471,11 +425,11 @@
 }
 
 .footer-logo {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
 }
 
-.footer-logo .logo-symbol {
-    box-shadow: none;
+.footer-logo .logo-img {
+    height: 38px;
 }
 
 .footer-description {
