@@ -1,52 +1,51 @@
 /* ==========================================================================
-   CardNet.ec - Sistema de Diseño "Formal & Corporate Engraving" (base.css)
+   CardNet.ec - Sistema de Diseño Editorial y Corporativo (base.css)
    ========================================================================== */
 
-/* 1. Variables de Diseño (Tokens de Marca Premium y Corporativos) */
+/* 1. Variables de Diseño (Tokens de Marca Premium y Sobrios) */
 :root {
-    /* Paleta de Colores Inspirada en el Logo Real (Verde, Negro y Oro) */
-    --primary: #63AE2C;            /* Verde Hoja CardNet */
+    /* Paleta de Colores Corporativa y Orgánica (Alineada al Logo Real) */
+    --primary: #63AE2C;            /* Verde Hoja CardNet (Uso como acento selectivo) */
     --primary-hover: #508E22;
-    --primary-light: rgba(99, 174, 44, 0.08);
-    --accent: #BAAF1A;             /* Dorado Semilla del Diente de León */
-    --accent-hover: #9E9415;
+    --primary-light: rgba(99, 174, 44, 0.05);
     
-    /* Superficies Modernas y Contraste Premium */
-    --dark: #11140F;               /* Negro Mate de Títulos y Chapa Metálica */
-    --dark-alt: #181E15;           /* Carbón Vegetal Profundo */
-    --light: #FFFFFF;              /* Blanco Puro */
-    --surface-light: #F7FAF5;      /* Blanco Verdoso Suave */
-    --border: #E1E8DC;             /* Borde Fino Orgánico */
+    /* Tonos Neutros Sobrios y Elegantes */
+    --dark: #1E221C;               /* Negro Carbón / Grafito */
+    --dark-alt: #2D3329;           /* Grafito Profundo */
+    --light: #FCFDFB;              /* Blanco Cálido / Hueso */
+    --surface-light: #F2F5F0;      /* Gris Claro Cálido */
+    --border: #DCE2D8;             /* Línea Fina Discreta de 1px */
+    --accent-gold: #BAAF1A;        /* Dorado Apagado / Champagne */
     
-    /* Nueva Combinación Tipográfica Formal y Elegante */
-    --font-heading: 'Libre Baskerville', Georgia, serif;
-    --font-body: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+    /* Tipografía Corporativa y Formal */
+    --font-heading: 'IBM Plex Serif', Georgia, serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
     
-    /* Textos con Excelente Contraste */
-    --text-main: #11140F;
-    --text-muted: #515A4D;         /* Gris Orgánico Muted */
-    --text-light: #F7FAF5;
+    /* Textos de Alta Legibilidad */
+    --text-main: #1E221C;
+    --text-muted: #5C6558;         /* Grafito Suave */
+    --text-light: #FCFDFB;
     
-    /* Escala de Espaciado */
-    --space-xs: clamp(0.5rem, 1.2vw, 0.85rem);
-    --space-sm: clamp(0.9rem, 2vw, 1.25rem);
-    --space-md: clamp(1.75rem, 4vw, 2.5rem);
-    --space-lg: clamp(3rem, 6vw, 4.5rem);
-    --space-xl: clamp(4.5rem, 9vw, 7rem);
+    /* Escala de Espaciado Amplio y Editorial */
+    --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+    --space-sm: clamp(0.85rem, 1.8vw, 1.15rem);
+    --space-md: clamp(1.5rem, 3.5vw, 2.25rem);
+    --space-lg: clamp(2.5rem, 5vw, 4rem);
+    --space-xl: clamp(4rem, 8vw, 6rem);
     
-    /* Bordes Redondeados Sobrios */
-    --radius-sm: 3px;
-    --radius-md: 6px;
-    --radius-lg: 12px;
+    /* Bordes Redondeados Discretos (No circulares ni infantiles) */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
     
-    /* Sombras Finitas Premium */
-    --shadow-sm: 0 1px 3px rgba(17, 20, 15, 0.04);
-    --shadow-md: 0 4px 12px -2px rgba(17, 20, 15, 0.05), 0 2px 6px -1px rgba(17, 20, 15, 0.02);
-    --shadow-lg: 0 12px 24px -4px rgba(17, 20, 15, 0.06), 0 4px 12px -2px rgba(17, 20, 15, 0.03);
+    /* Sombras Naturales y Tenues */
+    --shadow-sm: 0 1px 2px rgba(30, 34, 28, 0.02);
+    --shadow-md: 0 4px 10px rgba(30, 34, 28, 0.03);
+    --shadow-lg: 0 10px 20px rgba(30, 34, 28, 0.04);
     
-    /* Transiciones de Interfaz */
-    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --transition-fast: all 0.15s ease-in-out;
+    /* Transiciones Clásicas y Suaves */
+    --transition-smooth: all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1);
+    --transition-fast: all 0.15s ease-out;
 }
 
 /* 2. Reset CSS */
@@ -66,7 +65,7 @@ body {
     background-color: var(--light);
     color: var(--text-main);
     font-family: var(--font-body);
-    line-height: 1.65;
+    line-height: 1.6;
     overflow-x: hidden;
 }
 
@@ -99,13 +98,12 @@ button {
     cursor: pointer;
 }
 
-/* 3. Tipografía Jerárquica y Legibilidad (Libre Baskerville para Headings) */
+/* 3. Tipografía Formal IBM Plex */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    font-weight: 700;
-    line-height: 1.2;
+    font-weight: 600;
+    line-height: 1.15;
     color: var(--dark);
-    letter-spacing: -0.01em;
 }
 
 h1 {
@@ -121,7 +119,7 @@ h3 {
 }
 
 h4 {
-    font-size: clamp(18px, 2.2vw, 24px);
+    font-size: clamp(18px, 2vw, 24px);
 }
 
 p {
@@ -135,4 +133,5 @@ p strong {
 
 .text-highlight {
     color: var(--primary);
+    border-bottom: 2px solid var(--primary-light);
 }

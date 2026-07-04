@@ -1,14 +1,12 @@
 /* ==========================================================================
-   CardNet.ec - Estructura de Páginas e Identidad Visual (pages.css)
+   CardNet.ec - Estructura de Páginas de Estilo Editorial (pages.css)
    ========================================================================== */
 
-/* 1. Hero Block (Concepto: Tu marca no debería verse igual que todas) */
+/* 1. Hero Block (Estilo Editorial Premium) */
 .hero-block {
-    padding-top: clamp(2rem, 8vw, 5rem);
-    padding-bottom: clamp(2rem, 8vw, 5rem);
+    padding-top: clamp(3rem, 10vw, 6rem);
+    padding-bottom: clamp(3rem, 10vw, 6rem);
     background-color: var(--light);
-    position: relative;
-    overflow: hidden;
 }
 
 .hero-layout {
@@ -30,72 +28,31 @@
     flex-direction: column;
 }
 
-.hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--primary-light);
-    border: 1px solid rgba(99, 174, 44, 0.15);
-    padding: 6px 14px;
-    border-radius: 50px;
-    width: fit-content;
-    margin-bottom: 1.25rem;
-}
-
-.hero-tag-text {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--primary);
-    letter-spacing: 0.05em;
-}
-
-.hero-tag-accent {
-    width: 6px;
-    height: 6px;
-    background-color: var(--accent);
-    border-radius: 50%;
-}
-
 .hero-title {
-    margin-bottom: 1rem;
-    line-height: 1.1;
-    font-weight: 800;
+    margin-bottom: 1.25rem;
+    line-height: 1.15;
+    font-weight: 600;
 }
 
 .hero-description {
-    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
     color: var(--text-muted);
     line-height: 1.6;
     margin-bottom: 2rem;
-    max-width: 580px;
+    max-width: 540px;
 }
 
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
-/* Collage visual de Hero */
 .hero-visual-wrapper {
-    position: relative;
     width: 100%;
 }
 
-.hero-visual-wrapper::before {
-    content: '';
-    position: absolute;
-    top: -10%;
-    right: -10%;
-    width: 60%;
-    height: 60%;
-    background: radial-gradient(circle, rgba(99, 174, 44, 0.1) 0%, transparent 70%);
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* 2. Sección del Diferencial (Identidad frente a lo genérico) */
+/* 2. Sección del Diferencial */
 .differential-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -105,7 +62,7 @@
 
 @media (min-width: 1024px) {
     .differential-container {
-        grid-template-columns: 0.9fr 1.1fr;
+        grid-template-columns: 1fr 1.1fr;
         gap: var(--space-lg);
     }
 }
@@ -132,21 +89,22 @@
 }
 
 .diff-icon-box {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md);
-    background-color: var(--primary-light);
-    color: var(--primary);
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-sm);
+    background-color: var(--surface-light);
+    color: var(--dark);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    border: 1px solid var(--border);
 }
 
 .diff-info h4 {
     font-family: var(--font-heading);
     font-size: 1.05rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--dark);
     margin-bottom: 0.35rem;
 }
@@ -156,11 +114,11 @@
     line-height: 1.5;
 }
 
-/* 3. Sección Especial de Grabado Láser (Sección Clave con Peso Visual) */
+/* 3. Sección Especial de Grabado Láser (Enfoque Técnico y Físico) */
 .laser-section {
     background-color: var(--dark-alt);
     color: var(--text-light);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     overflow: hidden;
     position: relative;
     padding: var(--space-lg) var(--space-md);
@@ -172,16 +130,16 @@
     }
 }
 
-/* Efecto de línea láser sutil */
+/* Fina línea láser vertical discreta de corte técnico */
 .laser-section::after {
     content: '';
     position: absolute;
     top: 0;
-    left: 25%;
+    left: 20%;
     width: 1px;
     height: 100%;
-    background: linear-gradient(to bottom, transparent, var(--primary) 30%, var(--primary) 70%, transparent);
-    opacity: 0.25;
+    background: linear-gradient(to bottom, transparent, rgba(99, 174, 44, 0.3) 30%, rgba(99, 174, 44, 0.3) 70%, transparent);
+    pointer-events: none;
 }
 
 .laser-layout {
@@ -195,57 +153,43 @@
 
 @media (min-width: 1024px) {
     .laser-layout {
-        grid-template-columns: 1.15fr 0.85fr;
+        grid-template-columns: 1.1fr 0.9fr;
         gap: var(--space-lg);
     }
 }
 
-.laser-visual {
-    background-color: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
+.laser-content {
+    display: flex;
+    flex-direction: column;
 }
 
-.laser-visual::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 70% 30%, rgba(99, 174, 44, 0.08) 0%, transparent 60%);
-    pointer-events: none;
+.laser-visual {
+    background-color: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    padding: 1rem;
 }
 
 .laser-capabilities {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 12px;
     margin-top: 1.5rem;
 }
 
 .laser-cap-item {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    transition: var(--transition-fast);
-}
-
-.laser-cap-item:hover {
-    border-color: rgba(99, 174, 44, 0.3);
-    background-color: rgba(255, 255, 255, 0.05);
+    gap: 4px;
 }
 
 .laser-cap-item span {
     font-size: 0.68rem;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     color: var(--primary);
     letter-spacing: 0.05em;
@@ -254,15 +198,15 @@
 .laser-cap-item h4 {
     font-family: var(--font-heading);
     font-size: 0.95rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--light);
 }
 
-/* 4. Banner Dual Moderno (Estilo MOO) */
+/* 4. Banner Dual Moderno (Estilo MOO Editorial) */
 .dual-banner {
     display: grid;
     grid-template-columns: 1fr;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     overflow: hidden;
     border: 1px solid var(--border);
 }
@@ -283,7 +227,7 @@
 .dual-banner-content {
     background-color: var(--dark-alt);
     color: var(--text-light);
-    padding: clamp(2rem, 5vw, 4rem);
+    padding: clamp(2rem, 5vw, 3.5rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -291,66 +235,59 @@
 
 .dual-banner-content h3 {
     font-family: var(--font-heading);
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(1.5rem, 2.5vw, 1.85rem);
     color: var(--light);
     margin-bottom: 1rem;
 }
 
 .dual-banner-content p {
-    color: rgba(247, 250, 245, 0.75);
+    color: rgba(252, 253, 251, 0.75);
     margin-bottom: 2rem;
     line-height: 1.6;
+    font-size: 0.95rem;
 }
 
 /* 5. Proceso Creativo Cuidado (Paso a Paso) */
 .process-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 15px;
     margin-top: 2rem;
 }
 
 @media (min-width: 768px) {
     .process-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media (min-width: 1024px) {
     .process-grid {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 15px;
+        grid-template-columns: repeat(6, 1fr);
     }
 }
 
 .process-step {
     background-color: var(--light);
     border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius-sm);
+    padding: 1.25rem 1rem;
     position: relative;
-    transition: var(--transition-smooth);
-}
-
-.process-step:hover {
-    border-color: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
 }
 
 .process-number {
     font-family: var(--font-heading);
-    font-size: 2.25rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 700;
     color: rgba(99, 174, 44, 0.15);
     line-height: 1;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 .process-step h4 {
     font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 0.92rem;
+    font-weight: 600;
     color: var(--dark);
     margin-bottom: 0.5rem;
 }
@@ -370,12 +307,12 @@
 
 .page-header-title {
     font-family: var(--font-heading);
-    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-size: clamp(2rem, 3.5vw, 2.5rem);
     margin-bottom: 0.75rem;
 }
 
 .page-header-description {
-    max-width: 680px;
+    max-width: 650px;
     margin-left: auto;
     margin-right: auto;
     font-size: 0.95rem;
