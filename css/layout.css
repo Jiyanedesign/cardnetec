@@ -1,0 +1,436 @@
+/* ==========================================================================
+   CardNet.ec - Rejilla, Contenedores, Header y Footer (layout.css)
+   ========================================================================== */
+
+/* 1. Contenedores y Secciones */
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 3vw, 2.5rem);
+    padding-right: clamp(1rem, 3vw, 2.5rem);
+}
+
+.section-padding {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+}
+
+/* Modificadores de Sección */
+.section-dark {
+    background-color: var(--dark-alt);
+    color: var(--text-light);
+}
+
+.section-dark h1,
+.section-dark h2,
+.section-dark h3,
+.section-dark h4 {
+    color: var(--text-light);
+}
+
+.section-dark p {
+    color: var(--text-light-muted);
+}
+
+.section-dark p strong {
+    color: var(--text-light);
+}
+
+/* Encabezados de Sección */
+.section-header {
+    max-width: 700px;
+    margin-bottom: var(--space-md);
+}
+
+.section-header.center {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-subtitle {
+    display: inline-block;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+}
+
+/* 2. Rejillas Flexibles y Autoadaptables B2B */
+.grid-2, .grid-3, .grid-4 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* 3. Header Premium y Menú de Navegación */
+.main-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(250, 251, 247, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: var(--transition-smooth);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+}
+
+/* Logo CardNet.ec */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.45rem;
+    color: var(--dark);
+    user-select: none;
+}
+
+.logo-symbol {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    background-color: var(--dark);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.logo-symbol::before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: var(--primary);
+    border-radius: 3px;
+    transform: rotate(45deg);
+}
+
+.logo-text {
+    display: flex;
+    align-items: center;
+}
+
+.logo-net {
+    color: var(--primary);
+}
+
+.logo-suffix {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-left: 2px;
+}
+
+/* Navegación Escritorio */
+.nav-menu {
+    display: none;
+}
+
+.header-actions {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: clamp(1rem, 2vw, 1.75rem);
+    }
+    
+    .nav-link {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        padding: 8px 0;
+        position: relative;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+        color: var(--text-main);
+    }
+    
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--primary);
+        transition: var(--transition-fast);
+    }
+    
+    .nav-link.active::after, .nav-link:hover::after {
+        width: 100%;
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
+/* Menú Hamburguesa Móvil */
+.burger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 101;
+}
+
+.burger-line {
+    width: 100%;
+    height: 2px;
+    background-color: var(--dark);
+    transition: var(--transition-fast);
+    border-radius: 4px;
+}
+
+@media (min-width: 1024px) {
+    .burger-menu {
+        display: none;
+    }
+}
+
+/* Panel Navegación Móvil */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 360px;
+    height: 100vh;
+    background-color: var(--light);
+    z-index: 99;
+    box-shadow: var(--shadow-lg);
+    padding: 100px var(--space-md) var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: var(--transition-smooth);
+}
+
+.mobile-nav.open {
+    right: 0;
+}
+
+.mobile-link {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+    display: block;
+}
+
+.mobile-link.active {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(17, 20, 15, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 98;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-smooth);
+}
+
+.mobile-nav-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Animaciones del Botón Hamburguesa Activo */
+.burger-menu.open .burger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.burger-menu.open .burger-line:nth-child(2) {
+    opacity: 0;
+}
+.burger-menu.open .burger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* 4. Footer Corporativo */
+.main-footer {
+    background-color: var(--dark);
+    color: var(--text-light-muted);
+    font-size: 0.95rem;
+    border-top: 1px solid var(--border);
+}
+
+.footer-top {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: 2.2fr 1fr 1fr 1.3fr;
+    }
+}
+
+.footer-logo {
+    color: var(--text-light);
+    margin-bottom: 1.25rem;
+}
+
+.footer-logo .logo-symbol {
+    background-color: rgba(250, 251, 247, 0.1);
+}
+
+.footer-logo .logo-symbol::before {
+    background-color: var(--primary);
+}
+
+.footer-description {
+    max-width: 320px;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.footer-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.footer-link {
+    color: var(--text-light-muted);
+    font-size: 0.9rem;
+    width: fit-content;
+}
+
+.footer-link:hover {
+    color: var(--primary);
+    transform: translateX(3px);
+}
+
+.footer-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.footer-contact-icon {
+    width: 18px;
+    height: 18px;
+    stroke: var(--primary);
+    stroke-width: 2;
+    fill: none;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(250, 251, 247, 0.08);
+    padding-top: 1.50rem;
+    padding-bottom: 1.50rem;
+    font-size: 0.85rem;
+}
+
+.footer-bottom-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .footer-bottom-flex {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.footer-bottom-links {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-bottom-link:hover {
+    color: var(--primary);
+}

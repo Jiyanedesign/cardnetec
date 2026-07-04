@@ -1,0 +1,140 @@
+/* ==========================================================================
+   CardNet.ec - CSS Design System & Variables (base.css)
+   ========================================================================== */
+
+/* 1. Importación de Fuentes Premium de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* 2. Tokens de Diseño (Variables CSS) */
+:root {
+    /* Paleta de Colores de Marca */
+    --primary: #63AE2C;          /* Verde CardNet (Confianza, dinamismo y CTAs) */
+    --primary-hover: #508E22;
+    --accent: #BAAF1A;           /* Dorado Promocional (Detalles creativos y calidad) */
+    --accent-hover: #9A9114;
+    --highlight: #F2E50D;        /* Amarillo Brillante (Acento mínimo y controlado) */
+    
+    /* Tonos Oscuros Premium (Contraste Corporativo) */
+    --dark: #11140F;             /* Negro Elegante */
+    --dark-alt: #1E2A18;         /* Verde Oscuro Profundo (Fondos corporativos) */
+    
+    /* Neutros y Superficies */
+    --light: #FAFBF7;            /* Blanco Cálido (Fondo principal limpio y editorial) */
+    --surface: #EEF3E8;          /* Gris Verdoso Claro (Superficies secundarias) */
+    --surface-hover: #E3EAD9;
+    --border: #DDE5D6;           /* Gris Suave (Líneas divisorias y bordes) */
+    --border-focus: #63AE2C;
+    
+    /* Paleta de Textos (Alto Contraste y Accesibilidad) */
+    --text-main: #11140F;        /* Texto principal en fondo claro */
+    --text-muted: #5F6B58;       /* Texto descriptivo secundario */
+    --text-light: #FAFBF7;       /* Texto principal en fondos oscuros */
+    --text-light-muted: #A2B099;  /* Texto secundario en fondos oscuros */
+    
+    /* Escala de Espaciado Fluido (clamp para adaptación mobile-first) */
+    --space-xs: clamp(0.5rem, 1vw, 0.75rem);
+    --space-sm: clamp(0.875rem, 1.5vw, 1.125rem);
+    --space-md: clamp(1.5rem, 3vw, 2.25rem);
+    --space-lg: clamp(2.5rem, 5vw, 4rem);
+    --space-xl: clamp(4rem, 8vw, 6.5rem);
+    
+    /* Tokens de Estilo Adicionales */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+    --shadow-sm: 0 2px 8px rgba(30, 42, 24, 0.04);
+    --shadow-md: 0 8px 24px rgba(30, 42, 24, 0.06);
+    --shadow-lg: 0 16px 40px rgba(30, 42, 24, 0.1);
+    
+    /* Tiempos de Transición */
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-fast: all 0.15s ease-in-out;
+}
+
+/* 3. Reset CSS Moderno */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background-color: var(--light);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    overflow-x: hidden;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+img, svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* 4. Tipografía Base */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--dark);
+}
+
+h1 {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 800;
+}
+
+h2 {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+h3 {
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+}
+
+h4 {
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+}
+
+p {
+    color: var(--text-muted);
+}
+
+p strong {
+    color: var(--dark);
+}
+
+.text-highlight {
+    color: var(--primary);
+}
