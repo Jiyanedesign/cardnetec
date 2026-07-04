@@ -1,119 +1,112 @@
 /* ==========================================================================
-   CardNet.ec - Componentes de Interfaz UI/UX (components.css)
+   CardNet.ec - Componentes de Estilo Táctil y Comercial (components.css)
    ========================================================================== */
 
-/* 1. Botones y Llamados a la Acción (CTAs) */
+/* 1. Botones Estilo "Cartón / Imprenta" */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.85rem 1.65rem;
+    padding: 0.75rem 1.5rem;
     border-radius: var(--radius-sm);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Zilla Slab', Georgia, serif;
     font-weight: 700;
-    font-size: 0.9rem;
-    transition: var(--transition-smooth);
+    font-size: 0.95rem;
+    transition: var(--transition-fast);
     position: relative;
     gap: 8px;
     user-select: none;
-    border: 1px solid transparent;
+    border: 2px solid var(--dark);
+    box-shadow: 3px 3px 0px var(--dark); /* Sombra física plana */
+    transform: translate(-3px, -3px);
+}
+
+.btn:active {
+    transform: translate(0, 0);
+    box-shadow: 0px 0px 0px var(--dark);
 }
 
 .btn-primary {
     background-color: var(--primary);
     color: var(--light);
-    box-shadow: 0 4px 14px rgba(99, 174, 44, 0.25);
 }
 
 .btn-primary:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 174, 44, 0.35);
 }
 
 .btn-secondary {
-    background-color: transparent;
+    background-color: var(--light);
     color: var(--dark);
-    border: 1px solid var(--border);
+    border-color: var(--dark);
 }
 
 .btn-secondary:hover {
     background-color: var(--surface);
-    border-color: var(--primary);
-    transform: translateY(-2px);
 }
 
 .btn-accent {
     background-color: var(--accent);
     color: var(--dark);
-    box-shadow: 0 4px 14px rgba(186, 175, 26, 0.2);
 }
 
 .btn-accent:hover {
     background-color: var(--accent-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(186, 175, 26, 0.3);
 }
 
 .btn-white {
     background-color: var(--light);
     color: var(--dark);
-    border: 1px solid var(--border);
 }
 
 .btn-white:hover {
     background-color: var(--surface);
-    transform: translateY(-2px);
 }
 
 .btn-dark {
     background-color: var(--dark);
     color: var(--light);
+    border-color: var(--dark);
 }
 
 .btn-dark:hover {
-    background-color: #242A20;
-    transform: translateY(-2px);
+    background-color: #2b3527;
 }
 
-.btn:focus-visible {
-    outline: 3px solid var(--primary);
-    outline-offset: 3px;
-}
-
-/* Iconos integrados en botones */
 .btn-icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     stroke: currentColor;
-    stroke-width: 2;
+    stroke-width: 2.5;
     fill: none;
     transition: var(--transition-fast);
 }
 
 .btn:hover .btn-icon {
-    transform: translateX(2px);
+    transform: translateX(3px);
 }
 
-/* 2. Formularios de Conversión y Entrada */
+/* 2. Formularios Tipo Taller Comercial */
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .form-label {
     display: block;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-weight: 600;
     font-size: 0.85rem;
-    margin-bottom: 0.45rem;
+    margin-bottom: 0.35rem;
     color: var(--dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .form-input, .form-select, .form-textarea {
     width: 100%;
-    padding: 0.85rem 1.15rem;
+    padding: 0.75rem 1rem;
     background-color: var(--light);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: var(--radius-sm);
     font-family: inherit;
     font-size: 0.95rem;
@@ -123,36 +116,36 @@
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
     outline: none;
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px rgba(99, 174, 44, 0.12);
-    background-color: #FAFBF7;
+    border-color: var(--dark);
+    background-color: #FCFDF9; /* Fondo crema de boceto */
+    box-shadow: 2px 2px 0px var(--dark);
 }
 
 .form-textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 110px;
 }
 
-/* Estado de error y validez */
 .form-group.has-error .form-input,
 .form-group.has-error .form-textarea {
-    border-color: #D32F2F;
+    border-color: #C62828;
     background-color: #FFEBEE;
 }
 
 .form-error-msg {
     font-size: 0.75rem;
-    color: #D32F2F;
-    margin-top: 0.35rem;
+    color: #C62828;
+    margin-top: 0.25rem;
     display: none;
+    font-weight: 500;
 }
 
-/* 3. Tarjetas de Productos y Categorías */
+/* 3. Fichas de Productos del Catálogo */
 .product-card {
     background-color: var(--light);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-md);
+    padding: var(--space-sm);
     transition: var(--transition-smooth);
     display: flex;
     flex-direction: column;
@@ -161,77 +154,92 @@
 }
 
 .product-card:hover {
-    border-color: var(--primary);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-4px);
+    border-color: var(--dark);
+    box-shadow: var(--shadow-flat);
+    transform: translateY(-2px);
 }
 
 .product-card-body h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
 }
 
 .product-card-body p {
-    font-size: 0.9rem;
-    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
     line-height: 1.5;
 }
 
 .product-features-list {
-    margin-bottom: 1.5rem;
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    font-size: 0.75rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 4px;
 }
 
 .product-feature-tag {
     background-color: var(--surface);
-    padding: 3px 8px;
-    border-radius: 4px;
+    color: var(--text-muted);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
     font-weight: 500;
 }
 
-/* 4. Tarjetas de Proceso de Trabajo */
+/* Mínimos de pedido destacados */
+.product-min-qty {
+    display: inline-block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: rgba(99, 174, 44, 0.1);
+    color: var(--primary-hover);
+    padding: 3px 8px;
+    border-radius: 50px;
+    margin-bottom: 0.75rem;
+}
+
+/* 4. Procesos y Flujos de Marcado */
 .process-card {
     background-color: var(--surface);
+    border: 2px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-md);
-    border: 1px solid transparent;
-    transition: var(--transition-smooth);
+    padding: var(--space-sm);
     position: relative;
+    transition: var(--transition-fast);
 }
 
 .process-card:hover {
     background-color: var(--light);
-    border-color: var(--border);
-    box-shadow: var(--shadow-md);
+    border-color: var(--dark);
+    box-shadow: var(--shadow-flat);
 }
 
 .process-step {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 800;
-    font-size: 2.25rem;
+    font-family: 'Zilla Slab', Georgia, serif;
+    font-weight: 700;
+    font-size: 2rem;
     color: var(--accent);
     line-height: 1;
-    margin-bottom: 1rem;
-    opacity: 0.8;
+    margin-bottom: 0.75rem;
 }
 
 .process-card h3 {
-    font-size: 1.15rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.45rem;
 }
 
 .process-card p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
-/* 5. Tarjetas de Portafolio / Proyectos */
+/* 5. Fichas de Casos de Éxito / Proyectos */
 .project-card {
     background-color: var(--light);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: var(--radius-md);
     overflow: hidden;
     transition: var(--transition-smooth);
@@ -241,13 +249,13 @@
 }
 
 .project-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--primary);
+    border-color: var(--dark);
+    box-shadow: var(--shadow-flat);
+    transform: translateY(-2px);
 }
 
 .project-content {
-    padding: var(--space-md);
+    padding: var(--space-sm);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -255,39 +263,39 @@
 }
 
 .project-meta {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .project-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
-    background-color: rgba(99, 174, 44, 0.1);
-    color: var(--primary);
-    padding: 0.25rem 0.65rem;
-    border-radius: 4px;
-    margin-bottom: 0.75rem;
-    letter-spacing: 0.05em;
-}
-
-.project-title {
-    font-size: 1.25rem;
+    background-color: var(--surface);
+    color: var(--dark);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
     margin-bottom: 0.5rem;
 }
 
+.project-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.45rem;
+}
+
 .project-desc {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
 }
 
 .project-details-grid {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 4px 12px;
+    gap: 4px 10px;
     font-size: 0.8rem;
-    border-top: 1px solid var(--border);
-    padding-top: 0.85rem;
+    border-top: 1px dashed var(--border);
+    padding-top: 0.75rem;
 }
 
 .project-details-label {
@@ -295,9 +303,18 @@
     color: var(--dark);
 }
 
-/* 6. Acordeón de FAQs */
+/* 6. Acordeones FAQ Planos y Accesibles */
 .faq-item {
-    border-bottom: 1px solid var(--border);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.75rem;
+    background-color: var(--light);
+    transition: var(--transition-fast);
+}
+
+.faq-item.active {
+    border-color: var(--dark);
+    box-shadow: var(--shadow-flat);
 }
 
 .faq-trigger {
@@ -306,23 +323,18 @@
     align-items: center;
     width: 100%;
     text-align: left;
-    padding: 1.15rem 0;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: 1rem 1.25rem;
+    font-family: 'Zilla Slab', Georgia, serif;
     font-weight: 700;
     font-size: 1.05rem;
     color: var(--dark);
 }
 
-.faq-trigger:hover {
-    color: var(--primary);
-}
-
 .faq-icon {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     position: relative;
     flex-shrink: 0;
-    margin-left: 1rem;
     color: var(--text-muted);
 }
 
@@ -334,17 +346,17 @@
 }
 
 .faq-icon::before {
-    top: 8px;
+    top: 6px;
     left: 0;
-    width: 18px;
+    width: 14px;
     height: 2px;
 }
 
 .faq-icon::after {
     top: 0;
-    left: 8px;
+    left: 6px;
     width: 2px;
-    height: 18px;
+    height: 14px;
 }
 
 .faq-item.active .faq-icon::after {
@@ -353,67 +365,66 @@
 }
 
 .faq-item.active .faq-trigger {
-    color: var(--primary);
+    color: var(--primary-hover);
 }
 
 .faq-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: max-height 0.2s ease-out;
 }
 
 .faq-content p {
-    padding-bottom: 1.15rem;
-    font-size: 0.95rem;
+    padding: 0 1.25rem 1rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
-    line-height: 1.55;
+    line-height: 1.5;
 }
 
 /* 7. Beneficios y Testimonios */
 .benefit-card {
-    border-left: 4px solid var(--primary);
-    padding-left: 1.25rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 1rem;
     margin-bottom: 0.5rem;
 }
 
 .benefit-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.35rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
 }
 
 .benefit-card p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .testimonial-card {
-    background-color: var(--light);
-    border: 1px solid var(--border);
+    background-color: var(--surface);
+    border: 2px solid var(--border);
     border-radius: var(--radius-md);
-    padding: var(--space-md);
-    position: relative;
-    height: 100%;
+    padding: var(--space-sm);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
 }
 
 .testimonial-rating {
     display: flex;
-    gap: 4px;
+    gap: 2px;
     color: var(--accent);
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.75rem;
 }
 
 .testimonial-star {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     fill: currentColor;
 }
 
 .testimonial-text {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-style: italic;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     color: var(--text-main);
     line-height: 1.5;
 }
@@ -421,71 +432,89 @@
 .testimonial-author {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .author-avatar {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background-color: var(--surface);
+    background-color: var(--light);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Zilla Slab', Georgia, serif;
     font-weight: 700;
     font-size: 0.85rem;
-    color: var(--primary);
+    color: var(--primary-hover);
 }
 
 .author-info h4 {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
 }
 
 .author-info p {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
 }
 
-/* 8. Placeholders de Imagen Premium (SVG estilizados) */
+/* 8. Placeholders Elegantes de Boceto Técnico (Blueprints) */
 .image-placeholder {
     width: 100%;
     aspect-ratio: 16/10;
-    background-color: var(--surface);
+    background-color: #FAFBF7; /* Fondo tipo papel */
     border-radius: var(--radius-md);
-    border: 1px dashed var(--border);
+    border: 2px solid var(--border);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: var(--text-muted);
-    padding: var(--space-md);
+    padding: var(--space-sm);
     text-align: center;
     position: relative;
     overflow: hidden;
 }
 
+/* Cuadrícula de diseño técnico de fondo */
 .image-placeholder::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(99, 174, 44, 0.03) 0%, rgba(186, 175, 26, 0.03) 100%);
+    background-size: 15px 15px;
+    background-image: linear-gradient(to right, rgba(208,217,203,0.15) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(208,217,203,0.15) 1px, transparent 1px);
     z-index: 1;
 }
 
+/* Líneas de acotación del boceto */
+.image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px dotted rgba(208,217,203,0.5);
+    z-index: 1;
+    pointer-events: none;
+}
+
 .image-placeholder-icon {
-    width: 40px;
-    height: 40px;
-    stroke: var(--primary);
+    width: 32px;
+    height: 32px;
+    stroke: var(--dark);
     stroke-width: 1.5;
     fill: none;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     z-index: 2;
+    opacity: 0.75;
 }
 
 .image-placeholder-text {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Zilla Slab', Georgia, serif;
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--dark);
@@ -494,7 +523,7 @@
 }
 
 .image-placeholder-sub {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
     z-index: 2;
 }
@@ -503,38 +532,53 @@
     aspect-ratio: 4/5;
 }
 
-/* 9. Botón Flotante de WhatsApp */
+/* 9. Botón de WhatsApp Flotante Humano (Pill con Etiqueta) */
 .whatsapp-float {
     position: fixed;
     bottom: 24px;
     right: 24px;
     background-color: #25D366;
     color: white;
-    width: 56px;
-    height: 56px;
+    padding: 8px 16px 8px 8px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.25);
+    z-index: 999;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: 2px solid var(--dark);
+    box-shadow: 3px 3px 0px var(--dark);
+    transition: var(--transition-fast);
+}
+
+.whatsapp-float:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px var(--dark);
+}
+
+.whatsapp-icon-wrap {
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    color: #25D366;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
-    z-index: 999;
-    transition: var(--transition-smooth);
-}
-
-.whatsapp-float:hover {
-    transform: scale(1.1) rotate(6deg);
-    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.45);
 }
 
 .whatsapp-icon {
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
     fill: currentColor;
 }
 
-/* 10. Breadcrumbs (Migas de Pan) */
+/* 10. Breadcrumbs Planos */
 .breadcrumbs {
-    padding: 1.15rem 0;
+    padding: 1rem 0;
     font-size: 0.8rem;
     color: var(--text-muted);
 }
@@ -546,16 +590,16 @@
 }
 
 .breadcrumb-item:not(:last-child)::after {
-    content: '/';
+    content: '→';
     margin-left: 8px;
     color: var(--border);
 }
 
 .breadcrumb-link:hover {
-    color: var(--primary);
+    color: var(--primary-hover);
 }
 
 .breadcrumb-current {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--dark);
 }

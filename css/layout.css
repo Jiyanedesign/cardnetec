@@ -1,5 +1,5 @@
 /* ==========================================================================
-   CardNet.ec - Rejilla, Contenedores, Header y Footer (layout.css)
+   CardNet.ec - Estructura, Rejillas y Áreas Corporativas (layout.css)
    ========================================================================== */
 
 /* 1. Contenedores y Secciones */
@@ -8,8 +8,8 @@
     max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: clamp(1rem, 3vw, 2.5rem);
-    padding-right: clamp(1rem, 3vw, 2.5rem);
+    padding-left: clamp(1rem, 4vw, 3rem);
+    padding-right: clamp(1rem, 4vw, 3rem);
 }
 
 .section-padding {
@@ -17,10 +17,12 @@
     padding-bottom: var(--space-lg);
 }
 
-/* Modificadores de Sección */
+/* Modificadores de Fondo */
 .section-dark {
     background-color: var(--dark-alt);
     color: var(--text-light);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
 }
 
 .section-dark h1,
@@ -34,13 +36,9 @@
     color: var(--text-light-muted);
 }
 
-.section-dark p strong {
-    color: var(--text-light);
-}
-
 /* Encabezados de Sección */
 .section-header {
-    max-width: 700px;
+    max-width: 750px;
     margin-bottom: var(--space-md);
 }
 
@@ -52,16 +50,19 @@
 
 .section-subtitle {
     display: inline-block;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.8rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     color: var(--accent);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: rgba(186, 175, 26, 0.08);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
 }
 
-/* 2. Rejillas Flexibles y Autoadaptables B2B */
+/* 2. Rejillas de Catálogo de Productos */
 .grid-2, .grid-3, .grid-4 {
     display: grid;
     grid-template-columns: 1fr;
@@ -89,17 +90,15 @@
     }
 }
 
-/* 3. Header Premium y Menú de Navegación */
+/* 3. Header de Alta Definición */
 .main-header {
     position: sticky;
     top: 0;
     width: 100%;
     z-index: 100;
-    background-color: rgba(250, 251, 247, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background-color: var(--light);
     border-bottom: 1px solid var(--border);
-    transition: var(--transition-smooth);
+    transition: var(--transition-fast);
 }
 
 .header-container {
@@ -109,43 +108,35 @@
     height: 80px;
 }
 
-/* Logo CardNet.ec */
+/* Logo Táctil y Físico */
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 800;
+    gap: 8px;
+    font-family: 'Zilla Slab', Georgia, serif;
+    font-weight: 700;
     font-size: 1.45rem;
     color: var(--dark);
     user-select: none;
 }
 
 .logo-symbol {
-    position: relative;
-    width: 32px;
-    height: 32px;
-    background-color: var(--dark);
+    width: 28px;
+    height: 28px;
+    background-color: var(--primary);
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    color: var(--light);
+    font-family: 'Zilla Slab', Georgia, serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    box-shadow: 2px 2px 0px var(--dark); /* Sombra física */
 }
 
 .logo-symbol::before {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    background-color: var(--primary);
-    border-radius: 3px;
-    transform: rotate(45deg);
-}
-
-.logo-text {
-    display: flex;
-    align-items: center;
+    content: 'C';
 }
 
 .logo-net {
@@ -153,13 +144,13 @@
 }
 
 .logo-suffix {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--accent);
-    margin-left: 2px;
+    margin-left: 1px;
 }
 
-/* Navegación Escritorio */
+/* Menú de Navegación de Escritorio */
 .nav-menu {
     display: none;
 }
@@ -172,35 +163,21 @@
     .nav-menu {
         display: flex;
         align-items: center;
-        gap: clamp(1rem, 2vw, 1.75rem);
+        gap: clamp(0.75rem, 1.5vw, 1.5rem);
     }
     
     .nav-link {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: 'Outfit', sans-serif;
         font-weight: 600;
         font-size: 0.9rem;
         color: var(--text-muted);
-        padding: 8px 0;
-        position: relative;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
     }
     
     .nav-link:hover, .nav-link.active {
         color: var(--text-main);
-    }
-    
-    .nav-link::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: var(--primary);
-        transition: var(--transition-fast);
-    }
-    
-    .nav-link.active::after, .nav-link:hover::after {
-        width: 100%;
+        background-color: var(--surface);
     }
 
     .header-actions {
@@ -210,13 +187,13 @@
     }
 }
 
-/* Menú Hamburguesa Móvil */
+/* Menú Hamburguesa */
 .burger-menu {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 26px;
-    height: 18px;
+    width: 24px;
+    height: 16px;
     background: none;
     border: none;
     cursor: pointer;
@@ -228,7 +205,7 @@
     height: 2px;
     background-color: var(--dark);
     transition: var(--transition-fast);
-    border-radius: 4px;
+    border-radius: 2px;
 }
 
 @media (min-width: 1024px) {
@@ -237,22 +214,23 @@
     }
 }
 
-/* Panel Navegación Móvil */
+/* Panel Móvil */
 .mobile-nav {
     position: fixed;
     top: 0;
     right: -100%;
     width: 85%;
-    max-width: 360px;
+    max-width: 340px;
     height: 100vh;
     background-color: var(--light);
     z-index: 99;
-    box-shadow: var(--shadow-lg);
-    padding: 100px var(--space-md) var(--space-md);
+    box-shadow: -4px 0 24px rgba(24,30,21,0.08);
+    padding: 90px var(--space-md) var(--space-md);
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
     transition: var(--transition-smooth);
+    border-left: 1px solid var(--border);
 }
 
 .mobile-nav.open {
@@ -260,12 +238,12 @@
 }
 
 .mobile-link {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Zilla Slab', Georgia, serif;
     font-weight: 700;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: var(--dark);
     border-bottom: 1px solid var(--border);
-    padding-bottom: 12px;
+    padding-bottom: 10px;
     display: block;
 }
 
@@ -280,9 +258,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(17, 20, 15, 0.4);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background-color: rgba(24, 30, 21, 0.3);
     z-index: 98;
     opacity: 0;
     visibility: hidden;
@@ -294,22 +270,21 @@
     visibility: visible;
 }
 
-/* Animaciones del Botón Hamburguesa Activo */
 .burger-menu.open .burger-line:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(7px) rotate(45deg);
 }
 .burger-menu.open .burger-line:nth-child(2) {
     opacity: 0;
 }
 .burger-menu.open .burger-line:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-7px) rotate(-45deg);
 }
 
-/* 4. Footer Corporativo */
+/* 4. Footer de Alta Legibilidad */
 .main-footer {
-    background-color: var(--dark);
+    background-color: var(--dark-alt);
     color: var(--text-light-muted);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     border-top: 1px solid var(--border);
 }
 
@@ -332,61 +307,55 @@
 
 @media (min-width: 1024px) {
     .footer-grid {
-        grid-template-columns: 2.2fr 1fr 1fr 1.3fr;
+        grid-template-columns: 2fr 1fr 1fr 1.2fr;
     }
 }
 
 .footer-logo {
     color: var(--text-light);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
 }
 
 .footer-logo .logo-symbol {
-    background-color: rgba(250, 251, 247, 0.1);
-}
-
-.footer-logo .logo-symbol::before {
-    background-color: var(--primary);
+    box-shadow: 2px 2px 0px var(--light);
 }
 
 .footer-description {
-    max-width: 320px;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
+    max-width: 280px;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
 }
 
 .footer-heading {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1rem;
+    font-family: 'Zilla Slab', Georgia, serif;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--text-light);
-    margin-bottom: 1.25rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    margin-bottom: 1.15rem;
 }
 
 .footer-links {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.75rem;
 }
 
 .footer-link {
     color: var(--text-light-muted);
-    font-size: 0.9rem;
     width: fit-content;
 }
 
 .footer-link:hover {
     color: var(--primary);
-    transform: translateX(3px);
+    transform: translateX(2px);
 }
 
 .footer-contact-info {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    font-size: 0.9rem;
+    gap: 0.65rem;
+    font-size: 0.85rem;
 }
 
 .footer-contact-item {
@@ -396,26 +365,26 @@
 }
 
 .footer-contact-icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     stroke: var(--primary);
     stroke-width: 2;
     fill: none;
     flex-shrink: 0;
-    margin-top: 2px;
+    margin-top: 3px;
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(250, 251, 247, 0.08);
-    padding-top: 1.50rem;
-    padding-bottom: 1.50rem;
-    font-size: 0.85rem;
+    border-top: 1px solid rgba(250, 251, 247, 0.06);
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    font-size: 0.8rem;
 }
 
 .footer-bottom-flex {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
 }
 

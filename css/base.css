@@ -1,54 +1,53 @@
 /* ==========================================================================
-   CardNet.ec - CSS Design System & Variables (base.css)
+   CardNet.ec - Sistema de Diseño "Print-Shop" Humano (base.css)
    ========================================================================== */
 
-/* 1. Importación de Fuentes Premium de Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* 1. Importación de Fuentes: Zilla Slab (Imprenta/Tactilidad) y Outfit (Amigable/Legible) */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
-/* 2. Tokens de Diseño (Variables CSS) */
+/* 2. Tokens de Marca y Taller */
 :root {
-    /* Paleta de Colores de Marca */
-    --primary: #63AE2C;          /* Verde CardNet (Confianza, dinamismo y CTAs) */
+    /* Paleta Cromática de CardNet */
+    --primary: #63AE2C;          /* Verde CardNet (Energía, confianza y llamadas a la acción) */
     --primary-hover: #508E22;
-    --accent: #BAAF1A;           /* Dorado Promocional (Detalles creativos y calidad) */
+    --accent: #BAAF1A;           /* Dorado Promocional (Acentos y calidad artesanal) */
     --accent-hover: #9A9114;
-    --highlight: #F2E50D;        /* Amarillo Brillante (Acento mínimo y controlado) */
+    --highlight: #F2E50D;        /* Amarillo Brillante (Acento micro-controlado) */
     
-    /* Tonos Oscuros Premium (Contraste Corporativo) */
-    --dark: #11140F;             /* Negro Elegante */
-    --dark-alt: #1E2A18;         /* Verde Oscuro Profundo (Fondos corporativos) */
+    /* Tonos de Contraste Físicos (Tinta, Papel y Cuadrículas) */
+    --dark: #181E15;             /* Tinta Negra (Títulos de alta legibilidad, cero gris puro) */
+    --dark-alt: #232C1F;         /* Tinta Negra Suave (Secciones oscuras corporativas) */
     
-    /* Neutros y Superficies */
-    --light: #FAFBF7;            /* Blanco Cálido (Fondo principal limpio y editorial) */
-    --surface: #EEF3E8;          /* Gris Verdoso Claro (Superficies secundarias) */
-    --surface-hover: #E3EAD9;
-    --border: #DDE5D6;           /* Gris Suave (Líneas divisorias y bordes) */
+    /* Superficies Cálidas e Impresas */
+    --light: #FFFFFF;            /* Papel Blanco Puro */
+    --surface: #F5F7F3;          /* Papel Crema/Gris Verdoso Suave (Fondos amigables) */
+    --surface-hover: #EAEDE5;
+    --border: #D1D8CD;           /* Líneas de Acotación y Bordes Técnicos */
     --border-focus: #63AE2C;
     
-    /* Paleta de Textos (Alto Contraste y Accesibilidad) */
-    --text-main: #11140F;        /* Texto principal en fondo claro */
-    --text-muted: #5F6B58;       /* Texto descriptivo secundario */
-    --text-light: #FAFBF7;       /* Texto principal en fondos oscuros */
-    --text-light-muted: #A2B099;  /* Texto secundario en fondos oscuros */
+    /* Colores de Texto (Estrictamente legibles) */
+    --text-main: #181E15;        /* Tinta Principal */
+    --text-muted: #566150;       /* Tinta Secundaria Desgastada */
+    --text-light: #FAFBF7;       /* Papel Blanco sobre fondo oscuro */
+    --text-light-muted: #B8C2B3;  /* Texto secundario sobre fondo oscuro */
     
-    /* Escala de Espaciado Fluido (clamp para adaptación mobile-first) */
-    --space-xs: clamp(0.5rem, 1vw, 0.75rem);
-    --space-sm: clamp(0.875rem, 1.5vw, 1.125rem);
-    --space-md: clamp(1.5rem, 3vw, 2.25rem);
-    --space-lg: clamp(2.5rem, 5vw, 4rem);
-    --space-xl: clamp(4rem, 8vw, 6.5rem);
+    /* Escala de Espaciado Táctil y Amplio */
+    --space-xs: clamp(0.5rem, 1.2vw, 0.85rem);
+    --space-sm: clamp(0.9rem, 2vw, 1.25rem);
+    --space-md: clamp(1.75rem, 4vw, 2.5rem);
+    --space-lg: clamp(3rem, 6vw, 4.5rem);
+    --space-xl: clamp(4.5rem, 9vw, 7rem);
     
-    /* Tokens de Estilo Adicionales */
-    --radius-sm: 6px;
-    --radius-md: 12px;
-    --radius-lg: 24px;
-    --shadow-sm: 0 2px 8px rgba(30, 42, 24, 0.04);
-    --shadow-md: 0 8px 24px rgba(30, 42, 24, 0.06);
-    --shadow-lg: 0 16px 40px rgba(30, 42, 24, 0.1);
+    /* Bordes y Sombras Físicas (Estilo imprenta limpia, no flotante) */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --shadow-flat: 0 4px 0px rgba(24, 30, 21, 0.08); /* Sombra plana sólida de cartón/diseño */
+    --shadow-card: 0 1px 3px rgba(24, 30, 21, 0.05), 0 6px 16px rgba(24, 30, 21, 0.03);
     
-    /* Tiempos de Transición */
-    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --transition-fast: all 0.15s ease-in-out;
+    /* Transiciones Dinámicas e Instantáneas (Tipo prensa) */
+    --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: all 0.12s ease-in-out;
 }
 
 /* 3. Reset CSS Moderno */
@@ -67,9 +66,9 @@ html {
 body {
     background-color: var(--light);
     color: var(--text-main);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
     overflow-x: hidden;
 }
 
@@ -101,30 +100,30 @@ button {
     cursor: pointer;
 }
 
-/* 4. Tipografía Base */
+/* 4. Tipografía "Print-Shop" */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Zilla Slab', Georgia, serif;
     font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
     color: var(--dark);
 }
 
 h1 {
-    font-size: clamp(2.25rem, 5vw, 3.75rem);
-    font-weight: 800;
+    font-size: clamp(2.35rem, 5.5vw, 3.85rem);
+    font-weight: 700;
 }
 
 h2 {
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-size: clamp(1.85rem, 3.8vw, 2.65rem);
 }
 
 h3 {
-    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
 }
 
 h4 {
-    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    font-size: clamp(1.15rem, 2.2vw, 1.4rem);
 }
 
 p {
@@ -137,4 +136,6 @@ p strong {
 
 .text-highlight {
     color: var(--primary);
+    border-bottom: 2px dashed var(--accent); /* Subrayado punteado estilo boceto */
+    display: inline-block;
 }
