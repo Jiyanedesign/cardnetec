@@ -2,54 +2,147 @@
    CardNet.ec - Estructura de Páginas de Estilo Editorial (pages.css)
    ========================================================================== */
 
-/* 1. Hero Block (Estilo Editorial Premium) */
+/* 1. Hero Block con Carrusel de Productos Destacados */
 .hero-block {
-    padding-top: clamp(3rem, 10vw, 6rem);
-    padding-bottom: clamp(3rem, 10vw, 6rem);
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+    padding-bottom: clamp(1.5rem, 4vw, 3rem);
     background-color: var(--light);
 }
 
-.hero-layout {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-    align-items: center;
+.hero-carousel-wrapper {
+    width: 100%;
 }
 
-@media (min-width: 1024px) {
-    .hero-layout {
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: var(--space-lg);
+.hero-carousel {
+    position: relative;
+    width: 100%;
+    height: clamp(420px, 72vh, 650px);
+    overflow: hidden;
+    background-color: var(--surface-light);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+}
+
+.carousel-track {
+    display: flex;
+    width: 300%; /* 3 slides */
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.carousel-slide {
+    width: 33.333%;
+    height: 100%;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.carousel-image-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-slide-content {
+    position: absolute;
+    bottom: var(--space-sm);
+    left: var(--space-sm);
+    right: var(--space-sm);
+    max-width: 620px;
+    background-color: rgba(252, 253, 251, 0.96);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    z-index: 10;
+}
+
+@media (min-width: 768px) {
+    .carousel-slide-content {
+        bottom: 40px;
+        left: 40px;
+        padding: 40px;
     }
 }
 
-.hero-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.hero-title {
-    margin-bottom: 1.25rem;
-    line-height: 1.15;
+.carousel-slide-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
     font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+    color: var(--dark);
 }
 
-.hero-description {
-    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+.carousel-slide-subtitle {
+    font-size: clamp(0.85rem, 1.4vw, 1rem);
     color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 2rem;
-    max-width: 540px;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
 }
 
-.hero-actions {
+/* Controles de Slider */
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background-color: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 50%;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+    color: var(--dark);
 }
 
-.hero-visual-wrapper {
-    width: 100%;
+.carousel-control:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.carousel-control.prev {
+    left: 20px;
+}
+
+.carousel-control.next {
+    right: 20px;
+}
+
+/* Indicadores de Slider */
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    display: none;
+    gap: 8px;
+    z-index: 20;
+}
+
+@media (min-width: 768px) {
+    .carousel-indicators {
+        display: flex;
+    }
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(30, 34, 28, 0.2);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.carousel-dot.active {
+    background-color: var(--primary);
+    width: 24px;
+    border-radius: 4px;
 }
 
 /* 2. Sección del Diferencial */
@@ -92,7 +185,7 @@
     width: 38px;
     height: 38px;
     border-radius: var(--radius-sm);
-    background-color: var(--primary); /* Verde oficial de la marca en iconos */
+    background-color: var(--primary);
     color: var(--light);
     display: flex;
     align-items: center;
@@ -257,13 +350,13 @@
 
 @media (min-width: 768px) {
     .process-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (min-width: 1024px) {
     .process-grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 

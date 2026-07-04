@@ -15,11 +15,11 @@
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
 
     <!-- CSS Modulares con Cache Busting -->
-    <link rel="stylesheet" href="css/base.css?v=1.0.7">
-    <link rel="stylesheet" href="css/layout.css?v=1.0.7">
-    <link rel="stylesheet" href="css/components.css?v=1.0.7">
-    <link rel="stylesheet" href="css/pages.css?v=1.0.7">
-    <link rel="stylesheet" href="css/animations.css?v=1.0.7">
+    <link rel="stylesheet" href="css/base.css?v=1.0.8">
+    <link rel="stylesheet" href="css/layout.css?v=1.0.8">
+    <link rel="stylesheet" href="css/components.css?v=1.0.8">
+    <link rel="stylesheet" href="css/pages.css?v=1.0.8">
+    <link rel="stylesheet" href="css/animations.css?v=1.0.8">
 
     <!-- Optimización Google Fonts Preconnect -->
 
@@ -61,7 +61,7 @@
     <header class="main-header">
         <div class="container">
             <div class="header-middle">
-                <!-- Logotipo Real CardNet.ec con Isotipo Diente de León -->
+                <!-- Logotipo Real en Imagen (logo.png) -->
                 <a href="index.html" class="logo" aria-label="CardNet.ec Inicio">
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
@@ -97,16 +97,15 @@
             </div>
         </div>
 
-        <!-- Fila Inferior: Enlaces de Navegación -->
+        <!-- Fila Inferior: Enlaces de Navegación Simplificados -->
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
                     <a href="index.html" class="nav-link active">Inicio</a>
-                    <a href="personalizacion.html#laser" class="nav-link">Grabado láser</a>
-                    <a href="personalizacion.html" class="nav-link">Acabados y técnicas</a>
-                    <a href="productos.html" class="nav-link">Artículos personalizables</a>
-                    <a href="nosotros.html" class="nav-link">Proceso</a>
-                    <a href="empresas.html" class="nav-link">Soluciones corporativas</a>
+                    <a href="#destacados" class="nav-link">Destacados</a>
+                    <a href="#laser" class="nav-link">Grabado láser</a>
+                    <a href="productos.html" class="nav-link">Productos</a>
+                    <a href="personalizacion.html" class="nav-link">Personalización</a>
                     <a href="contacto.html" class="nav-link">Contacto</a>
                 </nav>
                 <div class="header-bottom-actions">
@@ -120,11 +119,10 @@
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
         <a href="index.html" class="mobile-link active">Inicio</a>
-        <a href="personalizacion.html#laser" class="mobile-link">Grabado láser</a>
-        <a href="personalizacion.html" class="mobile-link">Acabados y técnicas</a>
-        <a href="productos.html" class="mobile-link">Artículos personalizables</a>
-        <a href="nosotros.html" class="mobile-link">Proceso</a>
-        <a href="empresas.html" class="mobile-link">Soluciones corporativas</a>
+        <a href="#destacados" class="mobile-link">Destacados</a>
+        <a href="#laser" class="mobile-link">Grabado láser</a>
+        <a href="productos.html" class="mobile-link">Productos</a>
+        <a href="personalizacion.html" class="mobile-link">Personalización</a>
         <a href="contacto.html" class="mobile-link">Contacto</a>
         <a href="cotizacion.html" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
@@ -132,34 +130,82 @@
     <!-- MAIN CONTENT -->
     <main>
         
-        <!-- Hero Section (Estilo Editorial con Mockup Centrado y Realista) -->
+        <!-- Hero con Carrusel de Productos Destacados (Editorial y Limpio) -->
         <section class="hero-block reveal-on-scroll">
-            <div class="container hero-layout">
-                <div class="hero-content">
-                    <h1 class="hero-title">Tu marca no debería verse <span class="text-highlight">igual que todas</span>.</h1>
-                    <p class="hero-description">Personalizamos artículos corporativos con acabados precisos, duraderos y elegantes. Especialistas en grabado láser para marcas que quieren cuidar cada detalle.</p>
-                    <div class="hero-actions">
-                        <a href="cotizacion.html" class="btn btn-primary">Crear una pieza personalizada</a>
-                        <a href="personalizacion.html" class="btn btn-secondary">Ver acabados disponibles</a>
-                    </div>
-                </div>
-                
-                <!-- Mockup de Producto Realista sobre Fondo Claro -->
-                <div class="hero-visual-wrapper">
-                    <div class="image-placeholder theme-gray" style="aspect-ratio: 1.3;">
-                        <div class="image-placeholder-inner">
-                            <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            </svg>
-                            <span class="image-placeholder-text">Termo de acero mate con grabado láser</span>
-                            <span class="image-placeholder-sub">Soporte real con acabado permanente de alta definición</span>
+            <div class="container hero-carousel-wrapper">
+                <div class="hero-carousel">
+                    <div class="carousel-track">
+                        
+                        <!-- Slide 1 -->
+                        <div class="carousel-slide">
+                            <div class="carousel-image-container">
+                                <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
+                                    <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
+                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                        </svg>
+                                        <span class="image-placeholder-text">Termo de acero de vacío y agenda de cuero personalizables</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-slide-content">
+                                <h2 class="carousel-slide-title">Grabado láser que eleva tu marca</h2>
+                                <p class="carousel-slide-subtitle">Piezas personalizadas con acabados precisos, duraderos y elegantes.</p>
+                                <a href="#destacados" class="btn btn-primary">Ver productos destacados</a>
+                            </div>
                         </div>
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-slide">
+                            <div class="carousel-image-container">
+                                <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
+                                    <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
+                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2">
+                                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                                        </svg>
+                                        <span class="image-placeholder-text">Colección de agendas ejecutivas grabadas en bajo relieve</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-slide-content">
+                                <h2 class="carousel-slide-title">Termos, agendas y detalles que sí se recuerdan</h2>
+                                <p class="carousel-slide-subtitle">Artículos corporativos transformados en piezas con identidad real.</p>
+                                <a href="productos.html" class="btn btn-primary">Explorar colección</a>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="carousel-slide">
+                            <div class="carousel-image-container">
+                                <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
+                                    <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
+                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2">
+                                            <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
+                                        </svg>
+                                        <span class="image-placeholder-text">Kits corporativos y cajas de madera noble con marcaje láser</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-slide-content">
+                                <h2 class="carousel-slide-title">Personalización premium para empresas</h2>
+                                <p class="carousel-slide-subtitle">Regalos, kits y productos pensados para representar tu marca con valor.</p>
+                                <a href="cotizacion.html" class="btn btn-primary">Cotizar una idea</a>
+                            </div>
+                        </div>
+
                     </div>
+
+                    <!-- Controles -->
+                    <button class="carousel-control prev" aria-label="Anterior">←</button>
+                    <button class="carousel-control next" aria-label="Siguiente">→</button>
+
+                    <!-- Indicadores -->
+                    <div class="carousel-indicators"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Barra de Garantías Corporativas -->
+        <!-- Barra de Garantías Corporativas (Con fondo suave del verde de la marca) -->
         <section class="satisfaction-bar">
             <div class="container satisfaction-grid">
                 <div class="satisfaction-item">
@@ -168,171 +214,21 @@
                 </div>
                 <div class="satisfaction-item">
                     <svg class="satisfaction-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                    <span>Prueba visual técnica previa al marcaje</span>
+                    <span>Prueba visual previa al marcaje</span>
                 </div>
                 <div class="satisfaction-item">
                     <svg class="satisfaction-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                    <span>Soportes nobles seleccionados para marcaje</span>
+                    <span>Soportes nobles seleccionados</span>
                 </div>
             </div>
         </section>
 
-        <!-- Sección de Diferencial (Honesta y Comercial) -->
-        <section class="section-padding container reveal-on-scroll">
-            <div class="differential-container">
-                <div class="differential-visual">
-                    <div class="image-placeholder theme-gray" style="aspect-ratio: 1.35;">
-                        <div class="image-placeholder-inner">
-                            <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-                            </svg>
-                            <span class="image-placeholder-text">Detalle de calibración láser de precisión</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="differential-content">
-                    <span class="section-subtitle">Identidad y Acabado</span>
-                    <h2 class="section-title">Un artículo promocional puede olvidarse fácilmente. Una pieza bien personalizada puede quedarse en la mente del cliente.</h2>
-                    <p>No trabajamos con personalización genérica ni procesos automatizados ciegos. Analizamos cada artículo, cada superficie y cada acabado para que el resultado final tenga intención y coherencia con tu manual de marca.</p>
-                    
-                    <div class="differential-bullets">
-                        <div class="diff-item">
-                            <div class="diff-icon-box">
-                                <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                </svg>
-                            </div>
-                            <div class="diff-info">
-                                <h4>Marcaje con intención corporativa</h4>
-                                <p>Cuidamos que la colocación, el tamaño y la técnica elegida realcen el logotipo sin sobrecargar el objeto, logrando un regalo sofisticado.</p>
-                            </div>
-                        </div>
-                        <div class="diff-item">
-                            <div class="diff-icon-box">
-                                <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2;" viewBox="0 0 24 24">
-                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                                </svg>
-                            </div>
-                            <div class="diff-info">
-                                <h4>Materiales de alta durabilidad</h4>
-                                <p>Seleccionamos soportes con buena resistencia física y térmica para asegurar que tu marca permanezca visible y útil durante años.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección Principal de Grabado Láser (Fondo Grafito Profundo) -->
-        <section class="section-padding container reveal-on-scroll">
-            <div class="laser-section">
-                <div class="laser-layout">
-                    <div class="laser-content">
-                        <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Especialidad de la Casa</span>
-                        <h2 style="color: var(--light); margin-bottom: 1.25rem;">Precisión láser para acabados sobrios y permanentes.</h2>
-                        <p style="margin-bottom: 1.5rem; font-size: 0.98rem; color: rgba(252,253,251,0.85);">El grabado láser trabaja directamente sobre la superficie del material para lograr una marca limpia, precisa y permanente. Es ideal para empresas que buscan un acabado más elegante que una impresión convencional.</p>
-                        <p style="margin-bottom: 2rem; font-size: 0.98rem; color: rgba(252,253,251,0.85);">Al remover la capa exterior del soporte, revelamos el tono original del metal, madera o cuero, creando un contraste natural y una textura de gran calidad.</p>
-                        
-                        <div class="laser-capabilities">
-                            <div class="laser-cap-item">
-                                <span>Metal y Acero</span>
-                                <h4>Termos y bolígrafos</h4>
-                            </div>
-                            <div class="laser-cap-item">
-                                <span>Madera y Bambú</span>
-                                <h4>Estuches y cajas</h4>
-                            </div>
-                            <div class="laser-cap-item">
-                                <span>Cuero y PU</span>
-                                <h4>Agendas y carpetas</h4>
-                            </div>
-                            <div class="laser-cap-item">
-                                <span>Vidrio y Acrílico</span>
-                                <h4>Placas y reconocimientos</h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="laser-visual">
-                        <div class="image-placeholder theme-gray" style="aspect-ratio: 1.1;">
-                            <div class="image-placeholder-inner" style="background-color: var(--dark-alt); border-color: rgba(255,255,255,0.08);">
-                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#63AE2C" stroke-width="1.5">
-                                    <line x1="5" y1="12" x2="19" y2="12"/><line x1="12" y1="5" x2="12" y2="19"/>
-                                </svg>
-                                <span class="image-placeholder-text" style="color: var(--light);">Alineación del haz de grabado</span>
-                                <span class="image-placeholder-sub" style="color: var(--primary);">Tolerancia de calibración de 0.02 mm</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Nueva Sección: ¿Por qué elegir grabado láser? -->
-        <section class="section-padding container reveal-on-scroll">
+        <!-- Sección de Productos Destacados (Protagonista de la Home) -->
+        <section id="destacados" class="section-padding container reveal-on-scroll">
             <div class="section-header center">
-                <span class="section-subtitle">Beneficios del Grabado</span>
-                <h2>Ventajas del marcaje permanente</h2>
-                <p>Razones técnicas por las cuales las marcas corporativas prefieren el láser frente a la impresión superficial.</p>
-            </div>
-            
-            <div class="grid-3" style="margin-top: 2rem;">
-                <div class="brand-card">
-                    <span class="brand-card-text">Sin tintas superficiales</span>
-                    <span class="brand-card-sub">No se descascara ni se borra con el lavado</span>
-                </div>
-                <div class="brand-card">
-                    <span class="brand-card-text">Acabado sofisticado</span>
-                    <span class="brand-card-sub">Revela la textura metálica o de madera interna</span>
-                </div>
-                <div class="brand-card">
-                    <span class="brand-card-text">Nitidez extrema</span>
-                    <span class="brand-card-sub">Permite trazos y detalles tipográficos muy pequeños</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Acabados y Técnicas en Taller -->
-        <section class="section-padding section-bg-light reveal-on-scroll">
-            <div class="container">
-                <div class="section-header center">
-                    <span class="section-subtitle">Procesos de Taller</span>
-                    <h2>Nuestras técnicas de personalización</h2>
-                    <p>Aunque el grabado láser es nuestra especialidad principal, seleccionamos la técnica adecuada según la naturaleza física de cada material.</p>
-                </div>
-                
-                <div class="brand-grid">
-                    <div class="brand-card laser-focus">
-                        <span class="brand-card-text">Grabado láser</span>
-                        <span class="brand-card-sub">Tallado térmico sobre metal y madera</span>
-                    </div>
-                    <div class="brand-card">
-                        <span class="brand-card-text">Impresión UV digital</span>
-                        <span class="brand-card-sub">Color directo de alta adherencia</span>
-                    </div>
-                    <div class="brand-card">
-                        <span class="brand-card-text">Bordado computarizado</span>
-                        <span class="brand-card-sub">Textura de hilos densos en textiles</span>
-                    </div>
-                    <div class="brand-card">
-                        <span class="brand-card-text">Termograbado</span>
-                        <span class="brand-card-sub">Bajo relieve elegante sobre cuero</span>
-                    </div>
-                    <div class="brand-card">
-                        <span class="brand-card-text">Serigrafía</span>
-                        <span class="brand-card-sub">Marcaje plano para algodón y bolsas</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Artículos Personalizables (Galería Curada, no tienda masiva) -->
-        <section class="section-padding container reveal-on-scroll">
-            <div class="section-header center">
-                <span class="section-subtitle">Galería de Posibilidades</span>
-                <h2>Superficies listas para convertirse en marca</h2>
-                <p>Selección curada de artículos listos para recibir maquetas y grabados con intención corporativa.</p>
+                <span class="section-subtitle">Showroom Digital</span>
+                <h2>Productos Destacados</h2>
+                <p>Una vitrina visual de artículos seleccionados por su excelente comportamiento frente al grabado y marcaje.</p>
             </div>
             
             <div class="grid-3" style="margin-top: 2rem;">
@@ -350,14 +246,14 @@
                         </div>
                     </div>
                     <div class="product-card-body">
-                        <span class="product-card-price">Láser de precisión</span>
+                        <span class="product-card-price">Grabado láser</span>
                         <h3 class="product-card-title">Termos grabados</h3>
-                        <p class="product-card-desc">Botellas y vasos de acero inoxidable de vacío, ideales para tallados limpios de logotipos corporativos.</p>
-                        <a href="productos.html#termos" class="product-card-link">Ver acabados disponibles</a>
+                        <p class="product-card-desc">Vasos y botellas térmicas de acero inoxidable con acabados permanentes de alta fidelidad.</p>
+                        <a href="cotizacion.html" class="product-card-link">Quiero algo similar</a>
                     </div>
                 </div>
 
-                <!-- Agendas Personalizadas -->
+                <!-- Agendas -->
                 <div class="product-card">
                     <div class="product-card-image-wrap">
                         <div class="image-placeholder theme-gray">
@@ -365,19 +261,59 @@
                                 <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
                                     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                                 </svg>
-                                <span class="image-placeholder-text">Libreta corporativa grabada</span>
+                                <span class="image-placeholder-text">Libreta ejecutiva grabada</span>
                             </div>
                         </div>
                     </div>
                     <div class="product-card-body">
-                        <span class="product-card-price">Bajo relieve térmico</span>
-                        <h3 class="product-card-title">Agendas personalizadas</h3>
-                        <p class="product-card-desc">Libretas ejecutivas con tapas de PU italiano de grano fino, listas para marcajes sobrios y elegantes.</p>
-                        <a href="productos.html#oficina" class="product-card-link">Ver acabados disponibles</a>
+                        <span class="product-card-price">Termograbado / Bajo relieve</span>
+                        <h3 class="product-card-title">Agendas corporativas</h3>
+                        <p class="product-card-desc">Libretas con cubiertas de tacto cuero listas para grabados de gran textura y sobriedad.</p>
+                        <a href="cotizacion.html" class="product-card-link">Solicitar este estilo</a>
                     </div>
                 </div>
 
-                <!-- Cajas Personalizadas -->
+                <!-- Llaveros -->
+                <div class="product-card">
+                    <div class="product-card-image-wrap">
+                        <div class="image-placeholder theme-gray">
+                            <div class="image-placeholder-inner">
+                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
+                                </svg>
+                                <span class="image-placeholder-text">Llavero de metal y cuero grabado</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <span class="product-card-price">Grabado láser de fibra</span>
+                        <h3 class="product-card-title">Llaveros corporativos</h3>
+                        <p class="product-card-desc">Detalles en metal cepillado y cuero legítimo con marcajes permanentes de gran durabilidad.</p>
+                        <a href="cotizacion.html" class="product-card-link">Quiero algo similar</a>
+                    </div>
+                </div>
+
+                <!-- Placas y Reconocimientos -->
+                <div class="product-card">
+                    <div class="product-card-image-wrap">
+                        <div class="image-placeholder theme-gray">
+                            <div class="image-placeholder-inner">
+                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                                <span class="image-placeholder-text">Placa de reconocimiento en acrílico</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <span class="product-card-price">Láser de alta definición</span>
+                        <h3 class="product-card-title">Placas y reconocimientos</h3>
+                        <p class="product-card-desc">Placas conmemorativas de madera noble, vidrio pulido y acrílico con cortes limpios.</p>
+                        <a href="cotizacion.html" class="product-card-link">Cotizar este producto</a>
+                    </div>
+                </div>
+
+                <!-- Cajas Premium -->
                 <div class="product-card">
                     <div class="product-card-image-wrap">
                         <div class="image-placeholder theme-gray">
@@ -385,88 +321,149 @@
                                 <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
                                     <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
                                 </svg>
-                                <span class="image-placeholder-text">Caja de madera para onboarding</span>
+                                <span class="image-placeholder-text">Caja de pino grabada con láser</span>
                             </div>
                         </div>
                     </div>
                     <div class="product-card-body">
-                        <span class="product-card-price">Taller a medida</span>
+                        <span class="product-card-price">Láser CO2 en madera</span>
                         <h3 class="product-card-title">Cajas personalizadas</h3>
-                        <p class="product-card-desc">Cajas de madera noble y cartón estructurado para kits de inducción o regalos directivos.</p>
-                        <a href="productos.html#corporativos" class="product-card-link">Ver acabados disponibles</a>
+                        <p class="product-card-desc">Cajas de madera y cartón estructurado a medida para presentaciones o kits ejecutivos.</p>
+                        <a href="cotizacion.html" class="product-card-link">Solicitar este estilo</a>
+                    </div>
+                </div>
+
+                <!-- Kits Corporativos -->
+                <div class="product-card">
+                    <div class="product-card-image-wrap">
+                        <div class="image-placeholder theme-gray">
+                            <div class="image-placeholder-inner">
+                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                </svg>
+                                <span class="image-placeholder-text">Kit de bienvenida para colaboradores</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card-body">
+                        <span class="product-card-price">Personalización integrada</span>
+                        <h3 class="product-card-title">Kits corporativos</h3>
+                        <p class="product-card-desc">Cajas coordinadas conteniendo termos grabados, agendas y bolígrafos premium a juego.</p>
+                        <a href="cotizacion.html" class="product-card-link">Cotizar este producto</a>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <!-- Sección de Proceso (Taller Premium Humano y Cuidado) -->
-        <section class="section-padding section-bg-light reveal-on-scroll">
-            <div class="container">
-                <div class="section-header center">
-                    <span class="section-subtitle">El Flujo de Trabajo</span>
-                    <h2>Un proceso de diseño y marcado cuidado</h2>
-                    <p>Nos involucramos activamente en cada etapa del pedido para asegurar que la colocación y el marcaje representen la calidad de tu marca.</p>
-                </div>
-                
-                <div class="process-grid">
-                    <div class="process-step">
-                        <div class="process-number">01</div>
-                        <h4>Ideas y vectores</h4>
-                        <p>Evaluamos el logotipo y los colores de tu marca.</p>
+        <!-- Sección de Especialidad: Grabado Láser (Fondo Oscuro y Foco en Producto Físico) -->
+        <section id="laser" class="section-padding container reveal-on-scroll">
+            <div class="laser-section">
+                <div class="laser-layout">
+                    <div class="laser-content">
+                        <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Nuestra Especialidad</span>
+                        <h2 style="color: var(--light); margin-bottom: 1.25rem;">Grabado láser que redefine tu marca</h2>
+                        <p style="margin-bottom: 2rem; font-size: 0.98rem; color: rgba(252,253,251,0.85);">El grabado láser no depende de tintas superficiales que puedan borrarse o despegarse. Es una técnica física que remueve la capa exterior del material para revelar su tono original, logrando una precisión absoluta y permanente.</p>
+                        
+                        <div class="laser-capabilities">
+                            <div class="laser-cap-item">
+                                <span>Precisión extrema</span>
+                                <h4>Tolerancia de 0.02 mm</h4>
+                            </div>
+                            <div class="laser-cap-item">
+                                <span>Durabilidad total</span>
+                                <h4>Marcaje indeleble</h4>
+                            </div>
+                        </div>
                     </div>
-                    <div class="process-step">
-                        <div class="process-number">02</div>
-                        <h4>Prueba de material</h4>
-                        <p>Analizamos el material del artículo elegido en el taller.</p>
-                    </div>
-                    <div class="process-step">
-                        <div class="process-number">03</div>
-                        <h4>Ajuste de grabado</h4>
-                        <p>Preparamos la maqueta digital con proporciones exactas.</p>
-                    </div>
-                    <div class="process-step">
-                        <div class="process-number">04</div>
-                        <h4>Producción cuidada</h4>
-                        <p>Calibramos los láseres para un marcado sin quemaduras.</p>
-                    </div>
-                    <div class="process-step">
-                        <div class="process-number">05</div>
-                        <h4>Empaque y entrega</h4>
-                        <p>Despachamos las piezas debidamente protegidas e individuales.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Banner Dual: Kits Corporativos Elegantes -->
-        <section class="section-padding container reveal-on-scroll">
-            <div class="dual-banner">
-                <div class="dual-banner-visual">
-                    <div class="image-placeholder theme-gray" style="aspect-ratio: 1.5; width: 100%;">
-                        <div class="image-placeholder-inner">
-                            <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            </svg>
-                            <span class="image-placeholder-text">Kit de bienvenida corporativo sobre mesa</span>
+                    <div class="laser-visual">
+                        <div class="image-placeholder theme-gray" style="aspect-ratio: 1.15;">
+                            <div class="image-placeholder-inner" style="background-color: var(--dark-alt); border-color: rgba(255,255,255,0.08);">
+                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#63AE2C" stroke-width="1.5">
+                                    <line x1="5" y1="12" x2="19" y2="12"/><line x1="12" y1="5" x2="12" y2="19"/>
+                                </svg>
+                                <span class="image-placeholder-text" style="color: var(--light);">Calibración láser en metal mate</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="dual-banner-content">
-                    <h3>Kits empresariales a medida</h3>
-                    <p>Estructuramos empaques corporativos coordinando el diseño y el marcaje de cada elemento. Combinamos termos grabados con láser, agendas en bajo relieve y bolígrafos con marcas finas para lograr una bienvenida memorable.</p>
-                    <a href="empresas.html" class="btn btn-white" style="width: fit-content;">Explorar kits corporativos</a>
+            </div>
+        </section>
+
+        <!-- Sección de Categorías Visuales -->
+        <section class="section-padding section-bg-light reveal-on-scroll">
+            <div class="container">
+                <div class="section-header center">
+                    <span class="section-subtitle">Colección</span>
+                    <h2>Categorías Destacadas</h2>
+                    <p>Organizamos nuestra oferta de personalización en colecciones diseñadas con intención de marca.</p>
+                </div>
+                
+                <div class="brand-grid">
+                    <a href="productos.html#termos" class="brand-card">
+                        <span class="brand-card-text">Termos</span>
+                        <span class="brand-card-sub">Acero inoxidable</span>
+                    </a>
+                    <a href="productos.html#oficina" class="brand-card">
+                        <span class="brand-card-text">Agendas</span>
+                        <span class="brand-card-sub">PU italiano</span>
+                    </a>
+                    <a href="productos.html#llaveros" class="brand-card">
+                        <span class="brand-card-text">Llaveros</span>
+                        <span class="brand-card-sub">Cuero y metal</span>
+                    </a>
+                    <a href="productos.html#placas" class="brand-card">
+                        <span class="brand-card-text">Placas</span>
+                        <span class="brand-card-sub">Acrílico y vidrio</span>
+                    </a>
+                    <a href="productos.html#kits" class="brand-card">
+                        <span class="brand-card-text">Kits</span>
+                        <span class="brand-card-sub">Onboarding y regalos</span>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Sección de Confianza y Calidad (Copywriting Honesto) -->
+        <!-- Proceso Resumido y Directo -->
+        <section class="section-padding container reveal-on-scroll">
+            <div class="section-header center">
+                <span class="section-subtitle">Pasos del Pedido</span>
+                <h2>Proceso de Marcado</h2>
+                <p>Un flujo de trabajo sencillo y transparente para garantizar que el resultado final represente la calidad de tu marca.</p>
+            </div>
+            
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="process-number">01</div>
+                    <h4>Cuéntanos tu idea</h4>
+                    <p>Compartes tu logotipo y los productos de interés.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">02</div>
+                    <h4>Propuesta técnica</h4>
+                    <p>Elegimos el material y la técnica de personalización ideal.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">03</div>
+                    <h4>Prueba y ajuste</h4>
+                    <p>Calibramos la maqueta y la colocación del logo.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">04</div>
+                    <h4>Entrega terminada</h4>
+                    <p>Despachamos las piezas terminadas y listas para usar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Final de Marcaje -->
         <section class="section-padding container reveal-on-scroll" style="text-align: center; max-width: 800px;">
             <span class="section-subtitle">Garantía del Taller</span>
             <h2 style="margin-bottom: 1.25rem;">Cuidamos que cada pieza se vea tan bien como la marca que representa.</h2>
-            <p style="margin-bottom: 2rem; font-size: 1rem; line-height: 1.6; color: var(--text-muted);">El acabado final importa, porque también comunica el valor real de tu empresa. Cada entrega debe sentirse pensada y calibrada, no improvisada.</p>
+            <p style="margin-bottom: 2rem; font-size: 1rem; color: var(--text-muted);">El acabado final importa, porque comunica el valor de tu empresa. Cada entrega debe sentirse pensada y calibrada.</p>
             <div class="hero-actions" style="justify-content: center;">
-                <a href="cotizacion.html" class="btn btn-primary">Cotizar un grabado especial</a>
+                <a href="cotizacion.html" class="btn btn-primary">Crear una pieza para mi marca</a>
                 <a href="contacto.html" class="btn btn-secondary">Conversar con el taller</a>
             </div>
         </section>
@@ -478,7 +475,6 @@
         <div class="container footer-top section-padding">
             <div class="footer-grid">
                 <div class="footer-brand-column">
-                    <!-- Logotipo del Footer -->
                     <a href="index.html" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
@@ -537,6 +533,7 @@
 
     <!-- Scripts Modulares -->
     <script src="js/main.js"></script>
+    <script src="js/slider.js"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>
