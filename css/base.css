@@ -12,14 +12,14 @@
     /* Tonos Neutros Sobrios y Elegantes */
     --dark: #1E221C;               /* Negro Carbón / Grafito */
     --dark-alt: #2D3329;           /* Grafito Profundo */
-    --light: #FCFDFB;              /* Blanco Cálido / Hueso */
+    --light: #FCFDFB;              /* Blanco Hueso */
     --surface-light: #F2F5F0;      /* Gris Claro Cálido */
     --border: #DCE2D8;             /* Línea Fina Discreta de 1px */
     --accent-gold: #BAAF1A;        /* Dorado Apagado / Champagne */
     
-    /* Tipografía Corporativa y Formal */
-    --font-heading: 'IBM Plex Serif', Georgia, serif;
-    --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    /* Nueva Combinación Tipográfica Marcellus & Work Sans */
+    --font-heading: 'Marcellus', serif;
+    --font-body: 'Work Sans', system-ui, -apple-system, sans-serif;
     
     /* Textos de Alta Legibilidad */
     --text-main: #1E221C;
@@ -31,9 +31,9 @@
     --space-sm: clamp(0.85rem, 1.8vw, 1.15rem);
     --space-md: clamp(1.5rem, 3.5vw, 2.25rem);
     --space-lg: clamp(2.5rem, 5vw, 4rem);
-    --space-xl: clamp(4rem, 8vw, 6rem);
+    --space-xl: clamp(4.5rem, 8vw, 6.5rem);
     
-    /* Bordes Redondeados Discretos (No circulares ni infantiles) */
+    /* Bordes Redondeados Discretos (Estilo Corporativo) */
     --radius-sm: 2px;
     --radius-md: 4px;
     --radius-lg: 8px;
@@ -43,7 +43,7 @@
     --shadow-md: 0 4px 10px rgba(30, 34, 28, 0.03);
     --shadow-lg: 0 10px 20px rgba(30, 34, 28, 0.04);
     
-    /* Transiciones Clásicas y Suaves */
+    /* Transiciones de Interfaz */
     --transition-smooth: all 0.35s cubic-bezier(0.215, 0.61, 0.355, 1);
     --transition-fast: all 0.15s ease-out;
 }
@@ -98,20 +98,21 @@ button {
     cursor: pointer;
 }
 
-/* 3. Tipografía Formal IBM Plex */
+/* 3. Tipografía Formal Marcellus (Headings) y Work Sans (Body) */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    font-weight: 600;
-    line-height: 1.15;
+    font-weight: 400; /* Marcellus solo tiene peso 400 por defecto */
+    line-height: 1.1;
     color: var(--dark);
+    letter-spacing: 0.02em;
 }
 
 h1 {
-    font-size: clamp(38px, 5vw, 68px);
+    font-size: clamp(40px, 5.5vw, 72px);
 }
 
 h2 {
-    font-size: clamp(30px, 4vw, 48px);
+    font-size: clamp(30px, 4vw, 50px);
 }
 
 h3 {
@@ -129,6 +130,7 @@ p {
 
 p strong {
     color: var(--dark);
+    font-weight: 600;
 }
 
 .text-highlight {
