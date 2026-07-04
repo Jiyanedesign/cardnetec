@@ -2,10 +2,7 @@
    CardNet.ec - Sistema de Diseño "Advanced Engraving & Identity" (base.css)
    ========================================================================== */
 
-/* 1. Importación de Fuentes Optimizado con Google Fonts: Manrope (Headings) e Inter (Body) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
-
-/* 2. Variables de Diseño (Tokens de Marca Premium) */
+/* 1. Variables de Diseño (Tokens de Marca Premium) */
 :root {
     /* Paleta de Colores Inspirada en el Logo Real (Verde, Negro y Oro) */
     --primary: #63AE2C;            /* Verde Hoja CardNet */
@@ -52,7 +49,7 @@
     --transition-fast: all 0.15s ease-in-out;
 }
 
-/* 3. Reset CSS */
+/* 2. Reset CSS */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -102,7 +99,7 @@ button {
     cursor: pointer;
 }
 
-/* 4. Tipografía Jerárquica y Legibilidad (Manrope para Headings) */
+/* 3. Tipografía Jerárquica y Legibilidad (Manrope para Headings) */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 800;
