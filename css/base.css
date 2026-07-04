@@ -1,8 +1,8 @@
 /* ==========================================================================
-   CardNet.ec - Sistema de Diseño "Advanced Engraving & Identity" (base.css)
+   CardNet.ec - Sistema de Diseño "Formal & Corporate Engraving" (base.css)
    ========================================================================== */
 
-/* 1. Variables de Diseño (Tokens de Marca Premium) */
+/* 1. Variables de Diseño (Tokens de Marca Premium y Corporativos) */
 :root {
     /* Paleta de Colores Inspirada en el Logo Real (Verde, Negro y Oro) */
     --primary: #63AE2C;            /* Verde Hoja CardNet */
@@ -18,9 +18,9 @@
     --surface-light: #F7FAF5;      /* Blanco Verdoso Suave */
     --border: #E1E8DC;             /* Borde Fino Orgánico */
     
-    /* Tipografías e Identidad UI/UX */
-    --font-heading: 'Manrope', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    /* Nueva Combinación Tipográfica Formal y Elegante */
+    --font-heading: 'Libre Baskerville', Georgia, serif;
+    --font-body: 'Source Sans 3', system-ui, -apple-system, sans-serif;
     
     /* Textos con Excelente Contraste */
     --text-main: #11140F;
@@ -34,17 +34,17 @@
     --space-lg: clamp(3rem, 6vw, 4.5rem);
     --space-xl: clamp(4.5rem, 9vw, 7rem);
     
-    /* Bordes Redondeados Precisos */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 16px;
+    /* Bordes Redondeados Sobrios */
+    --radius-sm: 3px;
+    --radius-md: 6px;
+    --radius-lg: 12px;
     
     /* Sombras Finitas Premium */
-    --shadow-sm: 0 1px 3px rgba(17, 20, 15, 0.05);
-    --shadow-md: 0 4px 12px -2px rgba(17, 20, 15, 0.06), 0 2px 6px -1px rgba(17, 20, 15, 0.03);
-    --shadow-lg: 0 12px 24px -4px rgba(17, 20, 15, 0.08), 0 4px 12px -2px rgba(17, 20, 15, 0.04);
+    --shadow-sm: 0 1px 3px rgba(17, 20, 15, 0.04);
+    --shadow-md: 0 4px 12px -2px rgba(17, 20, 15, 0.05), 0 2px 6px -1px rgba(17, 20, 15, 0.02);
+    --shadow-lg: 0 12px 24px -4px rgba(17, 20, 15, 0.06), 0 4px 12px -2px rgba(17, 20, 15, 0.03);
     
-    /* Micro-Animaciones Láser */
+    /* Transiciones de Interfaz */
     --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     --transition-fast: all 0.15s ease-in-out;
 }
@@ -66,7 +66,7 @@ body {
     background-color: var(--light);
     color: var(--text-main);
     font-family: var(--font-body);
-    line-height: 1.6;
+    line-height: 1.65;
     overflow-x: hidden;
 }
 
@@ -99,33 +99,34 @@ button {
     cursor: pointer;
 }
 
-/* 3. Tipografía Jerárquica y Legibilidad (Manrope para Headings) */
+/* 3. Tipografía Jerárquica y Legibilidad (Libre Baskerville para Headings) */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.025em;
+    font-weight: 700;
+    line-height: 1.2;
     color: var(--dark);
+    letter-spacing: -0.01em;
 }
 
 h1 {
-    font-size: clamp(2.35rem, 5vw, 3.85rem);
+    font-size: clamp(38px, 5vw, 68px);
 }
 
 h2 {
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-size: clamp(30px, 4vw, 48px);
 }
 
 h3 {
-    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+    font-size: clamp(22px, 3vw, 32px);
 }
 
 h4 {
-    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-size: clamp(18px, 2.2vw, 24px);
 }
 
 p {
     color: var(--text-muted);
+    font-size: clamp(16px, 1.1vw, 18px);
 }
 
 p strong {
