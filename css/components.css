@@ -1,51 +1,47 @@
 /* ==========================================================================
-   CardNet.ec - Componentes de Estilo Modern Retail (components.css)
+   CardNet.ec - Componentes UI de Marcaje Premium (components.css)
    ========================================================================== */
 
-/* 1. Botones Redondeados e Impactantes */
+/* 1. Botones de Alta Precisión */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.75rem 1.75rem;
-    border-radius: 50px; /* Botones muy redondeados estilo Custom Ink / Gelato */
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
+    padding: 0.85rem 2rem;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
     transition: var(--transition-smooth);
     border: 1px solid transparent;
     cursor: pointer;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: -0.01em;
 }
 
 .btn-primary {
-    background-color: var(--secondary-blue);
-    color: var(--light);
-}
-
-.btn-primary:hover {
-    background-color: var(--secondary-blue-hover);
-    transform: translateY(-1px);
-}
-
-.btn-secondary {
-    background-color: var(--light);
-    color: var(--secondary-blue);
-    border-color: var(--secondary-blue);
-}
-
-.btn-secondary:hover {
-    background-color: rgba(26, 79, 223, 0.05);
-}
-
-.btn-green {
     background-color: var(--primary);
     color: var(--light);
 }
 
-.btn-green:hover {
+.btn-primary:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(99, 174, 44, 0.25);
+}
+
+.btn-secondary {
+    background-color: var(--light);
+    color: var(--dark);
+    border-color: var(--border);
+}
+
+.btn-secondary:hover {
+    background-color: var(--surface-light);
+    border-color: var(--primary);
+    transform: translateY(-2px);
 }
 
 .btn-dark {
@@ -54,24 +50,37 @@
 }
 
 .btn-dark:hover {
-    background-color: #2b302a;
+    background-color: var(--dark-alt);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(17, 20, 15, 0.2);
+}
+
+.btn-accent {
+    background-color: var(--accent);
+    color: var(--dark);
+}
+
+.btn-accent:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(186, 175, 26, 0.25);
 }
 
 .btn-white {
     background-color: var(--light);
     color: var(--dark);
-    border-color: var(--border);
 }
 
 .btn-white:hover {
     background-color: var(--surface-light);
+    transform: translateY(-2px);
 }
 
-/* 2. Barra de Garantías / Beneficios (Bajo el Hero) */
+/* 2. Barra de Garantías Premium (Bajo el Hero) */
 .satisfaction-bar {
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-    padding: 1.25rem 0;
+    padding: 1.5rem 0;
     background-color: var(--light);
 }
 
@@ -88,24 +97,29 @@
     gap: 10px;
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--text-main);
+    color: var(--text-muted);
     flex-grow: 1;
     justify-content: center;
 }
 
-.satisfaction-icon {
-    width: 22px;
-    height: 22px;
-    stroke: var(--primary);
-    stroke-width: 2.5;
-    fill: none;
+.satisfaction-item strong {
+    color: var(--dark);
 }
 
-/* 3. Tarjetas de Marcas / Categorías de Cuadrícula */
+.satisfaction-icon {
+    width: 20px;
+    height: 20px;
+    stroke: var(--primary);
+    stroke-width: 2.2;
+    fill: none;
+    flex-shrink: 0;
+}
+
+/* 3. Cuadrícula de Métodos de Marcado (Con Foco en Grabado Láser) */
 .brand-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 15px;
 }
 
 @media (min-width: 768px) {
@@ -116,36 +130,83 @@
 
 @media (min-width: 1024px) {
     .brand-grid {
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(5, 1fr);
     }
 }
 
 .brand-card {
-    background-color: var(--surface-light);
+    background-color: var(--light);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: 1rem;
+    padding: 1.5rem 1.25rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 60px;
+    text-align: center;
     transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: transparent;
+    transition: var(--transition-fast);
 }
 
 .brand-card:hover {
-    background-color: var(--light);
-    border-color: var(--secondary-blue);
+    border-color: var(--border);
+    background-color: var(--surface-light);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }
 
+/* Foco visual del Láser en la grilla */
+.brand-card.laser-focus {
+    border-color: var(--primary);
+    background-color: var(--surface-light);
+    box-shadow: 0 4px 20px rgba(99, 174, 44, 0.12);
+}
+
+.brand-card.laser-focus::before {
+    background-color: var(--primary);
+}
+
+.brand-card.laser-focus::after {
+    content: 'Especialidad';
+    position: absolute;
+    top: 6px;
+    right: -24px;
+    background-color: var(--accent);
+    color: var(--dark);
+    font-size: 0.55rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 24px;
+    transform: rotate(45deg);
+    letter-spacing: 0.05em;
+}
+
 .brand-card-text {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
+    font-family: var(--font-heading);
+    font-weight: 700;
     font-size: 0.95rem;
+    color: var(--dark);
+    margin-bottom: 0.25rem;
+}
+
+.brand-card-sub {
+    font-size: 0.72rem;
     color: var(--text-muted);
 }
 
-/* 4. Tarjetas de Productos (Estilo MOO Vertical Cards) */
+/* 4. Tarjetas de Productos Personalizables (Estilo Galería con Intención) */
 .product-card {
     background-color: var(--light);
     border: 1px solid var(--border);
@@ -155,55 +216,64 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative;
 }
 
 .product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--secondary-blue);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
 }
 
 .product-card-image-wrap {
     position: relative;
+    overflow: hidden;
 }
 
 .product-card-body {
-    padding: 1.25rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
 .product-card-title {
-    font-size: 1.25rem;
-    font-weight: 800;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
     margin-bottom: 0.5rem;
+    color: var(--dark);
+    line-height: 1.25;
 }
 
 .product-card-price {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    color: var(--secondary-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary);
     margin-bottom: 0.5rem;
 }
 
 .product-card-desc {
     font-size: 0.85rem;
     color: var(--text-muted);
-    line-height: 1.45;
-    margin-bottom: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
     flex-grow: 1;
 }
 
 .product-card-link {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--secondary-blue);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--dark);
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     width: fit-content;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
 }
 
 .product-card-link::after {
@@ -211,49 +281,54 @@
     transition: var(--transition-fast);
 }
 
+.product-card:hover .product-card-link {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
 .product-card:hover .product-card-link::after {
     transform: translateX(4px);
 }
 
-/* 5. Formularios Limpios */
+/* 5. Formularios Corporativos Limpios */
 .form-group {
     margin-bottom: 1.25rem;
 }
 
 .form-label {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     margin-bottom: 0.35rem;
-    color: var(--text-main);
+    color: var(--dark);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
 .form-input, .form-select, .form-textarea {
     width: 100%;
-    padding: 10px 14px;
+    padding: 11px 14px;
     background-color: var(--surface-light);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    font-family: inherit;
-    font-size: 0.9rem;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
     transition: var(--transition-fast);
 }
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
     outline: none;
-    border-color: var(--secondary-blue);
+    border-color: var(--primary);
     background-color: var(--light);
-    box-shadow: 0 0 0 3px rgba(26, 79, 223, 0.1);
+    box-shadow: 0 0 0 3px rgba(99, 174, 44, 0.08);
 }
 
 .form-textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px;
 }
 
-/* 6. Acordeón FAQ Limpio */
+/* 6. Acordeón FAQ Profesional */
 .faq-item {
     border-bottom: 1px solid var(--border);
     background-color: var(--light);
@@ -265,16 +340,21 @@
     align-items: center;
     width: 100%;
     text-align: left;
-    padding: 1.25rem 0;
-    font-family: 'Outfit', sans-serif;
+    padding: 1.5rem 0;
+    font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--dark);
+    transition: var(--transition-fast);
+}
+
+.faq-trigger:hover {
+    color: var(--primary);
 }
 
 .faq-icon {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     position: relative;
     color: var(--text-muted);
 }
@@ -287,17 +367,17 @@
 }
 
 .faq-icon::before {
-    top: 6px;
+    top: 5px;
     left: 0;
-    width: 14px;
+    width: 12px;
     height: 2px;
 }
 
 .faq-icon::after {
     top: 0;
-    left: 6px;
+    left: 5px;
     width: 2px;
-    height: 14px;
+    height: 12px;
 }
 
 .faq-item.active .faq-icon::after {
@@ -308,72 +388,84 @@
 .faq-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.2s ease-out;
+    transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .faq-content p {
-    padding: 0 0 1.25rem 0;
-    font-size: 0.9rem;
+    padding: 0 0 1.5rem 0;
+    font-size: 0.88rem;
     color: var(--text-muted);
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
-/* 7. Placeholders de Productos en Collage / Muestrarios */
+/* 7. Placeholders / Renders de Mockups Premium */
 .image-placeholder {
     width: 100%;
     aspect-ratio: 16/10;
-    background-color: var(--surface-light); /* Fondo neutro gris */
+    background-color: var(--surface-light);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--text-muted);
     position: relative;
     overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
 }
 
 .image-placeholder-inner {
     position: absolute;
-    inset: 15px;
+    inset: 16px;
     border-radius: var(--radius-md);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: var(--light);
+    border: 1px dashed var(--border);
+    transition: var(--transition-smooth);
 }
 
-/* Fondos temáticos inspirados en Custom Ink/MOO */
+/* Fondos temáticos sofisticados */
 .image-placeholder.theme-green .image-placeholder-inner {
-    background-color: var(--surface-green);
+    background: linear-gradient(135deg, var(--surface-light) 0%, rgba(99, 174, 44, 0.05) 100%);
+    border-color: rgba(99, 174, 44, 0.2);
 }
+
 .image-placeholder.theme-blue .image-placeholder-inner {
-    background-color: var(--surface-blue);
+    background: linear-gradient(135deg, var(--surface-light) 0%, rgba(186, 175, 26, 0.05) 100%);
+    border-color: rgba(186, 175, 26, 0.2);
 }
+
 .image-placeholder.theme-gray .image-placeholder-inner {
-    background-color: #E2E8F0;
+    background: linear-gradient(135deg, var(--surface-light) 0%, rgba(17, 20, 15, 0.03) 100%);
 }
 
 .image-placeholder-icon {
-    width: 44px;
-    height: 44px;
-    stroke: var(--light);
+    width: 38px;
+    height: 38px;
+    stroke: var(--primary);
     stroke-width: 1.5;
     fill: none;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     z-index: 2;
 }
 
 .image-placeholder-text {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-heading);
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--light);
+    color: var(--dark);
     z-index: 2;
+    text-align: center;
+    padding: 0 10px;
 }
 
 .image-placeholder-sub {
     font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--text-muted);
     z-index: 2;
+    margin-top: 2px;
 }
 
 .image-placeholder.portrait {
@@ -387,23 +479,24 @@
     right: 24px;
     background-color: #25D366;
     color: white;
-    width: 56px;
-    height: 56px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
     z-index: 999;
     transition: var(--transition-smooth);
 }
 
 .whatsapp-float:hover {
-    transform: scale(1.08);
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
 }
 
 .whatsapp-icon {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     fill: currentColor;
 }

@@ -1,12 +1,13 @@
 /* ==========================================================================
-   CardNet.ec - Transiciones y Efectos Visuales (animations.css)
+   CardNet.ec - Animaciones de Precisión e Interacción Láser (animations.css)
    ========================================================================== */
 
-/* 1. Revelado al Hacer Scroll */
+/* 1. Clases de Animación por Scroll (Activables vía JS) */
 .reveal-on-scroll {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform;
 }
 
 .reveal-on-scroll.active {
@@ -14,31 +15,76 @@
     transform: translateY(0);
 }
 
-/* Delays */
-.delay-100 { transition-delay: 100ms; }
-.delay-200 { transition-delay: 200ms; }
-.delay-300 { transition-delay: 300ms; }
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
 
-/* 2. Efecto de Escalado sutil en hover */
-.logo:hover .logo-symbol {
-    background-color: var(--secondary-blue);
-    transform: scale(1.05);
+/* 2. Micro-Interacción de Barrido Láser (Efecto de luz de chapa) */
+@keyframes laser-sweep {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 200%;
+    }
 }
 
-/* 3. Accesibilidad */
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-delay: -1ms !important;
-        animation-duration: 1ms !important;
-        animation-iteration-count: 1 !important;
-        background-attachment: initial !important;
-        scroll-behavior: auto !important;
-        transition-duration: 0s !important;
-        transition-delay: 0s !important;
+/* Efecto aplicable en hover a tarjetas */
+.product-card, .brand-card, .laser-visual, .solution-card {
+    position: relative;
+}
+
+.product-card::after, .brand-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(99, 174, 44, 0.08) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    transition: none;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.product-card:hover::after, .brand-card:hover::after {
+    animation: laser-sweep 0.75s ease-in-out forwards;
+}
+
+/* 3. Brillo de Enfoque Láser para el Elemento Destacado */
+@keyframes pulse-laser-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(99, 174, 44, 0.2);
     }
-    
-    .reveal-on-scroll {
-        opacity: 1 !important;
-        transform: none !important;
+    70% {
+        box-shadow: 0 0 0 8px rgba(99, 174, 44, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(99, 174, 44, 0);
+    }
+}
+
+.brand-card.laser-focus {
+    animation: pulse-laser-glow 2.5s infinite;
+}
+
+/* 4. Transiciones de Opacidad Suaves */
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

@@ -1,12 +1,14 @@
 /* ==========================================================================
-   CardNet.ec - Estilos de Maquetación de Páginas Modern Retail (pages.css)
+   CardNet.ec - Estructura de Páginas e Identidad Visual (pages.css)
    ========================================================================== */
 
-/* 1. Hero Principal (Estilo Custom Ink) */
+/* 1. Hero Block (Concepto: Tu marca no debería verse igual que todas) */
 .hero-block {
-    padding-top: var(--space-md);
-    padding-bottom: var(--space-md);
+    padding-top: clamp(2rem, 8vw, 5rem);
+    padding-bottom: clamp(2rem, 8vw, 5rem);
     background-color: var(--light);
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-layout {
@@ -18,42 +20,245 @@
 
 @media (min-width: 1024px) {
     .hero-layout {
-        grid-template-columns: 1.15fr 0.85fr;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: var(--space-lg);
     }
 }
 
 .hero-content {
-    max-width: 580px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-light);
+    border: 1px solid rgba(99, 174, 44, 0.15);
+    padding: 6px 14px;
+    border-radius: 50px;
+    width: fit-content;
+    margin-bottom: 1.25rem;
+}
+
+.hero-tag-text {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--primary);
+    letter-spacing: 0.05em;
+}
+
+.hero-tag-accent {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent);
+    border-radius: 50%;
 }
 
 .hero-title {
-    margin-bottom: 1.25rem;
-    font-size: clamp(2.5rem, 5.5vw, 3.85rem);
-    color: var(--dark);
-    font-weight: 900;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    font-weight: 800;
 }
 
 .hero-description {
-    font-size: 1.1rem;
-    line-height: 1.5;
-    margin-bottom: 2rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    max-width: 580px;
 }
 
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 0.75rem;
 }
 
-/* Imagen Hero con Contenedor de Color Redondeado */
+/* Collage visual de Hero */
 .hero-visual-wrapper {
     position: relative;
+    width: 100%;
+}
+
+.hero-visual-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(99, 174, 44, 0.1) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 2. Sección del Diferencial (Identidad frente a lo genérico) */
+.differential-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .differential-container {
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: var(--space-lg);
+    }
+}
+
+.differential-visual {
+    position: relative;
+}
+
+.differential-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.differential-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.diff-item {
+    display: flex;
+    gap: 16px;
+}
+
+.diff-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background-color: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.diff-info h4 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.35rem;
+}
+
+.diff-info p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+/* 3. Sección Especial de Grabado Láser (Sección Clave con Peso Visual) */
+.laser-section {
+    background-color: var(--dark-alt);
+    color: var(--text-light);
     border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    padding: var(--space-lg) var(--space-md);
+}
+
+@media (min-width: 1024px) {
+    .laser-section {
+        padding: var(--space-lg) var(--space-lg);
+    }
+}
+
+/* Efecto de línea láser sutil */
+.laser-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 25%;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--primary) 30%, var(--primary) 70%, transparent);
+    opacity: 0.25;
+}
+
+.laser-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+@media (min-width: 1024px) {
+    .laser-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: var(--space-lg);
+    }
+}
+
+.laser-visual {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    position: relative;
     overflow: hidden;
 }
 
-/* 2. Banner Dual de Novedades (Estilo Custom Ink / MOO) */
+.laser-visual::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 30%, rgba(99, 174, 44, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.laser-capabilities {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+.laser-cap-item {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: var(--transition-fast);
+}
+
+.laser-cap-item:hover {
+    border-color: rgba(99, 174, 44, 0.3);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.laser-cap-item span {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--primary);
+    letter-spacing: 0.05em;
+}
+
+.laser-cap-item h4 {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--light);
+}
+
+/* 4. Banner Dual Moderno (Estilo MOO) */
 .dual-banner {
     display: grid;
     grid-template-columns: 1fr;
@@ -62,7 +267,7 @@
     border: 1px solid var(--border);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .dual-banner {
         grid-template-columns: 1fr 1fr;
     }
@@ -76,269 +281,103 @@
 }
 
 .dual-banner-content {
-    background-color: var(--surface-blue); /* Fondo azul verdoso de MOO */
-    color: var(--light);
-    padding: var(--space-md);
+    background-color: var(--dark-alt);
+    color: var(--text-light);
+    padding: clamp(2rem, 5vw, 4rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .dual-banner-content h3 {
-    font-size: clamp(1.5rem, 3vw, 2.15rem);
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 3vw, 2rem);
     color: var(--light);
-    margin-bottom: 0.75rem;
-    font-weight: 800;
+    margin-bottom: 1rem;
 }
 
 .dual-banner-content p {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
-}
-
-/* 3. Encabezados de Páginas Internas */
-.page-header-block {
-    background-color: var(--surface-light);
-    padding-top: var(--space-md);
-    padding-bottom: var(--space-md);
-    border-bottom: 1px solid var(--border);
-}
-
-.page-header-title {
-    margin-bottom: 0.5rem;
-    font-size: clamp(2rem, 4vw, 3rem);
-}
-
-.page-header-description {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    max-width: 680px;
-}
-
-/* 4. Nosotros - Línea de Tiempo Plana */
-.about-timeline {
-    position: relative;
-    max-width: 800px;
-    margin: var(--space-md) auto 0;
-    padding-left: 20px;
-    border-left: 2px solid var(--border);
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: var(--space-md);
-}
-
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -27px;
-    top: 6px;
-    width: 10px;
-    height: 10px;
-    background-color: var(--light);
-    border: 3px solid var(--secondary-blue);
-    border-radius: 50%;
-}
-
-.timeline-year {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--secondary-blue);
-    margin-bottom: 0.25rem;
-}
-
-.timeline-title {
-    font-size: 1.05rem;
-    margin-bottom: 0.35rem;
-}
-
-.timeline-desc {
-    font-size: 0.85rem;
-}
-
-/* 5. Secciones Asimétricas Generales (Split) */
-.split-feature {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-    align-items: center;
-}
-
-@media (min-width: 1024px) {
-    .split-feature {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .split-feature.reverse {
-        direction: rtl;
-    }
-    
-    .split-feature.reverse .split-content {
-        direction: ltr;
-        padding-left: var(--space-md);
-        padding-right: 0;
-    }
-    
-    .split-feature .split-content {
-        padding-right: var(--space-md);
-    }
-    
-    .split-feature.reverse .split-visual {
-        direction: ltr;
-    }
-}
-
-.split-content h2 {
-    margin-bottom: 1rem;
-}
-
-.split-content p {
-    font-size: 0.95rem;
+    color: rgba(247, 250, 245, 0.75);
+    margin-bottom: 2rem;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
 }
 
-.split-bullets {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1.75rem;
-}
-
-.bullet-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-}
-
-.bullet-icon {
-    width: 18px;
-    height: 18px;
-    stroke: var(--primary);
-    stroke-width: 2.5;
-    fill: none;
-    flex-shrink: 0;
-    margin-top: 3px;
-}
-
-.bullet-text {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-.bullet-text strong {
-    color: var(--dark);
-}
-
-/* 6. Especificaciones de Grabado */
-.tech-details-block {
-    background-color: var(--surface-light);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-sm);
-}
-
-.tech-grid {
+/* 5. Proceso Creativo Cuidado (Paso a Paso) */
+.process-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 1.25rem;
+    gap: 20px;
+    margin-top: 2rem;
 }
 
 @media (min-width: 768px) {
-    .tech-grid {
-        grid-template-columns: repeat(3, 1fr);
+    .process-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-.tech-grid-item {
-    border-top: 1px solid var(--border);
-    padding-top: 0.75rem;
+@media (min-width: 1024px) {
+    .process-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+    }
 }
 
-.tech-grid-item h4 {
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.tech-grid-item p {
-    font-size: 0.85rem;
-}
-
-/* 7. Servicios B2B */
-.solution-card {
+.process-step {
     background-color: var(--light);
     border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-sm);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    border-radius: var(--radius-md);
+    padding: 1.5rem 1.25rem;
+    position: relative;
     transition: var(--transition-smooth);
 }
 
-.solution-card:hover {
+.process-step:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-md);
-    border-color: var(--secondary-blue);
 }
 
-.solution-card-header {
-    margin-bottom: 1rem;
-}
-
-.solution-icon-wrap {
-    width: 44px;
-    height: 44px;
-    background-color: var(--surface-light);
-    color: var(--dark);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.process-number {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: rgba(99, 174, 44, 0.15);
+    line-height: 1;
     margin-bottom: 0.75rem;
 }
 
-.solution-icon {
-    width: 20px;
-    height: 20px;
-    stroke: currentColor;
-    stroke-width: 2;
-    fill: none;
-}
-
-.solution-title {
-    font-size: 1.25rem;
+.process-step h4 {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark);
     margin-bottom: 0.5rem;
 }
 
-.solution-card-body {
-    margin-bottom: 1.25rem;
+.process-step p {
+    font-size: 0.78rem;
+    line-height: 1.45;
 }
 
-.solution-bullets {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    font-size: 0.85rem;
+/* 6. Bloque de Encabezado de Página Interna */
+.page-header-block {
+    background-color: var(--surface-light);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-md) 0;
+    text-align: center;
 }
 
-.solution-bullet {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-muted);
+.page-header-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    margin-bottom: 0.75rem;
 }
 
-.solution-bullet-dot {
-    width: 4px;
-    height: 4px;
-    background-color: var(--primary);
-    border-radius: 50%;
+.page-header-description {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }

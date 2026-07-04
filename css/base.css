@@ -1,31 +1,34 @@
 /* ==========================================================================
-   CardNet.ec - Sistema de Diseño "Modern Retail" (base.css)
+   CardNet.ec - Sistema de Diseño "Advanced Engraving & Identity" (base.css)
    ========================================================================== */
 
-/* 1. Importación de Fuentes: Outfit (Ultra-Bold Sans) e Inter (Clean Sans) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@600;700;800;900&display=swap');
+/* 1. Importación de Fuentes Optimizado con Google Fonts: Manrope (Headings) e Inter (Body) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 
-/* 2. Tokens de Marca y Diseño */
+/* 2. Variables de Diseño (Tokens de Marca Premium) */
 :root {
-    /* Paleta Cromática de CardNet & Referencias */
-    --primary: #63AE2C;          /* Verde CardNet */
+    /* Paleta de Colores Inspirada en el Logo Real (Verde, Negro y Oro) */
+    --primary: #63AE2C;            /* Verde Hoja CardNet */
     --primary-hover: #508E22;
-    --secondary-blue: #1A4FDF;   /* Azul Custom Ink */
-    --secondary-blue-hover: #123DB8;
-    --accent-gold: #BAAF1A;      /* Dorado Promocional */
+    --primary-light: rgba(99, 174, 44, 0.08);
+    --accent: #BAAF1A;             /* Dorado Semilla del Diente de León */
+    --accent-hover: #9E9415;
     
-    /* Superficies y Bloques de Color Planos */
-    --dark: #11140F;             /* Negro de Títulos */
-    --light: #FFFFFF;            /* Blanco */
-    --surface-light: #F8F9FA;    /* Gris muy claro (Custom Ink) */
-    --surface-green: #A5C351;    /* Verde Claro (Hero de Custom Ink) */
-    --surface-blue: #4A8B9A;     /* Azul Verdoso (Sección Novedades MOO) */
-    --border: #E5E7EB;           /* Borde Gris Claro */
+    /* Superficies Modernas y Contraste Premium */
+    --dark: #11140F;               /* Negro Mate de Títulos y Chapa Metálica */
+    --dark-alt: #181E15;           /* Carbón Vegetal Profundo */
+    --light: #FFFFFF;              /* Blanco Puro */
+    --surface-light: #F7FAF5;      /* Blanco Verdoso Suave */
+    --border: #E1E8DC;             /* Borde Fino Orgánico */
     
-    /* Texto */
+    /* Tipografías e Identidad UI/UX */
+    --font-heading: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Textos con Excelente Contraste */
     --text-main: #11140F;
-    --text-muted: #4B5563;
-    --text-light: #FAFBF7;
+    --text-muted: #515A4D;         /* Gris Orgánico Muted */
+    --text-light: #F7FAF5;
     
     /* Escala de Espaciado */
     --space-xs: clamp(0.5rem, 1.2vw, 0.85rem);
@@ -34,16 +37,19 @@
     --space-lg: clamp(3rem, 6vw, 4.5rem);
     --space-xl: clamp(4.5rem, 9vw, 7rem);
     
-    /* Bordes y Sombras */
+    /* Bordes Redondeados Precisos */
     --radius-sm: 4px;
     --radius-md: 8px;
-    --radius-lg: 12px;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --radius-lg: 16px;
     
-    /* Transiciones */
-    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-fast: all 0.12s ease-in-out;
+    /* Sombras Finitas Premium */
+    --shadow-sm: 0 1px 3px rgba(17, 20, 15, 0.05);
+    --shadow-md: 0 4px 12px -2px rgba(17, 20, 15, 0.06), 0 2px 6px -1px rgba(17, 20, 15, 0.03);
+    --shadow-lg: 0 12px 24px -4px rgba(17, 20, 15, 0.08), 0 4px 12px -2px rgba(17, 20, 15, 0.04);
+    
+    /* Micro-Animaciones Láser */
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-fast: all 0.15s ease-in-out;
 }
 
 /* 3. Reset CSS */
@@ -62,8 +68,8 @@ html {
 body {
     background-color: var(--light);
     color: var(--text-main);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    line-height: 1.5;
+    font-family: var(--font-body);
+    line-height: 1.6;
     overflow-x: hidden;
 }
 
@@ -75,6 +81,7 @@ a {
     color: inherit;
     text-decoration: none;
     transition: var(--transition-fast);
+    font-family: var(--font-body);
 }
 
 img, svg {
@@ -84,7 +91,7 @@ img, svg {
 }
 
 button, input, select, textarea {
-    font-family: inherit;
+    font-family: var(--font-body);
     font-size: inherit;
     color: inherit;
     background: none;
@@ -95,29 +102,29 @@ button {
     cursor: pointer;
 }
 
-/* 4. Tipografía Bold y Moderna (Outfit para Títulos) */
+/* 4. Tipografía Jerárquica y Legibilidad (Manrope para Headings) */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
     color: var(--dark);
 }
 
 h1 {
-    font-size: clamp(2.5rem, 5.5vw, 4rem);
+    font-size: clamp(2.35rem, 5vw, 3.85rem);
 }
 
 h2 {
-    font-size: clamp(1.85rem, 3.8vw, 2.75rem);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
 }
 
 h3 {
-    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
 }
 
 h4 {
-    font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
 }
 
 p {
@@ -129,5 +136,5 @@ p strong {
 }
 
 .text-highlight {
-    color: var(--secondary-blue);
+    color: var(--primary);
 }

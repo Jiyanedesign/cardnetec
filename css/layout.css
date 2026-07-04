@@ -1,5 +1,5 @@
 /* ==========================================================================
-   CardNet.ec - Estructura de Páginas y Cabecera de Dos Filas (layout.css)
+   CardNet.ec - Estructura de Páginas y Maquetación Premium (layout.css)
    ========================================================================== */
 
 /* 1. Contenedores y Secciones */
@@ -13,16 +13,33 @@
 }
 
 .section-padding {
-    padding-top: var(--space-md);
-    padding-bottom: var(--space-md);
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+    position: relative;
 }
 
 .section-bg-light {
     background-color: var(--surface-light);
 }
 
+.section-bg-dark {
+    background-color: var(--dark-alt);
+    color: var(--text-light);
+}
+
+.section-bg-dark h1,
+.section-bg-dark h2,
+.section-bg-dark h3,
+.section-bg-dark h4 {
+    color: var(--text-light);
+}
+
+.section-bg-dark p {
+    color: rgba(247, 250, 245, 0.7);
+}
+
 .section-header {
-    max-width: 800px;
+    max-width: 720px;
     margin-bottom: var(--space-md);
 }
 
@@ -33,17 +50,18 @@
 }
 
 .section-title {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
 }
 
 .section-subtitle {
     display: inline-block;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
-    color: var(--secondary-blue);
+    color: var(--primary);
     margin-bottom: 0.5rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
 }
 
 /* 2. Rejillas de Columnas */
@@ -56,6 +74,7 @@
 @media (min-width: 768px) {
     .grid-2 {
         grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
     }
     .grid-3 {
         grid-template-columns: repeat(2, 1fr);
@@ -74,26 +93,30 @@
     }
 }
 
-/* 3. Cabecera Multicapa (Estilo Custom Ink) */
+/* 3. Cabecera Multicapa (Estilo Moderno & Limpio) */
 
 /* Barra de Anuncios Superior */
 .top-announcement-bar {
-    background-color: var(--surface-light);
-    border-bottom: 1px solid var(--border);
-    font-size: 0.75rem;
+    background-color: var(--dark-alt);
+    color: rgba(247, 250, 245, 0.8);
+    font-size: 0.72rem;
     font-weight: 500;
-    color: var(--text-muted);
     text-align: center;
-    padding: 6px 0;
+    padding: 8px 0;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Header Principal */
 .main-header {
-    background-color: var(--light);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: var(--transition-smooth);
 }
 
 /* Fila de Marca y Buscador */
@@ -101,41 +124,46 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 85px;
     gap: 1.5rem;
 }
 
-/* Logo */
+/* Logo Rediseñado con Isotipo Diente de León */
 .logo {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 900;
-    font-size: 1.65rem;
-    color: var(--dark);
+    gap: 12px;
     user-select: none;
-    letter-spacing: -0.04em;
     flex-shrink: 0;
 }
 
-.logo-symbol {
-    width: 32px;
-    height: 32px;
-    background-color: var(--primary);
-    border-radius: 50%; /* Logo redondeado como el de Custom Ink */
+.logo-symbol-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--light);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 900;
-    font-size: 1.15rem;
-    box-shadow: none;
+    position: relative;
+    width: 38px;
+    height: 38px;
 }
 
-.logo-symbol::before {
-    content: 'C';
+.logo-dandelion {
+    width: 100%;
+    height: 100%;
+}
+
+.logo-text-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo-text {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.55rem;
+    color: var(--dark);
+    line-height: 1;
+    letter-spacing: -0.03em;
 }
 
 .logo-net {
@@ -143,10 +171,20 @@
 }
 
 .logo-suffix {
-    font-size: 0.85rem;
+    color: var(--accent);
     font-weight: 600;
-    color: var(--accent-gold);
-    margin-left: 1px;
+    font-size: 1rem;
+}
+
+.logo-subtext {
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--dark);
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+    line-height: 1;
 }
 
 /* Barra de Búsqueda del Header (Centro) */
@@ -159,7 +197,7 @@
         display: flex;
         align-items: center;
         flex-grow: 1;
-        max-width: 500px;
+        max-width: 420px;
         position: relative;
     }
     
@@ -169,15 +207,16 @@
         background-color: var(--surface-light);
         border: 1px solid var(--border);
         border-radius: 50px;
-        font-size: 0.85rem;
+        font-family: var(--font-body);
+        font-size: 0.82rem;
         transition: var(--transition-fast);
     }
     
     .search-input:focus {
         background-color: var(--light);
-        border-color: var(--secondary-blue);
+        border-color: var(--primary);
         outline: none;
-        box-shadow: 0 0 0 3px rgba(26, 79, 223, 0.1);
+        box-shadow: 0 0 0 3px rgba(99, 174, 44, 0.1);
     }
     
     .search-icon {
@@ -213,22 +252,26 @@
     
     .status-icon-wrap {
         color: var(--primary);
+        display: flex;
+        align-items: center;
     }
     
     .status-text h4 {
-        font-size: 0.75rem;
-        font-weight: 500;
+        font-size: 0.72rem;
+        font-weight: 600;
         color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
     }
     
     .status-text p {
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         font-weight: 700;
         color: var(--dark);
     }
     
     .status-text .status-link {
-        color: var(--secondary-blue);
+        color: var(--primary);
         font-weight: 700;
     }
 }
@@ -254,21 +297,21 @@
     .nav-menu {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 0.5rem;
     }
     
     .nav-link {
-        font-family: 'Inter', sans-serif;
+        font-family: var(--font-body);
         font-weight: 500;
-        font-size: 0.85rem;
-        color: var(--text-main);
+        font-size: 0.82rem;
+        color: var(--text-muted);
         padding: 6px 12px;
         border-radius: var(--radius-sm);
     }
     
     .nav-link:hover, .nav-link.active {
-        color: var(--secondary-blue);
-        background-color: transparent;
+        color: var(--primary);
+        background-color: var(--primary-light);
         font-weight: 600;
     }
     
@@ -328,9 +371,9 @@
 }
 
 .mobile-link {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--dark);
     border-bottom: 1px solid var(--border);
     padding-bottom: 8px;
@@ -338,7 +381,7 @@
 }
 
 .mobile-link.active {
-    color: var(--secondary-blue);
+    color: var(--primary);
 }
 
 .mobile-nav-overlay {
@@ -347,7 +390,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(17, 20, 15, 0.2);
     z-index: 98;
     opacity: 0;
     visibility: hidden;
@@ -378,8 +421,8 @@
 }
 
 .footer-top {
-    padding-top: var(--space-md);
-    padding-bottom: var(--space-md);
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
 }
 
 .footer-grid {
@@ -412,12 +455,12 @@
     max-width: 260px;
     margin-bottom: 1rem;
     font-size: 0.8rem;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .footer-heading {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.95rem;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--dark);
     margin-bottom: 1rem;
@@ -432,7 +475,7 @@
 }
 
 .footer-link:hover {
-    color: var(--secondary-blue);
+    color: var(--primary);
 }
 
 .footer-contact-info {
@@ -483,5 +526,5 @@
 }
 
 .footer-bottom-link:hover {
-    color: var(--secondary-blue);
+    color: var(--primary);
 }
