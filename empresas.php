@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios para Empresas | CardNet.ec - Soluciones Corporativas B2B</title>
     <meta name="description" content="Kits de bienvenida (onboarding), regalos corporativos de fin de año, uniformes bordados y merchandising para ferias en Ecuador. Facturación B2B simplificada.">
-    <link rel="canonical" href="https://cardnet.ec/empresas.html">
+    <link rel="canonical" href="https://cardnet.ec/empresas.php">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cardnet.ec/empresas.html">
+    <meta property="og:url" content="https://cardnet.ec/empresas.php">
     <meta property="og:title" content="Soluciones Promocionales B2B para Empresas | CardNet.ec">
     <meta property="og:description" content="Centraliza tus compras de merchandising. Envíos programados, ejecutivos de cuenta y renders rápidos para marcas ecuatorianas.">
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
@@ -37,7 +37,7 @@
     <header class="main-header">
         <div class="container">
             <div class="header-middle">
-                <a href="index.html" class="logo" aria-label="CardNet.ec Inicio">
+                <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
@@ -84,15 +84,15 @@
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.html" class="nav-link ">Inicio</a>
-                    <a href="index.html#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.html#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.html" class="nav-link ">Productos</a>
-                    <a href="empresas.html" class="nav-link active">Kits corporativos</a>
-                    <a href="cotizacion.html" class="nav-link ">Cotizar</a>
+                    <a href="index.php" class="nav-link ">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
+                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
+                    <a href="productos.php" class="nav-link ">Productos</a>
+                    <a href="empresas.php" class="nav-link active">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
                 </nav>
                 <div class="header-bottom-actions">
-                    <a href="cotizacion.html" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar Ahora</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar Ahora</a>
                 </div>
             </div>
         </div>
@@ -101,12 +101,12 @@
     <!-- Menú Móvil -->
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
-        <a href="index.html" class="mobile-link ">Inicio</a>
-        <a href="index.html#destacados" class="mobile-link ">Destacados</a>
-        <a href="index.html#laser" class="mobile-link ">Grabado láser</a>
-        <a href="productos.html" class="mobile-link ">Productos</a>
-        <a href="empresas.html" class="mobile-link active">Kits corporativos</a>
-        <a href="cotizacion.html" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
+        <a href="index.php" class="mobile-link ">Inicio</a>
+        <a href="index.php#destacados" class="mobile-link ">Destacados</a>
+        <a href="index.php#laser" class="mobile-link ">Grabado láser</a>
+        <a href="productos.php" class="mobile-link ">Productos</a>
+        <a href="empresas.php" class="mobile-link active">Kits corporativos</a>
+        <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
 
     <!-- Encabezado de Página Interna -->
@@ -145,7 +145,7 @@
                             <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Envíos individuales directos a oficinas o domicilios.</span></div>
                         </div>
                     </div>
-                    <a href="cotizacion.html?servicio=onboarding" class="btn btn-secondary" style="width: 100%;">Cotizar Kits</a>
+                    <a href="cotizacion.php?servicio=onboarding" class="btn btn-secondary" style="width: 100%;">Cotizar Kits</a>
                 </div>
 
                 <!-- Merchandising Ferias -->
@@ -164,7 +164,7 @@
                             <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Plazos de producción express para fechas de evento estrictas.</span></div>
                         </div>
                     </div>
-                    <a href="cotizacion.html?servicio=ferias" class="btn btn-secondary" style="width: 100%;">Cotizar Feria</a>
+                    <a href="cotizacion.php?servicio=ferias" class="btn btn-secondary" style="width: 100%;">Cotizar Feria</a>
                 </div>
 
                 <!-- Regalos Ejecutivos -->
@@ -183,7 +183,7 @@
                             <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Cajas de madera con grabado láser permanente.</span></div>
                         </div>
                     </div>
-                    <a href="cotizacion.html?servicio=regalos" class="btn btn-secondary" style="width: 100%;">Cotizar Regalos</a>
+                    <a href="cotizacion.php?servicio=regalos" class="btn btn-secondary" style="width: 100%;">Cotizar Regalos</a>
                 </div>
 
                 <!-- Uniformes y Uniformidad -->
@@ -202,7 +202,7 @@
                             <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Hilos lavables y de alta resistencia química.</span></div>
                         </div>
                     </div>
-                    <a href="cotizacion.html?servicio=uniformes" class="btn btn-secondary" style="width: 100%;">Cotizar Uniformes</a>
+                    <a href="cotizacion.php?servicio=uniformes" class="btn btn-secondary" style="width: 100%;">Cotizar Uniformes</a>
                 </div>
 
             </div>
@@ -231,7 +231,7 @@
                                 <span class="bullet-text"><strong>Facturación y Crédito:</strong> Opciones de pago flexibles a 30 días posteriores al despacho de mercadería (sujeto a validación).</span>
                             </div>
                         </div>
-                        <a href="contacto.html" class="btn btn-primary">Solicitar Cuenta Corporativa</a>
+                        <a href="contacto.php" class="btn btn-primary">Solicitar Cuenta Corporativa</a>
                     </div>
                     
                     <div class="split-visual">
@@ -253,7 +253,7 @@
         <div class="container footer-top section-padding">
             <div class="footer-grid">
                 <div class="footer-brand-column">
-                    <a href="index.html" class="logo footer-logo" aria-label="CardNet.ec Inicio">
+                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
                     <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
@@ -261,19 +261,19 @@
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>
                     <nav class="footer-links" aria-label="Enlaces corporativos">
-                        <a href="nosotros.html" class="footer-link">Trayectoria</a>
-                        <a href="personalizacion.html" class="footer-link">Técnicas</a>
-                        <a href="empresas.html" class="footer-link">Servicios B2B</a>
-                        <a href="proyectos.html" class="footer-link">Proyectos</a>
+                        <a href="nosotros.php" class="footer-link">Trayectoria</a>
+                        <a href="personalizacion.php" class="footer-link">Técnicas</a>
+                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
+                        <a href="proyectos.php" class="footer-link">Proyectos</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Productos</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos">
-                        <a href="productos.html" class="footer-link">Todo el Catálogo</a>
-                        <a href="productos.html#termos" class="footer-link">Termos y Vasos</a>
-                        <a href="productos.html#textil" class="footer-link">Polos y Gorras</a>
-                        <a href="productos.html#oficina" class="footer-link">Libretas y Oficina</a>
+                        <a href="productos.php" class="footer-link">Todo el Catálogo</a>
+                        <a href="productos.php#termos" class="footer-link">Termos y Vasos</a>
+                        <a href="productos.php#textil" class="footer-link">Polos y Gorras</a>
+                        <a href="productos.php#oficina" class="footer-link">Libretas y Oficina</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
@@ -295,8 +295,8 @@
             <div class="container footer-bottom-flex">
                 <p>&copy; 2026 CardNet.ec. Todos los derechos reservados. Diseñado para marcas conscientes.</p>
                 <div class="footer-bottom-links">
-                    <a href="faq.html" class="footer-bottom-link">Preguntas Frecuentes</a>
-                    <a href="contacto.html" class="footer-bottom-link">Soporte</a>
+                    <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
+                    <a href="contacto.php" class="footer-bottom-link">Soporte</a>
                 </div>
             </div>
         </div>

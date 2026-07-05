@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trayectoria y Valores | CardNet.ec - Marcaje Técnico</title>
     <meta name="description" content="Conoce nuestro taller de personalización de artículos corporativos y grabado láser en Quito, Ecuador.">
-    <link rel="canonical" href="https://cardnet.ec/nosotros.html">
+    <link rel="canonical" href="https://cardnet.ec/nosotros.php">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cardnet.ec/nosotros.html">
+    <meta property="og:url" content="https://cardnet.ec/nosotros.php">
     <meta property="og:title" content="Trayectoria del Taller de Grabado | CardNet.ec">
     <meta property="og:description" content="Marcas conscientes eligen nuestra precisión. Conoce nuestro equipo, tecnología y valores.">
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
@@ -40,7 +40,7 @@
         <div class="container">
             <div class="header-middle">
                 <!-- Logotipo Real en Imagen (logo.png) -->
-                <a href="index.html" class="logo" aria-label="CardNet.ec Inicio">
+                <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
@@ -76,15 +76,15 @@
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.html" class="nav-link ">Inicio</a>
-                    <a href="index.html#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.html#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.html" class="nav-link ">Productos</a>
-                    <a href="empresas.html" class="nav-link ">Kits corporativos</a>
-                    <a href="cotizacion.html" class="nav-link ">Cotizar</a>
+                    <a href="index.php" class="nav-link ">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
+                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
+                    <a href="productos.php" class="nav-link ">Productos</a>
+                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
                 </nav>
                 <div class="header-bottom-actions">
-                    <a href="cotizacion.html" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
                 </div>
             </div>
         </div>
@@ -93,12 +93,12 @@
     <!-- Menú Móvil -->
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
-        <a href="index.html" class="mobile-link ">Inicio</a>
-        <a href="index.html#destacados" class="mobile-link ">Destacados</a>
-        <a href="index.html#laser" class="mobile-link ">Grabado láser</a>
-        <a href="productos.html" class="mobile-link ">Productos</a>
-        <a href="empresas.html" class="mobile-link ">Kits corporativos</a>
-        <a href="cotizacion.html" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
+        <a href="index.php" class="mobile-link ">Inicio</a>
+        <a href="index.php#destacados" class="mobile-link ">Destacados</a>
+        <a href="index.php#laser" class="mobile-link ">Grabado láser</a>
+        <a href="productos.php" class="mobile-link ">Productos</a>
+        <a href="empresas.php" class="mobile-link ">Kits corporativos</a>
+        <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
 
     <!-- Encabezado de Página Interna -->
@@ -140,7 +140,7 @@
         <div class="container footer-top section-padding">
             <div class="footer-grid">
                 <div class="footer-brand-column">
-                    <a href="index.html" class="logo footer-logo" aria-label="CardNet.ec Inicio">
+                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
                     <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
@@ -148,19 +148,19 @@
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>
                     <nav class="footer-links" aria-label="Enlaces corporativos">
-                        <a href="nosotros.html" class="footer-link">Trayectoria</a>
-                        <a href="personalizacion.html" class="footer-link">Acabados y técnicas</a>
-                        <a href="empresas.html" class="footer-link">Soluciones corporativas</a>
-                        <a href="proyectos.html" class="footer-link">Proyectos</a>
+                        <a href="nosotros.php" class="footer-link">Trayectoria</a>
+                        <a href="personalizacion.php" class="footer-link">Acabados y técnicas</a>
+                        <a href="empresas.php" class="footer-link">Soluciones corporativas</a>
+                        <a href="proyectos.php" class="footer-link">Proyectos</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Superficies</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos">
-                        <a href="productos.html" class="footer-link">Artículos personalizables</a>
-                        <a href="productos.html#termos" class="footer-link">Termos grabados</a>
-                        <a href="productos.html#oficina" class="footer-link">Agendas personalizadas</a>
-                        <a href="productos.html#kits" class="footer-link">Kits empresariales</a>
+                        <a href="productos.php" class="footer-link">Artículos personalizables</a>
+                        <a href="productos.php#termos" class="footer-link">Termos grabados</a>
+                        <a href="productos.php#oficina" class="footer-link">Agendas personalizadas</a>
+                        <a href="productos.php#kits" class="footer-link">Kits empresariales</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
@@ -182,8 +182,8 @@
             <div class="container footer-bottom-flex">
                 <p>&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
                 <div class="footer-bottom-links">
-                    <a href="faq.html" class="footer-bottom-link">Preguntas Frecuentes</a>
-                    <a href="contacto.html" class="footer-bottom-link">Soporte de Taller</a>
+                    <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
+                    <a href="contacto.php" class="footer-bottom-link">Soporte de Taller</a>
                 </div>
             </div>
         </div>

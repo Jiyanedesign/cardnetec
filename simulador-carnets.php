@@ -81,7 +81,7 @@
     <header class="main-header">
         <div class="container">
             <div class="header-middle">
-                <a href="index.html" class="logo" aria-label="CardNet.ec Inicio">
+                <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 <button class="burger-menu" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-nav">
@@ -94,12 +94,12 @@
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.html" class="nav-link ">Inicio</a>
-                    <a href="index.html#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.html#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.html" class="nav-link ">Productos</a>
-                    <a href="empresas.html" class="nav-link ">Kits corporativos</a>
-                    <a href="cotizacion.html" class="nav-link ">Cotizar</a>
+                    <a href="index.php" class="nav-link ">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
+                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
+                    <a href="productos.php" class="nav-link ">Productos</a>
+                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
                 </nav>
             </div>
         </div>

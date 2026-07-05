@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto | CardNet.ec - Taller de Marcado Promocional</title>
-    <meta name="description" content="Ponte en contacto con CardNet.ec. Agenda una llamada comercial, escríbenos por WhatsApp o visítanos en nuestro taller de Quito, Ecuador.">
-    <link rel="canonical" href="https://cardnet.ec/contacto.html">
+    <title>Proyectos Realizados | CardNet.ec - Casos de Éxito</title>
+    <meta name="description" content="Explora nuestro portafolio de proyectos de personalización. Renders reales y casos de éxito de merchandising corporativo entregados a empresas en Ecuador.">
+    <link rel="canonical" href="https://cardnet.ec/proyectos.php">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cardnet.ec/contacto.html">
-    <meta property="og:title" content="Contacto Comercial B2B | CardNet.ec">
-    <meta property="og:description" content="Comunícate con nuestros asesores de marcado técnico. Rápida respuesta corporativa.">
+    <meta property="og:url" content="https://cardnet.ec/proyectos.php">
+    <meta property="og:title" content="Casos de Éxito de Merchandising | CardNet.ec">
+    <meta property="og:description" content="Visualiza la calidad final de nuestros marcajes. Detalles técnicos de grabado, bordado y empaque de proyectos reales.">
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
 
     <!-- CSS Modulares -->
@@ -37,7 +37,7 @@
     <header class="main-header">
         <div class="container">
             <div class="header-middle">
-                <a href="index.html" class="logo" aria-label="CardNet.ec Inicio">
+                <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
@@ -84,15 +84,15 @@
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.html" class="nav-link ">Inicio</a>
-                    <a href="index.html#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.html#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.html" class="nav-link ">Productos</a>
-                    <a href="empresas.html" class="nav-link ">Kits corporativos</a>
-                    <a href="cotizacion.html" class="nav-link ">Cotizar</a>
+                    <a href="index.php" class="nav-link ">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
+                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
+                    <a href="productos.php" class="nav-link ">Productos</a>
+                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
                 </nav>
                 <div class="header-bottom-actions">
-                    <a href="cotizacion.html" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar Ahora</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar Ahora</a>
                 </div>
             </div>
         </div>
@@ -101,92 +101,83 @@
     <!-- Menú Móvil -->
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
-        <a href="index.html" class="mobile-link ">Inicio</a>
-        <a href="index.html#destacados" class="mobile-link ">Destacados</a>
-        <a href="index.html#laser" class="mobile-link ">Grabado láser</a>
-        <a href="productos.html" class="mobile-link ">Productos</a>
-        <a href="empresas.html" class="mobile-link ">Kits corporativos</a>
-        <a href="cotizacion.html" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
+        <a href="index.php" class="mobile-link ">Inicio</a>
+        <a href="index.php#destacados" class="mobile-link ">Destacados</a>
+        <a href="index.php#laser" class="mobile-link ">Grabado láser</a>
+        <a href="productos.php" class="mobile-link ">Productos</a>
+        <a href="empresas.php" class="mobile-link ">Kits corporativos</a>
+        <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
 
     <!-- Encabezado de Página Interna -->
     <div class="page-header-block">
         <div class="container">
-            <h1 class="page-header-title">Canales de Contacto</h1>
-            <p class="page-header-description">¿Tienes preguntas operativas, de entrega o dudas de color? Escríbenos o visítanos directamente en las oficinas de nuestro taller. Respondemos rápido.</p>
+            <h1 class="page-header-title">Proyectos Realizados</h1>
+            <p class="page-header-description">Ejemplos de campañas promocionales reales entregadas a nuestros clientes en Ecuador. Evaluamos los objetivos y brindamos soluciones palpables.</p>
         </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <main class="section-padding container">
         
-        <div class="split-feature">
+        <!-- Grid de Proyectos Estilo MOO -->
+        <div class="grid-3">
             
-            <!-- Canales y Horarios -->
-            <div class="split-content reveal-on-scroll">
-                <span class="section-subtitle">Canales Directos</span>
-                <h2>Habla con un Asesor Técnico</h2>
-                <p>Nuestra planta y taller se encuentran ubicados estratégicamente en la zona comercial del norte de Quito, con acceso directo para el despacho de carga a terminales y aeropuertos.</p>
-                
-                <div class="footer-contact-info" style="margin-bottom: 2rem; gap: 1rem;">
-                    <div class="footer-contact-item" style="font-size: 1rem;">
-                        <svg class="footer-contact-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72(12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        <span><strong>Teléfono:</strong> +593 90 000 0000</span>
-                    </div>
-                    <div class="footer-contact-item" style="font-size: 1rem;">
-                        <svg class="footer-contact-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                        <span><strong>Correo:</strong> info@cardnet.ec</span>
-                    </div>
-                    <div class="footer-contact-item" style="font-size: 1rem;">
-                        <svg class="footer-contact-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        <span><strong>Taller:</strong> Av. de los Granados, Edificio Corporativo, Quito, Ecuador</span>
-                    </div>
-                    <div class="footer-contact-item" style="font-size: 1rem;">
-                        <svg class="footer-contact-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        <span><strong>Horario:</strong> Lunes a Viernes, de 09:00 a 18:00</span>
+            <!-- Proyecto 1 -->
+            <div class="product-card reveal-on-scroll">
+                <div class="product-card-image-wrap">
+                    <div class="image-placeholder theme-blue">
+                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        </svg>
+                        <span class="image-placeholder-text">Welcome Kit NexoTech</span>
                     </div>
                 </div>
-
-                <div class="image-placeholder theme-blue">
-                    <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>
-                    <span class="image-placeholder-text">Av. de los Granados y Av. Eloy Alfaro, Quito</span>
+                <div class="product-card-body">
+                    <span class="product-card-price">Welcome Kits / B2B</span>
+                    <h3 class="product-card-title">Kits de Bienvenida NexoTech</h3>
+                    <p class="product-card-desc">Cajas rígidas de inducción para trabajadores remotos en Quito y Guayaquil, conteniendo buzo bordado y termo metálico grabado.</p>
+                    <a href="cotizacion.php?proyecto=nexotech" class="product-card-link">Cotizar Similar</a>
                 </div>
             </div>
 
-            <!-- Formulario de Consulta -->
-            <div class="split-visual reveal-on-scroll delay-100">
-                <div class="solution-card">
-                    <h3 style="margin-bottom: 1.25rem; font-size: 1.25rem;">Escribe a nuestro taller</h3>
-                    
-                    <form id="contact-form" novalidate>
-                        <div class="form-group">
-                            <label class="form-label" for="name">Tu Nombre Completo *</label>
-                            <input class="form-input" type="text" id="name" required placeholder="Ej. Javier Ortiz">
-                            <span class="form-error-msg">Este campo es obligatorio.</span>
-                        </div>
+            <!-- Proyecto 2 -->
+            <div class="product-card reveal-on-scroll delay-100">
+                <div class="product-card-image-wrap">
+                    <div class="image-placeholder theme-green">
+                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                        <span class="image-placeholder-text">Termos InnovaCorp</span>
+                    </div>
+                </div>
+                <div class="product-card-body">
+                    <span class="product-card-price">Regalos Premium</span>
+                    <h3 class="product-card-title">Termos Grabados InnovaCorp</h3>
+                    <p class="product-card-desc">Termos negros mate de acero inoxidable con grabado láser profundo revelando el tono plateado metálico interno de alta definición.</p>
+                    <a href="cotizacion.php?proyecto=innovacorp" class="product-card-link">Cotizar Similar</a>
+                </div>
+            </div>
 
-                        <div class="form-group">
-                            <label class="form-label" for="email">Correo Corporativo *</label>
-                            <input class="form-input" type="email" id="email" required placeholder="javier@empresa.com">
-                            <span class="form-error-msg">Por favor, introduce un correo corporativo válido.</span>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="message">Consulta o Detalle Técnico *</label>
-                            <textarea class="form-textarea" id="message" required placeholder="Escribe aquí tu consulta o los detalles de marcaje que deseas evaluar..."></textarea>
-                            <span class="form-error-msg">Este campo es obligatorio.</span>
-                        </div>
-
-                        <button class="btn btn-primary" type="submit" style="width: 100%;">
-                            Enviar Consulta
-                        </button>
-                    </form>
+            <!-- Proyecto 3 -->
+            <div class="product-card reveal-on-scroll delay-200">
+                <div class="product-card-image-wrap">
+                    <div class="image-placeholder theme-gray">
+                        <svg class="image-placeholder-icon" style="stroke: var(--dark);" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        </svg>
+                        <span class="image-placeholder-text" style="color: var(--dark);">Bolsas AgroLíder</span>
+                    </div>
+                </div>
+                <div class="product-card-body">
+                    <span class="product-card-price">Eventos / Ferias</span>
+                    <h3 class="product-card-title">Bolsas Ecológicas AgroLíder</h3>
+                    <p class="product-card-desc">Despacho de 1,500 bolsas de tocuyo crudo impresas mediante serigrafía con tintas base agua y costuras reforzadas para ferias en Quito.</p>
+                    <a href="cotizacion.php?proyecto=agrolider" class="product-card-link">Cotizar Similar</a>
                 </div>
             </div>
 
         </div>
-
     </main>
 
     <!-- Pie de Página -->
@@ -194,7 +185,7 @@
         <div class="container footer-top section-padding">
             <div class="footer-grid">
                 <div class="footer-brand-column">
-                    <a href="index.html" class="logo footer-logo" aria-label="CardNet.ec Inicio">
+                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
                     <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
@@ -202,19 +193,19 @@
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>
                     <nav class="footer-links" aria-label="Enlaces corporativos">
-                        <a href="nosotros.html" class="footer-link">Trayectoria</a>
-                        <a href="personalizacion.html" class="footer-link">Técnicas</a>
-                        <a href="empresas.html" class="footer-link">Servicios B2B</a>
-                        <a href="proyectos.html" class="footer-link">Proyectos</a>
+                        <a href="nosotros.php" class="footer-link">Trayectoria</a>
+                        <a href="personalizacion.php" class="footer-link">Técnicas</a>
+                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
+                        <a href="proyectos.php" class="footer-link">Proyectos</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Productos</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos">
-                        <a href="productos.html" class="footer-link">Todo el Catálogo</a>
-                        <a href="productos.html#termos" class="footer-link">Termos y Vasos</a>
-                        <a href="productos.html#textil" class="footer-link">Polos y Gorras</a>
-                        <a href="productos.html#oficina" class="footer-link">Libretas y Oficina</a>
+                        <a href="productos.php" class="footer-link">Todo el Catálogo</a>
+                        <a href="productos.php#termos" class="footer-link">Termos y Vasos</a>
+                        <a href="productos.php#textil" class="footer-link">Polos y Gorras</a>
+                        <a href="productos.php#oficina" class="footer-link">Libretas y Oficina</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
@@ -236,8 +227,8 @@
             <div class="container footer-bottom-flex">
                 <p>&copy; 2026 CardNet.ec. Todos los derechos reservados. Diseñado para marcas conscientes.</p>
                 <div class="footer-bottom-links">
-                    <a href="faq.html" class="footer-bottom-link">Preguntas Frecuentes</a>
-                    <a href="contacto.html" class="footer-bottom-link">Soporte</a>
+                    <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
+                    <a href="contacto.php" class="footer-bottom-link">Soporte</a>
                 </div>
             </div>
         </div>
@@ -253,6 +244,5 @@
     <!-- Scripts Modulares -->
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
-    <script src="js/forms.js"></script>
 </body>
 </html>

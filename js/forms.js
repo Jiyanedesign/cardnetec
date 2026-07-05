@@ -52,12 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
         quoteForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const nameInput = quoteForm.querySelector('#name');
-            const emailInput = quoteForm.querySelector('#email');
-            const phoneInput = quoteForm.querySelector('#phone');
-            const productSelect = quoteForm.querySelector('#product-type');
-            const quantityInput = quoteForm.querySelector('#quantity');
-            const detailsTextarea = quoteForm.querySelector('#details');
+            const nameInput = quoteForm.querySelector('#quote-name') || quoteForm.querySelector('#name');
+            const companyInput = quoteForm.querySelector('#quote-company') || quoteForm.querySelector('#company');
+            const emailInput = quoteForm.querySelector('#quote-email') || quoteForm.querySelector('#email');
+            const phoneInput = quoteForm.querySelector('#quote-phone') || quoteForm.querySelector('#phone');
+            const categorySelect = quoteForm.querySelector('#quote-category') || quoteForm.querySelector('#product-type');
+            const quantityInput = quoteForm.querySelector('#quote-quantity') || quoteForm.querySelector('#quantity');
+            const logoInput = quoteForm.querySelector('#quote-logo') || quoteForm.querySelector('#logo');
+            const notesTextarea = quoteForm.querySelector('#quote-notes') || quoteForm.querySelector('#details');
 
             let isFormValid = true;
 
@@ -65,34 +67,68 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!validateField(nameInput, null, 'Por favor, ingresa tu nombre completo.')) isFormValid = false;
             if (!validateField(emailInput, isValidEmail, 'Por favor, ingresa un correo electrónico válido.')) isFormValid = false;
             if (!validateField(phoneInput, isValidPhone, 'Ingresa un número telefónico de contacto válido (mínimo 9 dígitos).')) isFormValid = false;
-            if (!validateField(productSelect, null, 'Por favor, selecciona una categoría de producto.')) isFormValid = false;
+            if (!validateField(categorySelect, null, 'Por favor, selecciona una categoría de producto.')) isFormValid = false;
             if (!validateField(quantityInput, (val) => parseInt(val) > 0, 'La cantidad estimada debe ser mayor a 0.')) isFormValid = false;
 
             if (isFormValid) {
-                // Simulación de Envío Exitoso
                 const submitBtn = quoteForm.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = 'Procesando cotización...';
 
-                // Simular Latencia de Red
-                setTimeout(() => {
-                    // Mostrar Alerta de Éxito
-                    const alertDiv = document.createElement('div');
-                    alertDiv.className = 'alert alert-success reveal-on-scroll active';
-                    alertDiv.innerHTML = `
-                        <strong>¡Solicitud Recibida!</strong> Hemos registrado tus requerimientos de personalización. Un diseñador comercial de CardNet.ec se comunicará contigo en menos de 2 horas.
-                    `;
-                    
-                    quoteForm.prepend(alertDiv);
-                    quoteForm.reset();
-                    
+                // Crear FormData para enviar archivos y texto por AJAX
+                const formData = new FormData();
+                formData.append('name', nameInput.value);
+                if (companyInput) formData.append('company', companyInput.value);
+                formData.append('whatsapp', phoneInput.value);
+                if (emailInput) formData.append('email', emailInput.value);
+                formData.append('qty', quantityInput.value);
+                if (notesTextarea) formData.append('message', notesTextarea.value);
+                if (categorySelect) formData.append('product_name', categorySelect.options[categorySelect.selectedIndex].text);
+                
+                if (logoInput && logoInput.files.length > 0) {
+                    formData.append('logo', logoInput.files[0]);
+                }
+
+                // Enviar al procesador PHP
+                fetch('cotizar-action.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Mostrar Alerta de Éxito
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = 'alert alert-success reveal-on-scroll active';
+                        alertDiv.innerHTML = `
+                            <strong>¡Solicitud Registrada!</strong> Redirigiendo a WhatsApp para finalizar tu presupuesto...
+                        `;
+                        
+                        quoteForm.prepend(alertDiv);
+                        quoteForm.reset();
+                        
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+
+                        // Abrir WhatsApp con el mensaje estructurado
+                        if (data.redirect_url) {
+                            window.open(data.redirect_url, '_blank');
+                        }
+
+                        setTimeout(() => alertDiv.remove(), 8000);
+                    } else {
+                        alert('Ocurrió un error al procesar tu solicitud.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error de red al enviar la cotización.');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
-
-                    // Remover alerta tras 8 segundos
-                    setTimeout(() => alertDiv.remove(), 8000);
-                }, 1500);
+                });
             }
         });
     }
@@ -102,9 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const nameInput = contactForm.querySelector('#name');
-            const emailInput = contactForm.querySelector('#email');
-            const messageTextarea = contactForm.querySelector('#message');
+            const nameInput = contactForm.querySelector('#name') || contactForm.querySelector('#quote-name');
+            const emailInput = contactForm.querySelector('#email') || contactForm.querySelector('#quote-email');
+            const messageTextarea = contactForm.querySelector('#message') || contactForm.querySelector('#quote-notes');
 
             let isFormValid = true;
 
@@ -118,11 +154,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = 'Enviando mensaje...';
 
-                setTimeout(() => {
+                // Enviar cotización por defecto
+                const formData = new FormData();
+                formData.append('name', nameInput.value);
+                formData.append('whatsapp', '099000000');
+                formData.append('email', emailInput.value);
+                formData.append('message', messageTextarea.value);
+
+                fetch('cotizar-action.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
                     const alertDiv = document.createElement('div');
                     alertDiv.className = 'alert alert-success reveal-on-scroll active';
                     alertDiv.innerHTML = `
-                        <strong>¡Mensaje Enviado!</strong> Gracias por ponerte en contacto. Nos comunicaremos contigo a la brevedad posible.
+                        <strong>¡Mensaje Enviado!</strong> Gracias por contactarnos. Te responderemos a la brevedad.
                     `;
                     
                     contactForm.prepend(alertDiv);
@@ -131,8 +179,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
 
+                    if (data.redirect_url) {
+                        window.open(data.redirect_url, '_blank');
+                    }
+
                     setTimeout(() => alertDiv.remove(), 8000);
-                }, 1200);
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error de red.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                });
             }
         });
     }

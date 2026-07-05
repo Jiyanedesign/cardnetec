@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Productos | CardNet.ec - Artículos Promocionales</title>
     <meta name="description" content="Explora nuestra selección de artículos promocionales listos para personalizar: tazas, termos, textiles y agendas con cantidades mínimas e información de marcado.">
-    <link rel="canonical" href="https://cardnet.ec/productos.html">
+    <link rel="canonical" href="https://cardnet.ec/productos.php">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cardnet.ec/productos.html">
+    <meta property="og:url" content="https://cardnet.ec/productos.php">
     <meta property="og:title" content="Catálogo de Artículos Promocionales | CardNet.ec">
     <meta property="og:description" content="Soportes de alta resistencia y acabados técnicos de precisión para tu marca. Mínimos claros.">
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
@@ -37,7 +37,7 @@
     <header class="main-header">
         <div class="container">
             <div class="header-middle">
-                <a href="index.html" class="logo" aria-label="CardNet.ec Inicio">
+                <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
@@ -84,15 +84,15 @@
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.html" class="nav-link ">Inicio</a>
-                    <a href="index.html#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.html#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.html" class="nav-link active">Productos</a>
-                    <a href="empresas.html" class="nav-link ">Kits corporativos</a>
-                    <a href="cotizacion.html" class="nav-link ">Cotizar</a>
+                    <a href="index.php" class="nav-link ">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
+                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
+                    <a href="productos.php" class="nav-link active">Productos</a>
+                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
                 </nav>
                 <div class="header-bottom-actions">
-                    <a href="cotizacion.html" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar Ahora</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar Ahora</a>
                 </div>
             </div>
         </div>
@@ -101,12 +101,12 @@
     <!-- Menú Móvil -->
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
-        <a href="index.html" class="mobile-link ">Inicio</a>
-        <a href="index.html#destacados" class="mobile-link ">Destacados</a>
-        <a href="index.html#laser" class="mobile-link ">Grabado láser</a>
-        <a href="productos.html" class="mobile-link active">Productos</a>
-        <a href="empresas.html" class="mobile-link ">Kits corporativos</a>
-        <a href="cotizacion.html" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
+        <a href="index.php" class="mobile-link ">Inicio</a>
+        <a href="index.php#destacados" class="mobile-link ">Destacados</a>
+        <a href="index.php#laser" class="mobile-link ">Grabado láser</a>
+        <a href="productos.php" class="mobile-link active">Productos</a>
+        <a href="empresas.php" class="mobile-link ">Kits corporativos</a>
+        <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
 
     <!-- Encabezado de Página Interna -->
@@ -137,7 +137,7 @@
                     <span class="product-card-price">Desde 25 unidades</span>
                     <h3 class="product-card-title">Termos e Hidratación</h3>
                     <p class="product-card-desc">Termos de doble pared, vasos térmicos de oficina y botellas deportivas de aluminio. Conservan la temperatura y ofrecen una gran superficie para grabado láser plateado o dorado.</p>
-                    <a href="cotizacion.html?cat=termos" class="product-card-link">Cotizar Termos</a>
+                    <a href="cotizacion.php?cat=termos" class="product-card-link">Cotizar Termos</a>
                 </div>
             </div>
 
@@ -155,7 +155,7 @@
                     <span class="product-card-price">Desde 50 unidades</span>
                     <h3 class="product-card-title">Textiles y Gorras</h3>
                     <p class="product-card-desc">Camisetas polo premium de tejido pesado, camisetas de algodón peinado, gorras estructuradas y hoodies. Confección robusta y costuras reforzadas aptas para bordado denso.</p>
-                    <a href="cotizacion.html?cat=textiles" class="product-card-link">Cotizar Textiles</a>
+                    <a href="cotizacion.php?cat=textiles" class="product-card-link">Cotizar Textiles</a>
                 </div>
             </div>
 
@@ -174,7 +174,7 @@
                     <span class="product-card-price">Desde 100 unidades</span>
                     <h3 class="product-card-title">Agendas y Oficina</h3>
                     <p class="product-card-desc">Agendas ejecutivas fechadas y libretas con hojas color avena, elásticos y separadores. Bolígrafos metálicos de trazo suave y carpetas ejecutivas.</p>
-                    <a href="cotizacion.html?cat=oficina" class="product-card-link">Cotizar Agendas</a>
+                    <a href="cotizacion.php?cat=oficina" class="product-card-link">Cotizar Agendas</a>
                 </div>
             </div>
 
@@ -192,7 +192,7 @@
                     <span class="product-card-price">Desde 50 unidades</span>
                     <h3 class="product-card-title">Tecnología B2B</h3>
                     <p class="product-card-desc">Memorias USB promocionales de bambú o metal con chips de alta velocidad de lectura, cargadores inalámbricos inductivos y accesorios de viaje.</p>
-                    <a href="cotizacion.html?cat=tecnologia" class="product-card-link">Cotizar Tecnología</a>
+                    <a href="cotizacion.php?cat=tecnologia" class="product-card-link">Cotizar Tecnología</a>
                 </div>
             </div>
 
@@ -210,7 +210,7 @@
                     <span class="product-card-price">Desde 100 unidades</span>
                     <h3 class="product-card-title">Bolsas Ecológicas</h3>
                     <p class="product-card-desc">Bolsas de algodón crudo (tocuyo), mochilas de cuerdas y bolsas de cambrela termoselladas de alta resistencia. Ideal para ferias publicitarias o supermercados.</p>
-                    <a href="cotizacion.html?cat=bolsas" class="product-card-link">Cotizar Bolsas</a>
+                    <a href="cotizacion.php?cat=bolsas" class="product-card-link">Cotizar Bolsas</a>
                 </div>
             </div>
 
@@ -223,7 +223,7 @@
         <div class="container footer-top section-padding">
             <div class="footer-grid">
                 <div class="footer-brand-column">
-                    <a href="index.html" class="logo footer-logo" aria-label="CardNet.ec Inicio">
+                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
                     <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
@@ -231,19 +231,19 @@
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>
                     <nav class="footer-links" aria-label="Enlaces corporativos">
-                        <a href="nosotros.html" class="footer-link">Trayectoria</a>
-                        <a href="personalizacion.html" class="footer-link">Técnicas</a>
-                        <a href="empresas.html" class="footer-link">Servicios B2B</a>
-                        <a href="proyectos.html" class="footer-link">Proyectos</a>
+                        <a href="nosotros.php" class="footer-link">Trayectoria</a>
+                        <a href="personalizacion.php" class="footer-link">Técnicas</a>
+                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
+                        <a href="proyectos.php" class="footer-link">Proyectos</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Productos</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos">
-                        <a href="productos.html" class="footer-link">Todo el Catálogo</a>
-                        <a href="productos.html#termos" class="footer-link">Termos y Vasos</a>
-                        <a href="productos.html#textil" class="footer-link">Polos y Gorras</a>
-                        <a href="productos.html#oficina" class="footer-link">Libretas y Oficina</a>
+                        <a href="productos.php" class="footer-link">Todo el Catálogo</a>
+                        <a href="productos.php#termos" class="footer-link">Termos y Vasos</a>
+                        <a href="productos.php#textil" class="footer-link">Polos y Gorras</a>
+                        <a href="productos.php#oficina" class="footer-link">Libretas y Oficina</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
@@ -265,8 +265,8 @@
             <div class="container footer-bottom-flex">
                 <p>&copy; 2026 CardNet.ec. Todos los derechos reservados. Diseñado para marcas conscientes.</p>
                 <div class="footer-bottom-links">
-                    <a href="faq.html" class="footer-bottom-link">Preguntas Frecuentes</a>
-                    <a href="contacto.html" class="footer-bottom-link">Soporte</a>
+                    <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
+                    <a href="contacto.php" class="footer-bottom-link">Soporte</a>
                 </div>
             </div>
         </div>
