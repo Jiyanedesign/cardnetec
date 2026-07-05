@@ -792,10 +792,21 @@ $gallery = array_unique($gallery);
 
             activeObject.filters = [];
 
+            // Si es grabado láser, forzar la integración a "Normal" (opaco) para evitar mezclas de color irreales
+            if (effect !== 'original') {
+                const blendSelect = document.getElementById('logo-blend');
+                if (blendSelect) {
+                    blendSelect.value = 'normal';
+                }
+                activeObject.set('globalCompositeOperation', 'source-over');
+            }
+
             if (effect === 'laser-silver') {
-                // Color Plata Metálico Sólido
+                // 1. Quitar colores originales convirtiendo a escala de grises
+                activeObject.filters.push(new fabric.Image.filters.Grayscale());
+                // 2. Aplicar color Plata Metálico Sólido en modo overlay al 100%
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
-                    color: '#E0E0E0',
+                    color: '#E5E5E5',
                     mode: 'overlay',
                     alpha: 1.0
                 }));
@@ -807,7 +818,9 @@ $gallery = array_unique($gallery);
                     offsetY: 1
                 }));
             } else if (effect === 'laser-gold') {
-                // Color Oro Sólido
+                // 1. Quitar colores originales
+                activeObject.filters.push(new fabric.Image.filters.Grayscale());
+                // 2. Aplicar Color Oro Sólido
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#D4AF37',
                     mode: 'overlay',
@@ -820,7 +833,9 @@ $gallery = array_unique($gallery);
                     offsetY: 1
                 }));
             } else if (effect === 'deboss') {
-                // Quemado oscuro profundo
+                // 1. Quitar colores originales
+                activeObject.filters.push(new fabric.Image.filters.Grayscale());
+                // 2. Quemado oscuro profundo
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#261C14',
                     mode: 'overlay',
