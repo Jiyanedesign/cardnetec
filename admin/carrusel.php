@@ -32,23 +32,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $order_val = (int)$_POST['order_val'];
     $is_active = isset($_POST['is_active']) ? 1 : 0;
 
-    if ($id > 0) {
-        // Edición
-        try {
-            $stmt = $pdo->prepare("UPDATE carrusel SET title = ?, subtitle = ?, cta_text = ?, cta_url = ?, order_val = ?, is_active = ? WHERE id = ?");
-            $stmt->execute([$title, $subtitle, $cta_text, $cta_url, $order_val, $is_active, $id]);
-            $message = 'Slide actualizado correctamente.';
-        } catch (PDOException $e) {
-            $error = 'Error al actualizar base de datos: ' . $e->getMessage();
+    // Subida de imagen
+    $image_filename = isset($_POST['existing_image']) ? $_POST['existing_image'] : '';
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['image']['tmp_name'];
+        $file_name = $_FILES['image']['name'];
+        $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        
+        if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+            $new_filename = 'slide_' . time() . '_' . uniqid() . '.' . $ext;
+            $dest_path = '../uploads/carousel/' . $new_filename;
+            
+            if (!is_dir('../uploads/carousel')) {
+                mkdir('../uploads/carousel', 0755, true);
+            }
+            
+            if (move_uploaded_file($file_tmp, $dest_path)) {
+                $image_filename = 'carousel/' . $new_filename;
+            } else {
+                $error = 'Error al mover el archivo de cabecera.';
+            }
+        } else {
+            $error = 'Extensión de archivo no permitida (solo JPG, PNG, WEBP).';
         }
-    } else {
-        // Creación
-        try {
-            $stmt = $pdo->prepare("INSERT INTO carrusel (title, subtitle, cta_text, cta_url, order_val, is_active) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$title, $subtitle, $cta_text, $cta_url, $order_val, $is_active]);
-            $message = 'Slide creado correctamente.';
-        } catch (PDOException $e) {
-            $error = 'Error al crear slide: ' . $e->getMessage();
+    }
+
+    if (empty($error)) {
+        if ($id > 0) {
+            // Edición
+            try {
+                $stmt = $pdo->prepare("UPDATE carrusel SET title = ?, subtitle = ?, image = ?, cta_text = ?, cta_url = ?, order_val = ?, is_active = ? WHERE id = ?");
+                $stmt->execute([$title, $subtitle, $image_filename, $cta_text, $cta_url, $order_val, $is_active, $id]);
+                $message = 'Slide actualizado correctamente.';
+            } catch (PDOException $e) {
+                $error = 'Error al actualizar base de datos: ' . $e->getMessage();
+            }
+        } else {
+            // Creación
+            try {
+                $stmt = $pdo->prepare("INSERT INTO carrusel (title, subtitle, image, cta_text, cta_url, order_val, is_active) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$title, $subtitle, $image_filename, $cta_text, $cta_url, $order_val, $is_active]);
+                $message = 'Slide creado correctamente.';
+            } catch (PDOException $e) {
+                $error = 'Error al crear slide: ' . $e->getMessage();
+            }
         }
     }
 }
@@ -56,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Cargar slides
 $slides = $pdo->query("SELECT * FROM carrusel ORDER BY order_val ASC")->fetchAll();
 
-// Cargar slide a editar si aplica
+// Cargar slide a editar
 $edit_slide = null;
 if (isset($_GET['edit'])) {
     $edit_id = (int)$_GET['edit'];
@@ -152,11 +179,11 @@ if (isset($_GET['edit'])) {
 </head>
 <body>
 
-    <!-- Sidebar de Navegación -->
     <div class="sidebar">
         <img src="../images/logo.png" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
+            <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="productos.php" class="nav-admin-link">Productos</a>
             <a href="carrusel.php" class="nav-admin-link active">Carrusel Hero</a>
             <a href="antes-despues.php" class="nav-admin-link">Antes y Después</a>
@@ -164,7 +191,6 @@ if (isset($_GET['edit'])) {
         </nav>
     </div>
 
-    <!-- Contenido Principal -->
     <div class="main-content">
         <h1 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 2rem;">Gestión del Carrusel</h1>
 
@@ -175,15 +201,15 @@ if (isset($_GET['edit'])) {
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <!-- Formulario -->
         <div class="form-container">
             <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">
                 <?php echo $edit_slide ? 'Editar Slide' : 'Añadir Nuevo Slide'; ?>
             </h2>
 
-            <form method="POST" action="carrusel.php">
+            <form method="POST" action="carrusel.php" enctype="multipart/form-data">
                 <?php if ($edit_slide): ?>
                     <input type="hidden" name="id" value="<?php echo $edit_slide['id']; ?>">
+                    <input type="hidden" name="existing_image" value="<?php echo $edit_slide['image']; ?>">
                 <?php endif; ?>
 
                 <div class="form-group">
@@ -208,15 +234,21 @@ if (isset($_GET['edit'])) {
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="order_val">Orden de Aparición</label>
-                        <input class="form-input" type="number" name="order_val" id="order_val" value="<?php echo $edit_slide ? (int)$edit_slide['order_val'] : '0'; ?>">
+                        <label class="form-label" for="image">Imagen de Fondo (Slide)</label>
+                        <input class="form-input" type="file" name="image" id="image">
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 1.5rem; display: flex; gap: 20px;">
-                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                        <input type="checkbox" name="is_active" <?php echo (!$edit_slide || $edit_slide['is_active']) ? 'checked' : ''; ?>> Slide Activo
-                    </label>
+                <div class="grid-2" style="margin-top: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="order_val">Orden de Aparición</label>
+                        <input class="form-input" type="number" name="order_val" id="order_val" value="<?php echo $edit_slide ? (int)$edit_slide['order_val'] : '0'; ?>">
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                            <input type="checkbox" name="is_active" <?php echo (!$edit_slide || $edit_slide['is_active']) ? 'checked' : ''; ?>> Slide Activo
+                        </label>
+                    </div>
                 </div>
 
                 <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
@@ -228,11 +260,11 @@ if (isset($_GET['edit'])) {
             </form>
         </div>
 
-        <!-- Tabla -->
         <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.4rem;">Slides Registrados</h2>
         <table>
             <thead>
                 <tr>
+                    <th>Imagen</th>
                     <th>Orden</th>
                     <th>Título</th>
                     <th>Subtítulo</th>
@@ -245,6 +277,13 @@ if (isset($_GET['edit'])) {
             <tbody>
                 <?php foreach ($slides as $sl): ?>
                     <tr>
+                        <td>
+                            <?php if ($sl['image']): ?>
+                                <img src="../uploads/<?php echo htmlspecialchars($sl['image']); ?>" style="width: 80px; height: 44px; object-fit: cover; border-radius: 4px;">
+                            <?php else: ?>
+                                <div style="width: 80px; height: 44px; background-color: var(--border); border-radius: 4px;"></div>
+                            <?php endif; ?>
+                        </td>
                         <td><?php echo (int)$sl['order_val']; ?></td>
                         <td><strong><?php echo htmlspecialchars($sl['title']); ?></strong></td>
                         <td><?php echo htmlspecialchars($sl['subtitle']); ?></td>

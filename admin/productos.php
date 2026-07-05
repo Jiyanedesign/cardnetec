@@ -28,13 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
     $slug = trim($_POST['slug']);
     $description_short = trim($_POST['description_short']);
-    $category = trim($_POST['category']);
+    $category_id = (int)$_POST['category_id'];
     $is_active = isset($_POST['is_active']) ? 1 : 0;
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
     $allows_simulation = isset($_POST['allows_simulation']) ? 1 : 0;
     $cta_text = trim($_POST['cta_text']);
     
-    // Si no hay slug, generarlo
+    // Obtener nombre de la categoría para guardar en texto para compatibilidad
+    $stmtCat = $pdo->prepare("SELECT name FROM categorias WHERE id = ?");
+    $stmtCat->execute([$category_id]);
+    $category_name = $stmtCat->fetchColumn() ?: 'Artículos personalizados';
+
     if (empty($slug)) {
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
     }
@@ -50,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $new_filename = 'prod_' . time() . '_' . uniqid() . '.' . $ext;
             $dest_path = '../uploads/products/' . $new_filename;
             
-            // Crear carpeta si no existe
             if (!is_dir('../uploads/products')) {
                 mkdir('../uploads/products', 0755, true);
             }
@@ -61,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Error al mover el archivo subido.';
             }
         } else {
-            $error = 'Extensión de archivo no permitida (solo JPG, PNG, WEBP).';
+            $error = 'Extensión de archivo no permitida.';
         }
     }
 
@@ -69,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id > 0) {
             // Edición
             try {
-                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, category = ?, image_main = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ? WHERE id = ?");
-                $stmt->execute([$name, $slug, $description_short, $category, $image_filename, $is_active, $is_featured, $allows_simulation, $cta_text, $id]);
+                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, category = ?, category_id = ?, image_main = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ? WHERE id = ?");
+                $stmt->execute([$name, $slug, $description_short, $category_name, $category_id, $image_filename, $is_active, $is_featured, $allows_simulation, $cta_text, $id]);
                 $message = 'Producto actualizado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al actualizar base de datos: ' . $e->getMessage();
@@ -78,8 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Creación
             try {
-                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, category, image_main, is_active, is_featured, allows_simulation, cta_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$name, $slug, $description_short, $category, $image_filename, $is_active, $is_featured, $allows_simulation, $cta_text]);
+                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, category, category_id, image_main, is_active, is_featured, allows_simulation, cta_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$name, $slug, $description_short, $category_name, $category_id, $image_filename, $is_active, $is_featured, $allows_simulation, $cta_text]);
                 $message = 'Producto creado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al crear producto: ' . $e->getMessage();
@@ -88,10 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Cargar todos los productos
-$products = $pdo->query("SELECT * FROM productos ORDER BY id DESC")->fetchAll();
+// Cargar todas las categorías activas para el select
+$categorias = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY order_val ASC")->fetchAll();
 
-// Cargar producto a editar si aplica
+// Cargar todos los productos con el nombre de su categoría
+$products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY p.id DESC")->fetchAll();
+
+// Cargar producto a editar
 $edit_product = null;
 if (isset($_GET['edit'])) {
     $edit_id = (int)$_GET['edit'];
@@ -187,11 +193,11 @@ if (isset($_GET['edit'])) {
 </head>
 <body>
 
-    <!-- Sidebar de Navegación -->
     <div class="sidebar">
         <img src="../images/logo.png" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
+            <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="productos.php" class="nav-admin-link active">Productos</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
             <a href="antes-despues.php" class="nav-admin-link">Antes y Después</a>
@@ -199,7 +205,6 @@ if (isset($_GET['edit'])) {
         </nav>
     </div>
 
-    <!-- Contenido Principal -->
     <div class="main-content">
         <h1 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 2rem;">Gestión de Productos</h1>
 
@@ -210,7 +215,6 @@ if (isset($_GET['edit'])) {
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <!-- Formulario de Producto -->
         <div class="form-container">
             <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">
                 <?php echo $edit_product ? 'Editar Producto' : 'Añadir Nuevo Producto'; ?>
@@ -240,12 +244,13 @@ if (isset($_GET['edit'])) {
 
                 <div class="grid-3" style="margin-top: 1rem;">
                     <div class="form-group">
-                        <label class="form-label" for="category">Categoría</label>
-                        <select class="form-select" name="category" id="category" required>
-                            <option value="Artículos personalizados" <?php echo ($edit_product && $edit_product['category'] === 'Artículos personalizados') ? 'selected' : ''; ?>>Artículos personalizados</option>
-                            <option value="Identificación corporativa" <?php echo ($edit_product && $edit_product['category'] === 'Identificación corporativa') ? 'selected' : ''; ?>>Identificación corporativa</option>
-                            <option value="Reconocimientos" <?php echo ($edit_product && $edit_product['category'] === 'Reconocimientos') ? 'selected' : ''; ?>>Reconocimientos</option>
-                            <option value="Kits corporativos" <?php echo ($edit_product && $edit_product['category'] === 'Kits corporativos') ? 'selected' : ''; ?>>Kits corporativos</option>
+                        <label class="form-label" for="category_id">Categoría</label>
+                        <select class="form-select" name="category_id" id="category_id" required>
+                            <?php foreach ($categorias as $cat): ?>
+                                <option value="<?php echo $cat['id']; ?>" <?php echo ($edit_product && (int)$edit_product['category_id'] === (int)$cat['id']) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($cat['name']); ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
 
@@ -281,7 +286,6 @@ if (isset($_GET['edit'])) {
             </form>
         </div>
 
-        <!-- Tabla de Listado -->
         <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.4rem;">Productos Registrados</h2>
         <table>
             <thead>
@@ -306,7 +310,7 @@ if (isset($_GET['edit'])) {
                             <?php endif; ?>
                         </td>
                         <td><strong><?php echo htmlspecialchars($prod['name']); ?></strong></td>
-                        <td><?php echo htmlspecialchars($prod['category']); ?></td>
+                        <td><?php echo htmlspecialchars($prod['category_name'] ?: $prod['category']); ?></td>
                         <td><?php echo $prod['is_featured'] ? 'Sí' : 'No'; ?></td>
                         <td><?php echo $prod['allows_simulation'] ? 'Sí' : 'No'; ?></td>
                         <td>

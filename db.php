@@ -13,7 +13,37 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
+
+    // AUTO-MIGRACIÓN: Auto-actualizar base de datos si falta la tabla de categorías
+    $tableCheck = $pdo->query("SHOW TABLES LIKE 'categorias'")->fetch();
+    if (!$tableCheck) {
+        // Crear tabla de categorías
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `categorias` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `name` varchar(100) NOT NULL,
+          `slug` varchar(100) NOT NULL UNIQUE,
+          `order_val` int(11) DEFAULT 0,
+          `is_active` tinyint(1) DEFAULT 1,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        // Insertar categorías iniciales
+        $pdo->exec("INSERT INTO `categorias` (`name`, `slug`, `order_val`, `is_active`) VALUES
+            ('Artículos personalizados', 'articulos-personalizados', 1, 1),
+            ('Identificación corporativa', 'identificacion-corporativa', 2, 1),
+            ('Reconocimientos', 'reconocimientos', 3, 1),
+            ('Kits corporativos', 'kits-corporativos', 4, 1);");
+
+        // Agregar columna category_id a productos
+        $pdo->exec("ALTER TABLE `productos` ADD COLUMN `category_id` int(11) DEFAULT NULL;");
+
+        // Mapear los productos existentes a las nuevas categorías por nombre
+        $cats = $pdo->query("SELECT * FROM categorias")->fetchAll();
+        foreach ($cats as $cat) {
+            $update = $pdo->prepare("UPDATE productos SET category_id = ? WHERE category = ?");
+            $update->execute([$cat['id'], $cat['name']]);
+        }
+    }
 } catch (PDOException $e) {
-    // Si falla la conexión, mostrar un error amigable o registrar logs
     die("Error de conexión a la base de datos: " . $e->getMessage());
 }

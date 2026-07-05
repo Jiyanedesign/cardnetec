@@ -14,9 +14,9 @@ $error = '';
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
     try {
-        $stmt = $pdo->prepare("DELETE FROM antes_despues WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM categorias WHERE id = ?");
         $stmt->execute([$id]);
-        $message = 'Comparación eliminada correctamente.';
+        $message = 'Categoría eliminada correctamente.';
     } catch (PDOException $e) {
         $error = 'Error al eliminar: ' . $e->getMessage();
     }
@@ -25,43 +25,46 @@ if (isset($_GET['delete'])) {
 // Procesar Formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
-    $title = trim($_POST['title']);
-    $technique = trim($_POST['technique']);
-    $material = trim($_POST['material']);
+    $name = trim($_POST['name']);
+    $slug = trim($_POST['slug']);
     $order_val = (int)$_POST['order_val'];
     $is_active = isset($_POST['is_active']) ? 1 : 0;
+
+    if (empty($slug)) {
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
+    }
 
     if ($id > 0) {
         // Edición
         try {
-            $stmt = $pdo->prepare("UPDATE antes_despues SET title = ?, technique = ?, material = ?, order_val = ?, is_active = ? WHERE id = ?");
-            $stmt->execute([$title, $technique, $material, $order_val, $is_active, $id]);
-            $message = 'Comparación actualizada correctamente.';
+            $stmt = $pdo->prepare("UPDATE categorias SET name = ?, slug = ?, order_val = ?, is_active = ? WHERE id = ?");
+            $stmt->execute([$name, $slug, $order_val, $is_active, $id]);
+            $message = 'Categoría actualizada correctamente.';
         } catch (PDOException $e) {
-            $error = 'Error al actualizar base de datos: ' . $e->getMessage();
+            $error = 'Error al actualizar: ' . $e->getMessage();
         }
     } else {
         // Creación
         try {
-            $stmt = $pdo->prepare("INSERT INTO antes_despues (title, technique, material, order_val, is_active) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$title, $technique, $material, $order_val, $is_active]);
-            $message = 'Comparación creada correctamente.';
+            $stmt = $pdo->prepare("INSERT INTO categorias (name, slug, order_val, is_active) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$name, $slug, $order_val, $is_active]);
+            $message = 'Categoría creada correctamente.';
         } catch (PDOException $e) {
-            $error = 'Error al crear comparación: ' . $e->getMessage();
+            $error = 'Error al crear: ' . $e->getMessage();
         }
     }
 }
 
-// Cargar antes y después
-$items = $pdo->query("SELECT * FROM antes_despues ORDER BY order_val ASC")->fetchAll();
+// Cargar categorías
+$categorias = $pdo->query("SELECT * FROM categorias ORDER BY order_val ASC")->fetchAll();
 
-// Cargar elemento a editar si aplica
-$edit_item = null;
+// Cargar categoría a editar
+$edit_cat = null;
 if (isset($_GET['edit'])) {
     $edit_id = (int)$_GET['edit'];
-    $stmt = $pdo->prepare("SELECT * FROM antes_despues WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
     $stmt->execute([$edit_id]);
-    $edit_item = $stmt->fetch();
+    $edit_cat = $stmt->fetch();
 }
 ?>
 <!DOCTYPE html>
@@ -69,7 +72,7 @@ if (isset($_GET['edit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Antes y Después | CardNet.ec</title>
+    <title>Gestión de Categorías | CardNet.ec</title>
     <link rel="stylesheet" href="../css/base.css?v=1.1.2">
     <link rel="stylesheet" href="../css/layout.css?v=1.1.2">
     <link rel="stylesheet" href="../css/components.css?v=1.1.2">
@@ -155,16 +158,16 @@ if (isset($_GET['edit'])) {
         <img src="../images/logo.png" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
-            <a href="categorias.php" class="nav-admin-link">Categorías</a>
+            <a href="categorias.php" class="nav-admin-link active">Categorías</a>
             <a href="productos.php" class="nav-admin-link">Productos</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
-            <a href="antes-despues.php" class="nav-admin-link active">Antes y Después</a>
+            <a href="antes-despues.php" class="nav-admin-link">Antes y Después</a>
             <a href="logout.php" class="nav-admin-link" style="margin-top: 2rem; color: #FCA5A5;">Cerrar Sesión</a>
         </nav>
     </div>
 
     <div class="main-content">
-        <h1 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 2rem;">Gestión de Antes y Después</h1>
+        <h1 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 2rem;">Gestión de Categorías</h1>
 
         <?php if ($message): ?>
             <div class="alert alert-success"><?php echo $message; ?></div>
@@ -175,78 +178,71 @@ if (isset($_GET['edit'])) {
 
         <div class="form-container">
             <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">
-                <?php echo $edit_item ? 'Editar Comparación' : 'Añadir Nueva Comparación'; ?>
+                <?php echo $edit_cat ? 'Editar Categoría' : 'Añadir Nueva Categoría'; ?>
             </h2>
 
-            <form method="POST" action="antes-despues.php">
-                <?php if ($edit_item): ?>
-                    <input type="hidden" name="id" value="<?php echo $edit_item['id']; ?>">
+            <form method="POST" action="categorias.php">
+                <?php if ($edit_cat): ?>
+                    <input type="hidden" name="id" value="<?php echo $edit_cat['id']; ?>">
                 <?php endif; ?>
 
-                <div class="form-group">
-                    <label class="form-label" for="title">Título (Ej: Termos de acero inoxidable)</label>
-                    <input class="form-input" type="text" name="title" id="title" required value="<?php echo $edit_item ? htmlspecialchars($edit_item['title']) : ''; ?>">
-                </div>
-
-                <div class="grid-3" style="margin-top: 1rem;">
+                <div class="grid-2">
                     <div class="form-group">
-                        <label class="form-label" for="technique">Técnica (Ej: Grabado láser de fibra)</label>
-                        <input class="form-input" type="text" name="technique" id="technique" required value="<?php echo $edit_item ? htmlspecialchars($edit_item['technique']) : ''; ?>">
+                        <label class="form-label" for="name">Nombre de la Categoría</label>
+                        <input class="form-input" type="text" name="name" id="name" required value="<?php echo $edit_cat ? htmlspecialchars($edit_cat['name']) : ''; ?>">
                     </div>
-
                     <div class="form-group">
-                        <label class="form-label" for="material">Material (Ej: Acero inoxidable)</label>
-                        <input class="form-input" type="text" name="material" id="material" required value="<?php echo $edit_item ? htmlspecialchars($edit_item['material']) : ''; ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="order_val">Orden</label>
-                        <input class="form-input" type="number" name="order_val" id="order_val" value="<?php echo $edit_item ? (int)$edit_item['order_val'] : '0'; ?>">
+                        <label class="form-label" for="slug">Slug (URL amigable)</label>
+                        <input class="form-input" type="text" name="slug" id="slug" value="<?php echo $edit_cat ? htmlspecialchars($edit_cat['slug']) : ''; ?>">
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 1.5rem;">
-                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                        <input type="checkbox" name="is_active" <?php echo (!$edit_item || $edit_item['is_active']) ? 'checked' : ''; ?>> Comparación Activa
-                    </label>
+                <div class="grid-2" style="margin-top: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="order_val">Orden de Aparición</label>
+                        <input class="form-input" type="number" name="order_val" id="order_val" value="<?php echo $edit_cat ? (int)$edit_cat['order_val'] : '0'; ?>">
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                            <input type="checkbox" name="is_active" <?php echo (!$edit_cat || $edit_cat['is_active']) ? 'checked' : ''; ?>> Categoría Activa
+                        </label>
+                    </div>
                 </div>
 
                 <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
-                    <button class="btn btn-primary" type="submit">Guardar Comparación</button>
-                    <?php if ($edit_item): ?>
-                        <a href="antes-despues.php" class="btn btn-secondary">Cancelar Edición</a>
+                    <button class="btn btn-primary" type="submit">Guardar Categoría</button>
+                    <?php if ($edit_cat): ?>
+                        <a href="categorias.php" class="btn btn-secondary">Cancelar</a>
                     <?php endif; ?>
                 </div>
             </form>
         </div>
 
-        <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.4rem;">Comparaciones Registradas</h2>
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.4rem;">Categorías Registradas</h2>
         <table>
             <thead>
                 <tr>
                     <th>Orden</th>
-                    <th>Título</th>
-                    <th>Técnica</th>
-                    <th>Material</th>
+                    <th>Nombre</th>
+                    <th>Slug</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($items as $it): ?>
+                <?php foreach ($categorias as $cat): ?>
                     <tr>
-                        <td><?php echo (int)$it['order_val']; ?></td>
-                        <td><strong><?php echo htmlspecialchars($it['title']); ?></strong></td>
-                        <td><?php echo htmlspecialchars($it['technique']); ?></td>
-                        <td><?php echo htmlspecialchars($it['material']); ?></td>
+                        <td><?php echo (int)$cat['order_val']; ?></td>
+                        <td><strong><?php echo htmlspecialchars($cat['name']); ?></strong></td>
+                        <td><code><?php echo htmlspecialchars($cat['slug']); ?></code></td>
                         <td>
-                            <span class="badge <?php echo $it['is_active'] ? 'badge-success' : 'badge-danger'; ?>" style="font-size: 0.7rem; border-radius: 4px; padding: 2px 6px;">
-                                <?php echo $it['is_active'] ? 'Activo' : 'Inactivo'; ?>
+                            <span class="badge <?php echo $cat['is_active'] ? 'badge-success' : 'badge-danger'; ?>" style="font-size: 0.7rem; border-radius: 4px; padding: 2px 6px;">
+                                <?php echo $cat['is_active'] ? 'Activa' : 'Inactiva'; ?>
                             </span>
                         </td>
                         <td>
-                            <a href="antes-despues.php?edit=<?php echo $it['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: bold; margin-right: 10px;">Editar</a>
-                            <a href="antes-despues.php?delete=<?php echo $it['id']; ?>" onclick="return confirm('¿Seguro que deseas eliminar esta comparación?')" style="color: #EF4444; text-decoration: none; font-weight: bold;">Eliminar</a>
+                            <a href="categorias.php?edit=<?php echo $cat['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: bold; margin-right: 10px;">Editar</a>
+                            <a href="categorias.php?delete=<?php echo $cat['id']; ?>" onclick="return confirm('¿Seguro que deseas eliminar esta categoría?')" style="color: #EF4444; text-decoration: none; font-weight: bold;">Eliminar</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

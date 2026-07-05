@@ -1,3 +1,38 @@
+<?php
+require_once 'db.php';
+
+// 1. Obtener slides del carrusel activos
+try {
+    $stmt = $pdo->query("SELECT * FROM carrusel WHERE is_active = 1 ORDER BY order_val ASC");
+    $slides = $stmt->fetchAll();
+} catch (PDOException $e) {
+    $slides = [];
+}
+
+// 2. Obtener productos destacados activos (máximo 6)
+try {
+    $stmt = $pdo->query("SELECT * FROM productos WHERE is_active = 1 AND is_featured = 1 ORDER BY order_val ASC LIMIT 6");
+    $featuredProducts = $stmt->fetchAll();
+} catch (PDOException $e) {
+    $featuredProducts = [];
+}
+
+// 3. Obtener comparaciones antes/después activas (máximo 3)
+try {
+    $stmt = $pdo->query("SELECT * FROM antes_despues WHERE is_active = 1 ORDER BY order_val ASC LIMIT 3");
+    $beforeAfters = $stmt->fetchAll();
+} catch (PDOException $e) {
+    $beforeAfters = [];
+}
+
+// 4. Obtener materiales activos (máximo 4)
+try {
+    $stmt = $pdo->query("SELECT * FROM materiales WHERE is_active = 1 LIMIT 4");
+    $materials = $stmt->fetchAll();
+} catch (PDOException $e) {
+    $materials = [];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,45 +42,14 @@
     <meta name="description" content="No hacemos artículos con logos. Creamos piezas personalizadas que hacen que tu marca se recuerde. Especialistas en grabado láser en Quito, Ecuador.">
     <link rel="canonical" href="https://cardnet.ec/index.php">
     
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cardnet.ec/index.php">
-    <meta property="og:title" content="Grabado Láser y Marcaje Corporativo | CardNet.ec">
-    <meta property="og:description" content="Transformamos artículos comunes en piezas personalizadas con acabados elegantes, precisos y duraderos.">
-    <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
-
-    <!-- CSS Modulares con Cache Busting -->
+    <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=1.1.2">
     <link rel="stylesheet" href="css/layout.css?v=1.1.2">
     <link rel="stylesheet" href="css/components.css?v=1.1.2">
     <link rel="stylesheet" href="css/pages.css?v=1.1.2">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
-    <!-- Optimización Google Fonts Preconnect -->
-
-    <!-- JSON-LD Datos Estructurados -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "CardNet.ec",
-      "image": "https://cardnet.ec/images/logo.png",
-      "@id": "https://cardnet.ec/#localbusiness",
-      "url": "https://cardnet.ec",
-      "telephone": "+593900000000",
-      "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Av. de los Granados y Eloy Alfaro",
-        "addressLocality": "Quito",
-        "addressRegion": "Pichincha",
-        "postalCode": "170513",
-        "addressCountry": "EC"
-      }
-    }
-    </script>
-
-    <!-- Google Fonts: Marcellus (Títulos Elegantes) & Work Sans (Textos Limpios) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -57,7 +61,7 @@
         Taller de personalización en Quito | Envíos corporativos asegurados a todo el Ecuador
     </div>
 
-    <!-- Cabecera de Página Multicapa -->
+    <!-- Cabecera de Página -->
     <header class="main-header">
         <div class="container">
             <div class="header-middle">
@@ -66,7 +70,6 @@
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
-                <!-- Buscador Central -->
                 <div class="header-search">
                     <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -74,7 +77,6 @@
                     <input class="search-input" type="text" placeholder="Buscar grabados en metal, corcho, madera...">
                 </div>
 
-                <!-- Info de Contacto -->
                 <div class="header-contact-status">
                     <div class="contact-status-item">
                         <span class="status-icon-wrap">
@@ -97,16 +99,15 @@
             </div>
         </div>
 
-        <!-- Fila Inferior: Enlaces de Navegación Simplificados -->
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
                     <a href="index.php" class="nav-link active">Inicio</a>
-                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.php" class="nav-link ">Productos</a>
-                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
-                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
+                    <a href="index.php#destacados" class="nav-link">Destacados</a>
+                    <a href="index.php#laser" class="nav-link">Grabado láser</a>
+                    <a href="productos.php" class="nav-link">Productos</a>
+                    <a href="empresas.php" class="nav-link">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link">Cotizar</a>
                 </nav>
                 <div class="header-bottom-actions">
                     <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
@@ -119,92 +120,79 @@
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
         <a href="index.php" class="mobile-link active">Inicio</a>
-        <a href="index.php#destacados" class="mobile-link ">Destacados</a>
-        <a href="index.php#laser" class="mobile-link ">Grabado láser</a>
-        <a href="productos.php" class="mobile-link ">Productos</a>
-        <a href="empresas.php" class="mobile-link ">Kits corporativos</a>
+        <a href="index.php#destacados" class="mobile-link">Destacados</a>
+        <a href="index.php#laser" class="mobile-link">Grabado láser</a>
+        <a href="productos.php" class="mobile-link">Productos</a>
+        <a href="empresas.php" class="mobile-link">Kits corporativos</a>
         <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
 
     <!-- MAIN CONTENT -->
     <main>
         
-        <!-- Hero con Carrusel de Productos Destacados (Editorial y Limpio) -->
+        <!-- Hero con Carrusel de Banners Hero Dinámico -->
         <section class="hero-block reveal-on-scroll">
             <div class="container hero-carousel-wrapper">
                 <div class="hero-carousel">
                     <div class="carousel-track">
                         
-                        <!-- Slide 1 -->
-                        <div class="carousel-slide">
-                            <div class="carousel-image-container">
-                                <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
-                                    <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
-                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2">
-                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                        </svg>
-                                        <span class="image-placeholder-text">Productos corporativos personalizables en Quito</span>
+                        <?php if (!empty($slides)): ?>
+                            <?php foreach ($slides as $slide): ?>
+                                <div class="carousel-slide">
+                                    <div class="carousel-image-container">
+                                        <?php if ($slide['image']): ?>
+                                            <img src="uploads/<?php echo htmlspecialchars($slide['image']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <?php else: ?>
+                                            <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
+                                                <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
+                                                    <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2">
+                                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                                    </svg>
+                                                    <span class="image-placeholder-text"><?php echo htmlspecialchars($slide['title']); ?></span>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="carousel-slide-content">
+                                        <h2 class="carousel-slide-title"><?php echo htmlspecialchars($slide['title']); ?></h2>
+                                        <?php if ($slide['subtitle']): ?>
+                                            <p class="carousel-slide-subtitle"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
+                                        <?php endif; ?>
+                                        <?php if ($slide['cta_text']): ?>
+                                            <a href="<?php echo htmlspecialchars($slide['cta_url'] ?: '#'); ?>" class="btn btn-primary"><?php echo htmlspecialchars($slide['cta_text']); ?></a>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="carousel-slide-content">
-                                <h2 class="carousel-slide-title">Productos personalizados que hacen visible el valor de tu marca</h2>
-                                <p class="carousel-slide-subtitle">Grabado láser, termos, agendas, placas y kits corporativos con acabados limpios y duraderos.</p>
-                                <a href="#destacados" class="btn btn-primary">Ver productos destacados</a>
-                            </div>
-                        </div>
-
-                        <!-- Slide 2 -->
-                        <div class="carousel-slide">
-                            <div class="carousel-image-container">
-                                <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
-                                    <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
-                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2">
-                                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                                        </svg>
-                                        <span class="image-placeholder-text">Termos de acero inoxidable con grabado láser</span>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <!-- Slide de Resguardo si la base está vacía -->
+                            <div class="carousel-slide">
+                                <div class="carousel-image-container">
+                                    <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
+                                        <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
+                                            <span class="image-placeholder-text">Personalización en Quito</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="carousel-slide-content">
-                                <h2 class="carousel-slide-title">Termos grabados para empresas</h2>
-                                <p class="carousel-slide-subtitle">Acabado láser sobre acero, sobrio y resistente al uso diario.</p>
-                                <a href="cotizacion.php" class="btn btn-primary">Quiero algo similar</a>
-                            </div>
-                        </div>
-
-                        <!-- Slide 3 -->
-                        <div class="carousel-slide">
-                            <div class="carousel-image-container">
-                                <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
-                                    <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
-                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2">
-                                            <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
-                                        </svg>
-                                        <span class="image-placeholder-text">Kits corporativos premium para bienvenida o eventos</span>
-                                    </div>
+                                <div class="carousel-slide-content">
+                                    <h2 class="carousel-slide-title">Productos personalizados que hacen visible el valor de tu marca</h2>
+                                    <p class="carousel-slide-subtitle">Grabado láser, termos, agendas, placas y kits corporativos con acabados limpios y duraderos.</p>
+                                    <a href="#destacados" class="btn btn-primary">Ver productos destacados</a>
                                 </div>
                             </div>
-                            <div class="carousel-slide-content">
-                                <h2 class="carousel-slide-title">Kits corporativos con mejor presentación</h2>
-                                <p class="carousel-slide-subtitle">Piezas seleccionadas para representar tu marca desde el primer contacto.</p>
-                                <a href="cotizacion.php" class="btn btn-primary">Cotizar una idea</a>
-                            </div>
-                        </div>
+                        <?php endif; ?>
 
                     </div>
 
                     <!-- Controles -->
                     <button class="carousel-control prev" aria-label="Anterior">←</button>
                     <button class="carousel-control next" aria-label="Siguiente">→</button>
-
-                    <!-- Indicadores -->
                     <div class="carousel-indicators"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Barra de Garantías Corporativas -->
+        <!-- Barra de Garantías -->
         <section class="satisfaction-bar">
             <div class="container satisfaction-grid">
                 <div class="satisfaction-item">
@@ -222,7 +210,7 @@
             </div>
         </section>
 
-        <!-- Sección de Productos Destacados (Protagonista de la Home) -->
+        <!-- Productos Destacados -->
         <section id="destacados" class="section-padding container reveal-on-scroll">
             <div class="section-header center">
                 <span class="section-subtitle">Showroom Digital</span>
@@ -231,224 +219,89 @@
             </div>
             
             <div class="grid-3" style="margin-top: 2rem;">
-                
-                <!-- Termos Grabados -->
-                <div class="product-card">
-                    <div class="product-card-image-wrap">
-                        <div class="image-placeholder theme-gray">
-                            <div class="image-placeholder-inner">
-                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                                </svg>
-                                <span class="image-placeholder-text">Termo metálico grabado</span>
+                <?php foreach ($featuredProducts as $product): ?>
+                    <div class="product-card">
+                        <div class="product-card-image-wrap">
+                            <div class="image-placeholder theme-gray">
+                                <?php if ($product['image_main']): ?>
+                                    <img src="uploads/<?php echo htmlspecialchars($product['image_main']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                <?php else: ?>
+                                    <div class="image-placeholder-inner">
+                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                        </svg>
+                                        <span class="image-placeholder-text"><?php echo htmlspecialchars($product['name']); ?></span>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-card-price">Acero inoxidable · Grabado láser</span>
-                        <h3 class="product-card-title">Termos grabados</h3>
-                        <p class="product-card-desc">Termos de acero inoxidable grabados con acabado limpio, sobrio y resistente al uso diario.</p>
-                        <a href="cotizacion.php" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Quiero este acabado</a>
-                    </div>
-                </div>
-
-                <!-- Agendas -->
-                <div class="product-card">
-                    <div class="product-card-image-wrap">
-                        <div class="image-placeholder theme-gray">
-                            <div class="image-placeholder-inner">
-                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                                </svg>
-                                <span class="image-placeholder-text">Libreta ejecutiva grabada</span>
-                            </div>
+                        <div class="product-card-body">
+                            <span class="product-card-price"><?php echo htmlspecialchars($product['category']); ?></span>
+                            <h3 class="product-card-title"><?php echo htmlspecialchars($product['name']); ?></h3>
+                            <p class="product-card-desc"><?php echo htmlspecialchars($product['description_short']); ?></p>
+                            <?php if ($product['allows_simulation']): ?>
+                                <a href="simulador.php?producto_id=<?php echo $product['id']; ?>" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Simular mi logo</a>
+                            <?php else: ?>
+                                <a href="cotizacion.php?producto=<?php echo urlencode($product['slug']); ?>" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;"><?php echo htmlspecialchars($product['cta_text']); ?></a>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    <div class="product-card-body">
-                        <span class="product-card-price">Cuero/PU · Bajo relieve o grabado</span>
-                        <h3 class="product-card-title">Agendas personalizadas</h3>
-                        <p class="product-card-desc">Libretas con cubiertas de tacto cuero listas para grabados de gran textura y sobriedad.</p>
-                        <a href="cotizacion.php" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Solicitar este producto</a>
-                    </div>
-                </div>
-
-                <!-- Placas y Reconocimientos -->
-                <div class="product-card">
-                    <div class="product-card-image-wrap">
-                        <div class="image-placeholder theme-gray">
-                            <div class="image-placeholder-inner">
-                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                </svg>
-                                <span class="image-placeholder-text">Placa de reconocimiento en acrílico</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-card-price">Metal, acrílico o madera · Personalización</span>
-                        <h3 class="product-card-title">Placas y reconocimientos</h3>
-                        <p class="product-card-desc">Placas conmemorativas de madera noble, vidrio pulido y acrílico con cortes limpios.</p>
-                        <a href="cotizacion.php" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Cotizar una idea</a>
-                    </div>
-                </div>
-
-                <!-- Kits Corporativos -->
-                <div class="product-card">
-                    <div class="product-card-image-wrap">
-                        <div class="image-placeholder theme-gray">
-                            <div class="image-placeholder-inner">
-                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                                </svg>
-                                <span class="image-placeholder-text">Kit de bienvenida para colaboradores</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-card-price">Varios soportes · Selección para empresas</span>
-                        <h3 class="product-card-title">Kits corporativos</h3>
-                        <p class="product-card-desc">Cajas coordinadas conteniendo termos grabados, agendas y bolígrafos premium a juego.</p>
-                        <a href="cotizacion.php" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Armar un kit</a>
-                    </div>
-                </div>
-
-                <!-- Llaveros -->
-                <div class="product-card">
-                    <div class="product-card-image-wrap">
-                        <div class="image-placeholder theme-gray">
-                            <div class="image-placeholder-inner">
-                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
-                                </svg>
-                                <span class="image-placeholder-text">Llavero de metal y cuero grabado</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-card-price">Metal o acrílico · Marcaje personalizado</span>
-                        <h3 class="product-card-title">Llaveros corporativos</h3>
-                        <p class="product-card-desc">Detalles en metal cepillado y cuero legítimo con marcajes permanentes y de gran durabilidad.</p>
-                        <a href="cotizacion.php" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Quiero algo similar</a>
-                    </div>
-                </div>
-
-                <!-- Cajas Premium -->
-                <div class="product-card">
-                    <div class="product-card-image-wrap">
-                        <div class="image-placeholder theme-gray">
-                            <div class="image-placeholder-inner">
-                                <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
-                                </svg>
-                                <span class="image-placeholder-text">Caja de pino grabada con láser</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-card-price">Madera o cartón · Packaging corporativo</span>
-                        <h3 class="product-card-title">Cajas personalizadas</h3>
-                        <p class="product-card-desc">Cajas de madera y cartón estructurado a medida para presentaciones o kits ejecutivos.</p>
-                        <a href="productos.php#kits" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Ver opciones</a>
-                    </div>
-                </div>
-
+                <?php endforeach; ?>
             </div>
         </section>
 
-        <!-- Sección de Comparación Antes y Después (Señal de Empresa Real) -->
-        <section id="antes-despues" class="section-padding container reveal-on-scroll">
-            <div class="section-header center">
-                <span class="section-subtitle">Evidencia de Taller</span>
-                <h2>Antes y después del grabado</h2>
-                <p>Compara el producto base limpio frente al resultado final con identidad de marca grabada.</p>
-            </div>
-            
-            <div class="comparison-grid" style="margin-top: 2rem;">
-                
-                <!-- Termo -->
-                <div class="comparison-card">
-                    <div class="comparison-views">
-                        <div class="comparison-view">
-                            <div class="comparison-label">Antes</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">Termo liso sin marcar</span>
-                        </div>
-                        <div class="comparison-view after">
-                            <div class="comparison-label after">Después</div>
-                            <span style="font-weight: 600; color: var(--primary);">Acero grabado a láser</span>
-                        </div>
-                    </div>
-                    <div class="comparison-desc">Termos de acero inoxidable</div>
-                </div>
-
-                <!-- Agenda -->
-                <div class="comparison-card">
-                    <div class="comparison-views">
-                        <div class="comparison-view">
-                            <div class="comparison-label">Antes</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">Agenda lisa limpia</span>
-                        </div>
-                        <div class="comparison-view after">
-                            <div class="comparison-label after">Después</div>
-                            <span style="font-weight: 600; color: var(--primary);">Logo en bajo relieve</span>
-                        </div>
-                    </div>
-                    <div class="comparison-desc">Agendas ejecutivas</div>
-                </div>
-
-                <!-- Caja de madera -->
-                <div class="comparison-card">
-                    <div class="comparison-views">
-                        <div class="comparison-view">
-                            <div class="comparison-label">Antes</div>
-                            <span style="font-size: 0.8rem; color: var(--text-muted);">Caja de pino natural</span>
-                        </div>
-                        <div class="comparison-view after">
-                            <div class="comparison-label after">Después</div>
-                            <span style="font-weight: 600; color: var(--primary);">Tapa tallada a fuego</span>
-                        </div>
-                    </div>
-                    <div class="comparison-desc">Cajas de madera corporativas</div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Sección de Materiales Reales -->
-        <section id="materiales" class="section-padding section-bg-light reveal-on-scroll">
-            <div class="container">
+        <!-- Comparación Antes y Después -->
+        <?php if (!empty($beforeAfters)): ?>
+            <section id="antes-despues" class="section-padding container reveal-on-scroll">
                 <div class="section-header center">
-                    <span class="section-subtitle">Soportes Reales</span>
-                    <h2>Materiales que trabajamos</h2>
-                    <p>Seleccionamos materiales óptimos para lograr marcajes permanentes y definidos.</p>
+                    <span class="section-subtitle">Evidencia de Taller</span>
+                    <h2>Antes y después del grabado</h2>
+                    <p>Compara el producto base limpio frente al resultado final con identidad de marca grabada.</p>
                 </div>
                 
-                <div class="materials-grid" style="margin-top: 2rem;">
-                    
-                    <div class="material-card">
-                        <h3 class="material-title">Acero inoxidable</h3>
-                        <p class="material-desc">Ideal para termos, botellas y piezas metálicas de uso diario.</p>
-                    </div>
-
-                    <div class="material-card">
-                        <h3 class="material-title">Madera</h3>
-                        <p class="material-desc">Acabado cálido para reconocimientos, cajas y regalos corporativos.</p>
-                    </div>
-
-                    <div class="material-card">
-                        <h3 class="material-title">Acrílico</h3>
-                        <p class="material-desc">Limpio, moderno y versátil para placas, señalética y detalles.</p>
-                    </div>
-
-                    <div class="material-card">
-                        <h3 class="material-title">Cuero / PU</h3>
-                        <p class="material-desc">Ideal para grabados en agendas, libretas y carpetas ejecutivas.</p>
-                    </div>
-
+                <div class="comparison-grid" style="margin-top: 2rem;">
+                    <?php foreach ($beforeAfters as $item): ?>
+                        <div class="comparison-card">
+                            <div class="comparison-views">
+                                <div class="comparison-view">
+                                    <div class="comparison-label">Antes</div>
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">Liso sin marcar</span>
+                                </div>
+                                <div class="comparison-view after">
+                                    <div class="comparison-label after">Después</div>
+                                    <span style="font-weight: 600; color: var(--primary);"><?php echo htmlspecialchars($item['technique']); ?></span>
+                                </div>
+                            </div>
+                            <div class="comparison-desc"><?php echo htmlspecialchars($item['title']); ?> (<?php echo htmlspecialchars($item['material']); ?>)</div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            </div>
-        </section>
+            </section>
+        <?php endif; ?>
 
-        <!-- Sección de Especialidad: Grabado Láser (Foco en Producto Físico) -->
+        <!-- Materiales Reales -->
+        <?php if (!empty($materials)): ?>
+            <section id="materiales" class="section-padding section-bg-light reveal-on-scroll">
+                <div class="container">
+                    <div class="section-header center">
+                        <span class="section-subtitle">Soportes Reales</span>
+                        <h2>Materiales que trabajamos</h2>
+                        <p>Seleccionamos materiales óptimos para lograr marcajes permanentes y definidos.</p>
+                    </div>
+                    
+                    <div class="materials-grid" style="margin-top: 2rem;">
+                        <?php foreach ($materials as $material): ?>
+                            <div class="material-card">
+                                <h3 class="material-title"><?php echo htmlspecialchars($material['name']); ?></h3>
+                                <p class="material-desc"><?php echo htmlspecialchars($material['description']); ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+        <?php endif; ?>
+
+        <!-- Grabado Láser Especialidad -->
         <section id="laser" class="section-padding container reveal-on-scroll">
             <div class="laser-section">
                 <div class="laser-layout">
@@ -483,41 +336,7 @@
             </div>
         </section>
 
-        <!-- Sección de Acabados Disponibles (Categorías) -->
-        <section class="section-padding section-bg-light reveal-on-scroll">
-            <div class="container">
-                <div class="section-header center">
-                    <span class="section-subtitle">Acabados disponibles</span>
-                    <h2>Categorías principales</h2>
-                    <p>Filtros visuales para organizar tu pedido de marcaje corporativo.</p>
-                </div>
-                
-                <div class="brand-grid">
-                    <a href="productos.php#termos" class="brand-card">
-                        <span class="brand-card-text">Termos</span>
-                        <span class="brand-card-sub">Acero inoxidable</span>
-                    </a>
-                    <a href="productos.php#oficina" class="brand-card">
-                        <span class="brand-card-text">Agendas</span>
-                        <span class="brand-card-sub">Tapa cuero PU</span>
-                    </a>
-                    <a href="productos.php#llaveros" class="brand-card">
-                        <span class="brand-card-text">Llaveros</span>
-                        <span class="brand-card-sub">Cuero y metal</span>
-                    </a>
-                    <a href="productos.php#placas" class="brand-card">
-                        <span class="brand-card-text">Placas</span>
-                        <span class="brand-card-sub">Acrílico y cristal</span>
-                    </a>
-                    <a href="productos.php#kits" class="brand-card">
-                        <span class="brand-card-text">Kits</span>
-                        <span class="brand-card-sub">Cajas corporativas</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Proceso de Taller (Cómo hacemos tu pedido) -->
+        <!-- Proceso de Taller -->
         <section id="proceso" class="section-padding container reveal-on-scroll">
             <div class="section-header center">
                 <span class="section-subtitle">Atención en Quito</span>
@@ -549,7 +368,7 @@
             </div>
         </section>
 
-        <!-- CTA Final de Marcaje (Señales de Taller Real de Confianza) -->
+        <!-- Garantía Final -->
         <section class="section-padding container reveal-on-scroll" style="text-align: center; max-width: 800px;">
             <span class="section-subtitle">Hecho en Ecuador</span>
             <h2 style="margin-bottom: 1.25rem;">Cuidamos que cada pieza se vea tan bien como la marca que representa.</h2>
@@ -562,7 +381,7 @@
 
     </main>
 
-    <!-- Pie de Página -->
+    <!-- Footer -->
     <footer class="main-footer">
         <div class="container footer-top section-padding">
             <div class="footer-grid">
@@ -608,7 +427,7 @@
         </div>
     </footer>
 
-    <!-- Botón de WhatsApp Flotante Redondeado -->
+    <!-- WhatsApp Flotante -->
     <a href="https://wa.me/593900000000" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
         <svg class="whatsapp-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
             <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.982L2 22l5.233-1.371a9.994 9.994 0 0 0 4.779 1.22h.005c5.505 0 9.99-4.478 9.99-9.985A9.988 9.988 0 0 0 12.012 2zm4.7 13.916c-.223.633-1.29 1.205-1.782 1.282-.477.075-.947.168-3.067-.665-2.707-1.06-4.442-3.817-4.577-3.996-.134-.178-1.096-1.455-1.096-2.781 0-1.325.692-1.973.938-2.228.246-.255.535-.319.714-.319.18 0 .358.001.514.009.16.008.375-.062.586.448.223.54.76 1.851.827 1.984.067.134.112.29.022.468-.09.18-.134.29-.268.447-.134.156-.282.35-.403.47-.134.134-.273.28-.117.548.156.268.693 1.139 1.492 1.85 1.026.914 1.89 1.196 2.158 1.33.268.134.424.112.58-.067.157-.18.67-.781.848-1.049.178-.268.358-.223.58-.134.224.089 1.42.67 1.666.792.246.123.411.18.47.282.06.101.06.586-.163 1.218z"/>
