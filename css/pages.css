@@ -67,8 +67,8 @@
 
 .carousel-slide-title {
     font-family: var(--font-heading);
-    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
-    font-weight: 600;
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    font-weight: 400;
     line-height: 1.15;
     margin-bottom: 0.75rem;
     color: var(--dark);
@@ -145,69 +145,112 @@
     border-radius: 4px;
 }
 
-/* 2. Sección del Diferencial */
-.differential-container {
+/* 2. Rejilla de Comparación Antes y Después */
+.comparison-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-md);
-    align-items: center;
 }
 
-@media (min-width: 1024px) {
-    .differential-container {
-        grid-template-columns: 1fr 1.1fr;
-        gap: var(--space-lg);
+@media (min-width: 768px) {
+    .comparison-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
-.differential-visual {
-    position: relative;
+.comparison-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--light);
+    transition: var(--transition-fast);
 }
 
-.differential-content {
-    display: flex;
-    flex-direction: column;
+.comparison-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
 }
 
-.differential-bullets {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+.comparison-views {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
 }
 
-.diff-item {
-    display: flex;
+.comparison-view {
+    padding: 2rem 1rem;
+    text-align: center;
+    background-color: var(--surface-light);
+}
+
+.comparison-view.after {
+    background-color: var(--light);
+    border-left: 1px solid var(--border);
+}
+
+.comparison-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.comparison-label.after {
+    color: var(--primary);
+}
+
+.comparison-desc {
+    padding: 1.25rem;
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+/* 3. Rejilla de Materiales Reales */
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
 }
 
-.diff-icon-box {
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-sm);
-    background-color: var(--primary);
-    color: var(--light);
+@media (min-width: 768px) {
+    .materials-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.material-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    background-color: var(--light);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: var(--transition-fast);
 }
 
-.diff-info h4 {
+.material-card:hover {
+    border-color: var(--primary);
+    background-color: var(--surface-light);
+}
+
+.material-title {
     font-family: var(--font-heading);
-    font-size: 1.05rem;
-    font-weight: 600;
+    font-size: 1.25rem;
     color: var(--dark);
-    margin-bottom: 0.35rem;
 }
 
-.diff-info p {
-    font-size: 0.88rem;
+.material-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
     line-height: 1.5;
 }
 
-/* 3. Sección Especial de Grabado Láser (Enfoque Técnico y Físico) */
+/* 4. Sección Especial de Grabado Láser */
 .laser-section {
     background-color: var(--dark-alt);
     color: var(--text-light);
@@ -223,7 +266,7 @@
     }
 }
 
-/* Fina línea láser vertical verde brillante de marca */
+/* Fina línea láser vertical verde brillante */
 .laser-section::after {
     content: '';
     position: absolute;
@@ -291,53 +334,8 @@
 .laser-cap-item h4 {
     font-family: var(--font-heading);
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--light);
-}
-
-/* 4. Banner Dual Moderno (Estilo MOO Editorial) */
-.dual-banner {
-    display: grid;
-    grid-template-columns: 1fr;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    border: 1px solid var(--border);
-}
-
-@media (min-width: 1024px) {
-    .dual-banner {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.dual-banner-visual {
-    background-color: var(--surface-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dual-banner-content {
-    background-color: var(--dark-alt);
-    color: var(--text-light);
-    padding: clamp(2rem, 5vw, 3.5rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.dual-banner-content h3 {
-    font-family: var(--font-heading);
-    font-size: clamp(1.5rem, 2.5vw, 1.85rem);
-    color: var(--light);
-    margin-bottom: 1rem;
-}
-
-.dual-banner-content p {
-    color: rgba(252, 253, 251, 0.75);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-    font-size: 0.95rem;
 }
 
 /* 5. Proceso Creativo Cuidado (Paso a Paso) */
@@ -371,7 +369,7 @@
 .process-number {
     font-family: var(--font-heading);
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 400;
     color: rgba(99, 174, 44, 0.15);
     line-height: 1;
     margin-bottom: 0.5rem;
@@ -380,7 +378,7 @@
 .process-step h4 {
     font-family: var(--font-heading);
     font-size: 0.92rem;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--dark);
     margin-bottom: 0.5rem;
 }
