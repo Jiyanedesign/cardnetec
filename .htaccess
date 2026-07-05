@@ -1,0 +1,10 @@
+# Redirección Automática de .html a .php para CardNet.ec
+RewriteEngine On
+RewriteBase /
+
+# 1. Redireccionar index.html a la raíz / index.php
+RewriteRule ^index\.html$ index.php [R=301,L]
+
+# 2. Redireccionar cualquier otra petición .html a su equivalente .php si existe
+RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+RewriteRule ^(.*)\.html$ $1.php [R=301,L]
