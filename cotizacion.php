@@ -129,6 +129,13 @@
                     
                     <form id="quote-form" novalidate>
                         
+                        <!-- Vista previa de simulación Canvas -->
+                        <div id="simulation-preview-box" style="display:none; margin-bottom:1.25rem; border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; background:var(--surface-light); text-align:center;">
+                            <span style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:8px; font-weight:600;">Maqueta Canvas que cotizas:</span>
+                            <img id="simulation-preview-img" style="max-height:180px; border-radius:4px; border:1px solid var(--border); box-shadow:var(--shadow-sm);">
+                            <input type="hidden" name="simulation_snapshot" id="simulation-snapshot-input">
+                        </div>
+
                         <div class="grid-2" style="gap: 0 15px;">
                             <div class="form-group">
                                 <label class="form-label" for="quote-name">Tu Nombre *</label>
@@ -282,5 +289,22 @@
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/forms.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const snapshot = sessionStorage.getItem('simulation_snapshot');
+            if (snapshot) {
+                const input = document.getElementById('simulation-snapshot-input');
+                const previewBox = document.getElementById('simulation-preview-box');
+                const previewImg = document.getElementById('simulation-preview-img');
+                if (input && previewBox && previewImg) {
+                    input.value = snapshot;
+                    previewImg.src = snapshot;
+                    previewBox.style.display = 'block';
+                }
+                // Limpiar después de cargar en la página para evitar cotizaciones erróneas posteriores
+                sessionStorage.removeItem('simulation_snapshot');
+            }
+        });
+    </script>
 </body>
 </html>

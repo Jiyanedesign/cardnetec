@@ -90,6 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     formData.append('logo', logoInput.files[0]);
                 }
 
+                // Cargar simulación de Canvas si existe en el formulario
+                const simulationInput = quoteForm.querySelector('#simulation-snapshot-input');
+                if (simulationInput && simulationInput.value) {
+                    formData.append('simulation_snapshot', simulationInput.value);
+                }
+
                 // Enviar al procesador PHP
                 fetch('cotizar-action.php', {
                     method: 'POST',

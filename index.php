@@ -239,11 +239,9 @@ try {
                             <span class="product-card-price"><?php echo htmlspecialchars($product['category']); ?></span>
                             <h3 class="product-card-title"><?php echo htmlspecialchars($product['name']); ?></h3>
                             <p class="product-card-desc"><?php echo htmlspecialchars($product['description_short']); ?></p>
-                            <?php if ($product['allows_simulation']): ?>
-                                <a href="simulador.php?producto_id=<?php echo $product['id']; ?>" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Simular mi logo</a>
-                            <?php else: ?>
-                                <a href="cotizacion.php?producto=<?php echo urlencode($product['slug']); ?>" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem;"><?php echo htmlspecialchars($product['cta_text']); ?></a>
-                            <?php endif; ?>
+                            <a href="producto.php?slug=<?php echo urlencode($product['slug']); ?>" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem; text-align: center;">
+                                Ver producto y simular
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>

@@ -28,13 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
     $slug = trim($_POST['slug']);
     $description_short = trim($_POST['description_short']);
+    $description_long = trim($_POST['description_long']);
     $category_id = (int)$_POST['category_id'];
+    $sku = trim($_POST['sku']);
+    $stock = (int)$_POST['stock'];
+    $price = (float)$_POST['price'];
     $is_active = isset($_POST['is_active']) ? 1 : 0;
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
     $allows_simulation = isset($_POST['allows_simulation']) ? 1 : 0;
     $cta_text = trim($_POST['cta_text']);
     
-    // Obtener nombre de la categoría para guardar en texto para compatibilidad
+    // Obtener nombre de la categoría para compatibilidad
     $stmtCat = $pdo->prepare("SELECT name FROM categorias WHERE id = ?");
     $stmtCat->execute([$category_id]);
     $category_name = $stmtCat->fetchColumn() ?: 'Artículos personalizados';
@@ -43,7 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
     }
 
-    // Subida de imagen
+    // Carpeta de subidas
+    $upload_dir = '../uploads/products/';
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+
+    // 1. Subida de imagen principal
     $image_filename = isset($_POST['existing_image']) ? $_POST['existing_image'] : '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $file_tmp = $_FILES['image']['tmp_name'];
@@ -52,28 +62,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
             $new_filename = 'prod_' . time() . '_' . uniqid() . '.' . $ext;
-            $dest_path = '../uploads/products/' . $new_filename;
-            
-            if (!is_dir('../uploads/products')) {
-                mkdir('../uploads/products', 0755, true);
-            }
-            
-            if (move_uploaded_file($file_tmp, $dest_path)) {
+            if (move_uploaded_file($file_tmp, $upload_dir . $new_filename)) {
                 $image_filename = 'products/' . $new_filename;
-            } else {
-                $error = 'Error al mover el archivo subido.';
             }
-        } else {
-            $error = 'Extensión de archivo no permitida.';
         }
     }
+
+    // 2. Subida de imágenes de la galería
+    $gallery_paths = [];
+    if (isset($_POST['existing_gallery'])) {
+        $gallery_paths = json_decode($_POST['existing_gallery'], true) ?: [];
+    }
+
+    // Procesar subida de hasta 5 imágenes nuevas para la galería
+    if (isset($_FILES['gallery'])) {
+        $files = $_FILES['gallery'];
+        for ($i = 0; $i < count($files['name']); $i++) {
+            if ($files['error'][$i] === UPLOAD_ERR_OK) {
+                $file_tmp = $files['tmp_name'][$i];
+                $file_name = $files['name'][$i];
+                $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+                if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $new_filename = 'gal_' . time() . '_' . uniqid() . '.' . $ext;
+                    if (move_uploaded_file($file_tmp, $upload_dir . $new_filename)) {
+                        $gallery_paths[] = 'products/' . $new_filename;
+                    }
+                }
+            }
+        }
+    }
+
+    $gallery_json = json_encode($gallery_paths);
 
     if (empty($error)) {
         if ($id > 0) {
             // Edición
             try {
-                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, category = ?, category_id = ?, image_main = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ? WHERE id = ?");
-                $stmt->execute([$name, $slug, $description_short, $category_name, $category_id, $image_filename, $is_active, $is_featured, $allows_simulation, $cta_text, $id]);
+                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ? WHERE id = ?");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $id]);
                 $message = 'Producto actualizado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al actualizar base de datos: ' . $e->getMessage();
@@ -81,8 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Creación
             try {
-                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, category, category_id, image_main, is_active, is_featured, allows_simulation, cta_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$name, $slug, $description_short, $category_name, $category_id, $image_filename, $is_active, $is_featured, $allows_simulation, $cta_text]);
+                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text]);
                 $message = 'Producto creado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al crear producto: ' . $e->getMessage();
@@ -91,10 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Cargar todas las categorías activas para el select
+// Cargar todas las categorías activas
 $categorias = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY order_val ASC")->fetchAll();
 
-// Cargar todos los productos con el nombre de su categoría
+// Cargar todos los productos
 $products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY p.id DESC")->fetchAll();
 
 // Cargar producto a editar
@@ -189,6 +216,25 @@ if (isset($_GET['edit'])) {
         }
         .alert-success { background-color: #DEF7EC; color: #03543F; }
         .alert-danger { background-color: #FDE8E8; color: #9B1C1C; }
+        .gallery-preview {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .gallery-img-wrap {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -224,11 +270,12 @@ if (isset($_GET['edit'])) {
                 <?php if ($edit_product): ?>
                     <input type="hidden" name="id" value="<?php echo $edit_product['id']; ?>">
                     <input type="hidden" name="existing_image" value="<?php echo $edit_product['image_main']; ?>">
+                    <input type="hidden" name="existing_gallery" value="<?php echo htmlspecialchars($edit_product['gallery_images'] ?: '[]'); ?>">
                 <?php endif; ?>
 
                 <div class="grid-2">
                     <div class="form-group">
-                        <label class="form-label" for="name">Nombre del Producto</label>
+                        <label class="form-label" for="name">Nombre del Producto *</label>
                         <input class="form-input" type="text" name="name" id="name" required value="<?php echo $edit_product ? htmlspecialchars($edit_product['name']) : ''; ?>">
                     </div>
                     <div class="form-group">
@@ -237,9 +284,29 @@ if (isset($_GET['edit'])) {
                     </div>
                 </div>
 
+                <div class="grid-3" style="margin-top: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="sku">SKU *</label>
+                        <input class="form-input" type="text" name="sku" id="sku" required placeholder="Ej: 44434" value="<?php echo $edit_product ? htmlspecialchars($edit_product['sku']) : ''; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="stock">Stock Disponible *</label>
+                        <input class="form-input" type="number" name="stock" id="stock" required placeholder="Ej: 700" value="<?php echo $edit_product ? (int)$edit_product['stock'] : '700'; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="price">Precio Unitario ($) *</label>
+                        <input class="form-input" type="number" step="0.01" name="price" id="price" required placeholder="Ej: 2.50" value="<?php echo $edit_product ? number_format($edit_product['price'], 2) : '2.50'; ?>">
+                    </div>
+                </div>
+
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label" for="description_short">Descripción Corta</label>
+                    <label class="form-label" for="description_short">Descripción Corta (Showroom/Cards)</label>
                     <textarea class="form-input" name="description_short" id="description_short" rows="2" required><?php echo $edit_product ? htmlspecialchars($edit_product['description_short']) : ''; ?></textarea>
+                </div>
+
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="description_long">Descripción Detallada (Acerca del Producto)</label>
+                    <textarea class="form-input" name="description_long" id="description_long" rows="4" placeholder="Especificaciones técnicas, materiales, peso, área de grabado..."><?php echo $edit_product ? htmlspecialchars($edit_product['description_long']) : ''; ?></textarea>
                 </div>
 
                 <div class="grid-3" style="margin-top: 1rem;">
@@ -255,14 +322,32 @@ if (isset($_GET['edit'])) {
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="image">Imagen Principal (1:1)</label>
+                        <label class="form-label" for="image">Imagen de Portada Principal</label>
                         <input class="form-input" type="file" name="image" id="image">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="cta_text">Texto del Botón CTA</label>
+                        <label class="form-label" for="cta_text">Texto del Botón</label>
                         <input class="form-input" type="text" name="cta_text" id="cta_text" value="<?php echo $edit_product ? htmlspecialchars($edit_product['cta_text']) : 'Quiero este acabado'; ?>">
                     </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label class="form-label" for="gallery">Añadir Fotos a la Galería (Selecciona múltiples archivos)</label>
+                    <input class="form-input" type="file" name="gallery[]" id="gallery" multiple>
+                    
+                    <?php if ($edit_product && !empty($edit_product['gallery_images'])): ?>
+                        <div class="gallery-preview">
+                            <?php 
+                            $gallery = json_decode($edit_product['gallery_images'], true) ?: [];
+                            foreach ($gallery as $g_img): 
+                            ?>
+                                <div class="gallery-img-wrap">
+                                    <img src="../uploads/<?php echo htmlspecialchars($g_img); ?>">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="form-group" style="margin-top: 1.5rem; display: flex; gap: 20px;">
@@ -292,6 +377,9 @@ if (isset($_GET['edit'])) {
                 <tr>
                     <th>Imagen</th>
                     <th>Nombre</th>
+                    <th>SKU</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
                     <th>Categoría</th>
                     <th>Destacado</th>
                     <th>Simulable</th>
@@ -310,6 +398,9 @@ if (isset($_GET['edit'])) {
                             <?php endif; ?>
                         </td>
                         <td><strong><?php echo htmlspecialchars($prod['name']); ?></strong></td>
+                        <td><code><?php echo htmlspecialchars($prod['sku']); ?></code></td>
+                        <td>$<?php echo number_format($prod['price'], 2); ?></td>
+                        <td><?php echo (int)$prod['stock']; ?> uds</td>
                         <td><?php echo htmlspecialchars($prod['category_name'] ?: $prod['category']); ?></td>
                         <td><?php echo $prod['is_featured'] ? 'Sí' : 'No'; ?></td>
                         <td><?php echo $prod['allows_simulation'] ? 'Sí' : 'No'; ?></td>

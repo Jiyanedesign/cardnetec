@@ -1,19 +1,38 @@
+<?php
+require_once 'db.php';
+
+// Obtener todas las categorías para los filtros
+try {
+    $stmtCats = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY order_val ASC");
+    $categories = $stmtCats->fetchAll();
+} catch (PDOException $e) {
+    $categories = [];
+}
+
+// Obtener productos filtrados si se solicita
+$category_filter = isset($_GET['cat']) ? trim($_GET['cat']) : '';
+
+try {
+    if ($category_filter) {
+        $stmtProds = $pdo->prepare("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND c.slug = ? ORDER BY p.order_val ASC");
+        $stmtProds->execute([$category_filter]);
+    } else {
+        $stmtProds = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 ORDER BY p.order_val ASC");
+    }
+    $products = $stmtProds->fetchAll();
+} catch (PDOException $e) {
+    $products = [];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos | CardNet.ec - Artículos Promocionales</title>
-    <meta name="description" content="Explora nuestra selección de artículos promocionales listos para personalizar: tazas, termos, textiles y agendas con cantidades mínimas e información de marcado.">
+    <title>Catálogo de Productos | CardNet.ec</title>
+    <meta name="description" content="Explora nuestra selección de artículos promocionales listos para personalizar: termos, libretas y kits.">
     <link rel="canonical" href="https://cardnet.ec/productos.php">
     
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cardnet.ec/productos.php">
-    <meta property="og:title" content="Catálogo de Artículos Promocionales | CardNet.ec">
-    <meta property="og:description" content="Soportes de alta resistencia y acabados técnicos de precisión para tu marca. Mínimos claros.">
-    <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
-
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=1.1.2">
     <link rel="stylesheet" href="css/layout.css?v=1.1.2">
@@ -21,19 +40,44 @@
     <link rel="stylesheet" href="css/pages.css?v=1.1.2">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
-    <!-- Google Fonts: Marcellus (Títulos Elegantes) & Work Sans (Textos Limpios) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background-color: var(--surface-light);
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+    </style>
 </head>
 <body>
 
     <!-- Barra de Anuncios Superior -->
     <div class="top-announcement-bar">
-        Envío estándar gratis en pedidos corporativos mayores a $150 | Tiempos de entrega rápidos a todo el país
+        Taller de personalización en Quito | Envíos corporativos asegurados a todo el Ecuador
     </div>
 
-    <!-- Cabecera de Página Multicapa -->
+    <!-- Cabecera de Página -->
     <header class="main-header">
         <div class="container">
             <div class="header-middle">
@@ -52,23 +96,12 @@
                     <div class="contact-status-item">
                         <span class="status-icon-wrap">
                             <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72(12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/>
                             </svg>
                         </span>
                         <div class="status-text">
                             <h4>Asesoría Directa</h4>
                             <p>+593 90 000 0000</p>
-                        </div>
-                    </div>
-                    <div class="contact-status-item">
-                        <span class="status-icon-wrap">
-                            <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                            </svg>
-                        </span>
-                        <div class="status-text">
-                            <h4>¿Dudas Comerciales?</h4>
-                            <p><a href="#" class="status-link">Chatea ahora</a></p>
                         </div>
                     </div>
                 </div>
@@ -84,15 +117,15 @@
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.php" class="nav-link ">Inicio</a>
-                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
+                    <a href="index.php" class="nav-link">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link">Destacados</a>
+                    <a href="index.php#laser" class="nav-link">Grabado láser</a>
                     <a href="productos.php" class="nav-link active">Productos</a>
-                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
-                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
+                    <a href="empresas.php" class="nav-link">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link">Cotizar</a>
                 </nav>
                 <div class="header-bottom-actions">
-                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar Ahora</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
                 </div>
             </div>
         </div>
@@ -101,11 +134,11 @@
     <!-- Menú Móvil -->
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
-        <a href="index.php" class="mobile-link ">Inicio</a>
-        <a href="index.php#destacados" class="mobile-link ">Destacados</a>
-        <a href="index.php#laser" class="mobile-link ">Grabado láser</a>
+        <a href="index.php" class="mobile-link">Inicio</a>
+        <a href="index.php#destacados" class="mobile-link">Destacados</a>
+        <a href="index.php#laser" class="mobile-link">Grabado láser</a>
         <a href="productos.php" class="mobile-link active">Productos</a>
-        <a href="empresas.php" class="mobile-link ">Kits corporativos</a>
+        <a href="empresas.php" class="mobile-link">Kits corporativos</a>
         <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
 
@@ -119,106 +152,55 @@
 
     <!-- MAIN CONTENT -->
     <main class="section-padding container">
+
+        <!-- Barra de Filtros por Categoría -->
+        <div class="filter-bar">
+            <a href="productos.php" class="filter-btn <?php echo !$category_filter ? 'active' : ''; ?>">Todos los artículos</a>
+            <?php foreach ($categories as $cat): ?>
+                <a href="productos.php?cat=<?php echo urlencode($cat['slug']); ?>" class="filter-btn <?php echo $category_filter === $cat['slug'] ? 'active' : ''; ?>">
+                    <?php echo htmlspecialchars($cat['name']); ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
         
-        <!-- Grid de Catálogo Estilo MOO -->
         <div class="grid-3">
-            
-            <!-- Termos e Hidratación -->
-            <div class="product-card reveal-on-scroll">
-                <div class="product-card-image-wrap">
-                    <div class="image-placeholder theme-blue">
-                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                        </svg>
-                        <span class="image-placeholder-text">Termo de Vacío Acero Inox</span>
+            <?php if (!empty($products)): ?>
+                <?php foreach ($products as $prod): ?>
+                    <div class="product-card reveal-on-scroll">
+                        <div class="product-card-image-wrap">
+                            <div class="image-placeholder theme-gray">
+                                <?php if ($prod['image_main']): ?>
+                                    <img src="uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width:100%; height:100%; object-fit:cover;">
+                                <?php else: ?>
+                                    <div class="image-placeholder-inner">
+                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                        </svg>
+                                        <span class="image-placeholder-text"><?php echo htmlspecialchars($prod['name']); ?></span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="product-card-body">
+                            <span class="product-card-price"><?php echo htmlspecialchars($prod['category']); ?></span>
+                            <h3 class="product-card-title"><?php echo htmlspecialchars($prod['name']); ?></h3>
+                            <p class="product-card-desc"><?php echo htmlspecialchars($prod['description_short']); ?></p>
+                            <a href="producto.php?slug=<?php echo urlencode($prod['slug']); ?>" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem; text-align: center;">
+                                Ver producto y simular
+                            </a>
+                        </div>
                     </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem 0;">
+                    No se encontraron productos en esta categoría.
                 </div>
-                <div class="product-card-body">
-                    <span class="product-card-price">Desde 25 unidades</span>
-                    <h3 class="product-card-title">Termos e Hidratación</h3>
-                    <p class="product-card-desc">Termos de doble pared, vasos térmicos de oficina y botellas deportivas de aluminio. Conservan la temperatura y ofrecen una gran superficie para grabado láser plateado o dorado.</p>
-                    <a href="cotizacion.php?cat=termos" class="product-card-link">Cotizar Termos</a>
-                </div>
-            </div>
-
-            <!-- Textiles y Gorras -->
-            <div class="product-card reveal-on-scroll delay-100">
-                <div class="product-card-image-wrap">
-                    <div class="image-placeholder theme-green">
-                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.86 10a2 2 0 0 0 2 1.81h13.72a2 2 0 0 0 2-1.81l.86-10a2 2 0 0 0-1.34-2.23z"/>
-                        </svg>
-                        <span class="image-placeholder-text">Camiseta Polo de Piqué</span>
-                    </div>
-                </div>
-                <div class="product-card-body">
-                    <span class="product-card-price">Desde 50 unidades</span>
-                    <h3 class="product-card-title">Textiles y Gorras</h3>
-                    <p class="product-card-desc">Camisetas polo premium de tejido pesado, camisetas de algodón peinado, gorras estructuradas y hoodies. Confección robusta y costuras reforzadas aptas para bordado denso.</p>
-                    <a href="cotizacion.php?cat=textiles" class="product-card-link">Cotizar Textiles</a>
-                </div>
-            </div>
-
-            <!-- Agendas y Oficina -->
-            <div class="product-card reveal-on-scroll delay-200">
-                <div class="product-card-image-wrap">
-                    <div class="image-placeholder theme-gray">
-                        <svg class="image-placeholder-icon" style="stroke: var(--dark);" viewBox="0 0 24 24">
-                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                        </svg>
-                        <span class="image-placeholder-text" style="color: var(--dark);">Agenda Ejecutiva PU Cuero</span>
-                    </div>
-                </div>
-                <div class="product-card-body">
-                    <span class="product-card-price">Desde 100 unidades</span>
-                    <h3 class="product-card-title">Agendas y Oficina</h3>
-                    <p class="product-card-desc">Agendas ejecutivas fechadas y libretas con hojas color avena, elásticos y separadores. Bolígrafos metálicos de trazo suave y carpetas ejecutivas.</p>
-                    <a href="cotizacion.php?cat=oficina" class="product-card-link">Cotizar Agendas</a>
-                </div>
-            </div>
-
-            <!-- Tecnología y USBs -->
-            <div class="product-card reveal-on-scroll">
-                <div class="product-card-image-wrap">
-                    <div class="image-placeholder theme-gray" style="background-color: #CBD5E1;">
-                        <svg class="image-placeholder-icon" style="stroke: var(--dark);" viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="20" height="20" rx="2" ry="2"/>
-                        </svg>
-                        <span class="image-placeholder-text" style="color: var(--dark);">USB de Bambú con Tapa</span>
-                    </div>
-                </div>
-                <div class="product-card-body">
-                    <span class="product-card-price">Desde 50 unidades</span>
-                    <h3 class="product-card-title">Tecnología B2B</h3>
-                    <p class="product-card-desc">Memorias USB promocionales de bambú o metal con chips de alta velocidad de lectura, cargadores inalámbricos inductivos y accesorios de viaje.</p>
-                    <a href="cotizacion.php?cat=tecnologia" class="product-card-link">Cotizar Tecnología</a>
-                </div>
-            </div>
-
-            <!-- Bolsas Ecológicas -->
-            <div class="product-card reveal-on-scroll delay-100">
-                <div class="product-card-image-wrap">
-                    <div class="image-placeholder theme-blue">
-                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                        </svg>
-                        <span class="image-placeholder-text">Bolsa Reutilizable de Tocuyo</span>
-                    </div>
-                </div>
-                <div class="product-card-body">
-                    <span class="product-card-price">Desde 100 unidades</span>
-                    <h3 class="product-card-title">Bolsas Ecológicas</h3>
-                    <p class="product-card-desc">Bolsas de algodón crudo (tocuyo), mochilas de cuerdas y bolsas de cambrela termoselladas de alta resistencia. Ideal para ferias publicitarias o supermercados.</p>
-                    <a href="cotizacion.php?cat=bolsas" class="product-card-link">Cotizar Bolsas</a>
-                </div>
-            </div>
-
+            <?php endif; ?>
         </div>
 
     </main>
 
-    <!-- Pie de Página -->
+    <!-- Footer -->
     <footer class="main-footer">
         <div class="container footer-top section-padding">
             <div class="footer-grid">
@@ -226,58 +208,28 @@
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
-                </div>
-                <div class="footer-links-column">
-                    <h3 class="footer-heading">Nosotros</h3>
-                    <nav class="footer-links" aria-label="Enlaces corporativos">
-                        <a href="nosotros.php" class="footer-link">Trayectoria</a>
-                        <a href="personalizacion.php" class="footer-link">Técnicas</a>
-                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
-                        <a href="proyectos.php" class="footer-link">Proyectos</a>
-                    </nav>
+                    <p class="footer-description">Grabado láser y personalización corporativa en Ecuador.</p>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Productos</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos">
                         <a href="productos.php" class="footer-link">Todo el Catálogo</a>
-                        <a href="productos.php#termos" class="footer-link">Termos y Vasos</a>
-                        <a href="productos.php#textil" class="footer-link">Polos y Gorras</a>
-                        <a href="productos.php#oficina" class="footer-link">Libretas y Oficina</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Contacto</h3>
                     <div class="footer-contact-info">
                         <div class="footer-contact-item">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72(12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            <span>+593 90 000 0000</span>
+                            <span>WhatsApp: +593 90 000 0000</span>
                         </div>
                         <div class="footer-contact-item">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                            <span>info@cardnet.ec</span>
+                            <span>Correo: info@cardnet.ec</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div class="container footer-bottom-flex">
-                <p>&copy; 2026 CardNet.ec. Todos los derechos reservados. Diseñado para marcas conscientes.</p>
-                <div class="footer-bottom-links">
-                    <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
-                    <a href="contacto.php" class="footer-bottom-link">Soporte</a>
-                </div>
-            </div>
-        </div>
     </footer>
-
-    <!-- Botón de WhatsApp Flotante -->
-    <a href="#" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
-        <svg class="whatsapp-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.982L2 22l5.233-1.371a9.994 9.994 0 0 0 4.779 1.22h.005c5.505 0 9.99-4.478 9.99-9.985A9.988 9.988 0 0 0 12.012 2zm4.7 13.916c-.223.633-1.29 1.205-1.782 1.282-.477.075-.947.168-3.067-.665-2.707-1.06-4.442-3.817-4.577-3.996-.134-.178-1.096-1.455-1.096-2.781 0-1.325.692-1.973.938-2.228.246-.255.535-.319.714-.319.18 0 .358.001.514.009.16.008.375-.062.586.448.223.54.76 1.851.827 1.984.067.134.112.29.022.468-.09.18-.134.29-.268.447-.134.156-.282.35-.403.47-.134.134-.273.28-.117.548.156.268.693 1.139 1.492 1.85 1.026.914 1.89 1.196 2.158 1.33.268.134.424.112.58-.067.157-.18.67-.781.848-1.049.178-.268.358-.223.58-.134.224.089 1.42.67 1.666.792.246.123.411.18.47.282.06.101.06.586-.163 1.218z"/>
-        </svg>
-    </a>
 
     <!-- Scripts Modulares -->
     <script src="js/main.js"></script>
