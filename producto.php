@@ -784,32 +784,57 @@ $gallery = array_unique($gallery);
             reader.readAsDataURL(file);
         }
 
-        // Efecto grabado
+        // Efecto grabado con simulación de profundidad y color sólido (overlay)
         function applyEngravingEffect(e) {
-            const effect = e.target.value;
+            const effect = e.target ? e.target.value : e;
             const activeObject = canvas.getActiveObject();
             if (!activeObject) return;
 
             activeObject.filters = [];
 
             if (effect === 'laser-silver') {
+                // Color Plata Metálico Sólido
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
-                    color: '#CCCCCC',
-                    mode: 'tint',
-                    alpha: 0.9
+                    color: '#E0E0E0',
+                    mode: 'overlay',
+                    alpha: 1.0
+                }));
+                // Sombra sutil para profundidad (Efecto relieve tallado)
+                activeObject.set('shadow', new fabric.Shadow({
+                    color: 'rgba(0, 0, 0, 0.25)',
+                    blur: 2,
+                    offsetX: 1,
+                    offsetY: 1
                 }));
             } else if (effect === 'laser-gold') {
+                // Color Oro Sólido
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#D4AF37',
-                    mode: 'tint',
-                    alpha: 0.9
+                    mode: 'overlay',
+                    alpha: 1.0
+                }));
+                activeObject.set('shadow', new fabric.Shadow({
+                    color: 'rgba(0, 0, 0, 0.3)',
+                    blur: 2,
+                    offsetX: 1,
+                    offsetY: 1
                 }));
             } else if (effect === 'deboss') {
+                // Quemado oscuro profundo
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
-                    color: '#2A1F1F',
-                    mode: 'tint',
-                    alpha: 0.85
+                    color: '#261C14',
+                    mode: 'overlay',
+                    alpha: 1.0
                 }));
+                activeObject.set('shadow', new fabric.Shadow({
+                    color: 'rgba(255, 255, 255, 0.1)',
+                    blur: 1,
+                    offsetX: -0.5,
+                    offsetY: -0.5
+                }));
+            } else {
+                // Quitar filtros y sombras para original
+                activeObject.set('shadow', null);
             }
 
             activeObject.applyFilters();
