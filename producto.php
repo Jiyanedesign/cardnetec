@@ -51,31 +51,31 @@ $gallery = array_unique($gallery);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
 
     <style>
-        /* Estilo Tema Oscuro Premium para Detalle de Producto */
-        .product-detail-dark {
-            background-color: #0F0F12;
-            color: #FFFFFF;
+        /* Estilo Integrado con la Marca (Fondo Claro/Hueso) */
+        .product-detail-light-theme {
+            background-color: var(--light);
+            color: var(--text-main);
             padding: 3rem 0;
             min-height: 80vh;
         }
-        .breadcrumb-dark {
+        .breadcrumb-light {
             display: flex;
             gap: 8px;
-            font-size: 0.8rem;
-            color: #8E9297;
+            font-size: 0.82rem;
+            color: var(--text-muted);
             margin-bottom: 2rem;
         }
-        .breadcrumb-dark a {
-            color: #8E9297;
+        .breadcrumb-light a {
+            color: var(--text-muted);
             text-decoration: none;
             transition: color var(--transition-fast);
         }
-        .breadcrumb-dark a:hover {
-            color: #FFFFFF;
+        .breadcrumb-light a:hover {
+            color: var(--primary);
         }
         .detail-grid {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
+            grid-template-columns: 1.15fr 0.85fr;
             gap: 3rem;
             align-items: start;
         }
@@ -95,8 +95,8 @@ $gallery = array_unique($gallery);
         .canvas-container-outer {
             width: 100%;
             aspect-ratio: 1;
-            background-color: #1A1A1E;
-            border: 1px solid rgba(255,255,255,0.08);
+            background-color: var(--surface-light);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
             overflow: hidden;
             display: flex;
@@ -112,16 +112,16 @@ $gallery = array_unique($gallery);
         .thumbnail-item {
             width: 70px;
             height: 70px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 4px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
             overflow: hidden;
             cursor: pointer;
             transition: var(--transition-fast);
-            background-color: #1A1A1E;
+            background-color: var(--light);
         }
         .thumbnail-item.active {
-            border-color: #00E5FF;
-            box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 174, 44, 0.2);
         }
         .thumbnail-item img {
             width: 100%;
@@ -131,19 +131,20 @@ $gallery = array_unique($gallery);
 
         /* Caja de Controles del Simulador */
         .simulator-control-panel {
-            background-color: #16161A;
-            border: 1px solid rgba(255,255,255,0.06);
+            background-color: var(--light);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
         }
         .simulator-title {
-            font-family: 'Marcellus', serif;
-            font-size: 1.1rem;
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
             margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #FFFFFF;
+            color: var(--text-main);
         }
         .btn-upload-wrap {
             position: relative;
@@ -153,9 +154,9 @@ $gallery = array_unique($gallery);
         }
         .btn-upload {
             width: 100%;
-            background-color: #24242A;
-            border: 1px dashed rgba(255,255,255,0.2);
-            color: #FFFFFF;
+            background-color: var(--surface-light);
+            border: 1px dashed var(--border);
+            color: var(--text-main);
             padding: 12px;
             text-align: center;
             border-radius: var(--radius-sm);
@@ -166,10 +167,11 @@ $gallery = array_unique($gallery);
             justify-content: center;
             align-items: center;
             gap: 8px;
+            font-weight: 500;
         }
         .btn-upload:hover {
-            border-color: #00E5FF;
-            background-color: #2B2B33;
+            border-color: var(--primary);
+            background-color: var(--primary-light);
         }
         .btn-upload-wrap input[type="file"] {
             position: absolute;
@@ -186,8 +188,8 @@ $gallery = array_unique($gallery);
         .sim-slider-label {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
-            color: #8E9297;
+            font-size: 0.82rem;
+            color: var(--text-muted);
             margin-bottom: 6px;
         }
         .sim-slider {
@@ -195,7 +197,7 @@ $gallery = array_unique($gallery);
             -webkit-appearance: none;
             height: 6px;
             border-radius: 3px;
-            background: #2D2D35;
+            background: var(--border);
             outline: none;
         }
         .sim-slider::-webkit-slider-thumb {
@@ -203,7 +205,7 @@ $gallery = array_unique($gallery);
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            background: #F1C40F;
+            background: var(--primary);
             cursor: pointer;
         }
         .sim-select-group {
@@ -211,9 +213,9 @@ $gallery = array_unique($gallery);
         }
         .sim-select {
             width: 100%;
-            background-color: #24242A;
-            color: #FFFFFF;
-            border: 1px solid rgba(255,255,255,0.1);
+            background-color: var(--light);
+            color: var(--text-main);
+            border: 1px solid var(--border);
             padding: 10px;
             border-radius: var(--radius-sm);
             font-size: 0.88rem;
@@ -227,9 +229,9 @@ $gallery = array_unique($gallery);
             gap: 1.5rem;
         }
         .stock-tag {
-            color: #63AE2C;
+            color: var(--primary);
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -239,22 +241,24 @@ $gallery = array_unique($gallery);
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background-color: #63AE2C;
+            background-color: var(--primary);
             display: inline-block;
         }
-        .product-title-dark {
-            font-family: 'Marcellus', serif;
+        .product-title-style {
+            font-family: var(--font-heading);
             font-size: 2.5rem;
             margin: 0;
             line-height: 1.1;
+            color: var(--text-main);
         }
         
         /* Caja de Precios y Cantidades */
         .purchase-box {
-            background-color: #16161A;
-            border: 1px solid rgba(255,255,255,0.06);
+            background-color: var(--light);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 1.5rem;
+            box-shadow: var(--shadow-md);
         }
         .purchase-row {
             display: flex;
@@ -263,8 +267,8 @@ $gallery = array_unique($gallery);
             margin-bottom: 1.5rem;
         }
         .qty-label, .price-label {
-            font-size: 0.72rem;
-            color: #8E9297;
+            font-size: 0.75rem;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 6px;
@@ -273,15 +277,16 @@ $gallery = array_unique($gallery);
         .qty-selectors {
             display: flex;
             align-items: center;
-            background-color: #24242A;
+            background-color: var(--surface-light);
             border-radius: 20px;
             padding: 4px 8px;
             width: fit-content;
+            border: 1px solid var(--border);
         }
         .qty-btn {
             background: none;
             border: none;
-            color: #FFFFFF;
+            color: var(--text-main);
             font-size: 1.2rem;
             width: 32px;
             height: 32px;
@@ -296,7 +301,7 @@ $gallery = array_unique($gallery);
             text-align: center;
             background: none;
             border: none;
-            color: #FFFFFF;
+            color: var(--text-main);
             font-weight: bold;
             font-size: 1rem;
             outline: none;
@@ -304,11 +309,11 @@ $gallery = array_unique($gallery);
         .unit-price-display {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #FFFFFF;
+            color: var(--text-main);
             text-align: right;
         }
         .subtotal-row {
-            border-top: 1px solid rgba(255,255,255,0.08);
+            border-top: 1px solid var(--border);
             padding-top: 1.25rem;
             display: flex;
             justify-content: space-between;
@@ -317,62 +322,63 @@ $gallery = array_unique($gallery);
         .subtotal-label {
             font-weight: 600;
             font-size: 0.88rem;
-            color: #FFFFFF;
+            color: var(--text-main);
             text-transform: uppercase;
         }
         .subtotal-value {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #00E5FF;
+            color: var(--primary);
         }
         
-        /* Botón de WhatsApp Premium */
+        /* Botón Verde Corporativo */
         .btn-gradient {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
             width: 100%;
-            background: linear-gradient(135deg, #E02F74 0%, #8738D5 100%);
-            color: #FFFFFF;
+            background-color: var(--primary);
+            color: white;
             padding: 16px;
             border: none;
-            border-radius: 30px;
+            border-radius: var(--radius-sm);
             font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(224, 47, 116, 0.3);
+            box-shadow: var(--shadow-sm);
             transition: var(--transition-fast);
             text-decoration: none;
         }
         .btn-gradient:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(224, 47, 116, 0.45);
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
         /* Acerca del Producto */
         .about-box {
-            border-top: 1px solid rgba(255,255,255,0.08);
+            border-top: 1px solid var(--border);
             padding-top: 1.5rem;
         }
         .about-title {
-            font-family: 'Marcellus', serif;
+            font-family: var(--font-heading);
             font-size: 1.25rem;
             margin-bottom: 1rem;
+            color: var(--text-main);
         }
         .specs-table {
             width: 100%;
             margin-bottom: 1rem;
         }
         .specs-table tr {
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid var(--border);
         }
         .specs-table td {
             padding: 8px 0;
             font-size: 0.88rem;
         }
         .specs-label {
-            color: #8E9297;
+            color: var(--text-muted);
             width: 30%;
         }
     </style>
@@ -385,43 +391,59 @@ $gallery = array_unique($gallery);
     </div>
 
     <!-- Cabecera de Página -->
-    <header class="main-header" style="background-color: #0F0F12; border-bottom: 1px solid rgba(255,255,255,0.08);">
+    <header class="main-header">
         <div class="container">
             <div class="header-middle">
                 <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
-                    <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img" style="filter: brightness(0) invert(1);">
+                    <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
                 <div class="header-search">
                     <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
-                    <input class="search-input" type="text" placeholder="Buscar grabados..." style="background-color: #1A1A1E; color: white; border-color: rgba(255,255,255,0.1);">
+                    <input class="search-input" type="text" placeholder="Buscar grabados...">
                 </div>
 
                 <div class="header-contact-status">
                     <div class="contact-status-item">
                         <div class="status-text">
-                            <h4 style="color: white;">Asesoría personalizada</h4>
-                            <p style="color: #8E9297;">+593 90 000 0000</p>
+                            <h4>Asesoría personalizada</h4>
+                            <p>+593 90 000 0000</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="header-bottom">
+            <div class="container nav-container">
+                <nav class="nav-menu" aria-label="Navegación principal">
+                    <a href="index.php" class="nav-link">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link">Destacados</a>
+                    <a href="index.php#laser" class="nav-link">Grabado láser</a>
+                    <a href="productos.php" class="nav-link active">Productos</a>
+                    <a href="empresas.php" class="nav-link">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link">Cotizar</a>
+                </nav>
+                <div class="header-bottom-actions">
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <!-- MAIN CONTENT IN DARK MODE -->
-    <div class="product-detail-dark">
+    <!-- MAIN CONTENT IN LIGHT BRAND THEME -->
+    <div class="product-detail-light-theme">
         <div class="container">
             
             <!-- Breadcrumbs -->
-            <div class="breadcrumb-dark">
+            <div class="breadcrumb-light">
                 <a href="index.php">Inicio</a>
                 <span>/</span>
                 <a href="productos.php">Catálogo</a>
                 <span>/</span>
-                <span style="color: #FFFFFF; font-weight: 500;"><?php echo htmlspecialchars($product['name']); ?></span>
+                <span style="color: var(--text-main); font-weight: 500;"><?php echo htmlspecialchars($product['name']); ?></span>
             </div>
 
             <!-- Detalle Grid -->
@@ -430,7 +452,6 @@ $gallery = array_unique($gallery);
                 <!-- Columna Izquierda: Imagen / Canvas / Simulador -->
                 <div class="preview-column">
                     <div class="canvas-container-outer">
-                        <!-- Canvas Interactivo de Fabric.js -->
                         <canvas id="canvas-simulator" width="500" height="500"></canvas>
                     </div>
 
@@ -445,11 +466,11 @@ $gallery = array_unique($gallery);
                         </div>
                     <?php endif; ?>
 
-                    <!-- Panel del Simulador (solo si el producto lo permite) -->
+                    <!-- Panel del Simulador -->
                     <?php if ($product['allows_simulation']): ?>
                         <div class="simulator-control-panel">
                             <div class="simulator-title">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
                                     <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
                                 </svg>
                                 ¿Cómo se verá tu marca?
@@ -492,9 +513,9 @@ $gallery = array_unique($gallery);
                                 </select>
                             </div>
 
-                            <button id="btn-remove-logo" style="width:100%; padding:10px; background:none; border:1px solid #EF4444; color:#EF4444; border-radius:4px; font-weight:600; cursor:pointer; margin-top:10px;">Eliminar Logo</button>
+                            <button id="btn-remove-logo" style="width:100%; padding:10px; background:none; border:1px solid #EF4444; color:#EF4444; border-radius:var(--radius-sm); font-weight:600; cursor:pointer; margin-top:10px;">Eliminar Logo</button>
                             
-                            <p style="font-size:0.75rem; color:#8E9297; margin-top:10px; text-align:center;">
+                            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:10px; text-align:center;">
                                 ℹ️ Arrastra para mover y usa la esquina inferior para redimensionar.
                             </p>
                         </div>
@@ -509,8 +530,8 @@ $gallery = array_unique($gallery);
                             <span class="stock-dot"></span>
                             Stock disponible: <?php echo (int)$product['stock']; ?> unidades
                         </div>
-                        <h1 class="product-title-dark"><?php echo htmlspecialchars($product['name']); ?></h1>
-                        <p style="color:#8E9297; margin-top:10px; line-height:1.5;"><?php echo htmlspecialchars($product['description_short']); ?></p>
+                        <h1 class="product-title-style"><?php echo htmlspecialchars($product['name']); ?></h1>
+                        <p style="color:var(--text-muted); margin-top:10px; line-height:1.5; font-size:0.95rem;"><?php echo htmlspecialchars($product['description_short']); ?></p>
                     </div>
 
                     <!-- Ficha de Cotización Directa -->
@@ -535,7 +556,7 @@ $gallery = array_unique($gallery);
                             <span class="subtotal-value" id="subtotal-val">$50.00</span>
                         </div>
                         
-                        <p style="font-size:0.75rem; color:#8E9297; margin: 10px 0 20px 0; text-align:center;">
+                        <p style="font-size:0.75rem; color:var(--text-muted); margin: 10px 0 20px 0; text-align:center;">
                             Nuestros valores incluyen la personalización de un logo.
                         </p>
 
@@ -561,7 +582,7 @@ $gallery = array_unique($gallery);
                             </tr>
                         </table>
                         <?php if ($product['description_long']): ?>
-                            <p style="font-size: 0.88rem; color: #8E9297; line-height: 1.6; white-space: pre-line;">
+                            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; white-space: pre-line;">
                                 <?php echo htmlspecialchars($product['description_long']); ?>
                             </p>
                         <?php endif; ?>
@@ -575,9 +596,21 @@ $gallery = array_unique($gallery);
     </div>
 
     <!-- Footer -->
-    <footer class="main-footer" style="background-color: #0F0F12; border-top: 1px solid rgba(255,255,255,0.08);">
-        <div class="container footer-bottom-flex" style="padding: 2rem 0;">
-            <p style="color: #8E9297;">&copy; 2026 CardNet.ec — Grabado láser y personalización corporativa.</p>
+    <footer class="main-footer">
+        <div class="container footer-top section-padding">
+            <div class="footer-grid">
+                <div class="footer-brand-column">
+                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
+                        <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
+                    </a>
+                    <p class="footer-description">Grabado láser y personalización corporativa en Ecuador.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-flex">
+                <p>&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
+            </div>
         </div>
     </footer>
 
@@ -597,7 +630,7 @@ $gallery = array_unique($gallery);
         // Eventos de botones Más / Menos
         document.getElementById('qty-plus').addEventListener('click', () => {
             let val = parseInt(qtyInput.value) || 20;
-            qtyInput.value = val + 5; // incrementos de 5
+            qtyInput.value = val + 5;
             updateSubtotal();
         });
 
@@ -672,7 +705,7 @@ $gallery = array_unique($gallery);
                 });
             }
 
-            // Efecto de Grabado / Simulación
+            // Efecto de Grabado
             const effectSelect = document.getElementById('logo-effect');
             if (effectSelect) {
                 effectSelect.addEventListener('change', applyEngravingEffect);
@@ -680,17 +713,14 @@ $gallery = array_unique($gallery);
 
             // Submit de Cotización
             document.getElementById('btn-submit-quote').addEventListener('click', () => {
-                // Generar Snapshot de Canvas y redirigir
                 const snapshot = canvas.toDataURL({
                     format: 'png',
                     quality: 0.95
                 });
 
-                // Enviar vía POST simulado o redirigir a cotización
                 const qty = qtyInput.value;
                 const url = `cotizacion.php?producto=<?php echo urlencode($product['slug']); ?>&qty=${qty}`;
                 
-                // Guardar en sessionStorage para cargarlo en el formulario de cotización
                 sessionStorage.setItem('simulation_snapshot', snapshot);
                 window.location.href = url;
             });
@@ -698,13 +728,12 @@ $gallery = array_unique($gallery);
             updateSubtotal();
         });
 
-        // Función para cargar imagen de fondo en el canvas
+        // Cargar imagen de fondo
         function loadBackground(url) {
             if (!canvas) return;
             canvas.clear();
 
             fabric.Image.fromURL(url, function(img) {
-                // Escalar fondo para cubrir el canvas de 500x500
                 const scale = Math.min(500 / img.width, 500 / img.height);
                 
                 canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
@@ -718,9 +747,8 @@ $gallery = array_unique($gallery);
             });
         }
 
-        // Cambiar la imagen de fondo de la galería
+        // Cambiar fondo
         function changeCanvasBackground(url, thumbElement) {
-            // Remover borde active de otros thumbnails
             document.querySelectorAll('.thumbnail-item').forEach(item => {
                 item.classList.remove('active');
             });
@@ -737,16 +765,15 @@ $gallery = array_unique($gallery);
             reader.onload = function(f) {
                 const data = f.target.result;
                 fabric.Image.fromURL(data, function(img) {
-                    // Escalar logo a un tamaño manejable
                     img.scaleToWidth(120);
                     img.set({
                         left: 190,
                         top: 200,
                         opacity: 0.8,
-                        cornerColor: '#00E5FF',
-                        cornerStrokeColor: '#00E5FF',
+                        cornerColor: '#63AE2C',
+                        cornerStrokeColor: '#63AE2C',
                         transparentCorners: false,
-                        borderColor: '#00E5FF'
+                        borderColor: '#63AE2C'
                     });
                     
                     canvas.add(img);
@@ -757,31 +784,27 @@ $gallery = array_unique($gallery);
             reader.readAsDataURL(file);
         }
 
-        // Efectos de grabado láser
+        // Efecto grabado
         function applyEngravingEffect(e) {
             const effect = e.target.value;
             const activeObject = canvas.getActiveObject();
             if (!activeObject) return;
 
-            // Limpiar filtros existentes
             activeObject.filters = [];
 
             if (effect === 'laser-silver') {
-                // Filtro para metalizado plateado
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#CCCCCC',
                     mode: 'tint',
                     alpha: 0.9
                 }));
             } else if (effect === 'laser-gold') {
-                // Filtro dorado
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#D4AF37',
                     mode: 'tint',
                     alpha: 0.9
                 }));
             } else if (effect === 'deboss') {
-                // Bajo relieve (oscurecido / quemado)
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#2A1F1F',
                     mode: 'tint',
