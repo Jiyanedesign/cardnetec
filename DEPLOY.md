@@ -1,81 +1,62 @@
-# Guía de Despliegue e Instalación - CardNet.ec (Laravel + MySQL)
+# Guía de Despliegue en Hosting Compartido - CardNet.ec (PHP + MySQL)
 
-Este repositorio contiene la arquitectura dinámica de **CardNet.ec** migrada de HTML estático a **Laravel 11**, **MySQL**, **Filament Admin Panel (v3)** y simuladores táctiles interactivos con **Fabric.js Canvas**.
-
----
-
-## 🚀 Requisitos previos
-
-1.  **PHP**: Versión 8.2 o superior.
-2.  **Composer**: Para la gestión de dependencias de PHP.
-3.  **MySQL** o **MariaDB**: Para la base de datos relacional.
-4.  **Servidor Web**: Apache, Nginx o el panel de control de Hostinger.
+Hemos configurado CardNet.ec con una arquitectura de **PHP Puro (Vanilla PHP) y MySQL**. Esto permite que el sitio web funcione en **cualquier plan de alojamiento compartido convencional** (como Hostinger o GoDaddy) sin necesidad de terminal SSH, Composer o configuraciones complejas de VPS.
 
 ---
 
-## 📦 Instalación y Configuración del Servidor
-
-### Paso 1: Clonar y Preparar el Entorno
-Sube todo el contenido del repositorio al directorio del servidor (en Hostinger, la carpeta raíz suele ser `public_html`).
-
-Copia el archivo de configuración `.env`:
-```bash
-cp .env.example .env
-```
-
-### Paso 2: Instalar Dependencias
-Ejecuta Composer para instalar Laravel y Filament:
-```bash
-composer install --no-dev --optimize-autoloader
-```
-
-### Paso 3: Generar la Clave de Seguridad
-```bash
-php artisan key:generate
-```
-
-### Paso 4: Configurar la Base de Datos
-Edita tu archivo `.env` en la raíz e introduce los datos de conexión de Hostinger:
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=tu_base_de_datos
-DB_USERNAME=tu_usuario
-DB_PASSWORD=tu_contraseña
-```
-
-### Paso 5: Correr Migraciones y Cargar Datos Iniciales (Seeders)
-Este comando creará todas las tablas relacionales y cargará el catálogo de termos, agendas, placas, kits, materiales, y configuraciones por defecto.
-```bash
-php artisan migrate --seed
-```
-
-### Paso 6: Crear el Enlace Simbólico de Almacenamiento
-Necesario para que las imágenes subidas por el panel de Filament sean visibles públicamente en el frontend:
-```bash
-php artisan storage:link
-```
+## 📋 Requisitos del Servidor
+*   **Servidor Web**: Apache / Nginx (estándar en Hostinger).
+*   **Versión de PHP**: PHP 8.0 o superior (recomendado 8.2).
+*   **Base de datos**: MySQL o MariaDB.
 
 ---
 
-## 🛡️ Acceso al Dashboard de Administrador
+## 🛠️ Paso a Paso para Desplegar en Hostinger
 
-El panel de administración seguro está localizado en la ruta:
-👉 **`https://cardnet.ec/admin`** (o `http://localhost:8000/admin` localmente)
+### Paso 1: Crear la Base de Datos en Hostinger
+1. Ingresa a tu panel de Hostinger (hPanel).
+2. Ve a la sección **Bases de datos** ➔ **Bases de datos MySQL**.
+3. Crea una nueva base de datos y toma nota de:
+   *   **Nombre de la base de datos**
+   *   **Usuario de la base de datos**
+   *   **Contraseña**
+   *   **Host** (habitualmente es `localhost`).
 
-### Credenciales por Defecto (Cargadas vía Seeder)
+### Paso 2: Importar la Base de Datos (`database.sql`)
+1. En la misma sección del panel de Hostinger, haz clic en **Ingresar a phpMyAdmin** al lado de tu base de datos recién creada.
+2. Haz clic en la pestaña **Importar** en la barra superior.
+3. Selecciona el archivo **`database.sql`** ubicado en la raíz del proyecto y haz clic en **Importar** (en la parte inferior).
+   *   *Esto creará automáticamente las tablas y cargará el catálogo semilla de termos, agendas, placas, materiales, carrusel y usuario de administración.*
+
+### Paso 3: Configurar los Datos de Conexión (`db.php`)
+Abre el archivo **`db.php`** en tu editor de código o administrador de archivos de Hostinger y reemplaza los valores de conexión con los que creaste en el **Paso 1**:
+```php
+$db_host = 'localhost'; // Habitualmente 'localhost'
+$db_name = 'tu_nombre_de_base_de_datos';
+$db_user = 'tu_usuario_de_base_de_datos';
+$db_pass = 'tu_contraseña';
+```
+
+### Paso 4: Subir los Archivos al Servidor
+1. Comprime todos los archivos del directorio en un archivo `.zip` (por ejemplo: `proyecto.zip`).
+   *   *Asegúrate de incluir las carpetas `css/`, `js/`, `images/`, `admin/`, los archivos `.php` y `.html`.*
+2. En tu panel de Hostinger, ve al **Administrador de Archivos** ➔ ingresa a la carpeta **`public_html`**.
+3. Sube tu archivo `proyecto.zip` y descomprímelo directamente allí.
+4. Asegúrate de crear una carpeta llamada **`uploads`** en la raíz (dentro de `public_html`) con permisos de escritura (755 o 777) para almacenar los logos y simulaciones que suban tus clientes.
+
+---
+
+## 🛡️ Acceso y Gestión del Panel de Administrador
+
+Una vez subidos los archivos, el panel de control seguro estará disponible de forma inmediata en la dirección:
+👉 **`https://tu-dominio.ec/admin`**
+
+### Credenciales de Acceso por Defecto:
 *   **Usuario**: `admin@cardnet.ec`
 *   **Contraseña**: `CardNetSecure2026!`
 
-> [!CAUTION]
-> **Cambio de Contraseña**: Una vez ingreses por primera vez al dashboard, es altamente recomendable cambiar la contraseña del perfil de administrador.
-
----
-
-## 🛠️ Estructura del Simulador Táctil (Fabric.js)
-
-El simulador interactivo de productos está implementado en la página `simulador.html` (y mapeado a la vista Blade `/simulador`), cargando de forma fluida la librería de Canvas **Fabric.js** desde un CDN seguro para optimizar el rendimiento de renderización.
-
-*   **Restricción de Área**: Cuenta con coordenadas de delimitación para evitar que el usuario desplace o escale el logotipo fuera de las zonas físicas de grabado de cada artículo (por ejemplo, el centro del termo o la tapa de la agenda).
-*   **Generador QR**: El simulador de carnets PVC genera dinámicamente un código QR de alta definición usando la librería **QRCodeJS**, incrustándolo automáticamente en la vista previa del carnet.
+Desde este panel podrás:
+1.  **Dashboard**: Ver la lista de solicitudes de cotización más recientes enviadas por los usuarios, con sus enlaces a WhatsApp y descargas de logos.
+2.  **Productos**: Añadir, editar o eliminar los termos, agendas y kits del catálogo, y activar la opción de simulador.
+3.  **Carrusel Hero**: Modificar dinámicamente los banners de cabecera de la home sin tocar código.
+4.  **Antes y Después**: Gestionar los bloques comparativos del taller.
