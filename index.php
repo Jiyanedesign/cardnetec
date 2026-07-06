@@ -115,8 +115,55 @@ try {
                     }
                     ?></a>
                 </nav>
-                <div class="header-bottom-actions">
-                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar <?php if ($c_count > 0) echo "($c_count)"; ?></a>
+                <div class="header-bottom-actions" style="display: flex; align-items: center; gap: 15px;">
+                    <!-- Icono de Carrito Flotante con Dropdown -->
+                    <div class="header-cart-dropdown-wrapper">
+                        <a href="cotizacion.php" class="cart-icon-btn" aria-label="Ver cotización">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                                <line x1="3" y1="6" x2="21" y2="6"/>
+                                <path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                            <?php if ($c_count > 0): ?>
+                                <span class="cart-badge-count"><?php echo $c_count; ?></span>
+                            <?php endif; ?>
+                        </a>
+                        
+                        <?php if ($c_count > 0): ?>
+                            <div class="minicart-dropdown">
+                                <div class="minicart-items">
+                                    <?php 
+                                    $m_total = 0;
+                                    foreach ($_SESSION['cart'] as $m_item): 
+                                        $m_total += $m_item['subtotal'];
+                                    ?>
+                                        <div class="minicart-item">
+                                            <?php if (!empty($m_item['snapshot'])): ?>
+                                                <img src="<?php echo htmlspecialchars($m_item['snapshot']); ?>" class="minicart-item-img">
+                                            <?php else: ?>
+                                                <div class="minicart-item-img" style="background:#f4f4f4; display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:#888;">Liso</div>
+                                            <?php endif; ?>
+                                            <div class="minicart-item-info">
+                                                <span class="minicart-item-name"><?php echo htmlspecialchars($m_item['name']); ?></span>
+                                                <span class="minicart-item-meta"><?php echo $m_item['qty']; ?> uds x $<?php echo number_format($m_item['price'], 2); ?></span>
+                                            </div>
+                                            <div class="minicart-item-subtotal">
+                                                $<?php echo number_format($m_item['subtotal'], 0); ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="minicart-total">
+                                    <span class="minicart-total-label">Total Est.</span>
+                                    <span class="minicart-total-value">$<?php echo number_format($m_total, 2); ?></span>
+                                </div>
+                                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:10px 0; font-size:0.8rem; text-decoration:none;">Finalizar Cotización</a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Botón Cotizar Principal -->
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
                 </div>
             </div>
         </div>

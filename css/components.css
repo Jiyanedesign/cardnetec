@@ -446,3 +446,158 @@
     height: 24px;
     fill: currentColor;
 }
+
+/* 9. Dropdown de Carrito de Cotización en Cabecera (Minicart) */
+.header-cart-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-icon-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: var(--transition-fast);
+    text-decoration: none;
+}
+
+.cart-icon-btn:hover {
+    background-color: var(--surface-light);
+    color: var(--primary);
+}
+
+.cart-badge-count {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.68rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.minicart-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 320px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 1.25rem;
+    z-index: 1000;
+    text-align: left;
+    margin-top: 10px;
+    animation: fadeInFast 0.2s ease-out;
+}
+
+.header-cart-dropdown-wrapper:hover .minicart-dropdown {
+    display: block;
+}
+
+.minicart-items {
+    max-height: 220px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1rem;
+    padding-right: 4px;
+}
+
+/* Barra de scroll limpia para minicart */
+.minicart-items::-webkit-scrollbar {
+    width: 4px;
+}
+.minicart-items::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 2px;
+}
+
+.minicart-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-bottom: 1px solid var(--surface-light);
+    padding-bottom: 8px;
+}
+
+.minicart-item-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+}
+
+.minicart-item-info {
+    flex-grow: 1;
+}
+
+.minicart-item-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 170px;
+}
+
+.minicart-item-meta {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+}
+
+.minicart-item-subtotal {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.minicart-total {
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.minicart-total-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.minicart-total-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+@keyframes fadeInFast {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
