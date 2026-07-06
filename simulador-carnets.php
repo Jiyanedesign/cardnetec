@@ -520,9 +520,9 @@ $settings = getSiteSettings($pdo);
                 canvas.add(idObj);
                 textObjects.push(idObj);
 
-                // Generar QR si está activado
+                // Generar QR si está activado con la URL real de validación en línea
                 if (qrToggle.checked) {
-                    generateQR(idInput.value);
+                    generateQR(window.location.origin + "/verificar.php?id=" + idInput.value);
                 } else {
                     if (qrImage) {
                         canvas.remove(qrImage);

@@ -84,6 +84,26 @@ try {
         $pdo->exec("ALTER TABLE solicitudes ADD COLUMN products_json text DEFAULT NULL;");
     }
 
+    // 5. AUTO-MIGRACIÓN: Tabla de Credenciales para Verificación QR
+    $credCheck = $pdo->query("SHOW TABLES LIKE 'credenciales'")->fetch();
+    if (!$credCheck) {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `credenciales` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `cedula` varchar(50) NOT NULL UNIQUE,
+          `nombre` varchar(150) NOT NULL,
+          `puesto` varchar(100) NOT NULL,
+          `empresa` varchar(150) NOT NULL,
+          `estado` varchar(50) NOT NULL DEFAULT 'Activo',
+          `foto_path` varchar(255) DEFAULT NULL,
+          `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        // Insertar un empleado de prueba para demostración inmediata
+        $pdo->exec("INSERT IGNORE INTO `credenciales` (cedula, nombre, puesto, empresa, estado, foto_path) VALUES 
+            ('1725489630', 'Alejandro Silva', 'Director Operativo', 'CardNet Corporativo', 'Activo', 'default_avatar.png');");
+    }
+
 } catch (PDOException $e) {
     die("Error de conexión a la base de datos: " . $e->getMessage());
 }
