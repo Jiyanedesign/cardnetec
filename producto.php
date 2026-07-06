@@ -466,9 +466,9 @@ $gallery = array_unique($gallery);
                                     ?>
                                         <div class="minicart-item">
                                             <?php if (!empty($m_item['snapshot'])): ?>
-                                                <img src="<?php echo htmlspecialchars($m_item['snapshot']); ?>" class="minicart-item-img">
+                                                <img src="<?php echo htmlspecialchars($m_item['snapshot']); ?>" width="50" height="50" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #e2e8f0; display: block; flex-shrink: 0;">
                                             <?php else: ?>
-                                                <div class="minicart-item-img" style="background:#f4f4f4; display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:#888;">Liso</div>
+                                                <div class="minicart-item-img" style="background:#f4f4f4; display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:#888; width: 50px; height: 50px; flex-shrink: 0; border-radius: 4px;">Liso</div>
                                             <?php endif; ?>
                                             <div class="minicart-item-info">
                                                 <span class="minicart-item-name"><?php echo htmlspecialchars($m_item['name']); ?></span>
