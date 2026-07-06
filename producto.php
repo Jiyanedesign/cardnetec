@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'db.php';
 
 // Obtener producto por slug
@@ -47,11 +48,10 @@ $gallery = array_unique($gallery);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Fabric.js para la simulación interactiva -->
+    <!-- Fabric.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
 
     <style>
-        /* Estilo Integrado con la Marca (Fondo Claro/Hueso) */
         .product-detail-light-theme {
             background-color: var(--light);
             color: var(--text-main);
@@ -103,7 +103,19 @@ $gallery = array_unique($gallery);
             justify-content: center;
             align-items: center;
             position: relative;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
+        .canvas-container-outer:hover {
+            transform: scale(1.015);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Efecto de transición de desvanecimiento para el canvas wrapper */
+        .canvas-container {
+            transition: opacity 0.2s ease-in-out;
+        }
+
         .thumbnail-gallery {
             display: flex;
             gap: 10px;
@@ -331,7 +343,6 @@ $gallery = array_unique($gallery);
             color: var(--primary);
         }
         
-        /* Botón Verde Corporativo */
         .btn-gradient {
             display: flex;
             justify-content: center;
@@ -424,16 +435,21 @@ $gallery = array_unique($gallery);
                     <a href="index.php#laser" class="nav-link">Grabado láser</a>
                     <a href="productos.php" class="nav-link active">Productos</a>
                     <a href="empresas.php" class="nav-link">Kits corporativos</a>
-                    <a href="cotizacion.php" class="nav-link">Cotizar</a>
+                    <a href="cotizacion.php" class="nav-link">Cotizar <?php
+                    $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+                    if ($c_count > 0) {
+                        echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
+                    }
+                    ?></a>
                 </nav>
                 <div class="header-bottom-actions">
-                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar <?php if ($c_count > 0) echo "($c_count)"; ?></a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT IN LIGHT BRAND THEME -->
+    <!-- MAIN CONTENT -->
     <div class="product-detail-light-theme">
         <div class="container">
             
@@ -595,6 +611,21 @@ $gallery = array_unique($gallery);
         </div>
     </div>
 
+    <!-- Modal Informativo de Carrito -->
+    <div id="cart-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center; color: var(--text-main);">
+        <div style="background:white; padding:2.5rem; border-radius:var(--radius-lg); max-width:420px; width:90%; text-align:center; box-shadow:var(--shadow-lg);">
+            <svg width="48" height="48" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24" style="margin:0 auto 1.5rem auto;">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <h3 style="font-family:var(--font-heading); font-size:1.5rem; margin-bottom:0.75rem;">¡Añadido al Cotizador!</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.5; margin-bottom:2rem;">Hemos agregado el artículo personalizado a tus requerimientos de cotización.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:12px; font-weight:600;">Ver Carrito y Cotizar</a>
+                <button onclick="document.getElementById('cart-modal').style.display='none'" class="btn btn-secondary" style="width:100%; padding:12px; font-weight:600; border:1px solid var(--border);">Seguir Diseñando</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container footer-top section-padding">
@@ -614,20 +645,18 @@ $gallery = array_unique($gallery);
         </div>
     </footer>
 
-    <!-- Script de Simulación de Canvas y Cálculos -->
+    <!-- Script de Simulación de Canvas, Transiciones y Carrito -->
     <script>
         const unitPrice = <?php echo (float)$product['price']; ?>;
         const qtyInput = document.getElementById('qty-input');
         const subtotalVal = document.getElementById('subtotal-val');
 
-        // Actualizar Subtotal
         function updateSubtotal() {
             const qty = parseInt(qtyInput.value) || 20;
             const subtotal = qty * unitPrice;
             subtotalVal.textContent = '$' + subtotal.toFixed(2);
         }
 
-        // Eventos de botones Más / Menos
         document.getElementById('qty-plus').addEventListener('click', () => {
             let val = parseInt(qtyInput.value) || 20;
             qtyInput.value = val + 5;
@@ -642,7 +671,6 @@ $gallery = array_unique($gallery);
             }
         });
 
-        // Configuración de Fabric.js Canvas
         let canvas = null;
         let mainImgPath = 'uploads/<?php echo htmlspecialchars($product['image_main']); ?>';
 
@@ -652,16 +680,13 @@ $gallery = array_unique($gallery);
                 height: 500
             });
             
-            // Cargar imagen de fondo inicial
             loadBackground(mainImgPath);
 
-            // Cargador de logotipos
             const logoUploader = document.getElementById('logo-uploader');
             if (logoUploader) {
                 logoUploader.addEventListener('change', handleLogoUpload);
             }
 
-            // Opacidad
             const opacitySlider = document.getElementById('logo-opacity');
             if (opacitySlider) {
                 opacitySlider.addEventListener('input', (e) => {
@@ -675,7 +700,6 @@ $gallery = array_unique($gallery);
                 });
             }
 
-            // Eliminar logo
             const btnRemoveLogo = document.getElementById('btn-remove-logo');
             if (btnRemoveLogo) {
                 btnRemoveLogo.addEventListener('click', () => {
@@ -686,7 +710,6 @@ $gallery = array_unique($gallery);
                 });
             }
 
-            // Modo de Integración (Blend)
             const blendSelect = document.getElementById('logo-blend');
             if (blendSelect) {
                 blendSelect.addEventListener('change', (e) => {
@@ -705,13 +728,12 @@ $gallery = array_unique($gallery);
                 });
             }
 
-            // Efecto de Grabado
             const effectSelect = document.getElementById('logo-effect');
             if (effectSelect) {
                 effectSelect.addEventListener('change', applyEngravingEffect);
             }
 
-            // Submit de Cotización
+            // Guardar en Carrito de Sesión por AJAX
             document.getElementById('btn-submit-quote').addEventListener('click', () => {
                 const snapshot = canvas.toDataURL({
                     format: 'png',
@@ -719,35 +741,61 @@ $gallery = array_unique($gallery);
                 });
 
                 const qty = qtyInput.value;
-                const url = `cotizacion.php?producto=<?php echo urlencode($product['slug']); ?>&qty=${qty}`;
                 
-                sessionStorage.setItem('simulation_snapshot', snapshot);
-                window.location.href = url;
+                const formData = new FormData();
+                formData.append('action', 'add');
+                formData.append('name', '<?php echo addslashes($product['name']); ?>');
+                formData.append('slug', '<?php echo addslashes($product['slug']); ?>');
+                formData.append('qty', qty);
+                formData.append('price', unitPrice);
+                formData.append('snapshot', snapshot);
+
+                fetch('cart-action.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('cart-modal').style.display = 'flex';
+                    } else {
+                        alert('No se pudo guardar el producto en el cotizador.');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error al conectar con la cesta de cotización.');
+                });
             });
 
             updateSubtotal();
         });
 
-        // Cargar imagen de fondo
+        // Transición fluida al cambiar el fondo del Canvas (Miniaturas)
         function loadBackground(url) {
             if (!canvas) return;
-            canvas.clear();
-
-            fabric.Image.fromURL(url, function(img) {
-                const scale = Math.min(500 / img.width, 500 / img.height);
-                
-                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-                    scaleX: scale,
-                    scaleY: scale,
-                    left: (500 - img.width * scale) / 2,
-                    top: (500 - img.height * scale) / 2,
-                    originX: 'left',
-                    originY: 'top'
+            const canvasEl = document.getElementById('canvas-simulator').parentNode;
+            canvasEl.style.opacity = '0';
+            
+            setTimeout(() => {
+                canvas.clear();
+                fabric.Image.fromURL(url, function(img) {
+                    const scale = Math.min(500 / img.width, 500 / img.height);
+                    canvas.setBackgroundImage(img, () => {
+                        canvas.renderAll();
+                        canvasEl.style.opacity = '1';
+                    }, {
+                        scaleX: scale,
+                        scaleY: scale,
+                        left: (500 - img.width * scale) / 2,
+                        top: (500 - img.height * scale) / 2,
+                        originX: 'left',
+                        originY: 'top'
+                    });
                 });
-            });
+            }, 200);
         }
 
-        // Cambiar fondo
         function changeCanvasBackground(url, thumbElement) {
             document.querySelectorAll('.thumbnail-item').forEach(item => {
                 item.classList.remove('active');
@@ -756,7 +804,6 @@ $gallery = array_unique($gallery);
             loadBackground(url);
         }
 
-        // Subir logo
         function handleLogoUpload(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -784,7 +831,6 @@ $gallery = array_unique($gallery);
             reader.readAsDataURL(file);
         }
 
-        // Efecto grabado con simulación de profundidad y color sólido (overlay)
         function applyEngravingEffect(e) {
             const effect = e.target ? e.target.value : e;
             const activeObject = canvas.getActiveObject();
@@ -792,7 +838,6 @@ $gallery = array_unique($gallery);
 
             activeObject.filters = [];
 
-            // Si es grabado láser, forzar la integración a "Normal" (opaco) para evitar mezclas de color irreales
             if (effect !== 'original') {
                 const blendSelect = document.getElementById('logo-blend');
                 if (blendSelect) {
@@ -802,15 +847,12 @@ $gallery = array_unique($gallery);
             }
 
             if (effect === 'laser-silver') {
-                // 1. Quitar colores originales convirtiendo a escala de grises
                 activeObject.filters.push(new fabric.Image.filters.Grayscale());
-                // 2. Aplicar color Plata Metálico Sólido en modo overlay al 100%
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#E5E5E5',
                     mode: 'overlay',
                     alpha: 1.0
                 }));
-                // Sombra sutil para profundidad (Efecto relieve tallado)
                 activeObject.set('shadow', new fabric.Shadow({
                     color: 'rgba(0, 0, 0, 0.25)',
                     blur: 2,
@@ -818,9 +860,7 @@ $gallery = array_unique($gallery);
                     offsetY: 1
                 }));
             } else if (effect === 'laser-gold') {
-                // 1. Quitar colores originales
                 activeObject.filters.push(new fabric.Image.filters.Grayscale());
-                // 2. Aplicar Color Oro Sólido
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#D4AF37',
                     mode: 'overlay',
@@ -833,9 +873,7 @@ $gallery = array_unique($gallery);
                     offsetY: 1
                 }));
             } else if (effect === 'deboss') {
-                // 1. Quitar colores originales
                 activeObject.filters.push(new fabric.Image.filters.Grayscale());
-                // 2. Quemado oscuro profundo
                 activeObject.filters.push(new fabric.Image.filters.BlendColor({
                     color: '#261C14',
                     mode: 'overlay',
@@ -848,7 +886,6 @@ $gallery = array_unique($gallery);
                     offsetY: -0.5
                 }));
             } else {
-                // Quitar filtros y sombras para original
                 activeObject.set('shadow', null);
             }
 
@@ -856,6 +893,5 @@ $gallery = array_unique($gallery);
             canvas.renderAll();
         }
     </script>
-
 </body>
 </html>

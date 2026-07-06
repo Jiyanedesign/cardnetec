@@ -54,6 +54,54 @@ try {
         $pdo->exec("ALTER TABLE productos ADD COLUMN description_long text DEFAULT NULL;");
     }
 
+    // 3. AUTO-MIGRACIÓN: Tabla de Configuración General
+    $settingsCheck = $pdo->query("SHOW TABLES LIKE 'configuraciones'")->fetch();
+    if (!$settingsCheck) {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `configuraciones` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `whatsapp` varchar(20) NOT NULL DEFAULT '593900000000',
+          `email` varchar(100) NOT NULL DEFAULT 'info@cardnet.ec',
+          `address` varchar(255) NOT NULL DEFAULT 'Av. Amazonas, Quito, Ecuador',
+          `instagram` varchar(150) DEFAULT NULL,
+          `facebook` varchar(150) DEFAULT NULL,
+          `site_title` varchar(150) NOT NULL DEFAULT 'CardNet.ec | Personalización Láser',
+          `site_description` varchar(255) NOT NULL DEFAULT 'Especialistas en grabado láser y personalización avanzada en Quito.',
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        $pdo->exec("INSERT INTO `configuraciones` (id, whatsapp, email, address, site_title, site_description) VALUES (1, '593900000000', 'info@cardnet.ec', 'Av. Amazonas, Quito, Ecuador', 'CardNet.ec | Personalización Láser', 'Especialistas en grabado láser y personalización avanzada en Quito.');");
+    }
+
+    // 4. AUTO-MIGRACIÓN: Agregar columna de estado y notas internas a la tabla solicitudes si faltan
+    $sol_columns = $pdo->query("DESCRIBE solicitudes")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('status', $sol_columns)) {
+        $pdo->exec("ALTER TABLE solicitudes ADD COLUMN status varchar(50) DEFAULT 'Nuevo';");
+    }
+    if (!in_array('internal_notes', $sol_columns)) {
+        $pdo->exec("ALTER TABLE solicitudes ADD COLUMN internal_notes text DEFAULT NULL;");
+    }
+    if (!in_array('products_json', $sol_columns)) {
+        $pdo->exec("ALTER TABLE solicitudes ADD COLUMN products_json text DEFAULT NULL;");
+    }
+
 } catch (PDOException $e) {
     die("Error de conexión a la base de datos: " . $e->getMessage());
+}
+
+// Función auxiliar para obtener las configuraciones del sitio
+function getSiteSettings($pdo) {
+    try {
+        $stmt = $pdo->query("SELECT * FROM configuraciones WHERE id = 1");
+        return $stmt->fetch() ?: [
+            'whatsapp' => '593900000000',
+            'email' => 'info@cardnet.ec',
+            'address' => 'Av. Amazonas, Quito, Ecuador',
+            'instagram' => '',
+            'facebook' => '',
+            'site_title' => 'CardNet.ec | Personalización Láser',
+            'site_description' => 'Especialistas en grabado láser y personalización avanzada en Quito.'
+        ];
+    } catch (PDOException $e) {
+        return [];
+    }
 }

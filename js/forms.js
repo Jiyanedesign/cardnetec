@@ -56,19 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const companyInput = quoteForm.querySelector('#quote-company') || quoteForm.querySelector('#company');
             const emailInput = quoteForm.querySelector('#quote-email') || quoteForm.querySelector('#email');
             const phoneInput = quoteForm.querySelector('#quote-phone') || quoteForm.querySelector('#phone');
-            const categorySelect = quoteForm.querySelector('#quote-category') || quoteForm.querySelector('#product-type');
-            const quantityInput = quoteForm.querySelector('#quote-quantity') || quoteForm.querySelector('#quantity');
             const logoInput = quoteForm.querySelector('#quote-logo') || quoteForm.querySelector('#logo');
             const notesTextarea = quoteForm.querySelector('#quote-notes') || quoteForm.querySelector('#details');
 
             let isFormValid = true;
 
-            // Validar Campo por Campo
-            if (!validateField(nameInput, null, 'Por favor, ingresa tu nombre completo.')) isFormValid = false;
-            if (!validateField(emailInput, isValidEmail, 'Por favor, ingresa un correo electrónico válido.')) isFormValid = false;
-            if (!validateField(phoneInput, isValidPhone, 'Ingresa un número telefónico de contacto válido (mínimo 9 dígitos).')) isFormValid = false;
-            if (!validateField(categorySelect, null, 'Por favor, selecciona una categoría de producto.')) isFormValid = false;
-            if (!validateField(quantityInput, (val) => parseInt(val) > 0, 'La cantidad estimada debe ser mayor a 0.')) isFormValid = false;
+            // Validar Campos Existentes
+            if (nameInput && !validateField(nameInput, null, 'Por favor, ingresa tu nombre completo.')) isFormValid = false;
+            if (emailInput && !validateField(emailInput, isValidEmail, 'Por favor, ingresa un correo electrónico válido.')) isFormValid = false;
+            if (phoneInput && !validateField(phoneInput, isValidPhone, 'Ingresa un número telefónico de contacto válido (mínimo 9 dígitos).')) isFormValid = false;
 
             if (isFormValid) {
                 const submitBtn = quoteForm.querySelector('button[type="submit"]');
@@ -76,24 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = 'Procesando cotización...';
 
-                // Crear FormData para enviar archivos y texto por AJAX
+                // Crear FormData para enviar
                 const formData = new FormData();
                 formData.append('name', nameInput.value);
                 if (companyInput) formData.append('company', companyInput.value);
                 formData.append('whatsapp', phoneInput.value);
                 if (emailInput) formData.append('email', emailInput.value);
-                formData.append('qty', quantityInput.value);
                 if (notesTextarea) formData.append('message', notesTextarea.value);
-                if (categorySelect) formData.append('product_name', categorySelect.options[categorySelect.selectedIndex].text);
                 
                 if (logoInput && logoInput.files.length > 0) {
                     formData.append('logo', logoInput.files[0]);
-                }
-
-                // Cargar simulación de Canvas si existe en el formulario
-                const simulationInput = quoteForm.querySelector('#simulation-snapshot-input');
-                if (simulationInput && simulationInput.value) {
-                    formData.append('simulation_snapshot', simulationInput.value);
                 }
 
                 // Enviar al procesador PHP
@@ -104,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Mostrar Alerta de Éxito
                         const alertDiv = document.createElement('div');
                         alertDiv.className = 'alert alert-success reveal-on-scroll active';
                         alertDiv.innerHTML = `
@@ -117,12 +104,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalText;
 
-                        // Abrir WhatsApp con el mensaje estructurado
                         if (data.redirect_url) {
                             window.open(data.redirect_url, '_blank');
                         }
 
-                        setTimeout(() => alertDiv.remove(), 8000);
+                        setTimeout(() => {
+                            alertDiv.remove();
+                            // Recargar la página para vaciar el resumen del carrito ya enviado
+                            window.location.reload();
+                        }, 5000);
                     } else {
                         alert('Ocurrió un error al procesar tu solicitud.');
                         submitBtn.disabled = false;

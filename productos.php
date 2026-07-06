@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'db.php';
 
 // Obtener todas las categorías para los filtros
@@ -122,10 +123,15 @@ try {
                     <a href="index.php#laser" class="nav-link">Grabado láser</a>
                     <a href="productos.php" class="nav-link active">Productos</a>
                     <a href="empresas.php" class="nav-link">Kits corporativos</a>
-                    <a href="cotizacion.php" class="nav-link">Cotizar</a>
+                    <a href="cotizacion.php" class="nav-link">Cotizar <?php
+                    $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+                    if ($c_count > 0) {
+                        echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
+                    }
+                    ?></a>
                 </nav>
                 <div class="header-bottom-actions">
-                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar <?php if ($c_count > 0) echo "($c_count)"; ?></a>
                 </div>
             </div>
         </div>

@@ -1,74 +1,146 @@
+<?php
+session_start();
+require_once 'db.php';
+
+$settings = getSiteSettings($pdo);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Carnets | CardNet.ec</title>
-    <meta name="description" content="Diseña y previsualiza credenciales, identificaciones y carnets de PVC corporativos en línea.">
+    <title>Diseño y Simulación de Credenciales PVC | CardNet.ec</title>
+    <meta name="description" content="Diseña, previsualiza y cotiza credenciales, identificaciones y carnets de PVC corporativos en línea con códigos QR y fotos de empleados.">
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=1.1.2">
     <link rel="stylesheet" href="css/layout.css?v=1.1.2">
     <link rel="stylesheet" href="css/components.css?v=1.1.2">
     <link rel="stylesheet" href="css/pages.css?v=1.1.2">
+    <link rel="stylesheet" href="css/animations.css?v=1.1.2">
+
+    <!-- Fabric.js y QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <!-- Google Fonts -->
-
-    <!-- Fabric.js CDN para Canvas Interactivo -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
-    
-    <!-- Generador de Códigos QR en JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         .simulator-layout {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
+            gap: 3rem;
             margin-top: 2rem;
+            align-items: start;
         }
         @media (min-width: 1024px) {
             .simulator-layout {
-                grid-template-columns: 1fr 1.1fr;
+                grid-template-columns: 0.9fr 1.1fr;
             }
         }
         .canvas-container-box {
             position: relative;
             background-color: var(--surface-light);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            padding: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            min-height: 480px;
+            box-shadow: var(--shadow-sm);
         }
         .canvas-wrapper {
             position: relative;
-            box-shadow: var(--shadow-md);
-            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-sm);
             overflow: hidden;
             background-color: white;
+            border: 1px solid var(--border);
         }
         .controls-panel {
             background-color: var(--light);
             border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-md);
             padding: 2rem;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            box-shadow: var(--shadow-md);
         }
         #qr-hidden {
             display: none;
         }
+        .purchase-box {
+            background-color: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .purchase-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .qty-selectors {
+            display: flex;
+            align-items: center;
+            background-color: var(--light);
+            border-radius: 20px;
+            padding: 4px 8px;
+            width: fit-content;
+            border: 1px solid var(--border);
+        }
+        .qty-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+        .qty-input {
+            width: 40px;
+            text-align: center;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-weight: bold;
+            font-size: 1rem;
+            outline: none;
+        }
+        .btn-gradient {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-fast);
+            text-decoration: none;
+        }
+        .btn-gradient:hover {
+            background-color: var(--primary-hover);
+        }
     </style>
-
-    <!-- Google Fonts: Marcellus (Títulos Elegantes) & Work Sans (Textos Limpios) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -84,22 +156,31 @@
                 <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
-                <button class="burger-menu" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-nav">
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                </button>
+                
+                <div class="header-contact-status">
+                    <div class="contact-status-item">
+                        <div class="status-text">
+                            <h4>Asesoría personalizada</h4>
+                            <p>+593 90 000 0000</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.php" class="nav-link ">Inicio</a>
-                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.php" class="nav-link ">Productos</a>
-                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
-                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
+                    <a href="index.php" class="nav-link">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link">Destacados</a>
+                    <a href="index.php#laser" class="nav-link">Grabado láser</a>
+                    <a href="productos.php" class="nav-link">Productos</a>
+                    <a href="empresas.php" class="nav-link">Kits corporativos</a>
+                    <a href="cotizacion.php" class="nav-link">Cotizar <?php
+                    $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+                    if ($c_count > 0) {
+                        echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
+                    }
+                    ?></a>
                 </nav>
             </div>
         </div>
@@ -109,104 +190,159 @@
     <main class="container section-padding">
         <div class="section-header">
             <span class="section-subtitle">Simulador de Credenciales</span>
-            <h1 style="font-family: var(--font-heading); font-weight: 400; margin-bottom: 0.5rem;">Crea y simula tus carnets PVC</h1>
+            <h1 style="font-family: var(--font-heading); font-weight: 400; margin-bottom: 0.5rem; font-size: 2.2rem;">Crea y simula tus carnets PVC</h1>
             <p>Elige una plantilla y completa los datos para previsualizar cómo quedarán las identificaciones de tu personal.</p>
         </div>
 
         <div class="simulator-layout">
+            
             <!-- Área del Canvas (Visualización) -->
             <div class="canvas-container-box">
                 <div class="canvas-wrapper">
-                    <!-- Canvas de Fabric.js -->
                     <canvas id="carnet-canvas" width="320" height="480"></canvas>
                 </div>
             </div>
 
             <!-- Panel de Controles -->
             <div class="controls-panel">
-                <!-- 1. Plantilla de Carnet -->
                 <div class="form-group">
                     <label class="form-label" for="template-select">1. Tipo de Credencial</label>
-                    <select class="form-select" id="template-select">
+                    <select class="sim-select" id="template-select" style="width: 100%; border: 1px solid var(--border); padding: 10px; border-radius: 4px; background: white;">
                         <option value="corporativo">Corporativo Formal (Gris/Verde)</option>
                         <option value="seguridad">Seguridad / Acceso (Negro/Rojo)</option>
                         <option value="evento">Acceso de Evento (Azul Marino)</option>
                     </select>
                 </div>
 
-                <!-- 2. Carga de Imágenes -->
-                <div class="form-group">
-                    <label class="form-label" for="logo-input">Logo de la empresa</label>
-                    <input class="form-input" type="file" id="logo-input" accept="image/png, image/jpeg">
+                <div class="grid-2" style="gap: 15px;">
+                    <div class="form-group">
+                        <label class="form-label" for="logo-input">Logo Corporativo</label>
+                        <input class="form-input" type="file" id="logo-input" accept="image/png, image/jpeg" style="border: 1px solid var(--border); padding: 8px; width: 100%; box-sizing: border-box;">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="photo-input">Foto de Empleado</label>
+                        <input class="form-input" type="file" id="photo-input" accept="image/png, image/jpeg" style="border: 1px solid var(--border); padding: 8px; width: 100%; box-sizing: border-box;">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="photo-input">Foto de la persona (3x4 recomendada)</label>
-                    <input class="form-input" type="file" id="photo-input" accept="image/png, image/jpeg">
-                </div>
-
-                <!-- 3. Formulario de Datos -->
                 <div class="form-group">
                     <label class="form-label" for="name-input">Nombre Completo</label>
-                    <input class="form-input" type="text" id="name-input" placeholder="Nombre Apellido" value="Alejandro Silva">
+                    <input class="form-input" type="text" id="name-input" value="Alejandro Silva" style="border: 1px solid var(--border); padding: 10px; width: 100%; box-sizing: border-box; border-radius: 4px;">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="role-input">Cargo / Puesto</label>
-                    <input class="form-input" type="text" id="role-input" placeholder="Cargo" value="Director Operativo">
+                <div class="grid-2" style="gap: 15px;">
+                    <div class="form-group">
+                        <label class="form-label" for="role-input">Cargo / Puesto</label>
+                        <input class="form-input" type="text" id="role-input" value="Director Operativo" style="border: 1px solid var(--border); padding: 10px; width: 100%; box-sizing: border-box; border-radius: 4px;">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="id-input">Número de Cédula</label>
+                        <input class="form-input" type="text" id="id-input" value="1725489630" style="border: 1px solid var(--border); padding: 10px; width: 100%; box-sizing: border-box; border-radius: 4px;">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="id-input">Número de Cédula / ID</label>
-                    <input class="form-input" type="text" id="id-input" placeholder="Identificación" value="1725489630">
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="qr-toggle" checked style="cursor: pointer; width: 18px; height: 18px;">
+                    <label for="qr-toggle" style="font-size: 0.9rem; cursor: pointer; user-select: none;">Incluir Código QR de verificación de seguridad</label>
                 </div>
 
-                <!-- Código QR dinámico -->
-                <div class="form-group">
-                    <label class="form-label" for="qr-toggle">Incluir Código QR</label>
-                    <select class="form-select" id="qr-toggle">
-                        <option value="yes">Sí, generar QR</option>
-                        <option value="no">No</option>
-                    </select>
+                <!-- Caja de Compra y Subtotales PVC -->
+                <div class="purchase-box">
+                    <div class="purchase-row">
+                        <div>
+                            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; display:block; margin-bottom:4px;">Cantidad</span>
+                            <div class="qty-selectors">
+                                <button class="qty-btn" id="qty-minus">-</button>
+                                <input type="text" class="qty-input" id="qty-input" value="50" readonly>
+                                <button class="qty-btn" id="qty-plus">+</button>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; display:block; margin-bottom:4px;">Precio Unit.</span>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-main);">$1.80</div>
+                        </div>
+                    </div>
+                    
+                    <div class="subtotal-row" style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 600; font-size: 0.88rem; text-transform: uppercase;">Subtotal Estimado</span>
+                        <span style="font-size: 1.8rem; font-weight: bold; color: var(--primary);" id="subtotal-val">$90.00</span>
+                    </div>
+
+                    <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin: 10px 0 15px 0;">
+                        Los valores incluyen impresión a color en PVC de alta resistencia.
+                    </p>
+
+                    <button class="btn-gradient" id="btn-submit-pvc">
+                        Guardar en mi Carrito
+                    </button>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="qty-input">Cantidad de carnets</label>
-                    <input class="form-input" type="number" id="qty-input" value="10" min="1">
-                </div>
-
-                <!-- Botones -->
-                <div class="hero-actions" style="margin-top: 1rem;">
-                    <button class="btn btn-primary" id="btn-whatsapp-send" style="width: 100%;">Cotizar Credenciales</button>
-                    <button class="btn btn-secondary" id="btn-reset" style="width: 100%;">Reiniciar</button>
-                </div>
+                <button id="btn-reset" style="padding:10px; background:none; border:1px solid var(--border); border-radius:4px; font-weight:600; color:var(--text-muted); cursor:pointer;">Restablecer Formulario</button>
             </div>
-        </div>
 
-        <!-- Contenedor oculto para la renderización del código QR temporal -->
-        <div id="qr-hidden"></div>
+        </div>
     </main>
 
-    <!-- Pie de Página -->
-    <footer class="main-footer">
-        <div class="container footer-top section-padding">
-            <div class="footer-bottom-flex">
-                <p>&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
+    <!-- Contenedor oculto para la generación del código QR -->
+    <div id="qr-hidden"></div>
+
+    <!-- Modal Informativo de Carrito -->
+    <div id="cart-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center; color: var(--text-main);">
+        <div style="background:white; padding:2.5rem; border-radius:var(--radius-lg); max-width:420px; width:90%; text-align:center; box-shadow:var(--shadow-lg);">
+            <svg width="48" height="48" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24" style="margin:0 auto 1.5rem auto;">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <h3 style="font-family:var(--font-heading); font-size:1.5rem; margin-bottom:0.75rem;">¡Añadido al Cotizador!</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.5; margin-bottom:2rem;">Hemos agregado las credenciales personalizadas a tus requerimientos de cotización.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:12px; font-weight:600;">Ver Carrito y Cotizar</a>
+                <button onclick="document.getElementById('cart-modal').style.display='none'" class="btn btn-secondary" style="width:100%; padding:12px; font-weight:600; border:1px solid var(--border);">Seguir Diseñando</button>
             </div>
+        </div>
+    </div>
+
+    <footer class="main-footer" style="margin-top: 5rem;">
+        <div class="container footer-bottom-flex" style="padding: 2rem 0; border-top: 1px solid var(--border);">
+            <p>&copy; 2026 CardNet.ec — Especialistas en identificación y marcado corporativo.</p>
         </div>
     </footer>
 
-    <!-- Script del Simulador de Carnets -->
+    <!-- Script de Renderizado -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Inicializar Canvas
-            const canvas = new fabric.Canvas('carnet-canvas');
-            
-            let logoImage = null;
-            let photoImage = null;
-            let qrImage = null;
+        const unitPrice = 1.80;
+        const qtyInput = document.getElementById('qty-input');
+        const subtotalVal = document.getElementById('subtotal-val');
 
-            // Elementos de Entrada
+        function updateSubtotal() {
+            const qty = parseInt(qtyInput.value) || 50;
+            const subtotal = qty * unitPrice;
+            subtotalVal.textContent = '$' + subtotal.toFixed(2);
+        }
+
+        document.getElementById('qty-plus').addEventListener('click', () => {
+            let val = parseInt(qtyInput.value) || 50;
+            qtyInput.value = val + 10;
+            updateSubtotal();
+        });
+
+        document.getElementById('qty-minus').addEventListener('click', () => {
+            let val = parseInt(qtyInput.value) || 50;
+            if (val > 10) {
+                qtyInput.value = val - 10;
+                updateSubtotal();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const canvas = new fabric.Canvas('carnet-canvas', {
+                width: 320,
+                height: 480,
+                backgroundColor: '#ffffff'
+            });
+
+            // Form inputs
             const templateSelect = document.getElementById("template-select");
             const logoInput = document.getElementById("logo-input");
             const photoInput = document.getElementById("photo-input");
@@ -214,195 +350,199 @@
             const roleInput = document.getElementById("role-input");
             const idInput = document.getElementById("id-input");
             const qrToggle = document.getElementById("qr-toggle");
-            const qtyInput = document.getElementById("qty-input");
 
-            // Función para dibujar plantilla base de carnet en el Canvas
+            // Objetos de Fabric.js
+            let logoImage = null;
+            let photoImage = null;
+            let qrImage = null;
+            let textObjects = [];
+
+            // Dibujar Plantilla seleccionada
             function drawTemplate() {
-                canvas.clear();
+                // Limpiar objetos excepto logo y foto de persona
+                textObjects.forEach(obj => canvas.remove(obj));
+                textObjects = [];
 
-                const template = templateSelect.value;
-                
-                // Fondo de la tarjeta PVC (Medidas a proporción de 320x480)
-                let headerColor = "#2D3329";
-                let accentColor = "#63AE2C";
-                let cardBg = "#FAFBF9";
-
-                if (template === "seguridad") {
-                    headerColor = "#1C201A";
-                    accentColor = "#FF3B30"; // Rojo alerta
-                } else if (template === "evento") {
-                    headerColor = "#002B49"; // Azul marino
-                    accentColor = "#007AFF"; // Azul eléctrico
+                if (qrImage) {
+                    canvas.remove(qrImage);
+                    qrImage = null;
                 }
 
-                // Cuerpo de la tarjeta
-                const bodyRect = new fabric.Rect({
-                    left: 0,
-                    top: 0,
-                    width: 320,
-                    height: 480,
-                    fill: cardBg,
-                    rx: 16,
-                    ry: 16,
-                    selectable: false,
-                    evented: false
-                });
-                canvas.add(bodyRect);
+                const style = templateSelect.value;
+                let primaryColor = "#63AE2C";
+                let secondaryColor = "#2D3329";
+                let headerText = "CREDENCIAL CORPORATIVA";
 
-                // Franja Superior del Header
+                if (style === "seguridad") {
+                    primaryColor = "#EF4444";
+                    secondaryColor = "#111827";
+                    headerText = "CONTROL DE ACCESO";
+                } else if (style === "evento") {
+                    primaryColor = "#1E40AF";
+                    secondaryColor = "#1E293B";
+                    headerText = "PASE DE INVITADO";
+                }
+
+                // Fondo y cabecera
                 const headerRect = new fabric.Rect({
                     left: 0,
                     top: 0,
+                    fill: secondaryColor,
                     width: 320,
-                    height: 100,
-                    fill: headerColor,
-                    rx: 16,
-                    ry: 16,
+                    height: 80,
                     selectable: false,
                     evented: false
                 });
-                // Recortar esquinas del header para no salirse de la tarjeta
                 canvas.add(headerRect);
+                textObjects.push(headerRect);
 
-                // Línea de acento abajo del header
-                const accentLine = new fabric.Rect({
+                const bannerRect = new fabric.Rect({
                     left: 0,
-                    top: 96,
+                    top: 80,
+                    fill: primaryColor,
                     width: 320,
-                    height: 4,
-                    fill: accentColor,
+                    height: 6,
                     selectable: false,
                     evented: false
                 });
-                canvas.add(accentLine);
+                canvas.add(bannerRect);
+                textObjects.push(bannerRect);
 
-                // Título del encabezado (Nombre de la empresa)
-                const headerText = new fabric.Text("CREDENTIAL CARD", {
-                    left: 20,
-                    top: 36,
-                    fontFamily: 'Work Sans',
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                    fill: 'white',
-                    selectable: false,
-                    evented: false
-                });
-                canvas.add(headerText);
-
-                // Franja inferior con el aviso "Hecho en Ecuador" o "CardNet.ec"
+                // Pie de página
                 const footerRect = new fabric.Rect({
                     left: 0,
                     top: 450,
+                    fill: secondaryColor,
                     width: 320,
                     height: 30,
-                    fill: headerColor,
                     selectable: false,
                     evented: false
                 });
                 canvas.add(footerRect);
+                textObjects.push(footerRect);
 
-                const footerText = new fabric.Text("CardNet.ec - Carnetización PVC", {
-                    left: 80,
-                    top: 458,
+                // Títulos de cabecera
+                const headerTextObj = new fabric.Text(headerText, {
+                    left: 20,
+                    top: 28,
                     fontFamily: 'Work Sans',
-                    fontSize: 10,
-                    fill: '#A0A79C',
+                    fontSize: 12,
+                    fontWeight: 'bold',
+                    fill: '#ffffff',
                     selectable: false,
                     evented: false
                 });
-                canvas.add(footerText);
+                canvas.add(headerTextObj);
+                textObjects.push(headerTextObj);
 
-                // Renderizar los elementos cargados
+                const companyText = new fabric.Text("CardNet.ec", {
+                    left: 20,
+                    top: 48,
+                    fontFamily: 'Marcellus',
+                    fontSize: 14,
+                    fill: '#ffffff',
+                    selectable: false,
+                    evented: false
+                });
+                canvas.add(companyText);
+                textObjects.push(companyText);
+
+                // Marco para la foto de perfil
+                const photoFrame = new fabric.Rect({
+                    left: 110,
+                    top: 116,
+                    width: 100,
+                    height: 120,
+                    fill: '#E5E7EB',
+                    stroke: primaryColor,
+                    strokeWidth: 2,
+                    selectable: false,
+                    evented: false
+                });
+                canvas.add(photoFrame);
+                textObjects.push(photoFrame);
+
                 renderUserData();
             }
 
-            // Renderizar los textos cargados por el usuario
+            // Renderizar textos del usuario y QR
             function renderUserData() {
-                // Eliminar textos anteriores para no acumular
-                const oldTexts = canvas.getObjects().filter(o => o.type === 'text' && o.selectable === false && o.left !== 20 && o.left !== 80);
-                oldTexts.forEach(t => canvas.remove(t));
-
-                const template = templateSelect.value;
-                let textCol = "#1E221C";
+                // Eliminar textos anteriores
+                textObjects = textObjects.filter(obj => {
+                    if (obj.type === 'text' && obj !== logoImage && obj !== photoImage) {
+                        canvas.remove(obj);
+                        return false;
+                    }
+                    return true;
+                });
 
                 // Nombre
-                const nameText = new fabric.Text(nameInput.value.toUpperCase(), {
+                const nameObj = new fabric.Text(nameInput.value, {
                     left: 160,
-                    top: 250,
+                    top: 255,
                     fontFamily: 'Work Sans',
                     fontSize: 18,
                     fontWeight: 'bold',
-                    fill: textCol,
+                    fill: '#1E221C',
                     originX: 'center',
                     selectable: false,
                     evented: false
                 });
-                canvas.add(nameText);
+                canvas.add(nameObj);
+                textObjects.push(nameObj);
 
                 // Cargo
-                const roleText = new fabric.Text(roleInput.value, {
+                const roleObj = new fabric.Text(roleInput.value.toUpperCase(), {
                     left: 160,
-                    top: 275,
+                    top: 280,
                     fontFamily: 'Work Sans',
-                    fontSize: 13,
+                    fontSize: 11,
+                    fontWeight: '600',
                     fill: '#5C6558',
                     originX: 'center',
                     selectable: false,
                     evented: false
                 });
-                canvas.add(roleText);
+                canvas.add(roleObj);
+                textObjects.push(roleObj);
 
-                // ID
-                const idText = new fabric.Text("ID: " + idInput.value, {
+                // Cédula / ID
+                const idObj = new fabric.Text("ID: " + idInput.value, {
                     left: 160,
                     top: 300,
                     fontFamily: 'Work Sans',
-                    fontSize: 12,
-                    fontWeight: 'bold',
-                    fill: textCol,
+                    fontSize: 10,
+                    fill: '#5C6558',
                     originX: 'center',
                     selectable: false,
                     evented: false
                 });
-                canvas.add(idText);
+                canvas.add(idObj);
+                textObjects.push(idObj);
 
-                // Si hay foto cargada, mantenerla o reposicionarla
-                if (photoImage) {
-                    canvas.add(photoImage);
-                    canvas.bringToFront(photoImage);
+                // Generar QR si está activado
+                if (qrToggle.checked) {
+                    generateQR(idInput.value);
+                } else {
+                    if (qrImage) {
+                        canvas.remove(qrImage);
+                        qrImage = null;
+                    }
                 }
-
-                // Si hay logo de empresa, reposicionarlo en la esquina del header
-                if (logoImage) {
-                    canvas.add(logoImage);
-                    canvas.bringToFront(logoImage);
-                }
-
-                // Generar y posicionar el Código QR
-                if (qrToggle.value === "yes") {
-                    generateQRCode();
-                } else if (qrImage) {
-                    canvas.remove(qrImage);
-                    qrImage = null;
-                }
-
-                canvas.renderAll();
             }
 
-            // Generador de QR visual
-            function generateQRCode() {
+            // Generador de QR
+            function generateQR(text) {
                 const qrContainer = document.getElementById("qr-hidden");
-                qrContainer.innerHTML = "";
+                qrContainer.innerHTML = ""; // Limpiar
                 
-                // Generar QR con el ID del carnet
                 new QRCode(qrContainer, {
-                    text: "CardNet:" + idInput.value,
+                    text: text,
                     width: 72,
                     height: 72,
                     correctLevel: QRCode.CorrectLevel.H
                 });
 
-                // Esperar a que la imagen se renderice
                 setTimeout(() => {
                     const qrImg = qrContainer.querySelector("img");
                     if (qrImg) {
@@ -458,7 +598,7 @@
                 reader.readAsDataURL(file);
             });
 
-            // Manejo de Foto de la Persona
+            // Manejo de Foto
             photoInput.addEventListener("change", function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -489,7 +629,7 @@
                 reader.readAsDataURL(file);
             });
 
-            // Listeners de Formulario
+            // Inputs Events
             nameInput.addEventListener("input", renderUserData);
             roleInput.addEventListener("input", renderUserData);
             idInput.addEventListener("input", renderUserData);
@@ -509,30 +649,43 @@
                 drawTemplate();
             });
 
-            // Enviar a WhatsApp
-            document.getElementById("btn-whatsapp-send").addEventListener("click", function() {
-                const dataURL = canvas.toDataURL({
+            // Submit de Ficha de Credenciales por AJAX
+            document.getElementById("btn-submit-pvc").addEventListener("click", function() {
+                const snapshot = canvas.toDataURL({
                     format: 'png',
-                    quality: 1.0
+                    quality: 0.95
                 });
 
-                const qty = qtyInput.value || "10";
+                const qty = qtyInput.value;
                 
-                let message = `Hola CardNet.ec, quiero cotizar carnets de PVC con este diseño:\n\n`;
-                message += `*Nombre simulado:* ${nameInput.value}\n`;
-                message += `*Puesto:* ${roleInput.value}\n`;
-                message += `*ID:* ${idInput.value}\n`;
-                message += `*Cantidad Estimada:* ${qty} credenciales\n\n`;
-                message += `¿Cuál sería el presupuesto estimado?`;
+                const formData = new FormData();
+                formData.append('action', 'add');
+                formData.append('name', `Credencial PVC (${templateSelect.value.toUpperCase()})`);
+                formData.append('slug', 'credenciales-pvc');
+                formData.append('qty', qty);
+                formData.append('price', unitPrice);
+                formData.append('snapshot', snapshot);
 
-                const phone = "593900000000"; // Teléfono oficial
-                const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-                window.open(whatsappUrl, '_blank');
+                fetch('cart-action.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('cart-modal').style.display = 'flex';
+                    } else {
+                        alert('No se pudo guardar la credencial en el cotizador.');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error de conexión al guardar en el cotizador.');
+                });
             });
 
-            // Inicialización de arranque
             drawTemplate();
+            updateSubtotal();
         });
     </script>
 </body>

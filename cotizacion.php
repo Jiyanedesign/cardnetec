@@ -1,19 +1,72 @@
+<?php
+session_start();
+require_once 'db.php';
+
+// Obtener datos globales del sitio
+$settings = getSiteSettings($pdo);
+
+// Soporte para enlaces directos heredados: Añadir al carrito y recargar
+if (isset($_GET['producto'])) {
+    $prod_slug = trim($_GET['producto']);
+    
+    // Si es credencial PVC
+    if ($prod_slug === 'credenciales-pvc') {
+        $qty = isset($_GET['qty']) ? (int)$_GET['qty'] : 50;
+        $item = [
+            'name' => 'Credencial PVC',
+            'slug' => 'credenciales-pvc',
+            'qty' => $qty,
+            'price' => 1.80,
+            'snapshot' => '',
+            'subtotal' => $qty * 1.80
+        ];
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+        $_SESSION['cart'][] = $item;
+    } else {
+        // Consultar producto
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM productos WHERE slug = ?");
+            $stmt->execute([$prod_slug]);
+            $p = $stmt->fetch();
+            if ($p) {
+                $qty = isset($_GET['qty']) ? (int)$_GET['qty'] : 20;
+                $item = [
+                    'name' => $p['name'],
+                    'slug' => $p['slug'],
+                    'qty' => $qty,
+                    'price' => (float)$p['price'],
+                    'snapshot' => '',
+                    'subtotal' => $qty * (float)$p['price']
+                ];
+                if (!isset($_SESSION['cart'])) {
+                    $_SESSION['cart'] = [];
+                }
+                $_SESSION['cart'][] = $item;
+            }
+        } catch (PDOException $e) {}
+    }
+
+    header("Location: cotizacion.php");
+    exit;
+}
+
+$cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+$grand_total = 0;
+foreach ($cart as $item) {
+    $grand_total += $item['subtotal'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitar Cotización | CardNet.ec - Artículos Promocionales</title>
+    <title>Solicitar Presupuesto Corporativo | CardNet.ec</title>
     <meta name="description" content="Solicita una cotización rápida y personalizada para tus artículos promocionales. Obtén renders digitales gratis y respuesta comercial en menos de 2 horas.">
     <link rel="canonical" href="https://cardnet.ec/cotizacion.php">
     
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://cardnet.ec/cotizacion.php">
-    <meta property="og:title" content="Cotización Rápida de Artículos Corporativos | CardNet.ec">
-    <meta property="og:description" content="Embudo de cotización formal. Selecciona productos, cantidades y sube tus logotipos vectoriales.">
-    <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
-
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=1.1.2">
     <link rel="stylesheet" href="css/layout.css?v=1.1.2">
@@ -21,19 +74,93 @@
     <link rel="stylesheet" href="css/pages.css?v=1.1.2">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
-    <!-- Google Fonts: Marcellus (Títulos Elegantes) & Work Sans (Textos Limpios) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .split-checkout {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        @media (max-width: 992px) {
+            .split-checkout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        .cart-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .cart-item-card {
+            background-color: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            position: relative;
+        }
+        .cart-item-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            background-color: var(--surface-light);
+        }
+        .cart-item-info {
+            flex-grow: 1;
+        }
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 0.92rem;
+            margin: 0 0 4px 0;
+            color: var(--text-main);
+        }
+        .cart-item-meta {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+        .cart-item-subtotal {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            text-align: right;
+        }
+        .btn-delete-item {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #EF4444;
+            cursor: pointer;
+            padding: 2px;
+        }
+        .cart-total-box {
+            background-color: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Barra de Anuncios Superior -->
     <div class="top-announcement-bar">
-        Envío estándar gratis en pedidos corporativos mayores a $150 | Tiempos de entrega rápidos a todo el país
+        Taller de personalización en Quito | Envíos corporativos asegurados a todo el Ecuador
     </div>
 
-    <!-- Cabecera de Página Multicapa -->
+    <!-- Cabecera de Página -->
     <header class="main-header">
         <div class="container">
             <div class="header-middle">
@@ -41,18 +168,11 @@
                     <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
-                <div class="header-search">
-                    <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    <input class="search-input" type="text" placeholder="Buscar termos, camisetas, libretas...">
-                </div>
-
                 <div class="header-contact-status">
                     <div class="contact-status-item">
                         <span class="status-icon-wrap">
                             <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72(12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/>
                             </svg>
                         </span>
                         <div class="status-text">
@@ -60,163 +180,147 @@
                             <p>+593 90 000 0000</p>
                         </div>
                     </div>
-                    <div class="contact-status-item">
-                        <span class="status-icon-wrap">
-                            <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                            </svg>
-                        </span>
-                        <div class="status-text">
-                            <h4>¿Dudas Comerciales?</h4>
-                            <p><a href="#" class="status-link">Chatea ahora</a></p>
-                        </div>
-                    </div>
                 </div>
-
-                <button class="burger-menu" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-nav">
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                </button>
             </div>
         </div>
 
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.php" class="nav-link ">Inicio</a>
-                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.php" class="nav-link ">Productos</a>
-                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
+                    <a href="index.php" class="nav-link">Inicio</a>
+                    <a href="index.php#destacados" class="nav-link">Destacados</a>
+                    <a href="index.php#laser" class="nav-link">Grabado láser</a>
+                    <a href="productos.php" class="nav-link">Productos</a>
+                    <a href="empresas.php" class="nav-link">Kits corporativos</a>
                     <a href="cotizacion.php" class="nav-link active">Cotizar</a>
                 </nav>
-                <div class="header-bottom-actions">
-                    <a href="cotizacion.php" class="btn btn-primary active" style="padding: 0.5rem 1.25rem;">Cotizar Ahora</a>
-                </div>
             </div>
         </div>
     </header>
-
-    <!-- Menú Móvil -->
-    <div class="mobile-nav-overlay"></div>
-    <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
-        <a href="index.php" class="mobile-link ">Inicio</a>
-        <a href="index.php#destacados" class="mobile-link ">Destacados</a>
-        <a href="index.php#laser" class="mobile-link ">Grabado láser</a>
-        <a href="productos.php" class="mobile-link ">Productos</a>
-        <a href="empresas.php" class="mobile-link ">Kits corporativos</a>
-        <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
-    </nav>
 
     <!-- Encabezado de Página Interna -->
     <div class="page-header-block">
         <div class="container">
             <h1 class="page-header-title">Solicitar Presupuesto Corporativo</h1>
-            <p class="page-header-description">Completa la ficha técnica a continuación para recibir una propuesta económica formal en formato PDF y los renders correspondientes.</p>
+            <p class="page-header-description">Completa la ficha técnica a continuación para recibir una propuesta económica formal y renders de taller.</p>
         </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <main class="section-padding container">
         
-        <div class="split-feature">
+        <div class="split-checkout">
             
-            <!-- Formulario de Cotización Técnico -->
-            <div class="split-content reveal-on-scroll" style="padding-right: 0;">
+            <!-- Columna Izquierda: Formulario Comercial -->
+            <div class="checkout-form-column reveal-on-scroll">
                 <div class="solution-card">
-                    <h3 style="margin-bottom: 1.25rem; font-size: 1.25rem;">Especificaciones del Pedido</h3>
+                    <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; font-family: var(--font-heading);">Ficha del Solicitante</h3>
                     
-                    <form id="quote-form" novalidate>
-                        
-                        <!-- Vista previa de simulación Canvas -->
-                        <div id="simulation-preview-box" style="display:none; margin-bottom:1.25rem; border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px; background:var(--surface-light); text-align:center;">
-                            <span style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:8px; font-weight:600;">Maqueta Canvas que cotizas:</span>
-                            <img id="simulation-preview-img" style="max-height:180px; border-radius:4px; border:1px solid var(--border); box-shadow:var(--shadow-sm);">
-                            <input type="hidden" name="simulation_snapshot" id="simulation-snapshot-input">
-                        </div>
-
-                        <div class="grid-2" style="gap: 0 15px;">
-                            <div class="form-group">
-                                <label class="form-label" for="quote-name">Tu Nombre *</label>
-                                <input class="form-input" type="text" id="quote-name" required placeholder="Ej. Ana Lucía">
-                                <span class="form-error-msg">Este campo es obligatorio.</span>
+                    <?php if (!empty($cart)): ?>
+                        <form id="quote-form" novalidate>
+                            <div class="grid-2" style="gap: 0 15px;">
+                                <div class="form-group">
+                                    <label class="form-label" for="quote-name">Tu Nombre *</label>
+                                    <input class="form-input" type="text" id="quote-name" required placeholder="Ej. Ana Lucía">
+                                    <span class="form-error-msg">Este campo es obligatorio.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="quote-company">Empresa / RUC</label>
+                                    <input class="form-input" type="text" id="quote-company" placeholder="Ej. Innova SA">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="quote-company">Empresa / RUC *</label>
-                                <input class="form-input" type="text" id="quote-company" required placeholder="Ej. Innova SA">
-                                <span class="form-error-msg">Este campo es obligatorio.</span>
-                            </div>
-                        </div>
 
-                        <div class="grid-2" style="gap: 0 15px;">
-                            <div class="form-group">
-                                <label class="form-label" for="quote-email">Correo Corporativo *</label>
-                                <input class="form-input" type="email" id="quote-email" required placeholder="ana@empresa.com">
-                                <span class="form-error-msg">Introduce un correo corporativo válido.</span>
+                            <div class="grid-2" style="gap: 0 15px;">
+                                <div class="form-group">
+                                    <label class="form-label" for="quote-email">Correo Corporativo *</label>
+                                    <input class="form-input" type="email" id="quote-email" required placeholder="ana@empresa.com">
+                                    <span class="form-error-msg">Introduce un correo corporativo válido.</span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="quote-phone">Teléfono / WhatsApp *</label>
+                                    <input class="form-input" type="tel" id="quote-phone" required placeholder="099000000">
+                                    <span class="form-error-msg">Mínimo 9 dígitos telefónicos.</span>
+                                </div>
                             </div>
+
                             <div class="form-group">
-                                <label class="form-label" for="quote-phone">Teléfono / WhatsApp *</label>
-                                <input class="form-input" type="tel" id="quote-phone" required placeholder="099000000">
-                                <span class="form-error-msg">Mínimo 9 dígitos telefónicos.</span>
+                                <label class="form-label" for="quote-logo">Logotipo Vectorial (Opcional)</label>
+                                <input class="form-input" type="file" id="quote-logo" accept=".ai,.pdf,.svg,.png,.jpg" style="padding: 0.5rem 1rem; width: 100%; box-sizing: border-box; background: white; border: 1px solid var(--border);">
+                                <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px;">Soporta formatos: .AI, .PDF, .SVG, .PNG (max. 10MB)</span>
                             </div>
-                        </div>
 
-                        <div class="grid-2" style="gap: 0 15px;">
                             <div class="form-group">
-                                <label class="form-label" for="quote-category">Artículo a Personalizar *</label>
-                                <select class="form-select" id="quote-category" required>
-                                    <option value="" disabled selected>Selecciona categoría...</option>
-                                    <option value="termos">Termos y Vasos</option>
-                                    <option value="textiles">Textiles y Gorras</option>
-                                    <option value="oficina">Libretas y Oficina</option>
-                                    <option value="tecnologia">Tecnología y USBs</option>
-                                    <option value="bolsas">Bolsas Ecológicas</option>
-                                </select>
-                                <span class="form-error-msg">Selecciona una categoría.</span>
+                                <label class="form-label" for="quote-notes">Instrucciones de Grabado / Observaciones</label>
+                                <textarea class="form-textarea" id="quote-notes" placeholder="Indica instrucciones adicionales, colores de grabado específicos o fecha requerida de entrega..."></textarea>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="quote-quantity">Cantidad Requerida *</label>
-                                <input class="form-input" type="number" id="quote-quantity" required min="25" placeholder="Mínimo 25 unidades">
-                                <span class="form-error-msg">Verifica el mínimo de la categoría seleccionada (mín. 25).</span>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-label" for="quote-logo">Logotipo Vectorial (Opcional)</label>
-                            <input class="form-input" type="file" id="quote-logo" accept=".ai,.pdf,.svg,.png,.jpg" style="padding: 0.5rem 1rem;">
-                            <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px;">Soporta formatos: .AI, .PDF, .SVG, .PNG (max. 10MB)</span>
+                            <button class="btn btn-primary" type="submit" style="width: 100%; margin-top: 0.5rem; padding: 14px;">
+                                Enviar Solicitud de Presupuesto
+                            </button>
+                        </form>
+                    <?php else: ?>
+                        <!-- Formulario bloqueado / Carrito vacío -->
+                        <div style="text-align: center; padding: 2rem 0;">
+                            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Debes añadir al menos un artículo personalizado a tu carrito para cotizar.</p>
+                            <a href="productos.php" class="btn btn-primary">Ir al catálogo de productos</a>
                         </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="quote-notes">Instrucciones de Marcado / Colores</label>
-                            <textarea class="form-textarea" id="quote-notes" placeholder="Indica si deseas grabado láser o bordado, colores corporativos específicos o fecha de entrega sugerida..."></textarea>
-                        </div>
-
-                        <button class="btn btn-primary" type="submit" style="width: 100%; margin-top: 0.5rem;">
-                            Enviar Solicitud al Taller
-                        </button>
-                    </form>
+                    <?php endif; ?>
                 </div>
             </div>
 
-            <!-- Columna Informativa -->
-            <div class="split-visual reveal-on-scroll delay-100">
-                <span class="section-subtitle">Garantías de Cotización</span>
-                <h2 style="margin-bottom: 1rem;">Comprometidos con tu tiempo</h2>
-                <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">Nuestros presupuestos detallan los costos unitarios del producto, las tarifas del molde o matriz de marcado y el tiempo de despacho estimado, evitando sorpresas de última hora.</p>
-                
-                <div class="solution-card" style="margin-bottom: 1rem; padding: 1.25rem;">
-                    <h3>Presupuesto en PDF en 2 Horas</h3>
-                    <p style="font-size: 0.85rem;">Enviamos la propuesta económica formal dentro del horario de atención del taller.</p>
-                </div>
-                <div class="solution-card" style="margin-bottom: 1rem; padding: 1.25rem;">
-                    <h3>Maqueta digital sin costo</h3>
-                    <p style="font-size: 0.85rem;">Si adjuntas tu archivo vectorial, te devolvemos el render técnico pre-visualizado.</p>
-                </div>
-                <div class="solution-card" style="padding: 1.25rem;">
-                    <h3>Despacho nacional asegurado</h3>
-                    <p style="font-size: 0.85rem;">Los envíos viajan asegurados ante cualquier daño o pérdida física en tránsito.</p>
+            <!-- Columna Derecha: Resumen del Carrito de Cotización -->
+            <div class="checkout-summary-column reveal-on-scroll delay-100">
+                <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; font-family: var(--font-heading);">Resumen de tu Cotización</h3>
+
+                <?php if (!empty($cart)): ?>
+                    <div class="cart-list">
+                        <?php foreach ($cart as $index => $item): ?>
+                            <div class="cart-item-card">
+                                <?php if ($item['snapshot']): ?>
+                                    <img src="<?php echo htmlspecialchars($item['snapshot']); ?>" class="cart-item-img">
+                                <?php else: ?>
+                                    <div class="cart-item-img" style="display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--text-muted);">
+                                        Sin Logo
+                                    </div>
+                                <?php endif; ?>
+
+                                <div class="cart-item-info">
+                                    <h4 class="cart-item-name"><?php echo htmlspecialchars($item['name']); ?></h4>
+                                    <span class="cart-item-meta"><?php echo $item['qty']; ?> uds x $<?php echo number_format($item['price'], 2); ?></span>
+                                </div>
+
+                                <div class="cart-item-subtotal">
+                                    $<?php echo number_format($item['subtotal'], 2); ?>
+                                </div>
+
+                                <!-- Botón de eliminar -->
+                                <button class="btn-delete-item" onclick="removeCartItem(<?php echo $index; ?>)" title="Eliminar de la lista">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="cart-total-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 600; text-transform: uppercase; font-size: 0.82rem;">Total Estimado:</span>
+                            <span style="font-size: 1.8rem; font-weight: bold; color: var(--primary);">$<?php echo number_format($grand_total, 2); ?></span>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div style="border: 1px dashed var(--border); border-radius: var(--radius-md); padding: 3rem; text-align: center; color: var(--text-muted);">
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 1rem auto; opacity: 0.5;">
+                            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                        <p style="font-size: 0.9rem;">El cotizador está vacío.</p>
+                    </div>
+                <?php endif; ?>
+
+                <div class="solution-card" style="margin-top: 1.5rem; padding: 1.25rem;">
+                    <h4 style="margin-bottom: 0.5rem; font-size: 0.92rem;">💡 ¿Cómo funciona el envío?</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">Al enviar este formulario, los datos se registrarán en nuestro sistema comercial de taller, y se abrirá una ventana a nuestro WhatsApp para que un asesor te asista directamente.</p>
                 </div>
             </div>
 
@@ -226,85 +330,29 @@
 
     <!-- Pie de Página -->
     <footer class="main-footer">
-        <div class="container footer-top section-padding">
-            <div class="footer-grid">
-                <div class="footer-brand-column">
-                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
-                        <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
-                    </a>
-                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
-                </div>
-                <div class="footer-links-column">
-                    <h3 class="footer-heading">Nosotros</h3>
-                    <nav class="footer-links" aria-label="Enlaces corporativos">
-                        <a href="nosotros.php" class="footer-link">Trayectoria</a>
-                        <a href="personalizacion.php" class="footer-link">Técnicas</a>
-                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
-                        <a href="proyectos.php" class="footer-link">Proyectos</a>
-                    </nav>
-                </div>
-                <div class="footer-links-column">
-                    <h3 class="footer-heading">Productos</h3>
-                    <nav class="footer-links" aria-label="Enlaces de productos">
-                        <a href="productos.php" class="footer-link">Todo el Catálogo</a>
-                        <a href="productos.php#termos" class="footer-link">Termos y Vasos</a>
-                        <a href="productos.php#textil" class="footer-link">Polos y Gorras</a>
-                        <a href="productos.php#oficina" class="footer-link">Libretas y Oficina</a>
-                    </nav>
-                </div>
-                <div class="footer-links-column">
-                    <h3 class="footer-heading">Contacto</h3>
-                    <div class="footer-contact-info">
-                        <div class="footer-contact-item">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72(12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            <span>+593 90 000 0000</span>
-                        </div>
-                        <div class="footer-contact-item">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                            <span>info@cardnet.ec</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container footer-bottom-flex">
-                <p>&copy; 2026 CardNet.ec. Todos los derechos reservados. Diseñado para marcas conscientes.</p>
-                <div class="footer-bottom-links">
-                    <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
-                    <a href="contacto.php" class="footer-bottom-link">Soporte</a>
-                </div>
-            </div>
+        <div class="container footer-bottom-flex" style="padding: 2.5rem 0; border-top: 1px solid var(--border);">
+            <p>&copy; 2026 CardNet.ec — Grabado láser y personalización corporativa.</p>
         </div>
     </footer>
-
-    <!-- Botón de WhatsApp Flotante -->
-    <a href="#" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
-        <svg class="whatsapp-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.982L2 22l5.233-1.371a9.994 9.994 0 0 0 4.779 1.22h.005c5.505 0 9.99-4.478 9.99-9.985A9.988 9.988 0 0 0 12.012 2zm4.7 13.916c-.223.633-1.29 1.205-1.782 1.282-.477.075-.947.168-3.067-.665-2.707-1.06-4.442-3.817-4.577-3.996-.134-.178-1.096-1.455-1.096-2.781 0-1.325.692-1.973.938-2.228.246-.255.535-.319.714-.319.18 0 .358.001.514.009.16.008.375-.062.586.448.223.54.76 1.851.827 1.984.067.134.112.29.022.468-.09.18-.134.29-.268.447-.134.156-.282.35-.403.47-.134.134-.273.28-.117.548.156.268.693 1.139 1.492 1.85 1.026.914 1.89 1.196 2.158 1.33.268.134.424.112.58-.067.157-.18.67-.781.848-1.049.178-.268.358-.223.58-.134.224.089 1.42.67 1.666.792.246.123.411.18.47.282.06.101.06.586-.163 1.218z"/>
-        </svg>
-    </a>
 
     <!-- Scripts Modulares -->
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/forms.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const snapshot = sessionStorage.getItem('simulation_snapshot');
-            if (snapshot) {
-                const input = document.getElementById('simulation-snapshot-input');
-                const previewBox = document.getElementById('simulation-preview-box');
-                const previewImg = document.getElementById('simulation-preview-img');
-                if (input && previewBox && previewImg) {
-                    input.value = snapshot;
-                    previewImg.src = snapshot;
-                    previewBox.style.display = 'block';
-                }
-                // Limpiar después de cargar en la página para evitar cotizaciones erróneas posteriores
-                sessionStorage.removeItem('simulation_snapshot');
+        // Eliminar elemento de la cesta
+        function removeCartItem(index) {
+            if (confirm('¿Deseas eliminar este producto de tu cotización?')) {
+                fetch(`cart-action.php?action=remove&index=${index}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    }
+                })
+                .catch(err => console.error(err));
             }
-        });
+        }
     </script>
 </body>
 </html>

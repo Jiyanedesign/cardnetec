@@ -145,6 +145,7 @@ try {
             <a href="productos.php" class="nav-admin-link">Productos</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
             <a href="antes-despues.php" class="nav-admin-link">Antes y Después</a>
+            <a href="configuracion.php" class="nav-admin-link">Configuración</a>
             <a href="logout.php" class="nav-admin-link" style="margin-top: 2rem; color: #FCA5A5;">Cerrar Sesión</a>
         </nav>
     </div>
@@ -186,8 +187,9 @@ try {
                         <th>WhatsApp</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
-                        <th>Mensaje</th>
                         <th>Archivos</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -208,7 +210,6 @@ try {
                                 </td>
                                 <td><?php echo htmlspecialchars($quote['product_name'] ?: 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($quote['qty'] ?: 'N/A'); ?></td>
-                                <td><span style="font-size: 0.8rem;" title="<?php echo htmlspecialchars($quote['message']); ?>"><?php echo htmlspecialchars(mb_strimwidth($quote['message'], 0, 50, "...")); ?></span></td>
                                 <td>
                                     <?php if ($quote['logo_path']): ?>
                                         <a href="../uploads/<?php echo htmlspecialchars($quote['logo_path']); ?>" target="_blank" style="font-size: 0.8rem; color: var(--primary); display: block;">Logo original</a>
@@ -219,6 +220,14 @@ try {
                                     <?php if (!$quote['logo_path'] && !$quote['simulation_path']): ?>
                                         <span style="color: var(--text-muted); font-size: 0.8rem;">Ninguno</span>
                                     <?php endif; ?>
+                                </td>
+                                <td>
+                                    <span style="font-size: 0.75rem; font-weight: bold; border-radius: 4px; padding: 2px 6px; background-color: #E0E7FF; color: #3730A3;">
+                                        <?php echo htmlspecialchars($quote['status'] ?: 'Nuevo'); ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="cotizacion-detalle.php?id=<?php echo $quote['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: bold;">Ver Ficha</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
