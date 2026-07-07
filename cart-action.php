@@ -47,11 +47,34 @@ if ($action === 'remove') {
     exit;
 }
 
+if ($action === 'update_qty') {
+    $index = isset($_REQUEST['index']) ? (int)$_REQUEST['index'] : -1;
+    $qty = isset($_REQUEST['qty']) ? (int)$_REQUEST['qty'] : 1;
+    if ($index >= 0 && isset($_SESSION['cart'][$index])) {
+        $_SESSION['cart'][$index]['qty'] = $qty;
+        $_SESSION['cart'][$index]['subtotal'] = $qty * $_SESSION['cart'][$index]['price'];
+    }
+
+    echo json_encode([
+        'success' => true,
+        'cart_count' => count($_SESSION['cart'])
+    ]);
+    exit;
+}
+
 if ($action === 'clear') {
     $_SESSION['cart'] = [];
     echo json_encode([
         'success' => true,
         'cart_count' => 0
+    ]);
+    exit;
+}
+
+if ($action === 'get') {
+    echo json_encode([
+        'success' => true,
+        'cart' => isset($_SESSION['cart']) ? $_SESSION['cart'] : []
     ]);
     exit;
 }

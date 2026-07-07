@@ -643,3 +643,151 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
+
+/* ==========================================================================
+   Estilos de Panel Lateral (Drawer), Modal de Detalles y Barra Responsive
+   ========================================================================== */
+
+/* Overlay de la Lista de Cotización */
+.quote-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.quote-drawer-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Panel Lateral (Drawer) */
+.quote-drawer {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 100%;
+    max-width: 420px;
+    height: 100vh;
+    background: white;
+    z-index: 2001;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.quote-drawer.open {
+    right: 0;
+}
+
+.quote-drawer-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.quote-drawer-header h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+}
+.quote-drawer-close {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.quote-drawer-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.drawer-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.drawer-item-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid var(--surface-light);
+    padding-bottom: 10px;
+}
+.drawer-item-info {
+    flex-grow: 1;
+}
+.drawer-item-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin: 0 0 2px 0;
+}
+.drawer-item-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Modal de Detalle de Producto */
+.product-detail-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+.product-detail-modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.product-detail-modal {
+    background: white;
+    width: 100%;
+    max-width: 580px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    animation: fadeInFast 0.3s ease-out;
+}
+
+/* Barra Móvil Inferior */
+.mobile-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px 15px;
+    z-index: 998;
+}
+
+@media (min-width: 768px) {
+    .mobile-bottom-bar {
+        display: none;
+    }
+}

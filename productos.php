@@ -208,58 +208,82 @@ try {
     <!-- MAIN CONTENT -->
     <main class="section-padding container">
 
-        <!-- Barra de Filtros por Categoría -->
-        <div class="filter-bar">
-            <a href="productos.php" class="filter-btn <?php echo !$category_filter ? 'active' : ''; ?>">Todos los artículos</a>
-            <?php foreach ($categories as $cat): ?>
-                <a href="productos.php?cat=<?php echo urlencode($cat['slug']); ?>" class="filter-btn <?php echo $category_filter === $cat['slug'] ? 'active' : ''; ?>">
-                    <?php echo htmlspecialchars($cat['name']); ?>
-                </a>
-            <?php endforeach; ?>
+        <!-- Barra de Filtros por Categoría y Materiales -->
+        <div class="filter-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2.5rem; justify-content: center;">
+            <button class="filter-btn active" data-filter="all" style="border:none; cursor:pointer;">Todos</button>
+            <button class="filter-btn" data-filter="Termo" style="border:none; cursor:pointer;">Termos</button>
+            <button class="filter-btn" data-filter="Agenda" style="border:none; cursor:pointer;">Agendas</button>
+            <button class="filter-btn" data-filter="Kit" style="border:none; cursor:pointer;">Kits</button>
+            <button class="filter-btn" data-filter="Placa" style="border:none; cursor:pointer;">Placas</button>
+            <button class="filter-btn" data-filter="Llavero" style="border:none; cursor:pointer;">Llaveros</button>
+            <button class="filter-btn" data-filter="Identificación" style="border:none; cursor:pointer;">Identificación</button>
+            <button class="filter-btn" data-filter="Acero" style="border:none; cursor:pointer;">Acero</button>
+            <button class="filter-btn" data-filter="Madera" style="border:none; cursor:pointer;">Madera</button>
+            <button class="filter-btn" data-filter="Acrílico" style="border:none; cursor:pointer;">Acrílico</button>
+            <button class="filter-btn" data-filter="Cuero" style="border:none; cursor:pointer;">Cuero / PU</button>
         </div>
         
         <div class="grid-3">
             <?php if (!empty($products)): ?>
                 <?php foreach ($products as $prod): ?>
-                    <a href="producto.php?slug=<?php echo urlencode($prod['slug']); ?>" class="product-card reveal-on-scroll" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
-                        <div class="product-card-image-wrap">
-                            <div class="image-placeholder theme-gray">
+                    <?php 
+                    $enriched = enrichProduct($prod);
+                    ?>
+                    <div class="product-card catalog-product-item reveal-on-scroll" 
+                         data-name="<?php echo htmlspecialchars($enriched['name']); ?>" 
+                         data-category="<?php echo htmlspecialchars($enriched['category']); ?>" 
+                         data-material="<?php echo htmlspecialchars($enriched['material']); ?>" 
+                         data-technique="<?php echo htmlspecialchars($enriched['technique']); ?>" 
+                         data-use="<?php echo htmlspecialchars($enriched['use']); ?>"
+                         style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; padding: 0;">
+                        <div class="product-card-image-wrap" style="position: relative;">
+                            <div class="image-placeholder theme-gray" style="border-radius: 0; aspect-ratio: 1.15;">
                                 <?php if ($prod['image_main']): ?>
-                                    <img src="uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width:100%; height:100%; object-fit:cover;">
+                                    <img src="uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy" alt="<?php echo htmlspecialchars($prod['name']); ?>">
                                 <?php else: ?>
-                                    <div class="image-placeholder-inner">
-                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
-                                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                    <div class="image-placeholder-inner" style="background: var(--surface-light);">
+                                        <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity: 0.3;">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                                         </svg>
-                                        <span class="image-placeholder-text"><?php echo htmlspecialchars($prod['name']); ?></span>
+                                        <span class="image-placeholder-text" style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; letter-spacing: 0.05em; display: block; margin-top: 5px;"><?php echo htmlspecialchars($prod['name']); ?></span>
                                     </div>
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div class="product-card-body">
-                            <span class="product-card-price"><?php echo htmlspecialchars($prod['category']); ?></span>
-                            <h3 class="product-card-title" style="margin-bottom: 0.25rem; font-family: var(--font-heading);"><?php echo htmlspecialchars($prod['name']); ?></h3>
+                        <div class="product-card-body" style="padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1;">
+                            <span class="product-card-price" style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); font-weight: 600; display: block; margin-bottom: 4px;"><?php echo htmlspecialchars($enriched['category']); ?></span>
+                            <h3 class="product-card-title" style="margin-bottom: 0.5rem; font-size: 1.15rem; font-family: var(--font-heading); color: var(--dark); font-weight: 500; line-height: 1.2;"><?php echo htmlspecialchars($enriched['name']); ?></h3>
                             
                             <!-- Badges de especificaciones técnicas premium -->
                             <div class="product-specs-badges" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.85rem; margin-top: 0.25rem;">
-                                <?php if (stripos($prod['category'], 'tarjeta') !== false || stripos($prod['name'], 'tarjeta') !== false): ?>
-                                    <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.03); letter-spacing: 0.02em;">Mate & Grabado</span>
-                                    <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1); letter-spacing: 0.02em;">Metal 316L</span>
-                                <?php elseif (stripos($prod['category'], 'termo') !== false || stripos($prod['name'], 'termo') !== false): ?>
-                                    <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.03); letter-spacing: 0.02em;">Doble Pared</span>
-                                    <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1); letter-spacing: 0.02em;">Láser CO2</span>
-                                <?php else: ?>
-                                    <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.03); letter-spacing: 0.02em;">Edición B2B</span>
-                                    <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1); letter-spacing: 0.02em;">Precisión Alta</span>
-                                <?php endif; ?>
+                                <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.02);"><?php echo htmlspecialchars($enriched['material']); ?></span>
+                                <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1);"><?php echo htmlspecialchars($enriched['technique']); ?></span>
                             </div>
 
-                            <p class="product-card-desc"><?php echo htmlspecialchars($prod['description_short']); ?></p>
-                            <span class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem; text-align: center; display: block; width: 100%;">
-                                Ver producto y simular
-                            </span>
+                            <p class="product-card-desc" style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
+                            
+                            <div style="display: flex; gap: 8px; margin-top: auto;">
+                                <button class="btn btn-primary btn-add-to-quote" 
+                                        data-slug="<?php echo htmlspecialchars($prod['slug']); ?>" 
+                                        data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
+                                        data-price="<?php echo (float)$prod['price']; ?>"
+                                        style="flex-grow: 1; padding: 8px 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; border: none; cursor: pointer;">
+                                    Agregar a cotización
+                                </button>
+                                <button class="btn btn-secondary btn-view-details" 
+                                        data-slug="<?php echo htmlspecialchars($prod['slug']); ?>"
+                                        data-name="<?php echo htmlspecialchars($prod['name']); ?>"
+                                        data-category="<?php echo htmlspecialchars($enriched['category']); ?>"
+                                        data-material="<?php echo htmlspecialchars($enriched['material']); ?>"
+                                        data-technique="<?php echo htmlspecialchars($enriched['technique']); ?>"
+                                        data-use="<?php echo htmlspecialchars($enriched['use']); ?>"
+                                        data-desc="<?php echo htmlspecialchars($enriched['details']); ?>"
+                                        style="padding: 8px 12px; font-size: 0.78rem; font-weight: 500; border: 1px solid var(--border); cursor: pointer; background: white;">
+                                    Ver detalles
+                                </button>
+                            </div>
                         </div>
-                    </a>
+                    </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem 0;">

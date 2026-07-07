@@ -39,8 +39,8 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CardNet.ec | Grabado Láser y Personalización Corporativa Premium</title>
-    <meta name="description" content="No hacemos artículos con logos. Creamos piezas personalizadas que hacen que tu marca se recuerde. Especialistas en grabado láser en Quito, Ecuador.">
+    <title>CardNet.ec | Grabado láser y personalización corporativa en Quito</title>
+    <meta name="description" content="Grabado láser, identificación y productos personalizados para empresas, instituciones y eventos. Termos, agendas, placas, kits corporativos y más en Quito.">
     <link rel="canonical" href="https://cardnet.ec/index.php">
     
     <!-- CSS Modulares -->
@@ -54,6 +54,91 @@ try {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SEO: Marcado Estructurado JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "CardNet.ec",
+      "image": "https://cardnet.ec/images/logo.png",
+      "telephone": "+593900000000",
+      "email": "info@cardnet.ec",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Av. Amazonas",
+        "addressLocality": "Quito",
+        "addressRegion": "Pichincha",
+        "addressCountry": "EC"
+      },
+      "url": "https://cardnet.ec",
+      "priceRange": "$$"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Puedo enviar mi logo por WhatsApp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Puedes enviar tu logo, una referencia o una idea. Revisamos el archivo y te orientamos antes de preparar la propuesta."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Me muestran cómo quedará antes de producir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Antes de grabar o personalizar, se puede preparar una vista previa para revisar ubicación, tamaño y proporción."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué formato debe tener mi logo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Lo ideal es enviar el logo en buena calidad. Si tienes archivo vectorial, mucho mejor. También se puede revisar una imagen para confirmar si sirve."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué materiales se pueden grabar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Se puede trabajar sobre materiales como acero inoxidable, madera, acrílico, cuero PU y otros soportes compatibles."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo cotizar productos que no están en el catálogo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. El catálogo es una referencia. También puedes enviar el producto o idea que necesitas y se revisa la posibilidad de personalización."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿El grabado se borra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El grabado láser marca directamente el material. Por eso es más resistente que tintas superficiales o adhesivos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Trabajan para empresas y eventos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. La página debe comunicar que se pueden preparar productos para empresas, instituciones, equipos de trabajo y eventos."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
 
@@ -192,10 +277,14 @@ try {
                     <div class="carousel-track">
                         
                         <?php if (!empty($slides)): ?>
-                            <?php foreach ($slides as $slide): ?>
+                            <?php foreach ($slides as $idx => $slide): ?>
                                 <div class="carousel-slide">
                                     <div class="carousel-slide-content-wrap">
-                                        <h2 class="carousel-slide-title" style="margin-bottom: 0.75rem; font-family: var(--font-heading);"><?php echo htmlspecialchars($slide['title']); ?></h2>
+                                        <?php if ($idx === 0): ?>
+                                            <h1 class="carousel-slide-title" style="margin-bottom: 0.75rem; font-family: var(--font-heading); font-size: clamp(1.4rem, 2.5vw, 2.1rem);"><?php echo htmlspecialchars($slide['title']); ?></h1>
+                                        <?php else: ?>
+                                            <h2 class="carousel-slide-title" style="margin-bottom: 0.75rem; font-family: var(--font-heading);"><?php echo htmlspecialchars($slide['title']); ?></h2>
+                                        <?php endif; ?>
                                         <?php if ($slide['subtitle']): ?>
                                             <p class="carousel-slide-subtitle"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
                                         <?php endif; ?>
@@ -332,13 +421,13 @@ try {
             </div>
         </section>
 
-        <!-- Comparación Antes y Después -->
+        <!-- Trabajos que podemos personalizar -->
         <?php if (!empty($beforeAfters)): ?>
             <section id="antes-despues" class="section-padding container reveal-on-scroll">
                 <div class="section-header center">
-                    <span class="section-subtitle">Evidencia de Taller</span>
-                    <h2>Antes y después del grabado</h2>
-                    <p>Compara el producto base limpio frente al resultado final con identidad de marca grabada.</p>
+                    <span class="section-subtitle">Capacidad de Producción</span>
+                    <h2>Trabajos que podemos personalizar</h2>
+                    <p>Visualiza el contraste entre el soporte base y el resultado final grabado con tu logotipo.</p>
                 </div>
                 
                 <div class="comparison-grid" style="margin-top: 2rem;">
@@ -486,14 +575,97 @@ try {
             </div>
         </section>
 
+        <!-- Preguntas Frecuentes -->
+        <section id="preguntas-frecuentes" class="section-padding section-bg-light reveal-on-scroll">
+            <div class="container" style="max-width: 800px;">
+                <div class="section-header center">
+                    <span class="section-subtitle">Dudas Comunes</span>
+                    <h2>Preguntas frecuentes</h2>
+                    <p>Todo lo que necesitas saber sobre el proceso de diseño, personalización y entrega en Quito.</p>
+                </div>
+                
+                <div class="faq-accordion" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 10px;">
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span>¿Puedo enviar mi logo por WhatsApp?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0;">Sí. Puedes enviar tu logo, una referencia o una idea. Revisamos el archivo y te orientamos antes de preparar la propuesta.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span>¿Me muestran cómo quedará antes de producir?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0;">Sí. Antes de grabar o personalizar, se puede preparar una vista previa para revisar ubicación, tamaño y proporción.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span>¿Qué formato debe tener mi logo?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0;">Lo ideal es enviar el logo en buena calidad. Si tienes archivo vectorial, mucho mejor. También se puede revisar una imagen para confirmar si sirve.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span>¿Qué materiales se pueden grabar?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0;">Se puede trabajar sobre materiales como acero inoxidable, madera, acrílico, cuero PU y otros soportes compatibles.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span>¿Puedo cotizar productos que no están en el catálogo?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0;">Sí. El catálogo es una referencia. También puedes enviar el producto o idea que necesitas y se revisa la posibilidad de personalización.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span>¿El grabado se borra?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0;">El grabado láser marca directamente el material. Por eso es más resistente que tintas superficiales o adhesivos.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span>¿Trabajan para empresas y eventos?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0;">Sí, realizamos trabajos al por mayor para marcas corporativas, instituciones académicas, organizaciones y eventos en general.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Garantía Final / Llamado a la Acción -->
         <section class="section-padding container reveal-on-scroll" style="text-align: center; max-width: 800px; margin-top: 1rem; margin-bottom: 2rem;">
             <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Contacto Directo</span>
-            <h2 style="margin-bottom: 1.25rem; font-family: var(--font-heading);">¿Tienes un logo y quieres verlo aplicado en un producto?</h2>
-            <p style="margin-bottom: 2rem; font-size: 1rem; color: var(--text-muted); line-height: 1.6;">Envíanos tu idea o el logotipo de tu empresa por WhatsApp y te ayudamos a elegir el producto adecuado, el material y la mejor ubicación para lograr un grabado láser impecable.</p>
+            <h2 style="margin-bottom: 1.25rem; font-family: var(--font-heading);">¿Ya tienes una idea para personalizar?</h2>
+            <p style="margin-bottom: 2rem; font-size: 1rem; color: var(--text-muted); line-height: 1.6;">Envíanos el producto que necesitas, la cantidad aproximada y tu logo. Te ayudamos a elegir el material, el acabado y la mejor forma de presentarlo.</p>
             <div class="hero-actions" style="justify-content: center; display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="https://wa.me/593900000000" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
-                <a href="cotizacion.php" class="btn btn-secondary">Subir mi logo en línea</a>
+                <a href="https://wa.me/593900000000?text=Hola,%20tengo%20una%20idea%20para%20personalizar%20un%20producto..." class="btn btn-primary" target="_blank" rel="noopener noreferrer">Enviar solicitud por WhatsApp</a>
+                <a href="productos.php" class="btn btn-secondary">Ver productos para cotizar</a>
             </div>
         </section>
 
@@ -551,14 +723,11 @@ try {
         </div>
         <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
             <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuizan su presentación.</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
                 <div class="footer-bottom-links" style="display: flex; gap: 15px; font-size: 0.8rem;">
                     <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
                     <a href="contacto.php" class="footer-bottom-link">Soporte de Taller</a>
                 </div>
-            </div>
-        </div>
-    </footer>               </div>
             </div>
         </div>
     </footer>
