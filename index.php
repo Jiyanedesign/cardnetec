@@ -575,35 +575,140 @@ try {
         </section>
 
         <!-- 3. Sección: Categorías Visuales -->
-        <section id="categorias-visuales" class="section-padding section-bg-light reveal-on-scroll">
+        <section id="categorias-visuales" class="section-padding" style="background: #121212; color: white; padding-top: 5rem; padding-bottom: 5rem;">
             <div class="container">
-                <div class="section-header center" style="margin-bottom: 3.5rem;">
-                    <span class="section-subtitle">Showroom Categorías</span>
-                    <h2>Explorar por línea de producto</h2>
-                    <p>Colecciones diseñadas para facilitar la búsqueda visual de tu soporte de marca.</p>
+                <div class="section-header" style="margin-bottom: 3.5rem; text-align: left; max-width: 700px;">
+                    <h2 style="font-family: var(--font-heading); font-size: 3rem; color: white; font-weight: 400; margin-bottom: 1rem; text-transform: lowercase;">categorías</h2>
+                    <p style="color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.6; margin: 0;">Soluciones a medida para cada necesidad de branding corporativo, desde el detalle pequeño hasta el gran reconocimiento.</p>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-                    <?php
-                    $visual_cats = [
-                        ['name' => 'Termos', 'slug' => 'termos', 'desc' => 'Termos de acero inoxidable de doble pared.', 'img' => 'uploads/termo.png'],
-                        ['name' => 'Agendas', 'slug' => 'agendas', 'desc' => 'Agendas ejecutivas y libretas premium.', 'img' => 'uploads/agenda.png'],
-                        ['name' => 'Llaveros', 'slug' => 'llaveros', 'desc' => 'Llaveros corporativos de metal o madera.', 'img' => 'uploads/llavero.png'],
-                        ['name' => 'Placas y Reconocimientos', 'slug' => 'placas', 'desc' => 'Placas conmemorativas y reconocimientos.', 'img' => 'uploads/placa.png'],
-                        ['name' => 'Kits Corporativos', 'slug' => 'kits', 'desc' => 'Kits combinados de alta presentación.', 'img' => 'uploads/kit.png'],
-                        ['name' => 'Carnets y Credenciales', 'slug' => 'carnets', 'desc' => 'Identificación corporativa en PVC.', 'img' => 'uploads/carnets.png']
-                    ];
-                    foreach ($visual_cats as $cat):
-                    ?>
-                        <a href="productos.php?cat=<?php echo $cat['slug']; ?>" class="category-visual-card" style="position: relative; display: block; border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 1; background: #2A3027; border: 1px solid var(--border); text-decoration: none;">
-                            <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(99, 174, 44, 0.08) 0%, rgba(16, 20, 15, 0.95) 100%); z-index: 1;"></div>
-                            
-                            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; z-index: 2;">
-                                <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: white; margin-bottom: 4px; text-shadow: 0 1px 2px rgba(0,0,0,0.3);"><?php echo $cat['name']; ?></h3>
-                                <p style="font-size: 0.75rem; color: rgba(255,255,255,0.7); line-height: 1.3; margin: 0; max-width: 180px;"><?php echo $cat['desc']; ?></p>
+                <style>
+                    .premium-masonry-grid {
+                        display: grid;
+                        grid-template-columns: 2fr 1fr;
+                        gap: 20px;
+                    }
+                    .premium-left-col {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                    }
+                    .premium-bottom-row {
+                        display: grid;
+                        grid-template-columns: 1.03fr 0.97fr;
+                        gap: 20px;
+                        align-items: start;
+                    }
+                    .premium-right-col {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                    }
+                    .premium-cat-card {
+                        position: relative;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        background: #1c1b1b;
+                        border: 1px solid rgba(255,255,255,0.03);
+                        text-decoration: none;
+                        display: block;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+                    }
+                    .premium-cat-card img {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        object-fit: cover;
+                        filter: grayscale(100%);
+                        transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                    }
+                    .premium-cat-card:hover img {
+                        filter: grayscale(0%);
+                        transform: scale(1.025);
+                    }
+                    .premium-cat-overlay {
+                        position: absolute;
+                        inset: 0;
+                        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 65%, transparent 100%);
+                        z-index: 2;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                        padding: 2rem;
+                        box-sizing: border-box;
+                    }
+                    .premium-cat-title {
+                        font-family: var(--font-heading);
+                        font-size: 1.65rem;
+                        font-weight: 400;
+                        color: #ffffff;
+                        margin-bottom: 4px;
+                    }
+                    .premium-cat-subtitle {
+                        font-size: 0.88rem;
+                        color: rgba(255,255,255,0.65);
+                        margin: 0;
+                    }
+                    @media (max-width: 768px) {
+                        .premium-masonry-grid {
+                            grid-template-columns: 1fr;
+                            gap: 15px;
+                        }
+                        .premium-bottom-row {
+                            grid-template-columns: 1fr;
+                            gap: 15px;
+                        }
+                        .premium-cat-overlay {
+                            padding: 1.5rem;
+                        }
+                        .premium-cat-title {
+                            font-size: 1.4rem;
+                        }
+                    }
+                </style>
+
+                <div class="premium-masonry-grid">
+                    <!-- Columna Izquierda -->
+                    <div class="premium-left-col">
+                        <!-- Merchandising General -->
+                        <a href="productos.php" class="premium-cat-card" style="aspect-ratio: 595/302;">
+                            <img src="images/cat_merchandising.png" alt="Merchandising General">
+                            <div class="premium-cat-overlay">
+                                <h3 class="premium-cat-title">Merchandising General</h3>
+                                <p class="premium-cat-subtitle">Llaveros, esferos y más.</p>
                             </div>
                         </a>
-                    <?php endforeach; ?>
+                        
+                        <div class="premium-bottom-row">
+                            <!-- Cajas y Empaques -->
+                            <a href="productos.php?cat=cajas" class="premium-cat-card" style="aspect-ratio: 288/337;">
+                                <img src="images/cat_cajas.png" alt="Cajas y Empaques">
+                                <div class="premium-cat-overlay">
+                                    <h3 class="premium-cat-title">Cajas y Empaques</h3>
+                                </div>
+                            </a>
+                            <!-- Especialidad Láser -->
+                            <a href="#laser" class="premium-cat-card" style="aspect-ratio: 288/257;">
+                                <img src="images/cat_laser.png" alt="Especialidad Láser">
+                                <div class="premium-cat-overlay">
+                                    <h3 class="premium-cat-title">Especialidad Láser</h3>
+                                    <p class="premium-cat-subtitle">Precisión milimétrica.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha -->
+                    <div class="premium-right-col">
+                        <!-- Carnetización -->
+                        <a href="productos.php?cat=carnets" class="premium-cat-card" style="aspect-ratio: 288/460; height: 100%;">
+                            <img src="images/cat_carnets.png" alt="Carnetización">
+                            <div class="premium-cat-overlay" style="height: 100%;">
+                                <h3 class="premium-cat-title">Carnetización</h3>
+                                <p class="premium-cat-subtitle">Soluciones seguras en PVC.</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
