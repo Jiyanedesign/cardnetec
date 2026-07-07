@@ -102,7 +102,7 @@ try {
                         </span>
                         <div class="status-text">
                             <h4>Asesoría Directa</h4>
-                            <p>+593 90 000 0000</p>
+                            <p style="font-size: 0.8rem; font-weight: 500; color: var(--primary);">Contacto por WhatsApp</p>
                         </div>
                     </div>
                 </div>
@@ -294,7 +294,7 @@ try {
 
     </main>
 
-    <!-- Footer -->
+    <!-- Footer Corporativo -->
     <footer class="main-footer">
         <div class="container footer-top section-padding" style="padding-top: 3rem; padding-bottom: 3rem;">
             <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
@@ -302,54 +302,44 @@ try {
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Especialistas en identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos en Ecuador.</p>
+                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos.</p>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Líneas de Negocio</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Líneas de Trabajo</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <a href="productos.php#termos" class="footer-link">Termos Grabados</a>
-                        <a href="productos.php#oficina" class="footer-link">Agendas Ejecutivas</a>
-                        <a href="empresas.php" class="footer-link">Kits Corporativos</a>
-                        <a href="productos.php#placas" class="footer-link">Placas y Reconocimientos</a>
-                        <a href="simulador-carnets.php" class="footer-link">Identificación & Carnets PVC</a>
+                        <a href="productos.php" class="footer-link">Grabado láser</a>
+                        <a href="productos.php" class="footer-link">Identificación corporativa</a>
+                        <a href="productos.php" class="footer-link">Kits empresariales</a>
+                        <a href="productos.php" class="footer-link">Placas y reconocimientos</a>
+                        <a href="productos.php" class="footer-link">Productos personalizados</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Enlaces Útiles</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Para Quién Trabajamos</h3>
                     <nav class="footer-links" aria-label="Enlaces de navegación" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <a href="index.php#antes-despues" class="footer-link">Trabajos Realizados</a>
-                        <a href="index.php#proceso" class="footer-link">Cómo Pedir</a>
-                        <a href="faq.php" class="footer-link">Preguntas Frecuentes</a>
-                        <a href="contacto.php" class="footer-link">Soporte de Taller</a>
+                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Empresas</span>
+                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Instituciones</span>
+                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Eventos</span>
+                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Marcas</span>
+                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Equipos comerciales</span>
                     </nav>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto & Horario</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Solicitudes</h3>
                     <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
-                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            <span>WhatsApp: +593 90 000 0000</span>
-                        </div>
-                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                            <span>info@cardnet.ec</span>
-                        </div>
-                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
-                            <span>⏱️ Lunes a Viernes · 09:00 a 18:00</span>
-                        </div>
-                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
-                            <span>📍 Quito · Envíos a nivel nacional</span>
-                        </div>
+                        <a href="cotizacion.php" class="footer-link">Cotizar productos</a>
+                        <a href="cotizacion.php" class="footer-link">Enviar logo</a>
+                        <button class="footer-link toggle-quote-drawer-btn" style="background: none; border: none; text-align: left; padding: 0; font-family: inherit; font-size: inherit; color: inherit; cursor: pointer;">Preparar pedido corporativo</button>
+                        <a href="index.php#preguntas-frecuentes" class="footer-link">Preguntas frecuentes</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
             <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; CardNet.ec. Todos los derechos reservados. Sitio desarrollado para presentación corporativa y solicitudes de cotización.</p>
                 <div class="footer-bottom-links" style="display: flex; gap: 15px; font-size: 0.8rem;">
-                    <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
-                    <a href="contacto.php" class="footer-bottom-link">Soporte de Taller</a>
+                    <span style="color: var(--text-muted);">Contacto disponible próximamente</span>
                 </div>
             </div>
         </div>
