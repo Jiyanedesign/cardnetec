@@ -762,7 +762,9 @@ try {
 
         <!-- 4. Sección: Especialidad Grabado Láser (Sintética) -->
         <section id="laser" class="section-padding container reveal-on-scroll">
-            <div class="laser-section" style="padding: 4rem; background: #1A1F18; border-radius: var(--radius-lg); overflow: hidden; position: relative;">
+            <div class="laser-section" style="padding: 4rem; background-image: url('images/cat_laser.png'); background-size: cover; background-position: center; border-radius: var(--radius-lg); overflow: hidden; position: relative;">
+                <!-- Degradado de alta opacidad a la izquierda para visibilidad óptima de los textos -->
+                <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.98) 0%, rgba(16, 20, 15, 0.85) 45%, rgba(16, 20, 15, 0.2) 100%); z-index: 1;"></div>
                 <div style="max-width: 600px; position: relative; z-index: 5;">
                     <span class="section-subtitle" style="color: #8CFF32; border-color: #8CFF32;">Marcaje preciso</span>
                     <h2 style="color: white; font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; margin-bottom: 1.25rem;">Nuestra especialidad: grabado láser</h2>
