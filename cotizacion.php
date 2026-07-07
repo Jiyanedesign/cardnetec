@@ -68,10 +68,10 @@ foreach ($cart as $item) {
     <link rel="canonical" href="https://cardnet.ec/cotizacion.php">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=1.1.2">
-    <link rel="stylesheet" href="css/layout.css?v=1.1.2">
-    <link rel="stylesheet" href="css/components.css?v=1.1.2">
-    <link rel="stylesheet" href="css/pages.css?v=1.1.2">
+    <link rel="stylesheet" href="css/base.css?v=2.0">
+    <link rel="stylesheet" href="css/layout.css?v=2.0">
+    <link rel="stylesheet" href="css/components.css?v=2.0">
+    <link rel="stylesheet" href="css/pages.css?v=2.0">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->

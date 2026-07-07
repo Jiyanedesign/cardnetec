@@ -7,10 +7,10 @@
     <meta name="description" content="@yield('meta_description', 'Taller de personalización de artículos corporativos y grabado láser en Quito, Ecuador.')">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="{{ asset('css/base.css?v=1.1.2') }}">
-    <link rel="stylesheet" href="{{ asset('css/layout.css?v=1.1.2') }}">
-    <link rel="stylesheet" href="{{ asset('css/components.css?v=1.1.2') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages.css?v=1.1.2') }}">
+    <link rel="stylesheet" href="{{ asset('css/base.css?v=2.0') }}">
+    <link rel="stylesheet" href="{{ asset('css/layout.css?v=2.0') }}">
+    <link rel="stylesheet" href="{{ asset('css/components.css?v=2.0') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages.css?v=2.0') }}">
     <link rel="stylesheet" href="{{ asset('css/animations.css?v=1.1.2') }}">
 
     <!-- Google Fonts -->
