@@ -736,74 +736,85 @@ try {
             </div>
         </section>
 
-        <!-- 5. Sección: Antes y Después del Grabado (Visual) -->
-        <section id="antes-despues" class="section-padding container reveal-on-scroll" style="border-top: 1px solid var(--border);">
+        <!-- 5. Sección: Antes y Después del Grabado (Visual & Interactivo) -->
+        <section id="antes-despues" class="section-padding container reveal-on-scroll" style="border-top: 1px solid var(--border); padding-top: 5rem; padding-bottom: 5rem;">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
                 <span class="section-subtitle">Garantía de Acabado</span>
                 <h2>Antes y después del grabado</h2>
                 <p>Mira cómo un producto simple se convierte en una pieza personalizada para tu marca.</p>
             </div>
             
-            <div class="comparison-grid">
+            <div class="interactive-slider-wrapper" style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; max-width: 1000px; margin: 0 auto;">
                 
-                <!-- Comparación 1: Termo -->
-                <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white; transition: transform 0.25s ease;">
-                    <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
-                        <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
-                            <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Termo Liso</div>
-                            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sin marca</span>
-                        </div>
-                        <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
-                            <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Con Marcado</div>
-                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Grabado láser</span>
+                <!-- El Comparador Deslizable (Izquierda) -->
+                <div class="before-after-slider-container" style="position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--radius-md); overflow: hidden; user-select: none; border: 1px solid var(--border); box-shadow: var(--shadow-lg); cursor: ew-resize;">
+                    <!-- Imagen del Después (Fondo) -->
+                    <img id="slider-img-after" src="images/termo_after.png" alt="Termo Grabado" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+                    
+                    <!-- Imagen del Antes (Capa Superior recortable) -->
+                    <div id="slider-before-wrap" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; clip-path: inset(0 50% 0 0); border-right: 2px solid white;">
+                        <img id="slider-img-before" src="images/termo_before.png" alt="Termo Liso" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+                    </div>
+                    
+                    <!-- Barra de Deslizamiento y Manejador -->
+                    <div id="slider-handle" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 40px; margin-left: -20px; display: flex; align-items: center; justify-content: center; z-index: 10; pointer-events: none;">
+                        <div style="width: 2px; height: 100%; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
+                        <div style="position: absolute; width: 44px; height: 44px; border-radius: 50%; background: white; border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.25); font-weight: bold; color: var(--primary); font-size: 1rem;">
+                            &harr;
                         </div>
                     </div>
-                    <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
-                        Termo grabado
-                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-family: var(--font-body);">De producto simple a detalle corporativo listo para entregar.</p>
-                        <a href="productos.php" class="btn btn-secondary" style="margin-top: 10px; font-size: 0.75rem; padding: 6px 12px; display: inline-block;">Quiero algo similar</a>
-                    </div>
+                    
+                    <!-- Indicadores de estado flotantes -->
+                    <div style="position: absolute; top: 1.5rem; left: 1.5rem; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; z-index: 5;">ANTES (LISO)</div>
+                    <div style="position: absolute; top: 1.5rem; right: 1.5rem; background: var(--primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; z-index: 5;">DESPUÉS (GRABADO)</div>
                 </div>
 
-                <!-- Comparación 2: Agenda -->
-                <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white; transition: transform 0.25s ease;">
-                    <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
-                        <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
-                            <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Agenda Lisa</div>
-                            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sin marca</span>
-                        </div>
-                        <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
-                            <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Con Marcado</div>
-                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Bajo relieve</span>
-                        </div>
+                <!-- Control de Productos y Detalles (Derecha) -->
+                <div class="slider-controls" style="display: flex; flex-direction: column; gap: 24px;">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <h3 id="slider-title" style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 500; color: var(--dark); margin: 0;">Termo grabado</h3>
+                        <p id="slider-text" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin: 0;">De producto liso de acero inoxidable a un artículo corporativo premium grabado a láser con alta definición y resistencia.</p>
                     </div>
-                    <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
-                        Agenda personalizada
-                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-family: var(--font-body);">De producto simple a detalle corporativo listo para entregar.</p>
-                        <a href="productos.php" class="btn btn-secondary" style="margin-top: 10px; font-size: 0.75rem; padding: 6px 12px; display: inline-block;">Quiero algo similar</a>
+
+                    <!-- Selector de pestañas -->
+                    <div class="slider-tabs" style="display: flex; flex-direction: column; gap: 10px;">
+                        <button class="slider-tab-btn active" data-prod="termo" style="width: 100%; text-align: left; padding: 1rem 1.25rem; background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease;">
+                            <span style="font-weight: 600; font-size: 0.95rem;">Termo de Acero</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Ver muestra &rarr;</span>
+                        </button>
+                        <button class="slider-tab-btn" data-prod="agenda" style="width: 100%; text-align: left; padding: 1rem 1.25rem; background: #fbfbfb; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease;">
+                            <span style="font-weight: 600; font-size: 0.95rem; color: var(--dark);">Agenda de Cuero</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Ver muestra &rarr;</span>
+                        </button>
+                        <button class="slider-tab-btn" data-prod="caja" style="width: 100%; text-align: left; padding: 1rem 1.25rem; background: #fbfbfb; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease;">
+                            <span style="font-weight: 600; font-size: 0.95rem; color: var(--dark);">Caja de Madera</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Ver muestra &rarr;</span>
+                        </button>
+                    </div>
+
+                    <div>
+                        <a href="productos.php" class="btn btn-primary" style="width: 100%; text-align: center; display: block; padding: 14px 0;">Quiero algo similar</a>
                     </div>
                 </div>
-
-                <!-- Comparación 3: Caja -->
-                <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white; transition: transform 0.25s ease;">
-                    <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
-                        <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
-                            <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Caja Simple</div>
-                            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sin marca</span>
-                        </div>
-                        <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
-                            <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Con Marcado</div>
-                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Grabado láser</span>
-                        </div>
-                    </div>
-                    <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
-                        Caja corporativa
-                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-family: var(--font-body);">De producto simple a detalle corporativo listo para entregar.</p>
-                        <a href="productos.php" class="btn btn-secondary" style="margin-top: 10px; font-size: 0.75rem; padding: 6px 12px; display: inline-block;">Quiero algo similar</a>
-                    </div>
-                </div>
-
+                
             </div>
+            
+            <style>
+                .slider-tab-btn.active {
+                    border-color: var(--primary) !important;
+                    background: rgba(99, 174, 44, 0.04) !important;
+                    box-shadow: 0 4px 12px rgba(99, 174, 44, 0.08);
+                }
+                .slider-tab-btn.active span {
+                    color: var(--primary) !important;
+                }
+                @media (max-width: 768px) {
+                    .interactive-slider-wrapper {
+                        grid-template-columns: 1fr;
+                        gap: 30px;
+                    }
+                }
+            </style>
         </section>
 
         <!-- 6. Sección: Materiales que Trabajamos (Visual) -->
@@ -1021,5 +1032,109 @@ try {
     <script src="js/main.js"></script>
     <script src="js/slider.js"></script>
     <script src="js/animations.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Manejo del Slider de Antes/Después
+        const container = document.querySelector(".before-after-slider-container");
+        if (container) {
+            const beforeWrap = document.getElementById("slider-before-wrap");
+            const handle = document.getElementById("slider-handle");
+            
+            let active = false;
+            
+            function slide(x) {
+                const rect = container.getBoundingClientRect();
+                let position = ((x - rect.left) / rect.width) * 100;
+                if (position < 0) position = 0;
+                if (position > 100) position = 100;
+                
+                beforeWrap.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
+                handle.style.left = position + "%";
+            }
+            
+            // Eventos del Mouse
+            container.addEventListener("mousedown", function(e) {
+                active = true;
+                slide(e.clientX);
+            });
+            window.addEventListener("mouseup", function() {
+                active = false;
+            });
+            window.addEventListener("mousemove", function(e) {
+                if (!active) return;
+                slide(e.clientX);
+            });
+            
+            // Eventos Táctiles
+            container.addEventListener("touchstart", function(e) {
+                active = true;
+                slide(e.touches[0].clientX);
+            });
+            window.addEventListener("touchend", function() {
+                active = false;
+            });
+            window.addEventListener("touchmove", function(e) {
+                if (!active) return;
+                slide(e.touches[0].clientX);
+            });
+        }
+        
+        // 2. Manejo de Pestañas del Selector
+        const tabs = document.querySelectorAll(".slider-tab-btn");
+        const sliderImgAfter = document.getElementById("slider-img-after");
+        const sliderImgBefore = document.getElementById("slider-img-before");
+        const sliderTitle = document.getElementById("slider-title");
+        const sliderText = document.getElementById("slider-text");
+        
+        const prodData = {
+            termo: {
+                title: "Termo grabado",
+                text: "De producto liso de acero inoxidable a un artículo corporativo premium grabado a láser con alta definición y resistencia.",
+                before: "images/termo_before.png",
+                after: "images/termo_after.png"
+            },
+            agenda: {
+                title: "Agenda personalizada",
+                text: "De libreta de cuero/PU lisa a un regalo ejecutivo elegante con grabado láser térmico que resalta la profundidad de tu logotipo.",
+                before: "images/agenda_before.png",
+                after: "images/agenda_after.png"
+            },
+            caja: {
+                title: "Caja corporativa",
+                text: "De caja de madera de pino simple a un empaque de alta presentación para tus kits corporativos grabado a láser con gran contraste.",
+                before: "images/caja_before.png",
+                after: "images/caja_after.png"
+            }
+        };
+        
+        tabs.forEach(btn => {
+            btn.addEventListener("click", function() {
+                tabs.forEach(t => {
+                    t.classList.remove("active");
+                    t.style.background = "#fbfbfb";
+                });
+                this.classList.add("active");
+                this.style.background = "white";
+                
+                const prod = this.getAttribute("data-prod");
+                const data = prodData[prod];
+                if (data) {
+                    sliderImgBefore.src = data.before;
+                    sliderImgAfter.src = data.after;
+                    sliderTitle.textContent = data.title;
+                    sliderText.textContent = data.text;
+                    
+                    // Reiniciar slider a la mitad (50%)
+                    const beforeWrap = document.getElementById("slider-before-wrap");
+                    const handle = document.getElementById("slider-handle");
+                    if (beforeWrap && handle) {
+                        beforeWrap.style.clipPath = `inset(0 50% 0 0)`;
+                        handle.style.left = "50%";
+                    }
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
