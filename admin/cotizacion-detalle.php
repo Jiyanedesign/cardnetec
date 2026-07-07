@@ -163,7 +163,7 @@ if (!$quote) {
 <body>
 
     <div class="sidebar">
-        <img src="../images/logo.png" alt="CardNet Logo" class="sidebar-logo">
+        <img src="../images/logo.png?v=2.0" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link active">Dashboard</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>

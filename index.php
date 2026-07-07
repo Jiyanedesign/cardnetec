@@ -42,8 +42,8 @@ try {
     <title>CardNet.ec | Grabado láser y personalización corporativa en Quito</title>
     <meta name="description" content="Identificación, grabado láser y productos personalizados para empresas, instituciones y eventos. Termos, agendas, placas, credenciales, kits corporativos y más.">
     <link rel="canonical" href="https://cardnet.ec/index.php">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
+    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- Open Graph -->
     <meta property="og:title" content="CardNet.ec | Personalización corporativa y grabado láser">
@@ -69,7 +69,7 @@ try {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "CardNet.ec",
-      "image": "https://cardnet.ec/images/logo.png",
+      "image": "https://cardnet.ec/images/logo.png?v=2.0",
       "email": "info@cardnet.ec",
       "address": {
         "@type": "PostalAddress",
@@ -160,7 +160,7 @@ try {
             <div class="header-middle">
                 <!-- Logotipo Real en Imagen (logo.png) -->
                 <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
-                    <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
+                    <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
                 <div class="header-search">
@@ -858,7 +858,7 @@ try {
             <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
                 <div class="footer-brand-column">
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
-                        <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
+                        <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
                     <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos.</p>
                 </div>

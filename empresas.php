@@ -38,7 +38,7 @@
         <div class="container">
             <div class="header-middle">
                 <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
-                    <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
+                    <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 
                 <div class="header-search">
@@ -254,7 +254,7 @@
             <div class="footer-grid">
                 <div class="footer-brand-column">
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
-                        <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
+                        <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
                     <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
                 </div>

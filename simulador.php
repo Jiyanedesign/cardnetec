@@ -122,7 +122,7 @@
         <div class="container">
             <div class="header-middle">
                 <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
-                    <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
+                    <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 <button class="burger-menu" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-nav">
                     <span class="burger-line"></span>
