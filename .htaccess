@@ -1,4 +1,21 @@
-# Redirección Automática de .html a .php para CardNet.ec
+DirectoryIndex index.php index.html
+
+Options -Indexes
+
+# Bloquear archivos ocultos y de configuración
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# Bloquear acceso público a carpetas sensibles de desarrollo/Laravel y base de datos
+RedirectMatch 403 ^/app/
+RedirectMatch 403 ^/database/
+RedirectMatch 403 ^/resources/
+RedirectMatch 403 ^/routes/
+RedirectMatch 403 ^/database\.sql$
+RedirectMatch 403 ^/DEPLOY\.md$
+
+<IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
 
@@ -8,3 +25,4 @@ RewriteRule ^index\.html$ index.php [R=301,L]
 # 2. Redireccionar cualquier otra petición .html a su equivalente .php si existe
 RewriteCond %{DOCUMENT_ROOT}/$1.php -f
 RewriteRule ^(.*)\.html$ $1.php [R=301,L]
+</IfModule>
