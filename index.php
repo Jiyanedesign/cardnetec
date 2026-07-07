@@ -290,7 +290,22 @@ try {
                         </div>
                         <div class="product-card-body">
                             <span class="product-card-price"><?php echo htmlspecialchars($product['category']); ?></span>
-                            <h3 class="product-card-title"><?php echo htmlspecialchars($product['name']); ?></h3>
+                            <h3 class="product-card-title" style="margin-bottom: 0.25rem; font-family: var(--font-heading);"><?php echo htmlspecialchars($product['name']); ?></h3>
+                            
+                            <!-- Badges de especificaciones técnicas premium -->
+                            <div class="product-specs-badges" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.85rem; margin-top: 0.25rem;">
+                                <?php if (stripos($product['category'], 'tarjeta') !== false || stripos($product['name'], 'tarjeta') !== false): ?>
+                                    <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.03); letter-spacing: 0.02em;">Mate & Grabado</span>
+                                    <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1); letter-spacing: 0.02em;">Metal 316L</span>
+                                <?php elseif (stripos($product['category'], 'termo') !== false || stripos($product['name'], 'termo') !== false): ?>
+                                    <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.03); letter-spacing: 0.02em;">Doble Pared</span>
+                                    <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1); letter-spacing: 0.02em;">Láser CO2</span>
+                                <?php else: ?>
+                                    <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.03); letter-spacing: 0.02em;">Edición B2B</span>
+                                    <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1); letter-spacing: 0.02em;">Precisión Alta</span>
+                                <?php endif; ?>
+                            </div>
+
                             <p class="product-card-desc"><?php echo htmlspecialchars($product['description_short']); ?></p>
                             <span class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem; text-align: center; display: block; width: 100%;">
                                 Ver producto y simular
