@@ -299,76 +299,61 @@ try {
         <!-- 1. Hero Principal - Carrusel Automático Showroom -->
         <section class="hero-block reveal-on-scroll" id="inicio" style="padding-top: 1rem; padding-bottom: 2rem;">
             <div class="container" style="position: relative;">
-                <div class="hero-right-carousel" style="width: 100%; min-height: 520px; height: 70vh; position: relative; border-radius: var(--radius-md); overflow: hidden; background: linear-gradient(135deg, #181b15 0%, #0d0f0c 100%); border: 1px solid rgba(0,0,0,0.03); display: flex; flex-direction: column;">
+                <div class="hero-right-carousel" style="width: 100%; min-height: 520px; height: 70vh; position: relative; border-radius: var(--radius-md); overflow: hidden; background: #0f110e; border: 1px solid rgba(0,0,0,0.03); display: flex; flex-direction: column;">
                     <div class="hero-slider-track" style="width: 100%; height: 100%; position: relative; flex-grow: 1;">
                         
                         <!-- Slide 1: Termos -->
-                        <div class="hero-slide-item active" data-slide-index="0" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; opacity: 1; visibility: visible; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 5; padding: 3rem 4rem; gap: 2rem;">
-                            <!-- Columna Izquierda (Texto) -->
-                            <div style="flex: 1.2; max-width: 550px; position: relative; z-index: 3; color: white;">
-                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Termos grabados en acero inoxidable</h2>
+                        <div class="hero-slide-item active" data-slide-index="0" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 1; visibility: visible; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 5; padding: 4rem; background-color: #0f110e;">
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/termo.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Termos grabados en acero inoxidable</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Acabado láser limpio, sobrio y resistente al uso diario.</p>
-                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600; display: inline-block;">Cotizar este producto</a>
-                            </div>
-                            <!-- Columna Derecha (Producto) -->
-                            <div style="flex: 0.8; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2;">
-                                <img src="uploads/termo.png" alt="Termo grabado" style="max-height: 85%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));">
+                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Cotizar este producto</a>
                             </div>
                         </div>
 
                         <!-- Slide 2: Agendas -->
-                        <div class="hero-slide-item" data-slide-index="1" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 3rem 4rem; gap: 2rem;">
-                            <!-- Columna Izquierda (Texto) -->
-                            <div style="flex: 1.2; max-width: 550px; position: relative; z-index: 3; color: white;">
-                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Agendas corporativas personalizadas</h2>
+                        <div class="hero-slide-item" data-slide-index="1" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem; background-color: #0f110e;">
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/agenda.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Agendas corporativas personalizadas</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Detalles elegantes para clientes, equipos y eventos.</p>
-                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600; display: inline-block;">Quiero algo similar</a>
-                            </div>
-                            <!-- Columna Derecha (Producto) -->
-                            <div style="flex: 0.8; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2;">
-                                <img src="uploads/agenda.png" alt="Agenda personalizada" style="max-height: 85%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));">
+                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Quiero algo similar</a>
                             </div>
                         </div>
 
                         <!-- Slide 3: Kits -->
-                        <div class="hero-slide-item" data-slide-index="2" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 3rem 4rem; gap: 2rem;">
-                            <!-- Columna Izquierda (Texto) -->
-                            <div style="flex: 1.2; max-width: 550px; position: relative; z-index: 3; color: white;">
-                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Kits corporativos listos para entregar</h2>
+                        <div class="hero-slide-item" data-slide-index="2" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem; background-color: #0f110e;">
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/kit.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Kits corporativos listos para entregar</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Termos, agendas y cajas personalizadas para empresas y eventos.</p>
-                                <a href="cotizacion.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600; display: inline-block;">Cotizar una idea</a>
-                            </div>
-                            <!-- Columna Derecha (Producto) -->
-                            <div style="flex: 0.8; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2;">
-                                <img src="uploads/kit.png" alt="Kit corporativo" style="max-height: 85%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));">
+                                <a href="cotizacion.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Cotizar una idea</a>
                             </div>
                         </div>
 
                         <!-- Slide 4: Carnets -->
-                        <div class="hero-slide-item" data-slide-index="3" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 3rem 4rem; gap: 2rem;">
-                            <!-- Columna Izquierda (Texto) -->
-                            <div style="flex: 1.2; max-width: 550px; position: relative; z-index: 3; color: white;">
-                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Carnets y credenciales profesionales</h2>
+                        <div class="hero-slide-item" data-slide-index="3" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem; background-color: #0f110e;">
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/carnets.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Carnets y credenciales profesionales</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Identificación corporativa con diseño limpio y presentación cuidada.</p>
-                                <a href="productos.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600; display: inline-block;">Explorar opciones</a>
-                            </div>
-                            <!-- Columna Derecha (Producto) -->
-                            <div style="flex: 0.8; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2;">
-                                <img src="uploads/carnets.png" alt="Carnets corporativos" style="max-height: 85%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));">
+                                <a href="productos.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Explorar opciones</a>
                             </div>
                         </div>
 
                         <!-- Slide 5: Placas -->
-                        <div class="hero-slide-item" data-slide-index="4" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 3rem 4rem; gap: 2rem;">
-                            <!-- Columna Izquierda (Texto) -->
-                            <div style="flex: 1.2; max-width: 550px; position: relative; z-index: 3; color: white;">
-                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.75rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Placas y reconocimientos personalizados</h2>
+                        <div class="hero-slide-item" data-slide-index="4" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem; background-color: #0f110e;">
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/placa.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Placas y reconocimientos personalizados</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Piezas con acabado elegante para eventos, empresas e instituciones.</p>
-                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600; display: inline-block;">Solicitar este estilo</a>
-                            </div>
-                            <!-- Columna Derecha (Producto) -->
-                            <div style="flex: 0.8; height: 100%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2;">
-                                <img src="uploads/placa.png" alt="Placas de reconocimiento" style="max-height: 85%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));">
+                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Solicitar este estilo</a>
                             </div>
                         </div>
 
@@ -377,10 +362,10 @@ try {
                     <!-- Indicadores estilo barra fina de progreso en la parte inferior derecha -->
                     <div style="position: absolute; bottom: 2rem; right: 3rem; z-index: 10; display: flex; gap: 8px;">
                         <button class="hero-dot active" data-slide-to="0" aria-label="Slide 1" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: var(--primary); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
-                        <button class="hero-dot" data-slide-to="1" aria-label="Slide 2" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
-                        <button class="hero-dot" data-slide-to="2" aria-label="Slide 3" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
-                        <button class="hero-dot" data-slide-to="3" aria-label="Slide 4" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
-                        <button class="hero-dot" data-slide-to="4" aria-label="Slide 5" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
+                        <button class="hero-dot" data-slide-to="1" aria-label="Slide 2" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255, 255, 255, 0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
+                        <button class="hero-dot" data-slide-to="2" aria-label="Slide 3" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255, 255, 255, 0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
+                        <button class="hero-dot" data-slide-to="3" aria-label="Slide 4" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255, 255, 255, 0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
+                        <button class="hero-dot" data-slide-to="4" aria-label="Slide 5" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255, 255, 255, 0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
                     </div>
                 </div>
             </div>
@@ -388,17 +373,22 @@ try {
             <style>
                 @media (max-width: 768px) {
                     .hero-slide-item {
-                        flex-direction: column !important;
-                        justify-content: center !important;
-                        text-align: center !important;
-                        padding: 2rem !important;
-                        gap: 1.5rem !important;
+                        padding: 2.5rem 2rem !important;
+                        background: #0f110e !important;
                     }
-                    .hero-slide-item > div {
+                    .hero-slide-item div[style*="background-image"] {
+                        background-position: center bottom !important;
+                        background-size: 55% auto !important;
+                        top: auto !important;
+                        height: 45% !important;
+                    }
+                    .hero-slide-item div[style*="background: linear-gradient"] {
+                        background: linear-gradient(to bottom, #0f110e 0%, rgba(15, 17, 14, 0.95) 55%, rgba(15, 17, 14, 0) 100%) !important;
+                    }
+                    .hero-slide-item div[style*="position: relative"] {
                         max-width: 100% !important;
-                    }
-                    .hero-slide-item img {
-                        max-height: 180px !important;
+                        text-align: center !important;
+                        margin-bottom: 12rem !important;
                     }
                 }
             </style>
