@@ -259,16 +259,16 @@ foreach ($cart as $item) {
                             </button>
                         </form>
                     <?php else: ?>
-                        <!-- Formulario bloqueado / Carrito vacío -->
+                        <!-- Formulario bloqueado / Lista vacía -->
                         <div style="text-align: center; padding: 2rem 0;">
-                            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Debes añadir al menos un artículo personalizado a tu carrito para cotizar.</p>
+                            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Debes añadir al menos un artículo personalizado a tu lista para cotizar.</p>
                             <a href="productos.php" class="btn btn-primary">Ir al catálogo de productos</a>
                         </div>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <!-- Columna Derecha: Resumen del Carrito de Cotización -->
+            <!-- Columna Derecha: Resumen de tu Lista de Cotización -->
             <div class="checkout-summary-column reveal-on-scroll delay-100">
                 <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; font-family: var(--font-heading);">Resumen de tu Cotización</h3>
 

@@ -119,10 +119,11 @@ try {
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
                     <a href="index.php" class="nav-link">Inicio</a>
-                    <a href="index.php#destacados" class="nav-link">Destacados</a>
+                    <a href="index.php#antes-despues" class="nav-link">Trabajos</a>
                     <a href="index.php#laser" class="nav-link">Grabado láser</a>
                     <a href="productos.php" class="nav-link active">Productos</a>
-                    <a href="empresas.php" class="nav-link">Kits corporativos</a>
+                    <a href="empresas.php" class="nav-link">Kits empresariales</a>
+                    <a href="index.php#proceso" class="nav-link">Cómo pedir</a>
                     <a href="cotizacion.php" class="nav-link">Cotizar <?php
                     $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     if ($c_count > 0) {
@@ -131,9 +132,9 @@ try {
                     ?></a>
                 </nav>
                 <div class="header-bottom-actions" style="display: flex; align-items: center; gap: 15px;">
-                    <!-- Icono de Carrito Flotante con Dropdown -->
+                    <!-- Icono de Lista de Cotización Flotante con Dropdown -->
                     <div class="header-cart-dropdown-wrapper">
-                        <a href="cotizacion.php" class="cart-icon-btn" aria-label="Ver cotización">
+                        <a href="cotizacion.php" class="cart-icon-btn" aria-label="Ver mi lista de cotización">
                             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
                                 <line x1="3" y1="6" x2="21" y2="6"/>
@@ -188,10 +189,11 @@ try {
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
         <a href="index.php" class="mobile-link">Inicio</a>
-        <a href="index.php#destacados" class="mobile-link">Destacados</a>
+        <a href="index.php#antes-despues" class="mobile-link">Trabajos</a>
         <a href="index.php#laser" class="mobile-link">Grabado láser</a>
         <a href="productos.php" class="mobile-link active">Productos</a>
-        <a href="empresas.php" class="mobile-link">Kits corporativos</a>
+        <a href="empresas.php" class="mobile-link">Kits empresariales</a>
+        <a href="index.php#proceso" class="mobile-link">Cómo pedir</a>
         <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
 
@@ -270,30 +272,60 @@ try {
 
     <!-- Footer -->
     <footer class="main-footer">
-        <div class="container footer-top section-padding">
-            <div class="footer-grid">
+        <div class="container footer-top section-padding" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
                 <div class="footer-brand-column">
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description">Grabado láser y personalización corporativa en Ecuador.</p>
+                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Especialistas en identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos en Ecuador.</p>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading">Productos</h3>
-                    <nav class="footer-links" aria-label="Enlaces de productos">
-                        <a href="productos.php" class="footer-link">Todo el Catálogo</a>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Líneas de Negocio</h3>
+                    <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                        <a href="productos.php#termos" class="footer-link">Termos Grabados</a>
+                        <a href="productos.php#oficina" class="footer-link">Agendas Ejecutivas</a>
+                        <a href="empresas.php" class="footer-link">Kits Corporativos</a>
+                        <a href="productos.php#placas" class="footer-link">Placas y Reconocimientos</a>
+                        <a href="simulador-carnets.php" class="footer-link">Identificación & Carnets PVC</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading">Contacto</h3>
-                    <div class="footer-contact-info">
-                        <div class="footer-contact-item">
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Enlaces Útiles</h3>
+                    <nav class="footer-links" aria-label="Enlaces de navegación" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                        <a href="index.php#antes-despues" class="footer-link">Trabajos Realizados</a>
+                        <a href="index.php#proceso" class="footer-link">Cómo Pedir</a>
+                        <a href="faq.php" class="footer-link">Preguntas Frecuentes</a>
+                        <a href="contacto.php" class="footer-link">Soporte de Taller</a>
+                    </nav>
+                </div>
+                <div class="footer-links-column">
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto & Horario</h3>
+                    <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
+                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
+                            <svg class="footer-contact-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             <span>WhatsApp: +593 90 000 0000</span>
                         </div>
-                        <div class="footer-contact-item">
-                            <span>Correo: info@cardnet.ec</span>
+                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
+                            <svg class="footer-contact-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+                            <span>info@cardnet.ec</span>
+                        </div>
+                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                            <span>⏱️ Lunes a Viernes · 09:00 a 18:00</span>
+                        </div>
+                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
+                            <span>📍 Quito · Envíos a nivel nacional</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
+            <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
+                <div class="footer-bottom-links" style="display: flex; gap: 15px; font-size: 0.8rem;">
+                    <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
+                    <a href="contacto.php" class="footer-bottom-link">Soporte de Taller</a>
                 </div>
             </div>
         </div>

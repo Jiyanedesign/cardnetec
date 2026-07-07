@@ -104,10 +104,11 @@ try {
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
                     <a href="index.php" class="nav-link active">Inicio</a>
-                    <a href="index.php#destacados" class="nav-link">Destacados</a>
+                    <a href="index.php#antes-despues" class="nav-link">Trabajos</a>
                     <a href="index.php#laser" class="nav-link">Grabado láser</a>
                     <a href="productos.php" class="nav-link">Productos</a>
-                    <a href="empresas.php" class="nav-link">Kits corporativos</a>
+                    <a href="empresas.php" class="nav-link">Kits empresariales</a>
+                    <a href="index.php#proceso" class="nav-link">Cómo pedir</a>
                     <a href="cotizacion.php" class="nav-link">Cotizar <?php
                     $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     if ($c_count > 0) {
@@ -116,9 +117,9 @@ try {
                     ?></a>
                 </nav>
                 <div class="header-bottom-actions" style="display: flex; align-items: center; gap: 15px;">
-                    <!-- Icono de Carrito Flotante con Dropdown -->
+                    <!-- Icono de Lista de Cotización Flotante con Dropdown -->
                     <div class="header-cart-dropdown-wrapper">
-                        <a href="cotizacion.php" class="cart-icon-btn" aria-label="Ver cotización">
+                        <a href="cotizacion.php" class="cart-icon-btn" aria-label="Ver mi lista de cotización">
                             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
                                 <line x1="3" y1="6" x2="21" y2="6"/>
@@ -173,10 +174,11 @@ try {
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
         <a href="index.php" class="mobile-link active">Inicio</a>
-        <a href="index.php#destacados" class="mobile-link">Destacados</a>
+        <a href="index.php#antes-despues" class="mobile-link">Trabajos</a>
         <a href="index.php#laser" class="mobile-link">Grabado láser</a>
         <a href="productos.php" class="mobile-link">Productos</a>
-        <a href="empresas.php" class="mobile-link">Kits corporativos</a>
+        <a href="empresas.php" class="mobile-link">Kits empresariales</a>
+        <a href="index.php#proceso" class="mobile-link">Cómo pedir</a>
         <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Cotizar</a>
     </nav>
 
@@ -192,6 +194,18 @@ try {
                         <?php if (!empty($slides)): ?>
                             <?php foreach ($slides as $slide): ?>
                                 <div class="carousel-slide">
+                                    <div class="carousel-slide-content-wrap">
+                                        <h2 class="carousel-slide-title" style="margin-bottom: 0.75rem; font-family: var(--font-heading);"><?php echo htmlspecialchars($slide['title']); ?></h2>
+                                        <?php if ($slide['subtitle']): ?>
+                                            <p class="carousel-slide-subtitle"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
+                                        <?php endif; ?>
+                                        <div class="hero-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem;">
+                                            <?php if ($slide['cta_text']): ?>
+                                                <a href="<?php echo htmlspecialchars($slide['cta_url'] ?: '#'); ?>" class="btn btn-primary"><?php echo htmlspecialchars($slide['cta_text']); ?></a>
+                                            <?php endif; ?>
+                                            <a href="https://wa.me/593900000000" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
+                                        </div>
+                                    </div>
                                     <div class="carousel-image-container">
                                         <?php if ($slide['image']): ?>
                                             <img src="uploads/<?php echo htmlspecialchars($slide['image']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
@@ -206,31 +220,33 @@ try {
                                             </div>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="carousel-slide-content">
-                                        <h2 class="carousel-slide-title"><?php echo htmlspecialchars($slide['title']); ?></h2>
-                                        <?php if ($slide['subtitle']): ?>
-                                            <p class="carousel-slide-subtitle"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
-                                        <?php endif; ?>
-                                        <?php if ($slide['cta_text']): ?>
-                                            <a href="<?php echo htmlspecialchars($slide['cta_url'] ?: '#'); ?>" class="btn btn-primary"><?php echo htmlspecialchars($slide['cta_text']); ?></a>
-                                        <?php endif; ?>
-                                    </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <!-- Slide de Resguardo si la base está vacía -->
                             <div class="carousel-slide">
-                                <div class="carousel-image-container">
-                                    <div class="image-placeholder theme-gray" style="height: 100%; border-radius: 0;">
-                                        <div class="image-placeholder-inner" style="background-color: var(--surface-light);">
-                                            <span class="image-placeholder-text">Personalización en Quito</span>
-                                        </div>
+                                <div class="carousel-slide-content-wrap">
+                                    <span class="section-subtitle" style="margin-bottom: 0.75rem; border-color: var(--primary); color: var(--primary);">Taller de Grabado en Quito</span>
+                                    <h1 class="carousel-slide-title" style="margin-bottom: 0.75rem; font-family: var(--font-heading);">Grabado láser y personalización corporativa en Quito</h1>
+                                    <p class="carousel-slide-subtitle">Personalizamos termos, agendas, placas, llaveros, cajas, kits empresariales y productos de identificación con acabados limpios, duraderos y profesionales.</p>
+                                    <div class="hero-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem;">
+                                        <a href="https://wa.me/593900000000" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
+                                        <a href="productos.php" class="btn btn-secondary">Ver productos</a>
                                     </div>
                                 </div>
-                                <div class="carousel-slide-content">
-                                    <h2 class="carousel-slide-title">Productos personalizados que hacen visible el valor de tu marca</h2>
-                                    <p class="carousel-slide-subtitle">Grabado láser, termos, agendas, placas y kits corporativos con acabados limpios y duraderos.</p>
-                                    <a href="#destacados" class="btn btn-primary">Ver productos destacados</a>
+                                <div class="carousel-image-container">
+                                    <!-- Placeholder visual premium y elegante -->
+                                    <div class="hero-premium-visual" style="width: 100%; height: 100%; background: radial-gradient(circle at 70% 30%, var(--surface-light) 0%, var(--border) 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                                        <div class="laser-beam-animation" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(99, 174, 44, 0.03) 0%, rgba(99, 174, 44, 0) 70%); pointer-events: none;"></div>
+                                        <div style="text-align: center; padding: 2rem; z-index: 2;">
+                                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.2" style="margin: 0 auto 1rem; opacity: 0.85;">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                                <path d="M12 8v8M8 12h8"/>
+                                            </svg>
+                                            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 0.5rem;">Showcase de Productos</span>
+                                            <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 280px; margin: 0 auto; line-height: 1.4;">Previsualiza tus diseños en nuestro simulador en línea</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -398,6 +414,42 @@ try {
                             </div>
                         </div>
                     </div>
+                <!-- Por qué empresas nos eligen -->
+        <section class="section-padding section-bg-light reveal-on-scroll">
+            <div class="container">
+                <div class="section-header center">
+                    <span class="section-subtitle">Garantía de Calidad</span>
+                    <h2>Por qué empresas nos eligen</h2>
+                    <p>Un servicio pensado en la tranquilidad de directores de compras, marcas e instituciones.</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 2.5rem;">
+                    <div style="background: var(--light); padding: 2rem; border-radius: 8px; border: 1px solid var(--border);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="margin-bottom: 1rem;">
+                            <path d="M2 12h20M12 2v20"/>
+                        </svg>
+                        <h4 style="margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 1.1rem;">Vista previa antes de producir</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Antes de grabar revisamos contigo la ubicación del logo, el tamaño y el acabado para evitar resultados improvisados.</p>
+                    </div>
+                    
+                    <div style="background: var(--light); padding: 2rem; border-radius: 8px; border: 1px solid var(--border);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="margin-bottom: 1rem;">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <h4 style="margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 1.1rem;">Grabado limpio y permanente</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">El marcado láser desgasta o altera térmicamente el soporte base. No se despega ni se borra como las tintas o adhesivos convencionales.</p>
+                    </div>
+                    
+                    <div style="background: var(--light); padding: 2rem; border-radius: 8px; border: 1px solid var(--border);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="margin-bottom: 1rem;">
+                            <rect x="1" y="3" width="15" height="13" rx="2" ry="2"/>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                            <circle cx="5.5" cy="18.5" r="2.5"/>
+                            <circle cx="18.5" cy="18.5" r="2.5"/>
+                        </svg>
+                        <h4 style="margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 1.1rem;">Envíos y kits corporativos</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Atendemos requerimientos de empaques personalizados y coordinamos despachos seguros en Quito y envíos a todo el Ecuador.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -405,43 +457,43 @@ try {
         <!-- Proceso de Taller -->
         <section id="proceso" class="section-padding container reveal-on-scroll">
             <div class="section-header center">
-                <span class="section-subtitle">Atención en Quito</span>
+                <span class="section-subtitle">Paso a Paso</span>
                 <h2>Cómo hacemos tu pedido</h2>
                 <p>Un flujo de pedido simple, transparente y de trato directo.</p>
             </div>
             
             <div class="process-grid">
                 <div class="process-step">
-                    <div class="process-number">01</div>
-                    <h4>Nos envías tu logo o idea</h4>
-                    <p>Elegimos el producto ideal para tu marca o evento.</p>
+                    <div class="process-number" style="color: var(--primary); font-weight: 700; opacity: 0.95;">01</div>
+                    <h4>Nos envías tu logo o referencia</h4>
+                    <p>Revisamos tu archivo, idea o ejemplo y te orientamos sobre el producto más adecuado.</p>
                 </div>
                 <div class="process-step">
-                    <div class="process-number">02</div>
-                    <h4>Elegimos el producto</h4>
-                    <p>Elegimos el producto y acabado ideal para el soporte.</p>
+                    <div class="process-number" style="color: var(--primary); font-weight: 700; opacity: 0.95;">02</div>
+                    <h4>Elegimos producto y acabado</h4>
+                    <p>Te ayudamos a seleccionar material, tamaño, color y tipo de personalización.</p>
                 </div>
                 <div class="process-step">
-                    <div class="process-number">03</div>
+                    <div class="process-number" style="color: var(--primary); font-weight: 700; opacity: 0.95;">03</div>
                     <h4>Preparamos una vista previa</h4>
-                    <p>Revisamos la colocación y proporciones en pantalla.</p>
+                    <p>Antes de producir, revisamos contigo la ubicación del logo, proporciones y detalles.</p>
                 </div>
                 <div class="process-step">
-                    <div class="process-number">04</div>
-                    <h4>Grabamos y entregamos</h4>
-                    <p>Personalizamos y despachamos tus piezas terminadas.</p>
+                    <div class="process-number" style="color: var(--primary); font-weight: 700; opacity: 0.95;">04</div>
+                    <h4>Grabamos y coordinamos la entrega</h4>
+                    <p>Personalizamos tus piezas y coordinamos retiro en Quito o envío a otras ciudades.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Garantía Final -->
-        <section class="section-padding container reveal-on-scroll" style="text-align: center; max-width: 800px;">
-            <span class="section-subtitle">Hecho en Ecuador</span>
-            <h2 style="margin-bottom: 1.25rem;">Cuidamos que cada pieza se vea tan bien como la marca que representa.</h2>
-            <p style="margin-bottom: 2rem; font-size: 1rem; color: var(--text-muted);">El acabado final también habla de tu empresa. Por eso cuidamos la selección del producto, la ubicación del logo y la presentación de cada pieza.</p>
-            <div class="hero-actions" style="justify-content: center;">
+        <!-- Garantía Final / Llamado a la Acción -->
+        <section class="section-padding container reveal-on-scroll" style="text-align: center; max-width: 800px; margin-top: 1rem; margin-bottom: 2rem;">
+            <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Contacto Directo</span>
+            <h2 style="margin-bottom: 1.25rem; font-family: var(--font-heading);">¿Tienes un logo y quieres verlo aplicado en un producto?</h2>
+            <p style="margin-bottom: 2rem; font-size: 1rem; color: var(--text-muted); line-height: 1.6;">Envíanos tu idea o el logotipo de tu empresa por WhatsApp y te ayudamos a elegir el producto adecuado, el material y la mejor ubicación para lograr un grabado láser impecable.</p>
+            <div class="hero-actions" style="justify-content: center; display: flex; gap: 12px; flex-wrap: wrap;">
                 <a href="https://wa.me/593900000000" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Cotizar por WhatsApp</a>
-                <a href="cotizacion.php" class="btn btn-secondary">Enviar mi logo</a>
+                <a href="cotizacion.php" class="btn btn-secondary">Subir mi logo en línea</a>
             </div>
         </section>
 
@@ -449,46 +501,64 @@ try {
 
     <!-- Footer -->
     <footer class="main-footer">
-        <div class="container footer-top section-padding">
-            <div class="footer-grid">
+        <div class="container footer-top section-padding" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
                 <div class="footer-brand-column">
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description">Grabado láser y personalización corporativa en Ecuador.</p>
+                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Especialistas en identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos en Ecuador.</p>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading">Productos</h3>
-                    <nav class="footer-links" aria-label="Enlaces de productos">
-                        <a href="productos.php#termos" class="footer-link">Termos</a>
-                        <a href="productos.php#oficina" class="footer-link">Agendas</a>
-                        <a href="productos.php#kits" class="footer-link">Kits</a>
-                        <a href="productos.php#placas" class="footer-link">Placas</a>
-                        <a href="productos.php#llaveros" class="footer-link">Llaveros</a>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Líneas de Negocio</h3>
+                    <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                        <a href="productos.php#termos" class="footer-link">Termos Grabados</a>
+                        <a href="productos.php#oficina" class="footer-link">Agendas Ejecutivas</a>
+                        <a href="empresas.php" class="footer-link">Kits Corporativos</a>
+                        <a href="productos.php#placas" class="footer-link">Placas y Reconocimientos</a>
+                        <a href="simulador-carnets.php" class="footer-link">Identificación & Carnets PVC</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading">Contacto</h3>
-                    <div class="footer-contact-info">
-                        <div class="footer-contact-item">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72(12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Enlaces Útiles</h3>
+                    <nav class="footer-links" aria-label="Enlaces de navegación" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                        <a href="index.php#antes-despues" class="footer-link">Trabajos Realizados</a>
+                        <a href="index.php#proceso" class="footer-link">Cómo Pedir</a>
+                        <a href="faq.php" class="footer-link">Preguntas Frecuentes</a>
+                        <a href="contacto.php" class="footer-link">Soporte de Taller</a>
+                    </nav>
+                </div>
+                <div class="footer-links-column">
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto & Horario</h3>
+                    <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
+                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
+                            <svg class="footer-contact-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             <span>WhatsApp: +593 90 000 0000</span>
                         </div>
-                        <div class="footer-contact-item">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                            <span>Correo: info@cardnet.ec</span>
+                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
+                            <svg class="footer-contact-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+                            <span>info@cardnet.ec</span>
+                        </div>
+                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                            <span>⏱️ Lunes a Viernes · 09:00 a 18:00</span>
+                        </div>
+                        <div class="footer-contact-item" style="display: flex; align-items: center; gap: 8px;">
+                            <span>📍 Quito · Envíos a nivel nacional</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div class="container footer-bottom-flex">
-                <p>&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
-                <div class="footer-bottom-links">
+        <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
+            <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuizan su presentación.</p>
+                <div class="footer-bottom-links" style="display: flex; gap: 15px; font-size: 0.8rem;">
                     <a href="faq.php" class="footer-bottom-link">Preguntas Frecuentes</a>
                     <a href="contacto.php" class="footer-bottom-link">Soporte de Taller</a>
                 </div>
+            </div>
+        </div>
+    </footer>               </div>
             </div>
         </div>
     </footer>
