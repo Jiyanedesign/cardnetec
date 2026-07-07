@@ -33,6 +33,14 @@ try {
 } catch (PDOException $e) {
     $materials = [];
 }
+
+// 5. Obtener logos de clientes activos
+try {
+    $stmt = $pdo->query("SELECT * FROM clientes WHERE is_active = 1 ORDER BY order_val ASC");
+    $clients = $stmt->fetchAll();
+} catch (PDOException $e) {
+    $clients = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -146,6 +154,30 @@ try {
       ]
     }
     </script>
+<style>
+    @keyframes scrollTicker {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+        display: flex;
+        gap: 4rem;
+        width: max-content;
+        animation: scrollTicker 30s linear infinite;
+    }
+    .ticker-track:hover {
+        animation-play-state: paused;
+    }
+    .ticker-item img {
+        filter: grayscale(100%);
+        opacity: 0.55;
+        transition: opacity 0.3s ease, filter 0.3s ease;
+    }
+    .ticker-item img:hover {
+        filter: grayscale(0%);
+        opacity: 1;
+    }
+    </style>
 </head>
 <body>
 
@@ -714,6 +746,33 @@ try {
             </div>
         </section>
 
+        <!-- Sección de Logos de Clientes (Smooth Ticker) -->
+        <section class="clients-ticker-section" style="padding: 4rem 0; background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden;">
+            <div class="container" style="text-align: center; margin-bottom: 2rem;">
+                <span class="section-subtitle" style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; letter-spacing: 0.08em; display: inline-block; border-left: 3px solid var(--primary); padding-left: 10px;">Marcas que confían en nosotros</span>
+            </div>
+            <div class="ticker-wrapper" style="display: flex; overflow: hidden; position: relative; width: 100%;">
+                <div class="ticker-track">
+                    <?php 
+                    $tickerItems = array_merge($clients, $clients); // duplicar para scroll infinito
+                    if (empty($tickerItems)) {
+                        for ($i = 1; $i <= 10; $i++) {
+                            echo '<div style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; color: rgba(30, 34, 28, 0.35); letter-spacing: 0.08em; display: flex; align-items: center; min-width: 160px; justify-content: center; height: 60px;">MARCA ' . (($i - 1) % 5 + 1) . '</div>';
+                        }
+                    } else {
+                        foreach ($tickerItems as $c):
+                        ?>
+                            <div class="ticker-item" style="display: flex; align-items: center; justify-content: center; height: 60px; min-width: 160px;">
+                                <img src="<?php echo htmlspecialchars($c['logo_path']); ?>" alt="<?php echo htmlspecialchars($c['name']); ?>" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                            </div>
+                        <?php 
+                        endforeach; 
+                    }
+                    ?>
+                </div>
+            </div>
+        </section>
+
         <!-- 7. Sección: Proceso Corto (Cómo hacemos tu pedido) -->
         <section id="proceso" class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
@@ -811,27 +870,38 @@ try {
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
                     <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">
-                        <strong>CardNet.ec</strong><br>
-                        Grabado láser y personalización corporativa en Ecuador.
+                        Identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos.
                     </p>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Productos</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <span class="footer-link">Termos</span>
-                        <span class="footer-link">Agendas</span>
-                        <span class="footer-link">Kits</span>
-                        <span class="footer-link">Placas</span>
-                        <span class="footer-link">Carnets</span>
+                        <a href="productos.php" class="footer-link">Grabado láser</a>
+                        <a href="productos.php" class="footer-link">Identificación corporativa</a>
+                        <a href="productos.php" class="footer-link">Kits empresariales</a>
+                        <a href="productos.php" class="footer-link">Placas y reconocimientos</a>
+                        <a href="productos.php" class="footer-link">Productos personalizados</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Solicitudes</h3>
                     <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
-                        <span class="footer-link">WhatsApp: +593 00 000 0000</span>
-                        <span class="footer-link">Correo: correo@cardnet.ec</span>
-                        <span class="footer-link">Ubicación: Ecuador</span>
+                        <a href="cotizacion.php" class="footer-link">Cotizar productos</a>
+                        <a href="cotizacion.php" class="footer-link">Enviar logo</a>
+                        <button class="footer-link toggle-quote-drawer-btn" style="background: none; border: none; text-align: left; padding: 0; font-family: inherit; font-size: inherit; color: inherit; cursor: pointer;">Preparar pedido corporativo</button>
+                        <a href="#preguntas-frecuentes" class="footer-link">Preguntas frecuentes</a>
                     </div>
+                </div>
+                <div class="footer-links-column">
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Ubicación</h3>
+                    <div style="margin-bottom: 1rem;">
+                        <iframe src="https://www.google.com/maps?ll=-0.165355,-78.483023&z=15&t=m&hl=es&gl=EC&mapclient=embed&cid=13164539704964091228&output=embed" width="100%" height="150" style="border:0; border-radius: 6px;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+                        WhatsApp: +593 00 000 0000<br>
+                        Correo: correo@cardnet.ec<br>
+                        Ubicación: Ecuador
+                    </p>
                 </div>
             </div>
         </div>

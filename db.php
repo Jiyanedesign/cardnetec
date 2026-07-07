@@ -104,6 +104,26 @@ try {
             ('1725489630', 'Alejandro Silva', 'Director Operativo', 'CardNet Corporativo', 'Activo', 'default_avatar.png');");
     }
 
+    // 6. AUTO-MIGRACIÓN: Tabla de Clientes
+    $clientCheck = $pdo->query("SHOW TABLES LIKE 'clientes'")->fetch();
+    if (!$clientCheck) {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `clientes` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `name` varchar(150) NOT NULL,
+          `logo_path` varchar(255) NOT NULL,
+          `order_val` int(11) DEFAULT 0,
+          `is_active` tinyint(1) DEFAULT 1,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        $pdo->exec("INSERT IGNORE INTO `clientes` (id, name, logo_path, order_val, is_active) VALUES 
+            (1, 'Cliente Alpha', 'uploads/cliente1.png', 1, 1),
+            (2, 'Cliente Beta', 'uploads/cliente2.png', 2, 1),
+            (3, 'Cliente Gamma', 'uploads/cliente3.png', 3, 1),
+            (4, 'Cliente Delta', 'uploads/cliente4.png', 4, 1),
+            (5, 'Cliente Epsilon', 'uploads/cliente5.png', 5, 1);");
+    }
+
 } catch (PDOException $e) {
     die("Error de conexión a la base de datos: " . $e->getMessage());
 }
