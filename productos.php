@@ -33,6 +33,8 @@ try {
     <title>Catálogo de Productos | CardNet.ec</title>
     <meta name="description" content="Explora nuestra selección de artículos promocionales listos para personalizar: termos, libretas y kits.">
     <link rel="canonical" href="https://cardnet.ec/productos.php">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=1.1.2">

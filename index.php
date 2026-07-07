@@ -42,6 +42,8 @@ try {
     <title>CardNet.ec | Grabado láser y personalización corporativa en Quito</title>
     <meta name="description" content="Identificación, grabado láser y productos personalizados para empresas, instituciones y eventos. Termos, agendas, placas, credenciales, kits corporativos y más.">
     <link rel="canonical" href="https://cardnet.ec/index.php">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
     
     <!-- Open Graph -->
     <meta property="og:title" content="CardNet.ec | Personalización corporativa y grabado láser">
