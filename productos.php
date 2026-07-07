@@ -219,7 +219,7 @@ try {
         <div class="grid-3">
             <?php if (!empty($products)): ?>
                 <?php foreach ($products as $prod): ?>
-                    <div class="product-card reveal-on-scroll">
+                    <a href="producto.php?slug=<?php echo urlencode($prod['slug']); ?>" class="product-card reveal-on-scroll" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
                         <div class="product-card-image-wrap">
                             <div class="image-placeholder theme-gray">
                                 <?php if ($prod['image_main']): ?>
@@ -238,11 +238,11 @@ try {
                             <span class="product-card-price"><?php echo htmlspecialchars($prod['category']); ?></span>
                             <h3 class="product-card-title"><?php echo htmlspecialchars($prod['name']); ?></h3>
                             <p class="product-card-desc"><?php echo htmlspecialchars($prod['description_short']); ?></p>
-                            <a href="producto.php?slug=<?php echo urlencode($prod['slug']); ?>" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem; text-align: center;">
+                            <span class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem; text-align: center; display: block; width: 100%;">
                                 Ver producto y simular
-                            </a>
+                            </span>
                         </div>
-                    </div>
+                    </a>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem 0;">

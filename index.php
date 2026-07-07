@@ -273,7 +273,7 @@ try {
             
             <div class="grid-3" style="margin-top: 2rem;">
                 <?php foreach ($featuredProducts as $product): ?>
-                    <div class="product-card">
+                    <a href="producto.php?slug=<?php echo urlencode($product['slug']); ?>" class="product-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column;">
                         <div class="product-card-image-wrap">
                             <div class="image-placeholder theme-gray">
                                 <?php if ($product['image_main']): ?>
@@ -292,11 +292,11 @@ try {
                             <span class="product-card-price"><?php echo htmlspecialchars($product['category']); ?></span>
                             <h3 class="product-card-title"><?php echo htmlspecialchars($product['name']); ?></h3>
                             <p class="product-card-desc"><?php echo htmlspecialchars($product['description_short']); ?></p>
-                            <a href="producto.php?slug=<?php echo urlencode($product['slug']); ?>" class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem; text-align: center;">
+                            <span class="btn btn-secondary" style="margin-top: auto; padding: 0.5rem 1rem; font-size: 0.8rem; text-align: center; display: block; width: 100%;">
                                 Ver producto y simular
-                            </a>
+                            </span>
                         </div>
-                    </div>
+                    </a>
                 <?php endforeach; ?>
             </div>
         </section>
