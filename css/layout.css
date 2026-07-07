@@ -132,7 +132,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 90px;
+    height: 110px;
     gap: 1.5rem;
 }
 
@@ -143,8 +143,14 @@
     flex-shrink: 0;
 }
 
+@media (min-width: 1024px) {
+    .logo {
+        margin-left: 3rem; /* Más centrado entre el borde extremo izquierdo y la barra de búsqueda */
+    }
+}
+
 .logo-img {
-    height: 72px;
+    height: 86px;
     width: auto;
     display: block;
 }
