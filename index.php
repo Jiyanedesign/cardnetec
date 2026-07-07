@@ -672,7 +672,7 @@ try {
                     <div class="premium-left-col">
                         <!-- Merchandising General -->
                         <a href="productos.php" class="premium-cat-card" style="aspect-ratio: 595/302;">
-                            <img src="images/cat_merchandising.png" alt="Merchandising General">
+                            <img src="uploads/kit.png" alt="Merchandising General">
                             <div class="premium-cat-overlay">
                                 <h3 class="premium-cat-title">Merchandising General</h3>
                                 <p class="premium-cat-subtitle">Llaveros, esferos y más.</p>
@@ -682,7 +682,7 @@ try {
                         <div class="premium-bottom-row">
                             <!-- Cajas y Empaques -->
                             <a href="productos.php?cat=cajas" class="premium-cat-card" style="aspect-ratio: 288/337;">
-                                <img src="images/cat_cajas.png" alt="Cajas y Empaques">
+                                <img src="uploads/caja.png" alt="Cajas y Empaques">
                                 <div class="premium-cat-overlay">
                                     <h3 class="premium-cat-title">Cajas y Empaques</h3>
                                 </div>
@@ -702,7 +702,7 @@ try {
                     <div class="premium-right-col">
                         <!-- Carnetización -->
                         <a href="productos.php?cat=carnets" class="premium-cat-card" style="aspect-ratio: 288/460; height: 100%;">
-                            <img src="images/cat_carnets.png" alt="Carnetización">
+                            <img src="uploads/carnets.png" alt="Carnetización">
                             <div class="premium-cat-overlay" style="height: 100%;">
                                 <h3 class="premium-cat-title">Carnetización</h3>
                                 <p class="premium-cat-subtitle">Soluciones seguras en PVC.</p>
@@ -818,78 +818,60 @@ try {
         </section>
 
         <!-- 6. Sección: Materiales que Trabajamos (Visual) -->
-        <section id="materiales" class="section-padding section-bg-light reveal-on-scroll">
+        <section id="materiales" class="section-padding section-bg-light reveal-on-scroll" style="padding-top: 5rem; padding-bottom: 5rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
             <div class="container">
                 <div class="section-header center" style="margin-bottom: 3.5rem;">
                     <h2>Materiales que trabajamos</h2>
                     <p>Cada material requiere un acabado distinto. Elegimos la técnica según el producto y el resultado que buscas.</p>
                 </div>
                 
-                <div class="materials-grid">
-                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Acero Inoxidable</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Ideal para termos, botellas y piezas de uso diario.</p>
+                <div class="materials-row-visual" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 30px; justify-content: center; max-width: 1000px; margin: 0 auto; text-align: center;">
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <div style="width: 130px; height: 130px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 10px rgba(0,0,0,0.02); background: white;">
+                            <img src="images/mat_acero.png" alt="Acero" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: #3E4A56; text-transform: uppercase;">Acero</span>
                     </div>
-                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Madera</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Perfecta para cajas, reconocimientos y detalles corporativos.</p>
+                    
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <div style="width: 130px; height: 130px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 10px rgba(0,0,0,0.02); background: white;">
+                            <img src="images/mat_madera.png" alt="Madera" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: #3E4A56; text-transform: uppercase;">Madera</span>
                     </div>
-                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Acrílico</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Limpio y moderno para placas, señalética y reconocimientos.</p>
+                    
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <div style="width: 130px; height: 130px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 10px rgba(0,0,0,0.02); background: white;">
+                            <img src="images/mat_acrilico.png" alt="Acrílico" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: #3E4A56; text-transform: uppercase;">Acrílico</span>
                     </div>
-                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Cuero / PU</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Ideal para agendas, libretas y detalles ejecutivos.</p>
+                    
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <div style="width: 130px; height: 130px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 10px rgba(0,0,0,0.02); background: white;">
+                            <img src="images/mat_cuero.png" alt="Cuero/PU" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: #3E4A56; text-transform: uppercase;">Cuero/PU</span>
                     </div>
-                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Vidrio</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Grabado translúcido y elegante para copas y botellas.</p>
+                    
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <div style="width: 130px; height: 130px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 10px rgba(0,0,0,0.02); background: white;">
+                            <img src="images/mat_vidrio.png" alt="Vidrio" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: #3E4A56; text-transform: uppercase;">Vidrio</span>
                     </div>
-                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Metal</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Excelente para esferos, llaveros y placas técnicas.</p>
-                    </div>
-                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">PVC</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Soporte plástico resistente para identificación corporativa.</p>
-                    </div>
-                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Cartón rígido / packaging</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Soluciones estructuradas para empaques y kits premium.</p>
+                    
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                        <div style="width: 130px; height: 130px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 10px rgba(0,0,0,0.02); background: white;">
+                            <img src="images/mat_pvc.png" alt="PVC" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: #3E4A56; text-transform: uppercase;">PVC</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Sección de Logos de Clientes (Smooth Ticker) -->
-        <section class="clients-ticker-section" style="padding: 4rem 0; background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden;">
-            <div class="container" style="text-align: center; margin-bottom: 2rem;">
-                <span class="section-subtitle" style="font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; letter-spacing: 0.08em; display: inline-block; border-left: 3px solid var(--primary); padding-left: 10px;">Marcas que confían en nosotros</span>
-            </div>
-            <div class="ticker-wrapper" style="display: flex; overflow: hidden; position: relative; width: 100%;">
-                <div class="ticker-track">
-                    <?php 
-                    $tickerItems = array_merge($clients, $clients); // duplicar para scroll infinito
-                    if (empty($tickerItems)) {
-                        for ($i = 1; $i <= 10; $i++) {
-                            echo '<div style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; color: rgba(30, 34, 28, 0.35); letter-spacing: 0.08em; display: flex; align-items: center; min-width: 160px; justify-content: center; height: 60px;">MARCA ' . (($i - 1) % 5 + 1) . '</div>';
-                        }
-                    } else {
-                        foreach ($tickerItems as $c):
-                        ?>
-                            <div class="ticker-item" style="display: flex; align-items: center; justify-content: center; height: 60px; min-width: 160px;">
-                                <img src="<?php echo htmlspecialchars($c['logo_path']); ?>" alt="<?php echo htmlspecialchars($c['name']); ?>" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-                            </div>
-                        <?php 
-                        endforeach; 
-                    }
-                    ?>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. Sección: Proceso Corto (Cómo hacemos tu pedido) -->
         <section id="proceso" class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
                 <h2>Cómo hacemos tu pedido</h2>
