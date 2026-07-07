@@ -1,0 +1,15 @@
+{
+  "name": "CardNet",
+  "short_name": "CardNet",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FCFDFB",
+  "theme_color": "#63AE2C",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
