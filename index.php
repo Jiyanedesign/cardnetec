@@ -299,13 +299,13 @@ try {
         <!-- 1. Hero Principal - Carrusel Automático Showroom -->
         <section class="hero-block reveal-on-scroll" id="inicio" style="padding-top: 1rem; padding-bottom: 2rem;">
             <div class="container" style="position: relative;">
-                <div class="hero-right-carousel" style="width: 100%; min-height: 520px; height: 70vh; position: relative; border-radius: var(--radius-md); overflow: hidden; background: #E2E5DF; border: 1px solid rgba(0,0,0,0.03); display: flex; flex-direction: column;">
+                <div class="hero-right-carousel" style="width: 100%; min-height: 520px; height: 70vh; position: relative; border-radius: var(--radius-md); overflow: hidden; background: #1a1a1a; border: 1px solid rgba(0,0,0,0.03); display: flex; flex-direction: column;">
                     <div class="hero-slider-track" style="width: 100%; height: 100%; position: relative; flex-grow: 1;">
                         
                         <!-- Slide 1: Termos -->
                         <div class="hero-slide-item active" data-slide-index="0" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 1; visibility: visible; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 5; padding: 4rem;">
-                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1E231C 0%, #2A3027 100%); z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/termo.png'); background-size: cover; background-position: right center; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18, 20, 17, 0.95) 0%, rgba(18, 20, 17, 0.8) 45%, rgba(18, 20, 17, 0.2) 100%); z-index: 2;"></div>
                             <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Termos grabados en acero inoxidable</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Acabado láser limpio, sobrio y resistente al uso diario.</p>
@@ -315,8 +315,8 @@ try {
 
                         <!-- Slide 2: Agendas -->
                         <div class="hero-slide-item" data-slide-index="1" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
-                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #112818 0%, #1F3F2A 100%); z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/agenda.png'); background-size: cover; background-position: right center; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18, 20, 17, 0.95) 0%, rgba(18, 20, 17, 0.8) 45%, rgba(18, 20, 17, 0.2) 100%); z-index: 2;"></div>
                             <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Agendas corporativas personalizadas</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Detalles elegantes para clientes, equipos y eventos.</p>
@@ -326,8 +326,8 @@ try {
 
                         <!-- Slide 3: Kits -->
                         <div class="hero-slide-item" data-slide-index="2" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
-                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #252835 0%, #151821 100%); z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/kit.png'); background-size: cover; background-position: right center; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18, 20, 17, 0.95) 0%, rgba(18, 20, 17, 0.8) 45%, rgba(18, 20, 17, 0.2) 100%); z-index: 2;"></div>
                             <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Kits corporativos listos para entregar</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Termos, agendas y cajas personalizadas para empresas y eventos.</p>
@@ -337,8 +337,8 @@ try {
 
                         <!-- Slide 4: Carnets -->
                         <div class="hero-slide-item" data-slide-index="3" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
-                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1C2224 0%, #30373A 100%); z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/carnets.png'); background-size: cover; background-position: right center; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18, 20, 17, 0.95) 0%, rgba(18, 20, 17, 0.8) 45%, rgba(18, 20, 17, 0.2) 100%); z-index: 2;"></div>
                             <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Carnets y credenciales profesionales</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Identificación corporativa con diseño limpio y presentación cuidada.</p>
@@ -348,8 +348,8 @@ try {
 
                         <!-- Slide 5: Placas -->
                         <div class="hero-slide-item" data-slide-index="4" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
-                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #2D231E 0%, #3E322B 100%); z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: absolute; inset: 0; background-image: url('uploads/placa.png'); background-size: cover; background-position: right center; z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(18, 20, 17, 0.95) 0%, rgba(18, 20, 17, 0.8) 45%, rgba(18, 20, 17, 0.2) 100%); z-index: 2;"></div>
                             <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Placas y reconocimientos personalizados</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Piezas con acabado elegante para eventos, empresas e instituciones.</p>

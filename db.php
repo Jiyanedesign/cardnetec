@@ -117,12 +117,19 @@ try {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
         $pdo->exec("INSERT IGNORE INTO `clientes` (id, name, logo_path, order_val, is_active) VALUES 
-            (1, 'Cliente Alpha', 'uploads/cliente1.png', 1, 1),
-            (2, 'Cliente Beta', 'uploads/cliente2.png', 2, 1),
-            (3, 'Cliente Gamma', 'uploads/cliente3.png', 3, 1),
-            (4, 'Cliente Delta', 'uploads/cliente4.png', 4, 1),
-            (5, 'Cliente Epsilon', 'uploads/cliente5.png', 5, 1);");
+            (1, 'APEX', 'uploads/cliente1.png', 1, 1),
+            (2, 'LUMINA', 'uploads/cliente2.png', 2, 1),
+            (3, 'VORTEX', 'uploads/cliente3.png', 3, 1),
+            (4, 'KRONA', 'uploads/cliente4.png', 4, 1),
+            (5, 'AERO', 'uploads/cliente5.png', 5, 1);");
     }
+
+    // Asegurar que los nombres de clientes coincidan con los logotipos generados
+    $pdo->exec("UPDATE clientes SET name = 'APEX' WHERE id = 1 AND logo_path = 'uploads/cliente1.png';");
+    $pdo->exec("UPDATE clientes SET name = 'LUMINA' WHERE id = 2 AND logo_path = 'uploads/cliente2.png';");
+    $pdo->exec("UPDATE clientes SET name = 'VORTEX' WHERE id = 3 AND logo_path = 'uploads/cliente3.png';");
+    $pdo->exec("UPDATE clientes SET name = 'KRONA' WHERE id = 4 AND logo_path = 'uploads/cliente4.png';");
+    $pdo->exec("UPDATE clientes SET name = 'AERO' WHERE id = 5 AND logo_path = 'uploads/cliente5.png';");
 
 } catch (PDOException $e) {
     die("Error de conexión a la base de datos: " . $e->getMessage());
