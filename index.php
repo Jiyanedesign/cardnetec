@@ -331,15 +331,38 @@ try {
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <!-- Slide de Resguardo si la BD está vacía -->
-                            <div class="hero-slide-item active" style="position: absolute; inset: 0; padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
+                            <!-- Slide 1 de Resguardo si la BD está vacía -->
+                            <div class="hero-slide-item active" data-slide-index="0" style="position: absolute; inset: 0; padding: 3rem; display: flex; flex-direction: column; justify-content: center; opacity: 1; visibility: visible; transition: opacity 0.6s ease, visibility 0.6s ease; z-index: 5;">
                                 <div style="display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                                    <span style="font-size: 0.68rem; background: var(--dark); color: white; padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em;">ACERO</span>
-                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em;">MADERA</span>
-                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em;">ACRÍLICO</span>
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">ACERO</span>
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">MADERA</span>
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">ACRÍLICO</span>
                                 </div>
-                                <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); font-weight: 500; margin-bottom: 0.75rem;">Soportes Técnicos Premium</h3>
-                                <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; max-width: 380px;">Estudios de calibración láser y contraste sobre materiales nobles para asegurar legibilidad institucional.</p>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); font-weight: 500; margin-bottom: 0.75rem; line-height: 1.3;">Soportes Técnicos Premium</h3>
+                                <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; max-width: 380px; margin-bottom: 1.5rem;">Estudios de calibración láser y contraste sobre materiales nobles para asegurar legibilidad institucional.</p>
+                                <a href="productos.php" style="font-size: 0.8rem; color: var(--primary); font-weight: 600; text-decoration: none;">Ver Catálogo →</a>
+                            </div>
+
+                            <!-- Slide 2 de Resguardo si la BD está vacía -->
+                            <div class="hero-slide-item" data-slide-index="1" style="position: absolute; inset: 0; padding: 3rem; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0.6s ease; z-index: 1;">
+                                <div style="display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">CUERO PU</span>
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">BAJO RELIEVE</span>
+                                </div>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); font-weight: 500; margin-bottom: 0.75rem; line-height: 1.3;">Agendas y Libretas Ejecutivas</h3>
+                                <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; max-width: 380px; margin-bottom: 1.5rem;">Termograbado sobre texturas símil cuero para regalos de gran presencia corporativa.</p>
+                                <a href="productos.php" style="font-size: 0.8rem; color: var(--primary); font-weight: 600; text-decoration: none;">Ver Catálogo →</a>
+                            </div>
+
+                            <!-- Slide 3 de Resguardo si la BD está vacía -->
+                            <div class="hero-slide-item" data-slide-index="2" style="position: absolute; inset: 0; padding: 3rem; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0.6s ease; z-index: 1;">
+                                <div style="display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">PVC</span>
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">IDENTIFICACIÓN</span>
+                                </div>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); font-weight: 500; margin-bottom: 0.75rem; line-height: 1.3;">Carnets y Credenciales PVC</h3>
+                                <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; max-width: 380px; margin-bottom: 1.5rem;">Sistemas de identificación institucional listos para control de accesos y eventos masivos.</p>
+                                <a href="productos.php" style="font-size: 0.8rem; color: var(--primary); font-weight: 600; text-decoration: none;">Ver Catálogo →</a>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -350,6 +373,13 @@ try {
                             <?php foreach ($slides as $idx => $slide): ?>
                                 <button class="hero-dot <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-to="<?php echo $idx; ?>" aria-label="Slide <?php echo $idx+1; ?>" style="width: 24px; height: 3px; border-radius: 2px; border: none; background: <?php echo $idx === 0 ? 'var(--primary)' : 'rgba(0,0,0,0.15)'; ?>; cursor: pointer; transition: background 0.3s ease; padding:0;"></button>
                             <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <!-- Indicadores por defecto para los 3 slides de prueba -->
+                        <div style="position: absolute; bottom: 2rem; right: 3rem; z-index: 10; display: flex; gap: 8px;">
+                            <button class="hero-dot active" data-slide-to="0" aria-label="Slide 1" style="width: 24px; height: 3px; border-radius: 2px; border: none; background: var(--primary); cursor: pointer; transition: background 0.3s ease; padding:0;"></button>
+                            <button class="hero-dot" data-slide-to="1" aria-label="Slide 2" style="width: 24px; height: 3px; border-radius: 2px; border: none; background: rgba(0,0,0,0.15); cursor: pointer; transition: background 0.3s ease; padding:0;"></button>
+                            <button class="hero-dot" data-slide-to="2" aria-label="Slide 3" style="width: 24px; height: 3px; border-radius: 2px; border: none; background: rgba(0,0,0,0.15); cursor: pointer; transition: background 0.3s ease; padding:0;"></button>
                         </div>
                     <?php endif; ?>
                 </div>
