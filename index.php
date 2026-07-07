@@ -196,12 +196,10 @@ try {
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
                     <a href="index.php" class="nav-link active">Inicio</a>
-                    <a href="#soluciones" class="nav-link">Soluciones</a>
-                    <a href="#colecciones" class="nav-link">Colecciones</a>
+                    <a href="#productos" class="nav-link">Destacados</a>
                     <a href="#laser" class="nav-link">Grabado láser</a>
                     <a href="productos.php" class="nav-link">Productos</a>
-                    <a href="#proceso" class="nav-link">Cómo pedir</a>
-                    <a href="#preguntas-frecuentes" class="nav-link">FAQ</a>
+                    <a href="#antes-despues" class="nav-link">Personalización</a>
                     <a href="cotizacion.php" class="nav-link">Cotizar <?php
                     $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     if ($c_count > 0) {
@@ -256,12 +254,10 @@ try {
     <div class="mobile-nav-overlay"></div>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
         <a href="index.php" class="mobile-link active">Inicio</a>
-        <a href="#soluciones" class="mobile-link">Soluciones</a>
-        <a href="#colecciones" class="mobile-link">Colecciones</a>
+        <a href="#productos" class="mobile-link">Destacados</a>
         <a href="#laser" class="mobile-link">Grabado láser</a>
         <a href="productos.php" class="mobile-link">Productos</a>
-        <a href="#proceso" class="mobile-link">Cómo pedir</a>
-        <a href="#preguntas-frecuentes" class="mobile-link">FAQ</a>
+        <a href="#antes-despues" class="mobile-link">Personalización</a>
         <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%;">Solicitar cotización</a>
     </nav>
 
@@ -273,95 +269,71 @@ try {
             <div class="container" style="position: relative;">
                 <div class="hero-right-carousel" style="width: 100%; min-height: 520px; height: 70vh; position: relative; border-radius: var(--radius-md); overflow: hidden; background: #E2E5DF; border: 1px solid rgba(0,0,0,0.03); display: flex; flex-direction: column;">
                     <div class="hero-slider-track" style="width: 100%; height: 100%; position: relative; flex-grow: 1;">
-                        <?php if (!empty($slides)): ?>
-                            <?php foreach ($slides as $idx => $slide): ?>
-                                <div class="hero-slide-item <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo $idx; ?>" 
-                                     style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: <?php echo $idx === 0 ? '1' : '0'; ?>; visibility: <?php echo $idx === 0 ? 'visible' : 'hidden'; ?>; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: <?php echo $idx === 0 ? '5' : '1'; ?>; padding: 4rem;">
-                                    
-                                    <?php if ($slide['image']): ?>
-                                        <img src="uploads/<?php echo htmlspecialchars($slide['image']); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;" alt="<?php echo htmlspecialchars($slide['title']); ?>">
-                                    <?php else: ?>
-                                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, #F5F6F3 0%, #D4D8D1 100%); z-index: 1;"></div>
-                                    <?php endif; ?>
-
-                                    <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.75) 0%, rgba(16, 20, 15, 0.6) 40%, rgba(16, 20, 15, 0.1) 100%); z-index: 2;"></div>
-
-                                    <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
-                                        <span class="section-subtitle" style="margin-bottom: 1rem; border-color: var(--primary); color: #8CFF32; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; display: inline-block; border-left: 3px solid var(--primary); padding-left: 10px; border-radius: 0;">
-                                            Destacado CardNet
-                                        </span>
-                                        <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.15);">
-                                            <?php echo htmlspecialchars($slide['title']); ?>
-                                        </h2>
-                                        <p style="font-size: clamp(0.95rem, 1.5vw, 1.1rem); color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2rem;">
-                                            <?php echo htmlspecialchars($slide['subtitle'] ?: 'Personalización premium con marcado láser de alta definición.'); ?>
-                                        </p>
-                                        
-                                        <a href="<?php echo htmlspecialchars($slide['cta_url'] ?: 'productos.php'); ?>" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; background-color: var(--primary); border: none; display: inline-block;">
-                                            <?php echo htmlspecialchars($slide['cta_text'] ?: 'Ver Colección'); ?> →
-                                        </a>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <!-- Slide 1 -->
-                            <div class="hero-slide-item active" data-slide-index="0" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 1; visibility: visible; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 5; padding: 4rem;">
-                                <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1E231C 0%, #2A3027 100%); z-index: 1;"></div>
-                                <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.75) 0%, rgba(16, 20, 15, 0.4) 100%); z-index: 2;"></div>
-                                <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
-                                    <span class="section-subtitle" style="margin-bottom: 1rem; border-color: var(--primary); color: #8CFF32; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; display: inline-block; border-left: 3px solid var(--primary); padding-left: 10px; border-radius: 0;">Colección Ejecutiva</span>
-                                    <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Productos que hacen visible tu marca</h2>
-                                    <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Grabado láser y personalización sobre piezas que sí generan impacto.</p>
-                                    <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Ver productos destacados</a>
-                                </div>
+                        
+                        <!-- Slide 1: Termos -->
+                        <div class="hero-slide-item active" data-slide-index="0" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 1; visibility: visible; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 5; padding: 4rem;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1E231C 0%, #2A3027 100%); z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Termos grabados en acero inoxidable</h2>
+                                <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Acabado láser limpio, sobrio y resistente al uso diario.</p>
+                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Cotizar este producto</a>
                             </div>
+                        </div>
 
-                            <!-- Slide 2 -->
-                            <div class="hero-slide-item" data-slide-index="1" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
-                                <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #112818 0%, #1F3F2A 100%); z-index: 1;"></div>
-                                <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.75) 0%, rgba(16, 20, 15, 0.4) 100%); z-index: 2;"></div>
-                                <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
-                                    <span class="section-subtitle" style="margin-bottom: 1rem; border-color: var(--primary); color: #8CFF32; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; display: inline-block; border-left: 3px solid var(--primary); padding-left: 10px; border-radius: 0;">Soportes Hidratación</span>
-                                    <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Termos grabados con acabado premium</h2>
-                                    <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Personalización limpia, elegante y resistente al uso diario.</p>
-                                    <a href="productos.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Quiero algo similar</a>
-                                </div>
+                        <!-- Slide 2: Agendas -->
+                        <div class="hero-slide-item" data-slide-index="1" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #112818 0%, #1F3F2A 100%); z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Agendas corporativas personalizadas</h2>
+                                <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Detalles elegantes para clientes, equipos y eventos.</p>
+                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Quiero algo similar</a>
                             </div>
+                        </div>
 
-                            <!-- Slide 3 -->
-                            <div class="hero-slide-item" data-slide-index="2" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
-                                <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #252835 0%, #151821 100%); z-index: 1;"></div>
-                                <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.75) 0%, rgba(16, 20, 15, 0.4) 100%); z-index: 2;"></div>
-                                <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
-                                    <span class="section-subtitle" style="margin-bottom: 1rem; border-color: var(--primary); color: #8CFF32; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; display: inline-block; border-left: 3px solid var(--primary); padding-left: 10px; border-radius: 0;">Soluciones Corporativas</span>
-                                    <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Kits corporativos con mejor presentación</h2>
-                                    <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Piezas personalizadas para eventos, equipos y clientes.</p>
-                                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Cotizar una idea</a>
-                                </div>
+                        <!-- Slide 3: Kits -->
+                        <div class="hero-slide-item" data-slide-index="2" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #252835 0%, #151821 100%); z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Kits corporativos listos para entregar</h2>
+                                <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Termos, agendas y cajas personalizadas para empresas y eventos.</p>
+                                <a href="cotizacion.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Cotizar una idea</a>
                             </div>
+                        </div>
 
-                            <!-- Slide 4 -->
-                            <div class="hero-slide-item" data-slide-index="3" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
-                                <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1C2224 0%, #30373A 100%); z-index: 1;"></div>
-                                <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.75) 0%, rgba(16, 20, 15, 0.4) 100%); z-index: 2;"></div>
-                                <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
-                                    <span class="section-subtitle" style="margin-bottom: 1rem; border-color: var(--primary); color: #8CFF32; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; display: inline-block; border-left: 3px solid var(--primary); padding-left: 10px; border-radius: 0;">Identificación Segura</span>
-                                    <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Carnets y credenciales con imagen profesional</h2>
-                                    <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Diseños corporativos listos para representar tu empresa.</p>
-                                    <a href="productos.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Explorar opciones</a>
-                                </div>
+                        <!-- Slide 4: Carnets -->
+                        <div class="hero-slide-item" data-slide-index="3" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #1C2224 0%, #30373A 100%); z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Carnets y credenciales profesionales</h2>
+                                <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Identificación corporativa con diseño limpio y presentación cuidada.</p>
+                                <a href="productos.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Explorar opciones</a>
                             </div>
-                        <?php endif; ?>
+                        </div>
+
+                        <!-- Slide 5: Placas -->
+                        <div class="hero-slide-item" data-slide-index="4" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #2D231E 0%, #3E322B 100%); z-index: 1;"></div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.7) 0%, rgba(16, 20, 15, 0.3) 100%); z-index: 2;"></div>
+                            <div style="position: relative; z-index: 3; max-width: 580px; color: white;">
+                                <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Placas y reconocimientos personalizados</h2>
+                                <p style="font-size: 1.05rem; color: rgba(255,255,255,0.9); line-height: 1.6; margin-bottom: 2.2rem;">Piezas con acabado elegante para eventos, empresas e instituciones.</p>
+                                <a href="#productos" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Solicitar este estilo</a>
+                            </div>
+                        </div>
+
                     </div>
                     
                     <!-- Indicadores estilo barra fina de progreso en la parte inferior derecha -->
                     <div style="position: absolute; bottom: 2rem; right: 3rem; z-index: 10; display: flex; gap: 8px;">
-                        <?php 
-                        $total_slides = !empty($slides) ? count($slides) : 4;
-                        for ($idx = 0; $idx < $total_slides; $idx++): 
-                        ?>
-                            <button class="hero-dot <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-to="<?php echo $idx; ?>" aria-label="Slide <?php echo $idx+1; ?>" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: <?php echo $idx === 0 ? 'var(--primary)' : 'rgba(255,255,255,0.3)'; ?>; cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
-                        <?php endfor; ?>
+                        <button class="hero-dot active" data-slide-to="0" aria-label="Slide 1" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: var(--primary); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
+                        <button class="hero-dot" data-slide-to="1" aria-label="Slide 2" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
+                        <button class="hero-dot" data-slide-to="2" aria-label="Slide 3" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
+                        <button class="hero-dot" data-slide-to="3" aria-label="Slide 4" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
+                        <button class="hero-dot" data-slide-to="4" aria-label="Slide 5" style="width: 32px; height: 3px; border-radius: 2px; border: none; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.3s ease, width 0.3s ease; padding:0;"></button>
                     </div>
                 </div>
             </div>
@@ -376,11 +348,11 @@ try {
                 </div>
                 <div class="satisfaction-item">
                     <svg class="satisfaction-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                    <span>Prueba visual previa al marcaje</span>
+                    <span>Vista previa antes de personalizar</span>
                 </div>
                 <div class="satisfaction-item">
                     <svg class="satisfaction-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                    <span>Soportes seleccionados B2B</span>
+                    <span>Materiales seleccionados</span>
                 </div>
             </div>
         </section>
@@ -390,64 +362,179 @@ try {
             <div class="section-header center" style="margin-bottom: 3.5rem;">
                 <span class="section-subtitle">Showroom Corporativo</span>
                 <h2>Productos destacados</h2>
-                <p>Nuestra selección de piezas premium para representación de marca y personalización de alta precisión.</p>
+                <p>Una selección visual de productos listos para personalizar con tu marca.</p>
             </div>
             
             <div class="grid-3">
-                <?php if (!empty($featuredProducts)): ?>
-                    <?php foreach ($featuredProducts as $product): 
-                        $enriched = enrichProduct($product);
-                    ?>
-                        <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                            <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                                <?php if ($product['image_main']): ?>
-                                    <img src="uploads/<?php echo htmlspecialchars($product['image_main']); ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" loading="lazy" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                                <?php else: ?>
-                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                        </svg>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
-                                <span style="font-size: 0.7rem; text-transform: uppercase; color: var(--primary); font-weight: 600; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">
-                                    <?php echo htmlspecialchars($enriched['material']); ?> · <?php echo htmlspecialchars($enriched['technique']); ?>
-                                </span>
-                                <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.75rem;">
-                                    <?php echo htmlspecialchars($product['name']); ?>
-                                </h3>
-                                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">
-                                    <?php echo htmlspecialchars($product['description_short']); ?>
-                                </p>
-                                <div style="display: flex; gap: 8px; margin-top: auto;">
-                                    <button class="btn btn-primary btn-add-to-quote" 
-                                            data-slug="<?php echo htmlspecialchars($product['slug']); ?>" 
-                                            data-name="<?php echo htmlspecialchars($product['name']); ?>" 
-                                            data-price="<?php echo (float)$product['price']; ?>"
-                                            style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                                        Cotizar este producto
-                                    </button>
-                                    <button class="btn btn-secondary btn-view-details" 
-                                            data-slug="<?php echo htmlspecialchars($product['slug']); ?>"
-                                            data-name="<?php echo htmlspecialchars($product['name']); ?>"
-                                            data-category="<?php echo htmlspecialchars($enriched['category']); ?>"
-                                            data-material="<?php echo htmlspecialchars($enriched['material']); ?>"
-                                            data-technique="<?php echo htmlspecialchars($enriched['technique']); ?>"
-                                            data-use="<?php echo htmlspecialchars($enriched['use']); ?>"
-                                            data-desc="<?php echo htmlspecialchars($enriched['details']); ?>"
-                                            style="padding: 10px 14px; font-size: 0.8rem; font-weight: 500; border: 1px solid var(--border); background: white; cursor: pointer;">
-                                        Quiero este estilo
-                                    </button>
-                                </div>
-                            </div>
+                
+                <!-- Producto 1: Termos grabados -->
+                <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                        <img src="uploads/termo.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Termos grabados">
+                        <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem 0;">
-                        No hay productos destacados activos en este momento.
                     </div>
-                <?php endif; ?>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Termos grabados</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">Acero inoxidable · Grabado láser</p>
+                        <div style="display: flex; gap: 8px; margin-top: auto;">
+                            <button class="btn btn-primary btn-add-to-quote" data-slug="termos-grabados" data-name="Termos grabados" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                Cotizar este producto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 2: Agendas personalizadas -->
+                <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                        <img src="uploads/agenda.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Agendas personalizadas">
+                        <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Agendas personalizadas</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">Cuero/PU · Grabado o bajo relieve</p>
+                        <div style="display: flex; gap: 8px; margin-top: auto;">
+                            <button class="btn btn-primary btn-add-to-quote" data-slug="agendas-personalizadas" data-name="Agendas personalizadas" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                Quiero algo similar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 3: Llaveros corporativos -->
+                <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                        <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Llaveros corporativos">
+                        <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Llaveros corporativos</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">Metal o acrílico · Marcaje personalizado</p>
+                        <div style="display: flex; gap: 8px; margin-top: auto;">
+                            <button class="btn btn-primary btn-add-to-quote" data-slug="llaveros-corporativos" data-name="Llaveros corporativos" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                Solicitar este estilo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 4: Placas corporativas -->
+                <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                        <img src="uploads/placa.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Placas corporativas">
+                        <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Placas corporativas</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">Acrílico, metal o madera · Personalización corporativa</p>
+                        <div style="display: flex; gap: 8px; margin-top: auto;">
+                            <button class="btn btn-primary btn-add-to-quote" data-slug="placas-corporativas" data-name="Placas corporativas" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                Cotizar una idea
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 5: Cajas personalizadas -->
+                <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                        <img src="uploads/caja.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Cajas personalizadas">
+                        <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Cajas personalizadas</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">Packaging corporativo · Acabado de marca</p>
+                        <div style="display: flex; gap: 8px; margin-top: auto;">
+                            <button class="btn btn-primary btn-add-to-quote" data-slug="cajas-personalizadas" data-name="Cajas personalizadas" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                Ver opciones
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 6: Kits empresariales -->
+                <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                        <img src="uploads/kit.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Kits empresariales">
+                        <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Kits empresariales</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">Piezas personalizadas para clientes, equipos y eventos</p>
+                        <div style="display: flex; gap: 8px; margin-top: auto;">
+                            <button class="btn btn-primary btn-add-to-quote" data-slug="kits-empresariales" data-name="Kits empresariales" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                Armar un kit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 7: Carnets PVC -->
+                <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                        <img src="uploads/carnets.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Carnets PVC">
+                        <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Carnets PVC</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">Identificación corporativa · Diseño personalizado</p>
+                        <div style="display: flex; gap: 8px; margin-top: auto;">
+                            <button class="btn btn-primary btn-add-to-quote" data-slug="carnets-pvc" data-name="Carnets PVC" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                Explorar opciones
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Producto 8: Esferos grabados -->
+                <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                        <img src="uploads/esfero.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Esferos grabados">
+                        <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Esferos grabados</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">Marcaje láser · Detalle corporativo</p>
+                        <div style="display: flex; gap: 8px; margin-top: auto;">
+                            <button class="btn btn-primary btn-add-to-quote" data-slug="esferos-grabados" data-name="Esferos grabados" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                Cotizar este producto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             
             <div style="text-align: center; margin-top: 3.5rem;">
@@ -493,11 +580,18 @@ try {
         <section id="laser" class="section-padding container reveal-on-scroll">
             <div class="laser-section" style="padding: 4rem; background: #1A1F18; border-radius: var(--radius-lg); overflow: hidden; position: relative;">
                 <div style="max-width: 600px; position: relative; z-index: 5;">
-                    <span class="section-subtitle" style="color: #8CFF32; border-color: #8CFF32;">Precisión de Marcado</span>
+                    <span class="section-subtitle" style="color: #8CFF32; border-color: #8CFF32;">Marcaje preciso</span>
                     <h2 style="color: white; font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; margin-bottom: 1.25rem;">Nuestra especialidad: grabado láser</h2>
                     <p style="color: rgba(255,255,255,0.85); font-size: 1.05rem; line-height: 1.6; margin-bottom: 2rem;">
-                        Marcamos sobre metal, madera, cuero, acrílico y otros materiales para lograr piezas limpias, elegantes y duraderas. Sin tintas ni adhesivos superficiales, garantizando un acabado indeleble que resiste el uso diario.
+                        Grabamos sobre metal, madera, acrílico, cuero y otros materiales para lograr piezas limpias, elegantes y resistentes al uso diario.
                     </p>
+                    <ul style="color: rgba(255,255,255,0.9); margin-bottom: 2rem; padding-left: 20px; line-height: 1.8; font-size: 0.95rem;">
+                        <li>✓ Acabado limpio</li>
+                        <li>✓ Marcaje duradero</li>
+                        <li>✓ Ideal para detalles finos</li>
+                        <li>✓ Excelente para regalos corporativos</li>
+                        <li>✓ Funciona en distintos materiales</li>
+                    </ul>
                     <a href="productos.php" class="btn btn-primary" style="background-color: var(--primary); border: none; padding: 12px 28px; font-weight: 600;">Explorar grabado láser</a>
                 </div>
                 
@@ -510,82 +604,68 @@ try {
             <div class="section-header center" style="margin-bottom: 3.5rem;">
                 <span class="section-subtitle">Garantía de Acabado</span>
                 <h2>Antes y después del grabado</h2>
-                <p>Compara el soporte base original con el resultado final personalizado en nuestro taller.</p>
+                <p>Mira cómo un producto simple se convierte en una pieza personalizada para tu marca.</p>
             </div>
             
             <div class="comparison-grid">
-                <?php if (!empty($beforeAfters)): ?>
-                    <?php foreach ($beforeAfters as $item): ?>
-                        <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white; transition: transform 0.25s ease;">
-                            <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
-                                <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
-                                    <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Soporte Base</div>
-                                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Liso</span>
-                                </div>
-                                <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
-                                    <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Con Marcado</div>
-                                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);"><?php echo htmlspecialchars($item['technique']); ?></span>
-                                </div>
-                            </div>
-                            <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
-                                <?php echo htmlspecialchars($item['title']); ?> · <?php echo htmlspecialchars($item['material']); ?>
-                            </div>
+                
+                <!-- Comparación 1: Termo -->
+                <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white; transition: transform 0.25s ease;">
+                    <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
+                        <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
+                            <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Termo Liso</div>
+                            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sin marca</span>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <!-- Fallback 3 cards de prueba si la BD no tiene registros -->
-                    
-                    <!-- Card 1 -->
-                    <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white;">
-                        <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
-                            <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
-                                <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Termo de Acero</div>
-                                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Metal Liso</span>
-                            </div>
-                            <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
-                                <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Grabado Láser</div>
-                                <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Bajo Relieve</span>
-                            </div>
-                        </div>
-                        <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
-                            Termo de Acero Inoxidable
+                        <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
+                            <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Con Marcado</div>
+                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Grabado láser</span>
                         </div>
                     </div>
+                    <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
+                        Termo grabado
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-family: var(--font-body);">De producto simple a detalle corporativo listo para entregar.</p>
+                        <a href="productos.php" class="btn btn-secondary" style="margin-top: 10px; font-size: 0.75rem; padding: 6px 12px; display: inline-block;">Quiero algo similar</a>
+                    </div>
+                </div>
 
-                    <!-- Card 2 -->
-                    <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white;">
-                        <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
-                            <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
-                                <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Libreta de Cuero</div>
-                                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Cuero Liso</span>
-                            </div>
-                            <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
-                                <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Bajo Relieve</div>
-                                <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Termograbado</span>
-                            </div>
+                <!-- Comparación 2: Agenda -->
+                <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white; transition: transform 0.25s ease;">
+                    <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
+                        <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
+                            <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Agenda Lisa</div>
+                            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sin marca</span>
                         </div>
-                        <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
-                            Agenda Ejecutiva de Cuero PU
+                        <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
+                            <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Con Marcado</div>
+                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Bajo relieve</span>
                         </div>
                     </div>
+                    <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
+                        Agenda personalizada
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-family: var(--font-body);">De producto simple a detalle corporativo listo para entregar.</p>
+                        <a href="productos.php" class="btn btn-secondary" style="margin-top: 10px; font-size: 0.75rem; padding: 6px 12px; display: inline-block;">Quiero algo similar</a>
+                    </div>
+                </div>
 
-                    <!-- Card 3 -->
-                    <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white;">
-                        <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
-                            <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
-                                <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Placa Base</div>
-                                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Acrílico Liso</span>
-                            </div>
-                            <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
-                                <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Grabado Blanco</div>
-                                <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Láser de CO2</span>
-                            </div>
+                <!-- Comparación 3: Caja -->
+                <div class="comparison-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: white; transition: transform 0.25s ease;">
+                    <div class="comparison-views" style="display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border);">
+                        <div class="comparison-view" style="padding: 2.5rem 1rem; text-align: center; background: var(--surface-light);">
+                            <div class="comparison-label" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px;">Caja Simple</div>
+                            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sin marca</span>
                         </div>
-                        <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
-                            Placa Conmemorativa de Acrílico
+                        <div class="comparison-view after" style="padding: 2.5rem 1rem; text-align: center; background: white; border-left: 1px solid var(--border);">
+                            <div class="comparison-label after" style="font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 4px;">Con Marcado</div>
+                            <span style="font-size: 0.85rem; font-weight: 600; color: var(--primary);">Grabado láser</span>
                         </div>
                     </div>
-                <?php endif; ?>
+                    <div class="comparison-desc" style="padding: 1.25rem; text-align: center; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 500; color: var(--dark);">
+                        Caja corporativa
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-family: var(--font-body);">De producto simple a detalle corporativo listo para entregar.</p>
+                        <a href="productos.php" class="btn btn-secondary" style="margin-top: 10px; font-size: 0.75rem; padding: 6px 12px; display: inline-block;">Quiero algo similar</a>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -593,27 +673,26 @@ try {
         <section id="materiales" class="section-padding section-bg-light reveal-on-scroll">
             <div class="container">
                 <div class="section-header center" style="margin-bottom: 3.5rem;">
-                    <span class="section-subtitle">Soportes Reales</span>
                     <h2>Materiales que trabajamos</h2>
-                    <p>Seleccionamos soportes nobles y de alta compatibilidad con el grabado láser para un resultado óptimo.</p>
+                    <p>Cada material requiere un acabado distinto. Elegimos la técnica según el producto y el resultado que buscas.</p>
                 </div>
                 
                 <div class="materials-grid">
                     <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
                         <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Acero Inoxidable</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Perfecto para termos y botellas de alta durabilidad.</p>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Ideal para termos, botellas y piezas de uso diario.</p>
                     </div>
                     <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
                         <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Madera</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Textura orgánica e ideal para placas y empaques rústicos.</p>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Perfecta para cajas, reconocimientos y detalles corporativos.</p>
                     </div>
                     <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
                         <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Acrílico</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Terminaciones limpias y cristalinas para reconocimientos.</p>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Limpio y moderno para placas, señalética y reconocimientos.</p>
                     </div>
                     <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
                         <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Cuero / PU</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Elegancia clásica para agendas, libretas y estuches.</p>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Ideal para agendas, libretas y detalles ejecutivos.</p>
                     </div>
                     <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
                         <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Vidrio</h3>
@@ -621,21 +700,24 @@ try {
                     </div>
                     <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
                         <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Metal</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Terminación brillante u opaca para esferos y placas técnicas.</p>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Excelente para esferos, llaveros y placas técnicas.</p>
                     </div>
                     <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
                         <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">PVC</h3>
                         <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Soporte plástico resistente para identificación corporativa.</p>
                     </div>
+                    <div class="material-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; background: white; text-align: center; transition: border-color 0.25s ease;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">Cartón rígido / packaging</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Soluciones estructuradas para empaques y kits premium.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 7. Sección: Proceso Corto (Cómo trabajamos) -->
+        <!-- 7. Sección: Proceso Corto (Cómo hacemos tu pedido) -->
         <section id="proceso" class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle">Flujo de Taller</span>
-                <h2>Cómo trabajamos</h2>
+                <h2>Cómo hacemos tu pedido</h2>
                 <p>Nuestra metodología simplificada para garantizar que cada pedido cumpla tus expectativas.</p>
             </div>
             
@@ -643,22 +725,22 @@ try {
                 <div class="process-step" style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-md);">
                     <div class="process-number" style="color: var(--primary); font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">01</div>
                     <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Eliges el producto</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Exploras y seleccionas los artículos promocionales de nuestro catálogo.</p>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Seleccionas el artículo o nos cuentas qué necesitas.</p>
                 </div>
                 <div class="process-step" style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-md);">
                     <div class="process-number" style="color: var(--primary); font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">02</div>
-                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Nos envías tu logo</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Nos compartes tu diseño o marca y revisamos su viabilidad técnica.</p>
+                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Nos envías tu logo o idea</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Revisamos el diseño y el tipo de acabado ideal.</p>
                 </div>
                 <div class="process-step" style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-md);">
                     <div class="process-number" style="color: var(--primary); font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">03</div>
-                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Personalizamos</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Grabamos en el taller cuidando cada detalle con calibración fina de láser.</p>
+                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Preparamos una vista previa</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Te mostramos cómo quedaría antes de personalizar.</p>
                 </div>
                 <div class="process-step" style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-md);">
                     <div class="process-number" style="color: var(--primary); font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">04</div>
-                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Te entregamos</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Recibes una pieza impecable, lista para representar con orgullo tu marca.</p>
+                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Personalizamos y entregamos</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Grabamos, preparamos y entregamos tus piezas.</p>
                 </div>
             </div>
         </section>
@@ -669,7 +751,7 @@ try {
                 <div class="section-header center">
                     <span class="section-subtitle">Dudas Comunes</span>
                     <h2>Antes de cotizar, esto te puede ayudar</h2>
-                    <p>Respuestas técnicas sobre diseño, personalización B2B y logística en Quito.</p>
+                    <p>Respuestas técnicas sobre diseño, personalización B2B y logística.</p>
                 </div>
                 
                 <div class="faq-accordion" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 10px;">
@@ -728,45 +810,34 @@ try {
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos.</p>
+                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">
+                        <strong>CardNet.ec</strong><br>
+                        Grabado láser y personalización corporativa en Ecuador.
+                    </p>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Líneas de Trabajo</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Productos</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <a href="productos.php" class="footer-link">Grabado láser</a>
-                        <a href="productos.php" class="footer-link">Identificación corporativa</a>
-                        <a href="productos.php" class="footer-link">Kits empresariales</a>
-                        <a href="productos.php" class="footer-link">Placas y reconocimientos</a>
-                        <a href="productos.php" class="footer-link">Productos personalizados</a>
+                        <span class="footer-link">Termos</span>
+                        <span class="footer-link">Agendas</span>
+                        <span class="footer-link">Kits</span>
+                        <span class="footer-link">Placas</span>
+                        <span class="footer-link">Carnets</span>
                     </nav>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Para Quién Trabajamos</h3>
-                    <nav class="footer-links" aria-label="Enlaces de navegación" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Empresas</span>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Instituciones</span>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Eventos</span>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Marcas</span>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Equipos comerciales</span>
-                    </nav>
-                </div>
-                <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Solicitudes</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto</h3>
                     <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
-                        <a href="cotizacion.php" class="footer-link">Cotizar productos</a>
-                        <a href="cotizacion.php" class="footer-link">Enviar logo</a>
-                        <button class="footer-link toggle-quote-drawer-btn" style="background: none; border: none; text-align: left; padding: 0; font-family: inherit; font-size: inherit; color: inherit; cursor: pointer;">Preparar pedido corporativo</button>
-                        <a href="#preguntas-frecuentes" class="footer-link">Preguntas frecuentes</a>
+                        <span class="footer-link">WhatsApp: +593 00 000 0000</span>
+                        <span class="footer-link">Correo: correo@cardnet.ec</span>
+                        <span class="footer-link">Ubicación: Ecuador</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
             <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; CardNet.ec. Todos los derechos reservados. Sitio desarrollado para presentación corporativa y solicitudes de cotización.</p>
-                <div class="footer-bottom-links" style="display: flex; gap: 15px; font-size: 0.8rem;">
-                    <span style="color: var(--text-muted);">Contacto disponible próximamente</span>
-                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
             </div>
         </div>
     </footer>
