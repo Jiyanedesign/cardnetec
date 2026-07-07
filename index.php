@@ -625,8 +625,8 @@ try {
         <section id="categorias-visuales" class="section-padding" style="background: #121212; color: white; padding-top: 5rem; padding-bottom: 5rem;">
             <div class="container">
                 <div class="section-header" style="margin-bottom: 3.5rem; text-align: left; max-width: 700px;">
-                    <h2 style="font-family: var(--font-heading); font-size: 3rem; color: white; font-weight: 400; margin-bottom: 1rem; text-transform: lowercase;">categorías</h2>
-                    <p style="color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.6; margin: 0;">Soluciones a medida para cada necesidad de branding corporativo, desde el detalle pequeño hasta el gran reconocimiento.</p>
+                    <h2 style="font-family: var(--font-heading); font-size: 3rem; color: white; font-weight: 400; margin-bottom: 1rem; ">Categorías destacadas</h2>
+                    <p style="color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.6; margin: 0;">Explora las principales líneas de productos para empresas, eventos e instituciones.</p>
                 </div>
                 
                 <style>
@@ -739,7 +739,7 @@ try {
                                 <img src="images/cat_laser.png" alt="Especialidad Láser">
                                 <div class="premium-cat-overlay">
                                     <h3 class="premium-cat-title">Especialidad Láser</h3>
-                                    <p class="premium-cat-subtitle">Precisión milimétrica.</p>
+                                    <p class="premium-cat-subtitle">Grabado resistente al uso diario.</p>
                                 </div>
                             </a>
                         </div>
@@ -752,7 +752,7 @@ try {
                             <img src="uploads/carnets.png" alt="Carnetización">
                             <div class="premium-cat-overlay" style="height: 100%;">
                                 <h3 class="premium-cat-title">Carnetización</h3>
-                                <p class="premium-cat-subtitle">Soluciones seguras en PVC.</p>
+                                <p class="premium-cat-subtitle">Identificación profesional para empresas e instituciones.</p>
                             </div>
                         </a>
                     </div>
@@ -822,7 +822,7 @@ try {
                 <div class="slider-controls" style="display: flex; flex-direction: column; gap: 24px;">
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <h3 id="slider-title" style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 500; color: var(--dark); margin: 0;">Termo grabado</h3>
-                        <p id="slider-text" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin: 0;">De producto liso de acero inoxidable a un artículo corporativo premium grabado a láser con alta definición y resistencia.</p>
+                        <p id="slider-text" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin: 0;">De producto liso de acero inoxidable a un artículo corporativo premium grabado a láser con acabado limpio y resistencia.</p>
                     </div>
 
                     <!-- Selector de pestañas -->
@@ -957,37 +957,47 @@ try {
                 <div class="section-header center">
                     <span class="section-subtitle">Dudas Comunes</span>
                     <h2>Antes de cotizar, esto te puede ayudar</h2>
-                    <p>Respuestas técnicas sobre diseño, personalización B2B y logística.</p>
+                    <p>Respuestas técnicas sobre diseño, personalización empresas y logística.</p>
                 </div>
                 
                 <div class="faq-accordion" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 10px;">
                     <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Puedo pedir una vista previa antes de producir?</span>
+                            <span style="font-weight: 600; font-size: 0.95rem;">¿Puedo enviar mi logo?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. La vista previa permite revisar ubicación, tamaño y proporción del logo antes de personalizar.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Puedes enviarlo en buena calidad y revisamos cómo aplicarlo sobre el producto.</p>
                         </div>
                     </div>
                     
                     <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Qué pasa si mi logo no está en buena calidad?</span>
+                            <span style="font-weight: 600; font-size: 0.95rem;">¿Puedo ver una vista previa antes de producir?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Podemos revisarlo y decirte si sirve para grabado o si necesita preparación antes de producir.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Preparamos una referencia visual antes de personalizar.</p>
                         </div>
                     </div>
                     
                     <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Puedo cotizar varios productos al mismo tiempo?</span>
+                            <span style="font-weight: 600; font-size: 0.95rem;">¿Qué productos se pueden grabar?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Puedes agregar diferentes productos a tu solicitud y enviar todo en un solo mensaje.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Trabajamos con termos, agendas, placas, llaveros, cajas, carnets y otros productos corporativos.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span style="font-weight: 600; font-size: 0.95rem;">¿Atienden pedidos para empresas?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Preparamos productos para empresas, instituciones, eventos y equipos.</p>
                         </div>
                     </div>
                 </div>
@@ -1017,21 +1027,21 @@ try {
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
                     <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">
-                        Identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos.
+                        Grabado láser, carnets y productos personalizados para empresas, instituciones y eventos.
                     </p>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Productos</h3>
-                    <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <a href="productos.php" class="footer-link">Grabado láser</a>
-                        <a href="productos.php" class="footer-link">Identificación corporativa</a>
-                        <a href="productos.php" class="footer-link">Kits empresariales</a>
-                        <a href="productos.php" class="footer-link">Placas y reconocimientos</a>
-                        <a href="productos.php" class="footer-link">Productos personalizados</a>
+<nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                        <a href="productos.php" class="footer-link">Termos</a>
+                        <a href="productos.php" class="footer-link">Agendas</a>
+                        <a href="productos.php" class="footer-link">Kits</a>
+                        <a href="productos.php" class="footer-link">Placas</a>
+                        <a href="productos.php" class="footer-link">Carnets</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Solicitudes</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto</h3>
                     <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
                         <a href="cotizacion.php" class="footer-link">Cotizar productos</a>
                         <a href="cotizacion.php" class="footer-link">Enviar logo</a>
@@ -1120,19 +1130,19 @@ try {
         const prodData = {
             termo: {
                 title: "Termo grabado",
-                text: "De producto liso de acero inoxidable a un artículo corporativo premium grabado a láser con alta definición y resistencia.",
+                text: "De producto simple a detalle corporativo listo para entregar.",
                 before: "images/termo_before.png",
                 after: "images/termo_after.png"
             },
             agenda: {
                 title: "Agenda personalizada",
-                text: "De libreta de cuero/PU lisa a un regalo ejecutivo elegante con grabado láser térmico que resalta la profundidad de tu logotipo.",
+                text: "De agenda lisa a pieza ejecutiva con identidad de marca.",
                 before: "images/agenda_before.png",
                 after: "images/agenda_after.png"
             },
             caja: {
                 title: "Caja corporativa",
-                text: "De caja de madera de pino simple a un empaque de alta presentación para tus kits corporativos grabado a láser con gran contraste.",
+                text: "De empaque básico a presentación personalizada.",
                 before: "images/caja_before.png",
                 after: "images/caja_after.png"
             }
