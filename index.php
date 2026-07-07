@@ -267,42 +267,82 @@ try {
     <main>
         
         <!-- 1. Hero Principal Premium -->
-        <section class="hero-block reveal-on-scroll" id="inicio">
-            <div class="container hero-carousel-wrapper">
-                <div class="hero-carousel">
-                    <div class="carousel-track">
-                        <div class="carousel-slide">
-                            <div class="carousel-slide-content-wrap">
-                                <span class="section-subtitle" style="margin-bottom: 0.75rem; border-color: var(--primary); color: var(--primary); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;">Identificación · Grabado láser · Personalización corporativa</span>
-                                <h1 class="carousel-slide-title" style="margin-bottom: 0.75rem; font-family: var(--font-heading); font-size: clamp(1.6rem, 3.5vw, 2.5rem); line-height: 1.2;">Piezas corporativas personalizadas con acabado profesional</h1>
-                                <p class="carousel-slide-subtitle" style="font-size: 1rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem;">Diseñamos y personalizamos productos para empresas, instituciones y eventos que necesitan proyectar orden, presencia y calidad desde el primer detalle.</p>
-                                <div class="hero-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem;">
-                                    <a href="productos.php" class="btn btn-primary">Explorar productos</a>
-                                    <a href="cotizacion.php" class="btn btn-secondary">Solicitar cotización</a>
-                                </div>
-                                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1rem; font-weight: 500;">✓ Vista previa antes de producir · ✓ Grabado permanente · ✓ Atención para pedidos corporativos</p>
-                            </div>
-                            <div class="carousel-image-container">
-                                <!-- Showcase de composición visual premium temporal -->
-                                <div class="hero-premium-visual" style="width: 100%; height: 100%; background: radial-gradient(circle at 70% 30%, var(--surface-light) 0%, var(--border) 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-radius: 6px;">
-                                    <div class="laser-beam-animation" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(99, 174, 44, 0.04) 0%, rgba(99, 174, 44, 0) 70%); pointer-events: none;"></div>
-                                    <div style="padding: 2.5rem; text-align: left; z-index: 2; width: 100%;">
-                                        <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                                            <span style="font-size: 0.65rem; background: var(--dark); color: white; padding: 4px 10px; border-radius: 4px; font-weight: 600;">ACERO</span>
-                                            <span style="font-size: 0.65rem; background: white; color: var(--dark); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-weight: 600;">MADERA</span>
-                                            <span style="font-size: 0.65rem; background: white; color: var(--dark); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-weight: 600;">ACRÍLICO</span>
-                                            <span style="font-size: 0.65rem; background: white; color: var(--dark); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-weight: 600;">PVC</span>
-                                            <span style="font-size: 0.65rem; background: white; color: var(--dark); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; font-weight: 600;">CUERO PU</span>
-                                        </div>
-                                        <h4 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--dark);">Soportes Técnicos Premium</h4>
-                                        <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; max-width: 320px;">Estudios de calibración láser y contraste sobre materiales nobles para asegurar legibilidad institucional.</p>
-                                        <!-- Reemplazar por render o foto real de productos corporativos grabados en alta definición -->
+        <section class="hero-block reveal-on-scroll" id="inicio" style="padding-top: 1rem; padding-bottom: 2rem;">
+            <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; align-items: center; background: white; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 3rem; overflow: hidden; position: relative;">
+                
+                <!-- Columna Izquierda: Mensaje Comercial Premium Fijo -->
+                <div class="hero-left-content" style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <span class="section-subtitle" style="margin-bottom: 0.75rem; border-color: var(--primary); color: var(--primary); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em; display: inline-block; width: fit-content; border-left: 3px solid var(--primary); padding-left: 10px; border-radius: 0;">
+                        Identificación · Grabado láser · Personalización
+                    </span>
+                    <h1 style="margin-bottom: 1rem; font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.5rem); line-height: 1.2; color: var(--dark); font-weight: 500;">
+                        Piezas corporativas personalizadas con acabado profesional
+                    </h1>
+                    <p style="font-size: 1rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem;">
+                        Diseñamos y personalizamos productos para empresas, instituciones y eventos que necesitan proyectar orden, presencia y calidad desde el primer detalle.
+                    </p>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                        <a href="productos.php" class="btn btn-primary" style="padding: 12px 28px; font-weight: 600;">EXPLORAR PRODUCTOS</a>
+                        <a href="cotizacion.php" class="btn btn-secondary" style="padding: 12px 28px; border: 1px solid var(--border); background: white;">SOLICITAR COTIZACIÓN</a>
+                    </div>
+                    <p style="font-size: 0.78rem; color: var(--text-muted); font-weight: 500;">
+                        ✓ Vista previa antes de producir · ✓ Grabado permanente · ✓ Atención para pedidos corporativos
+                    </p>
+                </div>
+
+                <!-- Columna Derecha: Carrusel de Imágenes Dinámico de la BD -->
+                <div class="hero-right-carousel" style="width: 100%; height: 100%; min-height: 380px; position: relative; border-radius: var(--radius-md); overflow: hidden; background: var(--surface-light); display: flex; flex-direction: column;">
+                    <div class="hero-slider-track" style="width: 100%; height: 100%; min-height: 380px; position: relative; flex-grow: 1;">
+                        <?php if (!empty($slides)): ?>
+                            <?php foreach ($slides as $idx => $slide): ?>
+                                <div class="hero-slide-item <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo $idx; ?>" style="position: absolute; inset: 0; opacity: <?php echo $idx === 0 ? '1' : '0'; ?>; transition: opacity 0.8s ease-in-out; display: flex; flex-direction: column; justify-content: flex-end; z-index: <?php echo $idx === 0 ? '5' : '1'; ?>;">
+                                    <?php if ($slide['image']): ?>
+                                        <img src="uploads/<?php echo htmlspecialchars($slide['image']); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;" alt="<?php echo htmlspecialchars($slide['title']); ?>">
+                                    <?php else: ?>
+                                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, var(--surface-light) 0%, var(--border) 100%); z-index: 1;"></div>
+                                    <?php endif; ?>
+                                    
+                                    <!-- Degradado para legibilidad del texto flotante -->
+                                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%); z-index: 2;"></div>
+                                    
+                                    <!-- Glassmorphism Card Flotante con Datos del Producto del Carrusel -->
+                                    <div style="position: relative; z-index: 3; padding: 1.5rem; margin: 1.5rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-sm); color: white;">
+                                        <span style="font-size: 0.65rem; background: var(--primary); color: white; padding: 3px 8px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 0.5rem;">
+                                            Destacado
+                                        </span>
+                                        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 0.25rem; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.15);"><?php echo htmlspecialchars($slide['title']); ?></h3>
+                                        <?php if ($slide['subtitle']): ?>
+                                            <p style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 1rem; line-height: 1.4;"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
+                                        <?php endif; ?>
+                                        <a href="<?php echo htmlspecialchars($slide['cta_url'] ?: 'productos.php'); ?>" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                            <?php echo htmlspecialchars($slide['cta_text'] ?: 'Ver colección'); ?> →
+                                        </a>
                                     </div>
                                 </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <!-- Slide de Resguardo si la BD está vacía -->
+                            <div class="hero-slide-item active" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end;">
+                                <div style="position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, var(--surface-light) 0%, var(--border) 100%);"></div>
+                                <div style="position: relative; z-index: 3; padding: 2rem; margin: 1.5rem; background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-sm); color: var(--dark);">
+                                    <h3 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 0.25rem;">Termos & Agendas Grabados</h3>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Calibración fina láser sobre soportes metálicos y cuero.</p>
+                                    <a href="productos.php" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none;">Ver Catálogo →</a>
+                                </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
                     </div>
+                    
+                    <!-- Indicadores discretos en la esquina superior derecha -->
+                    <?php if (!empty($slides) && count($slides) > 1): ?>
+                        <div style="position: absolute; top: 1.5rem; right: 1.5rem; z-index: 10; display: flex; gap: 6px;">
+                            <?php foreach ($slides as $idx => $slide): ?>
+                                <button class="hero-dot <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-to="<?php echo $idx; ?>" aria-label="Slide <?php echo $idx+1; ?>" style="width: 8px; height: 8px; border-radius: 50%; border: none; background: <?php echo $idx === 0 ? 'var(--primary)' : 'rgba(255,255,255,0.4)'; ?>; cursor: pointer; transition: background 0.3s ease; padding:0;"></button>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
+
             </div>
         </section>
 
