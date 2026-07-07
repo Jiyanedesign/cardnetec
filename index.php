@@ -290,54 +290,65 @@ try {
                     </p>
                 </div>
 
-                <!-- Columna Derecha: Carrusel de Imágenes Dinámico de la BD -->
-                <div class="hero-right-carousel" style="width: 100%; height: 100%; min-height: 380px; position: relative; border-radius: var(--radius-md); overflow: hidden; background: var(--surface-light); display: flex; flex-direction: column;">
+                <!-- Columna Derecha: Carrusel Editorial Premium Dinámico -->
+                <div class="hero-right-carousel" style="width: 100%; height: 100%; min-height: 380px; position: relative; border-radius: var(--radius-md); overflow: hidden; background: radial-gradient(circle at 70% 30%, #F5F6F3 0%, #E2E5DF 100%); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.03);">
                     <div class="hero-slider-track" style="width: 100%; height: 100%; min-height: 380px; position: relative; flex-grow: 1;">
                         <?php if (!empty($slides)): ?>
                             <?php foreach ($slides as $idx => $slide): ?>
-                                <div class="hero-slide-item <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo $idx; ?>" style="position: absolute; inset: 0; opacity: <?php echo $idx === 0 ? '1' : '0'; ?>; transition: opacity 0.8s ease-in-out; display: flex; flex-direction: column; justify-content: flex-end; z-index: <?php echo $idx === 0 ? '5' : '1'; ?>;">
-                                    <?php if ($slide['image']): ?>
-                                        <img src="uploads/<?php echo htmlspecialchars($slide['image']); ?>" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;" alt="<?php echo htmlspecialchars($slide['title']); ?>">
-                                    <?php else: ?>
-                                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, var(--surface-light) 0%, var(--border) 100%); z-index: 1;"></div>
-                                    <?php endif; ?>
+                                <div class="hero-slide-item <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo $idx; ?>" 
+                                     style="position: absolute; inset: 0; padding: 3rem; display: flex; flex-direction: column; justify-content: center; opacity: <?php echo $idx === 0 ? '1' : '0'; ?>; visibility: <?php echo $idx === 0 ? 'visible' : 'hidden'; ?>; transition: opacity 0.6s ease, visibility 0.6s ease; z-index: <?php echo $idx === 0 ? '5' : '1'; ?>;">
                                     
-                                    <!-- Degradado para legibilidad del texto flotante -->
-                                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%); z-index: 2;"></div>
-                                    
-                                    <!-- Glassmorphism Card Flotante con Datos del Producto del Carrusel -->
-                                    <div style="position: relative; z-index: 3; padding: 1.5rem; margin: 1.5rem; background: rgba(255,255,255,0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-sm); color: white;">
-                                        <span style="font-size: 0.65rem; background: var(--primary); color: white; padding: 3px 8px; border-radius: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 0.5rem;">
-                                            Destacado
-                                        </span>
-                                        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 0.25rem; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.15);"><?php echo htmlspecialchars($slide['title']); ?></h3>
-                                        <?php if ($slide['subtitle']): ?>
-                                            <p style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 1rem; line-height: 1.4;"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
-                                        <?php endif; ?>
-                                        <a href="<?php echo htmlspecialchars($slide['cta_url'] ?: 'productos.php'); ?>" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.05em;">
-                                            <?php echo htmlspecialchars($slide['cta_text'] ?: 'Ver colección'); ?> →
-                                        </a>
+                                    <!-- Chips de Materiales / Identificación (Look Premium del Screenshot) -->
+                                    <div style="display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                        <?php 
+                                        $tags = ['ACERO', 'MADERA', 'ACRÍLICO', 'PVC', 'CUERO PU'];
+                                        if (stripos($slide['title'], 'termo') !== false) {
+                                            $tags = ['ACERO INOXIDABLE', 'DOBLE PARED', 'GRABADO LÁSER'];
+                                        } elseif (stripos($slide['title'], 'agenda') !== false || stripos($slide['title'], 'libreta') !== false) {
+                                            $tags = ['CUERO PU', 'TERMO GRABADO', 'BAJO RELIEVE'];
+                                        } elseif (stripos($slide['title'], 'kit') !== false) {
+                                            $tags = ['KITS PREMIUM', 'CURACIÓN B2B', 'EMPAQUE'];
+                                        }
+                                        foreach ($tags as $tag):
+                                        ?>
+                                            <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em; box-shadow: 0 1px 2px rgba(0,0,0,0.02);"><?php echo $tag; ?></span>
+                                        <?php endforeach; ?>
                                     </div>
+                                    
+                                    <!-- Cabecera y Copy Editorial -->
+                                    <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); font-weight: 500; margin-bottom: 0.75rem; line-height: 1.3;">
+                                        <?php echo htmlspecialchars($slide['title']); ?>
+                                    </h3>
+                                    <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; max-width: 380px; margin-bottom: 1.5rem;">
+                                        <?php echo htmlspecialchars($slide['subtitle'] ?: 'Personalización premium con calibración láser de alta definición para tu marca.'); ?>
+                                    </p>
+                                    
+                                    <?php if ($slide['cta_text']): ?>
+                                        <a href="<?php echo htmlspecialchars($slide['cta_url'] ?: 'productos.php'); ?>" style="font-size: 0.8rem; color: var(--primary); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid transparent; width: fit-content; transition: border-color 0.2s ease;">
+                                            <?php echo htmlspecialchars($slide['cta_text']); ?> →
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <!-- Slide de Resguardo si la BD está vacía -->
-                            <div class="hero-slide-item active" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end;">
-                                <div style="position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, var(--surface-light) 0%, var(--border) 100%);"></div>
-                                <div style="position: relative; z-index: 3; padding: 2rem; margin: 1.5rem; background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-sm); color: var(--dark);">
-                                    <h3 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 0.25rem;">Termos & Agendas Grabados</h3>
-                                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">Calibración fina láser sobre soportes metálicos y cuero.</p>
-                                    <a href="productos.php" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none;">Ver Catálogo →</a>
+                            <div class="hero-slide-item active" style="position: absolute; inset: 0; padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
+                                <div style="display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                    <span style="font-size: 0.68rem; background: var(--dark); color: white; padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em;">ACERO</span>
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em;">MADERA</span>
+                                    <span style="font-size: 0.68rem; background: white; color: var(--dark); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 4px; font-weight: 600; letter-spacing: 0.05em;">ACRÍLICO</span>
                                 </div>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); font-weight: 500; margin-bottom: 0.75rem;">Soportes Técnicos Premium</h3>
+                                <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; max-width: 380px;">Estudios de calibración láser y contraste sobre materiales nobles para asegurar legibilidad institucional.</p>
                             </div>
                         <?php endif; ?>
                     </div>
                     
-                    <!-- Indicadores discretos en la esquina superior derecha -->
+                    <!-- Indicadores discretos estilo line-bar en la parte inferior -->
                     <?php if (!empty($slides) && count($slides) > 1): ?>
-                        <div style="position: absolute; top: 1.5rem; right: 1.5rem; z-index: 10; display: flex; gap: 6px;">
+                        <div style="position: absolute; bottom: 2rem; right: 3rem; z-index: 10; display: flex; gap: 8px;">
                             <?php foreach ($slides as $idx => $slide): ?>
-                                <button class="hero-dot <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-to="<?php echo $idx; ?>" aria-label="Slide <?php echo $idx+1; ?>" style="width: 8px; height: 8px; border-radius: 50%; border: none; background: <?php echo $idx === 0 ? 'var(--primary)' : 'rgba(255,255,255,0.4)'; ?>; cursor: pointer; transition: background 0.3s ease; padding:0;"></button>
+                                <button class="hero-dot <?php echo $idx === 0 ? 'active' : ''; ?>" data-slide-to="<?php echo $idx; ?>" aria-label="Slide <?php echo $idx+1; ?>" style="width: 24px; height: 3px; border-radius: 2px; border: none; background: <?php echo $idx === 0 ? 'var(--primary)' : 'rgba(0,0,0,0.15)'; ?>; cursor: pointer; transition: background 0.3s ease; padding:0;"></button>
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>

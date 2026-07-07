@@ -552,10 +552,12 @@ document.addEventListener('DOMContentLoaded', () => {
             heroSlides.forEach((slide, sIdx) => {
                 if (sIdx === idx) {
                     slide.style.opacity = '1';
+                    slide.style.visibility = 'visible';
                     slide.style.zIndex = '5';
                     slide.classList.add('active');
                 } else {
                     slide.style.opacity = '0';
+                    slide.style.visibility = 'hidden';
                     slide.style.zIndex = '1';
                     slide.classList.remove('active');
                 }
@@ -566,7 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     dot.style.background = 'var(--primary)';
                     dot.classList.add('active');
                 } else {
-                    dot.style.background = 'rgba(255,255,255,0.4)';
+                    dot.style.background = 'rgba(0,0,0,0.15)';
                     dot.classList.remove('active');
                 }
             });
@@ -581,7 +583,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let timer = setInterval(nextSlide, slideInterval);
 
         heroDots.forEach((dot, idx) => {
-            dot.addEventListener('click', () => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
                 clearInterval(timer);
                 goToSlide(idx);
                 timer = setInterval(nextSlide, slideInterval);
