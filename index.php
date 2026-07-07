@@ -304,8 +304,12 @@ try {
                         
                         <!-- Slide 1: Termos -->
                         <div class="hero-slide-item active" data-slide-index="0" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 1; visibility: visible; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 5; padding: 4rem; background-color: #0f110e;">
-                            <div style="position: absolute; inset: 0; background-image: url('uploads/termo.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <!-- Imagen de producto con difuminado suave premium (máscara de opacidad) -->
+                            <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 55%; z-index: 1; -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); pointer-events: none;">
+                                <img src="uploads/termo.png" alt="Termo" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
+                            </div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.8) 40%, transparent 100%); z-index: 2; pointer-events: none;"></div>
+                            
                             <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Termos grabados en acero inoxidable</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Acabado láser limpio, sobrio y resistente al uso diario.</p>
@@ -315,8 +319,12 @@ try {
 
                         <!-- Slide 2: Agendas -->
                         <div class="hero-slide-item" data-slide-index="1" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem; background-color: #0f110e;">
-                            <div style="position: absolute; inset: 0; background-image: url('uploads/agenda.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <!-- Imagen de producto con difuminado suave premium (máscara de opacidad) -->
+                            <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 55%; z-index: 1; -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); pointer-events: none;">
+                                <img src="uploads/agenda.png" alt="Agenda" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
+                            </div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.8) 40%, transparent 100%); z-index: 2; pointer-events: none;"></div>
+                            
                             <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Agendas corporativas personalizadas</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Detalles elegantes para clientes, equipos y eventos.</p>
@@ -326,8 +334,12 @@ try {
 
                         <!-- Slide 3: Kits -->
                         <div class="hero-slide-item" data-slide-index="2" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem; background-color: #0f110e;">
-                            <div style="position: absolute; inset: 0; background-image: url('uploads/kit.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <!-- Imagen de producto con difuminado suave premium (máscara de opacidad) -->
+                            <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 55%; z-index: 1; -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); pointer-events: none;">
+                                <img src="uploads/kit.png" alt="Kit" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
+                            </div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.8) 40%, transparent 100%); z-index: 2; pointer-events: none;"></div>
+                            
                             <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Kits corporativos listos para entregar</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Termos, agendas y cajas personalizadas para empresas y eventos.</p>
@@ -337,8 +349,12 @@ try {
 
                         <!-- Slide 4: Carnets -->
                         <div class="hero-slide-item" data-slide-index="3" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem; background-color: #0f110e;">
-                            <div style="position: absolute; inset: 0; background-image: url('uploads/carnets.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <!-- Imagen de producto con difuminado suave premium (máscara de opacidad) -->
+                            <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 55%; z-index: 1; -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); pointer-events: none;">
+                                <img src="uploads/carnets.png" alt="Carnets" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
+                            </div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.8) 40%, transparent 100%); z-index: 2; pointer-events: none;"></div>
+                            
                             <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Carnets y credenciales profesionales</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Identificación corporativa con diseño limpio y presentación cuidada.</p>
@@ -348,8 +364,12 @@ try {
 
                         <!-- Slide 5: Placas -->
                         <div class="hero-slide-item" data-slide-index="4" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: 1; padding: 4rem; background-color: #0f110e;">
-                            <div style="position: absolute; inset: 0; background-image: url('uploads/placa.png'); background-size: contain; background-position: right center; background-repeat: no-repeat; z-index: 1;"></div>
-                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.95) 40%, rgba(15, 17, 14, 0) 75%); z-index: 2;"></div>
+                            <!-- Imagen de producto con difuminado suave premium (máscara de opacidad) -->
+                            <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 55%; z-index: 1; -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); pointer-events: none;">
+                                <img src="uploads/placa.png" alt="Placa" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
+                            </div>
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.8) 40%, transparent 100%); z-index: 2; pointer-events: none;"></div>
+                            
                             <div style="position: relative; z-index: 3; max-width: 480px; color: white;">
                                 <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: white; font-weight: 500; margin-bottom: 1rem; line-height: 1.2;">Placas y reconocimientos personalizados</h2>
                                 <p style="font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin-bottom: 2.2rem;">Piezas con acabado elegante para eventos, empresas e instituciones.</p>
@@ -374,16 +394,20 @@ try {
                 @media (max-width: 768px) {
                     .hero-slide-item {
                         padding: 2.5rem 2rem !important;
-                        background: #0f110e !important;
                     }
-                    .hero-slide-item div[style*="background-image"] {
-                        background-position: center bottom !important;
-                        background-size: 55% auto !important;
+                    .hero-slide-item > div[style*="width: 55%"] {
+                        width: 100% !important;
+                        height: 50% !important;
                         top: auto !important;
-                        height: 45% !important;
+                        bottom: 0 !important;
+                        -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%) !important;
+                        mask-image: linear-gradient(to top, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%) !important;
+                    }
+                    .hero-slide-item img {
+                        object-position: center bottom !important;
                     }
                     .hero-slide-item div[style*="background: linear-gradient"] {
-                        background: linear-gradient(to bottom, #0f110e 0%, rgba(15, 17, 14, 0.95) 55%, rgba(15, 17, 14, 0) 100%) !important;
+                        background: linear-gradient(to bottom, #0f110e 0%, rgba(15, 17, 14, 0.95) 50%, transparent 100%) !important;
                     }
                     .hero-slide-item div[style*="position: relative"] {
                         max-width: 100% !important;
