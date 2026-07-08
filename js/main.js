@@ -540,3 +540,62 @@ document.addEventListener('DOMContentLoaded', () => {
         waFloat.setAttribute('title', '¿Tienes dudas? Escríbenos por WhatsApp');
     }
 });
+
+    // 13. Galería de transición automática en Hover y Touch
+    const initHoverGalleries = () => {
+        const cards = document.querySelectorAll('.product-card');
+        
+        cards.forEach(card => {
+            const img = card.querySelector('.product-card-image-wrap img');
+            if (!img) return;
+            
+            const galleryData = card.getAttribute('data-gallery');
+            if (!galleryData) return;
+            
+            let gallery = [];
+            try {
+                gallery = JSON.parse(galleryData);
+            } catch(e) {
+                return;
+            }
+            
+            if (gallery.length <= 1) return;
+            
+            let intervalId = null;
+            let currentIndex = 0;
+            const originalSrc = img.getAttribute('src');
+            
+            const startCycling = () => {
+                if (intervalId) return;
+                intervalId = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % gallery.length;
+                    img.src = gallery[currentIndex];
+                }, 1300); // Transición suave cada 1.3 segundos
+            };
+            
+            const stopCycling = () => {
+                if (intervalId) {
+                    clearInterval(intervalId);
+                    intervalId = null;
+                }
+                currentIndex = 0;
+                img.src = originalSrc;
+            };
+            
+            // Eventos en Escritorio (Mouse)
+            card.addEventListener('mouseenter', startCycling);
+            card.addEventListener('mouseleave', stopCycling);
+            
+            // Eventos en Móviles (Táctil)
+            card.addEventListener('touchstart', () => {
+                startCycling();
+            }, { passive: true });
+            
+            card.addEventListener('touchend', () => {
+                // En móviles, detener después de 2 segundos para dar tiempo a ver la transición
+                setTimeout(stopCycling, 2000);
+            }, { passive: true });
+        });
+    };
+    
+    initHoverGalleries();

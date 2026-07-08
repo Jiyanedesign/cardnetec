@@ -234,19 +234,34 @@ try {
                     <?php 
                     $enriched = enrichProduct($prod);
                     ?>
+                    <?php 
+                    // Obtener la galería de imágenes del producto
+                    $prod_gallery = json_decode($prod['gallery_images'], true) ?: [];
+                    if ($prod['image_main']) {
+                        array_unshift($prod_gallery, $prod['image_main']);
+                    }
+                    $prod_gallery = array_unique($prod_gallery);
+                    // Convertir a rutas relativas
+                    $prod_gallery_paths = array_map(function($img) {
+                        return 'uploads/' . $img;
+                    }, $prod_gallery);
+                    $prod_gallery_json = json_encode(array_values($prod_gallery_paths));
+                    ?>
                     <div class="product-card catalog-product-item reveal-on-scroll" 
                          data-name="<?php echo htmlspecialchars($enriched['name']); ?>" 
                          data-category="<?php echo htmlspecialchars($enriched['category']); ?>" 
                          data-material="<?php echo htmlspecialchars($enriched['material']); ?>" 
                          data-technique="<?php echo htmlspecialchars($enriched['technique']); ?>" 
                          data-use="<?php echo htmlspecialchars($enriched['use']); ?>"
-                         style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; padding: 0;">
-                        <div class="product-card-image-wrap" style="position: relative;">
-                            <div class="image-placeholder theme-gray" style="border-radius: 0; aspect-ratio: 1.15;">
+                         data-gallery='<?php echo htmlspecialchars($prod_gallery_json, ENT_QUOTES, 'UTF-8'); ?>'
+                         style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; padding: 0; transition: transform 0.25s ease, border-color 0.25s ease;">
+                        
+                        <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
+                            <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
                                 <?php if ($prod['image_main']): ?>
-                                    <img src="uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width:100%; height:100%; object-fit:cover;" loading="lazy" alt="<?php echo htmlspecialchars($prod['name']); ?>">
+                                    <img src="uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width:100%; height:100%; object-fit:cover; transition: transform 0.4s ease;" loading="lazy" alt="<?php echo htmlspecialchars($prod['name']); ?>">
                                 <?php else: ?>
-                                    <div class="image-placeholder-inner" style="background: var(--surface-light);">
+                                    <div class="image-placeholder-inner" style="background: var(--surface-light); height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
                                         <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity: 0.3;">
                                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                                         </svg>
@@ -254,51 +269,42 @@ try {
                                     </div>
                                 <?php endif; ?>
                             </div>
-                        </div>
-                        <div class="product-card-body" style="padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1;">
-                            <span class="product-card-price" style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); font-weight: 600; display: block; margin-bottom: 4px;"><?php echo htmlspecialchars($enriched['category']); ?></span>
-                            <h3 class="product-card-title" style="margin-bottom: 0.5rem; font-size: 1.15rem; font-family: var(--font-heading); color: var(--dark); font-weight: 500; line-height: 1.2;"><?php echo htmlspecialchars($enriched['name']); ?></h3>
-                            
-                            <!-- Badges de especificaciones técnicas premium -->
-                            <div class="product-specs-badges" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.85rem; margin-top: 0.25rem;">
-                                <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.02);"><?php echo htmlspecialchars($enriched['material']); ?></span>
-                                <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1);"><?php echo htmlspecialchars($enriched['technique']); ?></span>
+                            <div class="product-card-body" style="padding: 1.25rem; display: flex; flex-direction: column;">
+                                <span class="product-card-price" style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); font-weight: 600; display: block; margin-bottom: 4px;"><?php echo htmlspecialchars($enriched['category']); ?></span>
+                                <h3 class="product-card-title" style="margin-bottom: 0.5rem; font-size: 1.15rem; font-family: var(--font-heading); color: var(--dark); font-weight: 500; line-height: 1.2;"><?php echo htmlspecialchars($enriched['name']); ?></h3>
+                                
+                                <div class="product-specs-badges" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.85rem; margin-top: 0.25rem;">
+                                    <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.02);"><?php echo htmlspecialchars($enriched['material']); ?></span>
+                                    <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1);"><?php echo htmlspecialchars($enriched['technique']); ?></span>
+                                </div>
+                                <p class="product-card-desc" style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
                             </div>
-
-                            <p class="product-card-desc" style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
-                            
-                            <div style="display: flex; gap: 8px; margin-top: auto;">
-                                <?php
+                        </a>
+                        
+                        <div style="display: flex; gap: 8px; margin-top: auto; padding: 0 1.25rem 1.25rem 1.25rem;">
+                            <?php
+                            $btn_text = 'Cotizar este producto';
+                            if (stripos($prod['slug'], 'termo') !== false) {
                                 $btn_text = 'Cotizar este producto';
-                                if (stripos($prod['slug'], 'termo') !== false) {
-                                    $btn_text = 'Cotizar este producto';
-                                } elseif (stripos($prod['slug'], 'agenda') !== false) {
-                                    $btn_text = 'Quiero algo similar';
-                                } elseif (stripos($prod['slug'], 'carnet') !== false || stripos($prod['slug'], 'credencial') !== false) {
-                                    $btn_text = 'Explorar opciones';
-                                } elseif (stripos($prod['slug'], 'kit') !== false) {
-                                    $btn_text = 'Armar un kit';
-                                }
-                                ?>
-                                <button class="btn btn-primary btn-add-to-quote" 
-                                        data-slug="<?php echo htmlspecialchars($prod['slug']); ?>" 
-                                        data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
-                                        data-price="<?php echo (float)$prod['price']; ?>"
-                                        style="flex-grow: 1; padding: 8px 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; border: none; cursor: pointer;">
-                                    <?php echo $btn_text; ?>
-                                </button>
-                                <button class="btn btn-secondary btn-view-details" 
-                                        data-slug="<?php echo htmlspecialchars($prod['slug']); ?>"
-                                        data-name="<?php echo htmlspecialchars($prod['name']); ?>"
-                                        data-category="<?php echo htmlspecialchars($enriched['category']); ?>"
-                                        data-material="<?php echo htmlspecialchars($enriched['material']); ?>"
-                                        data-technique="<?php echo htmlspecialchars($enriched['technique']); ?>"
-                                        data-use="<?php echo htmlspecialchars($enriched['use']); ?>"
-                                        data-desc="<?php echo htmlspecialchars($enriched['details']); ?>"
-                                        style="padding: 8px 12px; font-size: 0.78rem; font-weight: 500; border: 1px solid var(--border); cursor: pointer; background: white;">
-                                    Ver detalles
-                                </button>
-                            </div>
+                            } elseif (stripos($prod['slug'], 'agenda') !== false) {
+                                $btn_text = 'Quiero algo similar';
+                            } elseif (stripos($prod['slug'], 'carnet') !== false || stripos($prod['slug'], 'credencial') !== false) {
+                                $btn_text = 'Explorar opciones';
+                            } elseif (stripos($prod['slug'], 'kit') !== false) {
+                                $btn_text = 'Armar un kit';
+                            }
+                            ?>
+                            <button class="btn btn-primary btn-add-to-quote" 
+                                    data-slug="<?php echo htmlspecialchars($prod['slug']); ?>" 
+                                    data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
+                                    data-price="<?php echo (float)$prod['price']; ?>"
+                                    style="flex-grow: 1; padding: 8px 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; border: none; cursor: pointer;">
+                                <?php echo $btn_text; ?>
+                            </button>
+                            <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn btn-secondary" 
+                                    style="padding: 8px 12px; font-size: 0.78rem; font-weight: 500; border: 1px solid var(--border); text-decoration: none; text-align: center; color: var(--dark); cursor: pointer; background: white;">
+                                Ver detalles
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>
