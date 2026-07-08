@@ -132,9 +132,9 @@ try {
     $pdo->exec("UPDATE clientes SET name = 'AERO' WHERE id = 5 AND logo_path = 'uploads/cliente5.png';");
 
     // 7. AUTO-MIGRACIÓN: Seeding de productos oficiales de CardNet
-    $stmtCheckTermo = $pdo->prepare("SELECT id FROM productos WHERE slug = 'termos-grabados'");
-    $stmtCheckTermo->execute();
-    if (!$stmtCheckTermo->fetch()) {
+    $stmtCount = $pdo->query("SELECT COUNT(*) FROM productos");
+    $count = $stmtCount->fetchColumn();
+    if ($count != 8) {
         // Limpiar tablas para evitar duplicados o demos como Taza
         $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
         $pdo->exec("DELETE FROM productos;");
