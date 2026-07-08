@@ -17,6 +17,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // Recalcular precios de volumen en el backend
+    foreach ($cart as $index => &$item) {
+        try {
+            $stmtP = $pdo->prepare("SELECT price, volume_prices FROM productos WHERE slug = ?");
+            $stmtP->execute([$item['slug']]);
+            $prodInfo = $stmtP->fetch();
+            if ($prodInfo) {
+                $base_price = (float)$prodInfo['price'];
+                $volume_rules = json_decode($prodInfo['volume_prices'], true) ?: [];
+                
+                $applicable_price = $base_price;
+                foreach ($volume_rules as $rule) {
+                    if ($item['qty'] >= $rule['qty']) {
+                        $applicable_price = (float)$rule['price'];
+                    }
+                }
+                $item['price'] = $applicable_price;
+                $item['subtotal'] = $item['qty'] * $applicable_price;
+            }
+        } catch (PDOException $e) {}
+    }
+    unset($item);
+
     // Crear carpeta uploads si no existe
     $upload_dir = 'uploads/';
     if (!is_dir($upload_dir)) {

@@ -22,6 +22,20 @@ if (!$product) {
     exit;
 }
 
+// Cargar materiales seleccionados
+$selected_materials = [];
+if (!empty($product['materials_json'])) {
+    $mat_ids = json_decode($product['materials_json'], true) ?: [];
+    if (!empty($mat_ids)) {
+        $in_clause = implode(',', array_map('intval', $mat_ids));
+        try {
+            $selected_materials = $pdo->query("SELECT * FROM materiales WHERE id IN ($in_clause) AND is_active = 1")->fetchAll();
+        } catch (PDOException $e) {
+            $selected_materials = [];
+        }
+    }
+}
+
 // Cargar galería de imágenes
 $gallery = json_decode($product['gallery_images'], true) ?: [];
 // Añadir imagen principal al inicio de la galería si existe
@@ -620,6 +634,36 @@ $gallery = array_unique($gallery);
                             <span class="subtotal-label">Subtotal Estimado</span>
                             <span class="subtotal-value" id="subtotal-val">$50.00</span>
                         </div>
+
+                        <?php 
+                        $vp_rules = json_decode($product['volume_prices'], true) ?: [];
+                        if (!empty($vp_rules)): 
+                        ?>
+                            <div class="volume-discount-box" style="margin-top: 1.25rem; border-top: 1px solid var(--border); padding-top: 1rem; width: 100%;">
+                                <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--dark);">Descuentos por volumen:</h4>
+                                <table style="width: 100%; font-size: 0.78rem; border-collapse: collapse; margin-bottom: 10px;">
+                                    <thead>
+                                        <tr style="background: var(--surface-light);">
+                                            <th style="padding: 4px; border: 1px solid var(--border); text-align: center;">Cantidad</th>
+                                            <th style="padding: 4px; border: 1px solid var(--border); text-align: center;">Precio unitario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid var(--border);">
+                                            <td style="padding: 4px; border: 1px solid var(--border); text-align: center;">Base</td>
+                                            <td style="padding: 4px; border: 1px solid var(--border); text-align: center;">$<?php echo number_format($product['price'], 2); ?></td>
+                                        </tr>
+                                        <?php foreach ($vp_rules as $rule): ?>
+                                            <tr style="border-bottom: 1px solid var(--border);">
+                                                <td style="padding: 4px; border: 1px solid var(--border); text-align: center;"><?php echo $rule['qty']; ?>+ uds</td>
+                                                <td style="padding: 4px; border: 1px solid var(--border); text-align: center; color: var(--primary); font-weight: 600;">$<?php echo number_format($rule['price'], 2); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <div id="savings-alert" style="display: none; margin-top: 8px; background: rgba(99, 174, 44, 0.08); border: 1px solid rgba(99, 174, 44, 0.2); padding: 6px 10px; border-radius: 4px; font-size: 0.72rem; color: var(--primary-hover); font-weight: 600; text-align: center;"></div>
+                            </div>
+                        <?php endif; ?>
                         
                         <p style="font-size:0.75rem; color:var(--text-muted); margin: 10px 0 20px 0; text-align:center;">
                             Nuestros valores incluyen la personalización de un logo.
@@ -648,9 +692,21 @@ $gallery = array_unique($gallery);
                             </tr>
                         </table>
                         <?php if ($product['description_long']): ?>
-                            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; white-space: pre-line;">
+                            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; white-space: pre-line; margin-bottom: 1.5rem;">
                                 <?php echo htmlspecialchars($product['description_long']); ?>
                             </p>
+                        <?php endif; ?>
+
+                        <?php if (!empty($selected_materials)): ?>
+                            <h4 style="font-family: var(--font-heading); font-size: 0.95rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: var(--dark); font-weight: 500;">Materiales y acabados recomendados:</h4>
+                            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem;">
+                                <?php foreach ($selected_materials as $mat): ?>
+                                    <div style="background: var(--surface-light); border: 1px solid var(--border); padding: 10px 14px; border-radius: var(--radius-sm);">
+                                        <strong style="font-size: 0.85rem; color: var(--dark); font-weight: 600;"><?php echo htmlspecialchars($mat['name']); ?></strong>
+                                        <p style="font-size: 0.78rem; color: var(--text-muted); margin: 4px 0 0 0; line-height: 1.4;"><?php echo htmlspecialchars($mat['description']); ?></p>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
                         <?php endif; ?>
                     </div>
 
@@ -697,14 +753,48 @@ $gallery = array_unique($gallery);
 
     <!-- Script de Simulación de Canvas, Transiciones y Carrito -->
     <script>
-        const unitPrice = <?php echo (float)$product['price']; ?>;
+        const basePrice = <?php echo (float)$product['price']; ?>;
+        const volumeRules = <?php echo json_encode(json_decode($product['volume_prices'], true) ?: []); ?>;
         const qtyInput = document.getElementById('qty-input');
         const subtotalVal = document.getElementById('subtotal-val');
 
+        function getActiveUnitPrice(qty) {
+            let activePrice = basePrice;
+            for (let i = 0; i < volumeRules.length; i++) {
+                if (qty >= volumeRules[i].qty) {
+                    activePrice = volumeRules[i].price;
+                }
+            }
+            return activePrice;
+        }
+
         function updateSubtotal() {
             const qty = parseInt(qtyInput.value) || 20;
-            const subtotal = qty * unitPrice;
+            const activePrice = getActiveUnitPrice(qty);
+            
+            // Actualizar visualizador de precio unitario
+            const unitPriceElem = document.getElementById('unit-price');
+            if (unitPriceElem) {
+                unitPriceElem.textContent = '$' + activePrice.toFixed(2);
+            }
+            
+            // Calcular subtotal
+            const subtotal = qty * activePrice;
             subtotalVal.textContent = '$' + subtotal.toFixed(2);
+            
+            // Calcular ahorro/beneficio
+            const savingsAlert = document.getElementById('savings-alert');
+            if (savingsAlert) {
+                if (activePrice < basePrice) {
+                    const baseCost = qty * basePrice;
+                    const savings = baseCost - subtotal;
+                    const percent = ((basePrice - activePrice) / basePrice * 100).toFixed(0);
+                    savingsAlert.innerHTML = `¡Ahorras $${savings.toFixed(2)} (${percent}% de descuento por cantidad)!`;
+                    savingsAlert.style.display = 'block';
+                } else {
+                    savingsAlert.style.display = 'none';
+                }
+            }
         }
 
         document.getElementById('qty-plus').addEventListener('click', () => {
@@ -797,7 +887,7 @@ $gallery = array_unique($gallery);
                 formData.append('name', '<?php echo addslashes($product['name']); ?>');
                 formData.append('slug', '<?php echo addslashes($product['slug']); ?>');
                 formData.append('qty', qty);
-                formData.append('price', unitPrice);
+                formData.append('price', getActiveUnitPrice(parseInt(qtyInput.value) || 20));
                 formData.append('snapshot', snapshot);
 
                 fetch('cart-action.php', {

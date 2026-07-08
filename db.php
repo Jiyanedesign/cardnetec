@@ -131,6 +131,38 @@ try {
     $pdo->exec("UPDATE clientes SET name = 'KRONA' WHERE id = 4 AND logo_path = 'uploads/cliente4.png';");
     $pdo->exec("UPDATE clientes SET name = 'AERO' WHERE id = 5 AND logo_path = 'uploads/cliente5.png';");
 
+        // 6.5. AUTO-MIGRACIÓN: Campos de Pedido Mínimo, Precios por Volumen y Materiales
+    $config_columns = $pdo->query("DESCRIBE configuraciones")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('min_order', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN min_order int(11) DEFAULT 1;");
+    }
+
+    $prod_columns_migration = $pdo->query("DESCRIBE productos")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('volume_prices', $prod_columns_migration)) {
+        $pdo->exec("ALTER TABLE productos ADD COLUMN volume_prices text DEFAULT NULL;");
+    }
+    if (!in_array('materials_json', $prod_columns_migration)) {
+        $pdo->exec("ALTER TABLE productos ADD COLUMN materials_json text DEFAULT NULL;");
+    }
+
+    // Tabla de materiales por si se borra
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `materiales` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `name` varchar(100) NOT NULL,
+      `description` varchar(255) DEFAULT NULL,
+      `is_active` tinyint(1) DEFAULT 1,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    $mat_count = $pdo->query("SELECT COUNT(*) FROM materiales")->fetchColumn();
+    if ($mat_count == 0) {
+        $pdo->exec("INSERT INTO `materiales` (`name`, `description`) VALUES
+            ('Acero inoxidable', 'Ideal para termos, botellas y piezas metálicas de uso diario.'),
+            ('Madera noble', 'Acabado cálido para reconocimientos, cajas y regalos corporativos.'),
+            ('Acrílico premium', 'Limpio, moderno y versátil para placas, señalética y detalles.'),
+            ('Cuero / PU termosensible', 'Ideal para grabados en agendas, libretas y carpetas ejecutivas.');");
+    }
+
     // 7. AUTO-MIGRACIÓN: Seeding de productos oficiales de CardNet
     $stmtCount = $pdo->query("SELECT COUNT(*) FROM productos");
     $count = $stmtCount->fetchColumn();

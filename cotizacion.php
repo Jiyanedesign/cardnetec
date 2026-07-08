@@ -53,10 +53,34 @@ if (isset($_GET['producto'])) {
 }
 
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+
+// Recalcular precios de carrito basados en volumen dinámicamente
 $grand_total = 0;
-foreach ($cart as $item) {
+$total_qty = 0;
+foreach ($cart as $index => &$item) {
+    try {
+        $stmtP = $pdo->prepare("SELECT price, volume_prices FROM productos WHERE slug = ?");
+        $stmtP->execute([$item['slug']]);
+        $prodInfo = $stmtP->fetch();
+        if ($prodInfo) {
+            $base_price = (float)$prodInfo['price'];
+            $volume_rules = json_decode($prodInfo['volume_prices'], true) ?: [];
+            
+            $applicable_price = $base_price;
+            foreach ($volume_rules as $rule) {
+                if ($item['qty'] >= $rule['qty']) {
+                    $applicable_price = (float)$rule['price'];
+                }
+            }
+            $item['price'] = $applicable_price;
+            $item['subtotal'] = $item['qty'] * $applicable_price;
+        }
+    } catch (PDOException $e) {}
     $grand_total += $item['subtotal'];
+    $total_qty += $item['qty'];
 }
+unset($item);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -262,7 +286,7 @@ foreach ($cart as $item) {
                                 <textarea class="form-textarea" id="quote-notes" placeholder="Indica instrucciones adicionales, colores de grabado específicos o fecha requerida de entrega..."></textarea>
                             </div>
 
-                            <button class="btn btn-primary" type="submit" style="width: 100%; margin-top: 0.5rem; padding: 14px;">
+                            <button class="btn btn-primary" type="submit" style="width: 100%; margin-top: 0.5rem; padding: 14px;" <?php echo ($settings['min_order'] > 0 && $total_qty < $settings['min_order']) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
                                 Enviar Solicitud de Presupuesto
                             </button>
                         </form>

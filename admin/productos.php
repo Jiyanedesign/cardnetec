@@ -38,6 +38,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $allows_simulation = isset($_POST['allows_simulation']) ? 1 : 0;
     $cta_text = trim($_POST['cta_text']);
     
+    // Procesar Precios por Volumen
+    $v_qty = isset($_POST['v_qty']) ? $_POST['v_qty'] : [];
+    $v_price = isset($_POST['v_price']) ? $_POST['v_price'] : [];
+    $v_arr = [];
+    for ($i = 0; $i < count($v_qty); $i++) {
+        $q = (int)$v_qty[$i];
+        $p = (float)$v_price[$i];
+        if ($q > 0 && $p > 0) {
+            $v_arr[] = ['qty' => $q, 'price' => $p];
+        }
+    }
+    usort($v_arr, function($a, $b) { return $a['qty'] - $b['qty']; });
+    $volume_prices = json_encode($v_arr);
+
+    // Procesar Materiales
+    $materials = isset($_POST['materials']) ? $_POST['materials'] : [];
+    $materials_json = json_encode($materials);
+    
     // Obtener nombre de la categoría para compatibilidad
     $stmtCat = $pdo->prepare("SELECT name FROM categorias WHERE id = ?");
     $stmtCat->execute([$category_id]);
@@ -99,8 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id > 0) {
             // Edición
             try {
-                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ? WHERE id = ?");
-                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $id]);
+                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ?, volume_prices = ?, materials_json = ? WHERE id = ?");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $id]);
                 $message = 'Producto actualizado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al actualizar base de datos: ' . $e->getMessage();
@@ -108,8 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Creación
             try {
-                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text]);
+                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text, volume_prices, materials_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json]);
                 $message = 'Producto creado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al crear producto: ' . $e->getMessage();
@@ -120,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Cargar todas las categorías activas
 $categorias = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY order_val ASC")->fetchAll();
+$materiales_list = $pdo->query("SELECT * FROM materiales WHERE is_active = 1 ORDER BY id ASC")->fetchAll();
 
 // Cargar todos los productos
 $products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY p.id DESC")->fetchAll();
@@ -245,6 +264,7 @@ if (isset($_GET['edit'])) {
             <a href="index.php" class="nav-admin-link">Dashboard</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="productos.php" class="nav-admin-link active">Productos</a>
+            <a href="materiales.php" class="nav-admin-link">Materiales</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
             <a href="antes-despues.php" class="nav-admin-link">Antes y Después</a>
             <a href="clientes.php" class="nav-admin-link">Logos Clientes</a>
@@ -271,6 +291,8 @@ if (isset($_GET['edit'])) {
 
             <form method="POST" action="productos.php" enctype="multipart/form-data">
                 <?php if ($edit_product): ?>
+                    <input type="hidden" name="volume_prices_existing" value="<?php echo htmlspecialchars($edit_product['volume_prices'] ?: '[]'); ?>">
+                    <input type="hidden" name="materials_json_existing" value="<?php echo htmlspecialchars($edit_product['materials_json'] ?: '[]'); ?>">
                     <input type="hidden" name="id" value="<?php echo $edit_product['id']; ?>">
                     <input type="hidden" name="existing_image" value="<?php echo $edit_product['image_main']; ?>">
                     <input type="hidden" name="existing_gallery" value="<?php echo htmlspecialchars($edit_product['gallery_images'] ?: '[]'); ?>">
@@ -353,6 +375,48 @@ if (isset($_GET['edit'])) {
                     <?php endif; ?>
                 </div>
 
+                <!-- Precios por volumen -->
+                <div class="form-group" style="margin-top: 1.5rem; border: 1px solid var(--border); padding: 1.5rem; border-radius: var(--radius-md);">
+                    <h3 style="font-family: var(--font-heading); font-size: 1rem; margin-bottom: 1rem;">Precios por Volumen (Descuentos por Cantidad)</h3>
+                    <div id="volume-pricing-container">
+                        <?php 
+                        $vp = [];
+                        if ($edit_product && !empty($edit_product['volume_prices'])) {
+                            $vp = json_decode($edit_product['volume_prices'], true) ?: [];
+                        }
+                        for ($i = 0; $i < 3; $i++): 
+                            $q_val = isset($vp[$i]['qty']) ? $vp[$i]['qty'] : '';
+                            $p_val = isset($vp[$i]['price']) ? $vp[$i]['price'] : '';
+                        ?>
+                            <div style="display: flex; gap: 15px; margin-bottom: 10px; align-items: center;">
+                                <span>Rango <?php echo $i+1; ?>:</span>
+                                <input class="form-input" style="max-width: 120px;" type="number" name="v_qty[]" placeholder="Desde cant." value="<?php echo $q_val; ?>">
+                                <span>unidades -> Precio unitario: $</span>
+                                <input class="form-input" style="max-width: 120px;" type="number" step="0.01" name="v_price[]" placeholder="Precio ($)" value="<?php echo $p_val; ?>">
+                            </div>
+                        <?php endfor; ?>
+                    </div>
+                </div>
+
+                <!-- Selector de Materiales -->
+                <div class="form-group" style="margin-top: 1.5rem; border: 1px solid var(--border); padding: 1.5rem; border-radius: var(--radius-md);">
+                    <h3 style="font-family: var(--font-heading); font-size: 1rem; margin-bottom: 1rem;">Materiales y Acabados disponibles</h3>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <?php 
+                        $selected_mats = [];
+                        if ($edit_product && !empty($edit_product['materials_json'])) {
+                            $selected_mats = json_decode($edit_product['materials_json'], true) ?: [];
+                        }
+                        foreach ($materiales_list as $mat): 
+                        ?>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                                <input type="checkbox" name="materials[]" value="<?php echo $mat['id']; ?>" <?php echo in_array($mat['id'], $selected_mats) ? 'checked' : ''; ?>>
+                                <?php echo htmlspecialchars($mat['name']); ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
                 <div class="form-group" style="margin-top: 1.5rem; display: flex; gap: 20px;">
                     <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
                         <input type="checkbox" name="is_active" <?php echo (!$edit_product || $edit_product['is_active']) ? 'checked' : ''; ?>> Producto Activo
@@ -368,6 +432,8 @@ if (isset($_GET['edit'])) {
                 <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
                     <button class="btn btn-primary" type="submit">Guardar Producto</button>
                     <?php if ($edit_product): ?>
+                    <input type="hidden" name="volume_prices_existing" value="<?php echo htmlspecialchars($edit_product['volume_prices'] ?: '[]'); ?>">
+                    <input type="hidden" name="materials_json_existing" value="<?php echo htmlspecialchars($edit_product['materials_json'] ?: '[]'); ?>">
                         <a href="productos.php" class="btn btn-secondary">Cancelar Edición</a>
                     <?php endif; ?>
                 </div>

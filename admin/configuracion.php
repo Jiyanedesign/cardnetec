@@ -19,10 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $facebook = trim($_POST['facebook']);
     $site_title = trim($_POST['site_title']);
     $site_description = trim($_POST['site_description']);
+    $min_order = (int)$_POST['min_order'];
 
     try {
-        $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, email = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ? WHERE id = 1");
-        $stmt->execute([$whatsapp, $email, $address, $instagram, $facebook, $site_title, $site_description]);
+        $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, email = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ? WHERE id = 1");
+        $stmt->execute([$whatsapp, $email, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
         $message = 'Configuración guardada correctamente.';
     } catch (PDOException $e) {
         $error = 'Error al guardar la configuración: ' . $e->getMessage();
@@ -109,6 +110,7 @@ $settings = getSiteSettings($pdo);
             <a href="index.php" class="nav-admin-link">Dashboard</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="productos.php" class="nav-admin-link">Productos</a>
+            <a href="materiales.php" class="nav-admin-link">Materiales</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
             <a href="antes-despues.php" class="nav-admin-link">Antes y Después</a>
             <a href="clientes.php" class="nav-admin-link">Logos Clientes</a>
@@ -132,9 +134,13 @@ $settings = getSiteSettings($pdo);
             <form method="POST" action="configuracion.php">
                 <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">Datos de Contacto Comercial</h2>
                 
-                <div class="grid-2">
+                <div class="grid-3">
                     <div class="form-group">
-                        <label class="form-label" for="whatsapp">WhatsApp Comercial (ej: 593900000000) *</label>
+                        <label class="form-label" for="min_order">Pedido Mínimo Global (0 = Sin mínimo)</label>
+                        <input class="form-input" type="number" name="min_order" id="min_order" min="0" value="<?php echo htmlspecialchars($settings['min_order'] ?? '1'); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="whatsapp">WhatsApp (ej: 593900000000) *</label>
                         <input class="form-input" type="text" name="whatsapp" id="whatsapp" required value="<?php echo htmlspecialchars($settings['whatsapp']); ?>">
                     </div>
                     <div class="form-group">
