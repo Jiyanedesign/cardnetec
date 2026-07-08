@@ -127,82 +127,82 @@
                 <h2>Soluciones de taller listas para tus campañas</h2>
             </div>
 
-            <div class="grid-2">
+            <div class="grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 2rem;">
                 
                 <!-- Kits de Bienvenida -->
-                <div class="solution-card">
-                    <div class="solution-card-header">
-                        <div class="solution-icon-wrap">
-                            <svg class="solution-icon" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"/></svg>
-                        </div>
-                        <h3 class="solution-title">Kits de Bienvenida (Welcome Kits)</h3>
-                        <p class="product-card-desc">Diseñamos y empaquetamos cajas de cartón kraft personalizadas con tu logotipo para el primer día de tus nuevos colaboradores (Onboarding).</p>
+                <div class="solution-card" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div style="width: 100%; aspect-ratio: 16/10; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                        <img src="uploads/kit.png" alt="Welcome Kits" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
                     </div>
-                    <div class="solution-card-body">
-                        <div class="solution-bullets" style="margin-bottom: 1.25rem;">
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Incluye libreta, bolígrafo, termo y prenda textil.</span></div>
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Cajas rígidas personalizadas con el isotipo de la empresa.</span></div>
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Envíos individuales directos a oficinas o domicilios.</span></div>
+                    <div style="padding: 2rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 500; color: var(--dark); margin-bottom: 0.75rem;">Kits de Bienvenida (Welcome Kits)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1;">
+                            Diseñamos y empaquetamos cajas de cartón kraft personalizadas con tu logotipo para el primer día de tus nuevos colaboradores (Onboarding).
+                        </p>
+                        <div class="solution-bullets" style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Incluye libreta, bolígrafo, termo y prenda textil.</span></div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Cajas rígidas personalizadas con el isotipo de la empresa.</span></div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Envíos individuales directos a oficinas o domicilios.</span></div>
                         </div>
+                        <a href="cotizacion.php?servicio=onboarding" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: auto; padding: 12px 0;">Cotizar Kits</a>
                     </div>
-                    <a href="cotizacion.php?servicio=onboarding" class="btn btn-secondary" style="width: 100%;">Cotizar Kits</a>
                 </div>
 
                 <!-- Merchandising Ferias -->
-                <div class="solution-card">
-                    <div class="solution-card-header">
-                        <div class="solution-icon-wrap">
-                            <svg class="solution-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        </div>
-                        <h3 class="solution-title">Merchandising para Ferias y Eventos</h3>
-                        <p class="product-card-desc">Material publicitario masivo y selectivo de alta rotación para stands en ferias comerciales y congresos corporativos en Ecuador.</p>
+                <div class="solution-card" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div style="width: 100%; aspect-ratio: 16/10; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                        <img src="uploads/llavero.png" alt="Merchandising Ferias" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
                     </div>
-                    <div class="solution-card-body">
-                        <div class="solution-bullets" style="margin-bottom: 1.25rem;">
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Lanyards sublimados, esferos económicos y llaveros.</span></div>
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Bolsas ecológicas impresas a una tinta con alta definición.</span></div>
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Plazos de producción express para fechas de evento estrictas.</span></div>
+                    <div style="padding: 2rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 500; color: var(--dark); margin-bottom: 0.75rem;">Merchandising para Ferias y Eventos</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1;">
+                            Material publicitario masivo y selectivo de alta rotación para stands en ferias comerciales y congresos corporativos en Ecuador.
+                        </p>
+                        <div class="solution-bullets" style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Lanyards sublimados, esferos económicos y llaveros.</span></div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Bolsas ecológicas impresas a una tinta con acabado limpio.</span></div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Plazos de producción express para fechas de evento estrictas.</span></div>
                         </div>
+                        <a href="cotizacion.php?servicio=ferias" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: auto; padding: 12px 0;">Cotizar Feria</a>
                     </div>
-                    <a href="cotizacion.php?servicio=ferias" class="btn btn-secondary" style="width: 100%;">Cotizar Feria</a>
                 </div>
 
                 <!-- Regalos Ejecutivos -->
-                <div class="solution-card">
-                    <div class="solution-card-header">
-                        <div class="solution-icon-wrap">
-                            <svg class="solution-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                        </div>
-                        <h3 class="solution-title">Regalos Ejecutivos y de Fin de Año</h3>
-                        <p class="product-card-desc">Artículos de gama superior para fidelizar a tus clientes VIP, directores y socios estratégicos de negocios.</p>
+                <div class="solution-card" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div style="width: 100%; aspect-ratio: 16/10; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                        <img src="uploads/caja.png" alt="Regalos Ejecutivos" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
                     </div>
-                    <div class="solution-card-body">
-                        <div class="solution-bullets" style="margin-bottom: 1.25rem;">
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Termos de acero inoxidable con pantalla de temperatura LED.</span></div>
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Libretas ejecutivas con bajo relieve en tapas.</span></div>
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Cajas de madera con grabado láser permanente.</span></div>
+                    <div style="padding: 2rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 500; color: var(--dark); margin-bottom: 0.75rem;">Regalos Ejecutivos y de Fin de Año</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1;">
+                            Artículos de gama superior para fidelizar a tus clientes VIP, directores y socios estratégicos de negocios.
+                        </p>
+                        <div class="solution-bullets" style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Termos de acero inoxidable con pantalla de temperatura LED.</span></div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Libretas ejecutivas con bajo relieve en tapas.</span></div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Cajas de madera con grabado láser permanente.</span></div>
                         </div>
+                        <a href="cotizacion.php?servicio=regalos" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: auto; padding: 12px 0;">Cotizar Regalos</a>
                     </div>
-                    <a href="cotizacion.php?servicio=regalos" class="btn btn-secondary" style="width: 100%;">Cotizar Regalos</a>
                 </div>
 
                 <!-- Uniformes y Uniformidad -->
-                <div class="solution-card">
-                    <div class="solution-card-header">
-                        <div class="solution-icon-wrap">
-                            <svg class="solution-icon" viewBox="0 0 24 24"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.86 10a2 2 0 0 0 2 1.81h13.72a2 2 0 0 0 2-1.81l.86-10a2 2 0 0 0-1.34-2.23z"/></svg>
-                        </div>
-                        <h3 class="solution-title">Uniformes y Vestimenta de Trabajo</h3>
-                        <p class="product-card-desc">Protege la presencia visual de tu equipo de cara al público mediante camisas y chaquetas bordadas impecablemente.</p>
+                <div class="solution-card" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                    <div style="width: 100%; aspect-ratio: 16/10; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                        <img src="uploads/agenda.png" alt="Uniformes y Uniformidad" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
                     </div>
-                    <div class="solution-card-body">
-                        <div class="solution-bullets" style="margin-bottom: 1.25rem;">
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Camisetas polo de alta densidad y tacto suave de algodón.</span></div>
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Gorras de acrílico estructuradas bordadas en relieve.</span></div>
-                            <div class="solution-bullet"><span class="solution-bullet-dot"></span><span>Hilos lavables y de alta resistencia química.</span></div>
+                    <div style="padding: 2rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 500; color: var(--dark); margin-bottom: 0.75rem;">Uniformes y Vestimenta de Trabajo</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1;">
+                            Protege la presencia visual de tu equipo de cara al público mediante camisas y chaquetas bordadas impecablemente.
+                        </p>
+                        <div class="solution-bullets" style="margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Camisetas polo de alta densidad y tacto suave de algodón.</span></div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Gorras de acrílico estructuradas bordadas en relieve.</span></div>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted);"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--primary);"></span><span>Hilos lavables y de alta resistencia química.</span></div>
                         </div>
+                        <a href="cotizacion.php?servicio=uniformes" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: auto; padding: 12px 0;">Cotizar Uniformes</a>
                     </div>
-                    <a href="cotizacion.php?servicio=uniformes" class="btn btn-secondary" style="width: 100%;">Cotizar Uniformes</a>
                 </div>
 
             </div>
