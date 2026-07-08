@@ -134,12 +134,19 @@
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.php" class="nav-link ">Inicio</a>
-                    <a href="index.php#destacados" class="nav-link ">Destacados</a>
-                    <a href="index.php#laser" class="nav-link ">Grabado láser</a>
-                    <a href="productos.php" class="nav-link ">Productos</a>
-                    <a href="empresas.php" class="nav-link ">Kits corporativos</a>
-                    <a href="cotizacion.php" class="nav-link ">Cotizar</a>
+                    <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
+                    <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
+                    <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
+                    <a href="index.php#laser" class="nav-link">Grabado láser</a>
+                    <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Kits empresariales</a>
+                    <a href="index.php#antes-despues" class="nav-link">Personalización</a>
+                    <a href="index.php#proceso" class="nav-link">Cómo pedir</a>
+                    <a href="cotizacion.php" class="nav-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar<?php
+                    $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+                    if ($c_count > 0) {
+                        echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
+                    }
+                    ?></a>
                 </nav>
             </div>
         </div>

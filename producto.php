@@ -430,12 +430,14 @@ $gallery = array_unique($gallery);
         <div class="header-bottom">
             <div class="container nav-container">
                 <nav class="nav-menu" aria-label="Navegación principal">
-                    <a href="index.php" class="nav-link">Inicio</a>
-                    <a href="index.php#destacados" class="nav-link">Destacados</a>
+                    <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
+                    <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
+                    <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
                     <a href="index.php#laser" class="nav-link">Grabado láser</a>
-                    <a href="productos.php" class="nav-link active">Productos</a>
-                    <a href="empresas.php" class="nav-link">Kits corporativos</a>
-                    <a href="cotizacion.php" class="nav-link">Cotizar <?php
+                    <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Kits empresariales</a>
+                    <a href="index.php#antes-despues" class="nav-link">Personalización</a>
+                    <a href="index.php#proceso" class="nav-link">Cómo pedir</a>
+                    <a href="cotizacion.php" class="nav-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar<?php
                     $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     if ($c_count > 0) {
                         echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
@@ -490,7 +492,7 @@ $gallery = array_unique($gallery);
                     </div>
 
                     <!-- Botón Cotizar Principal -->
-                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Cotizar</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">SOLICITAR COTIZACIÓN</a>
                 </div>
             </div>
         </div>
@@ -668,7 +670,7 @@ $gallery = array_unique($gallery);
             <h3 style="font-family:var(--font-heading); font-size:1.5rem; margin-bottom:0.75rem;">¡Añadido a mi Lista!</h3>
             <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.5; margin-bottom:2rem;">Hemos agregado el artículo personalizado a tu requerimiento de cotización.</p>
             <div style="display:flex; flex-direction:column; gap:10px;">
-                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:12px; font-weight:600;">Ver Lista y Cotizar</a>
+                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:12px; font-weight:600;">Ver Lista y SOLICITAR COTIZACIÓN</a>
                 <button onclick="document.getElementById('cart-modal').style.display='none'" class="btn btn-secondary" style="width:100%; padding:12px; font-weight:600; border:1px solid var(--border);">Seguir Diseñando</button>
             </div>
         </div>
