@@ -41,6 +41,13 @@ try {
 } catch (PDOException $e) {
     $clients = [];
 }
+// Obtener productos destacados de la base de datos
+try {
+    $stmtFeatured = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.is_featured = 1 ORDER BY p.order_val ASC");
+    $featured_products = $stmtFeatured->fetchAll();
+} catch (PDOException $e) {
+    $featured_products = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -1091,7 +1098,7 @@ try {
     </footer>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=3.5"></script>
     <script src="js/slider.js"></script>
     <script src="js/animations.js"></script>
 <script>

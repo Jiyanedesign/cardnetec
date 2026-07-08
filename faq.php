@@ -338,7 +338,7 @@
     </a>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=3.5"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>
