@@ -134,7 +134,7 @@ try {
     // 7. AUTO-MIGRACIÓN: Seeding de productos oficiales de CardNet
     $stmtCount = $pdo->query("SELECT COUNT(*) FROM productos");
     $count = $stmtCount->fetchColumn();
-    if ($count != 8) {
+    if ($count == 0) {
         // Limpiar tablas para evitar duplicados o demos como Taza
         $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
         $pdo->exec("DELETE FROM productos;");

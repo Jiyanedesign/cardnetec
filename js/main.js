@@ -539,9 +539,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (waFloat) {
         waFloat.setAttribute('title', '¿Tienes dudas? Escríbenos por WhatsApp');
     }
-});
 
-    // 13. Galería de transición automática en Hover y Touch
+    // 14. Galería de transición automática en Hover y Touch
     const initHoverGalleries = () => {
         const cards = document.querySelectorAll('.product-card');
         
@@ -599,3 +598,5 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     initHoverGalleries();
+});
+
