@@ -1072,6 +1072,188 @@ $gallery = array_unique($gallery);
             activeObject.applyFilters();
             canvas.renderAll();
         }
+        // ==========================================
+        // SISTEMA DE VISUALIZACIÓN 3D CON THREE.JS
+        // ==========================================
+        const tab2d = document.getElementById('tab-2d');
+        const tab3d = document.getElementById('tab-3d');
+        const container2d = document.querySelector('.canvas-container-outer');
+        const container3d = document.getElementById('canvas-3d-container');
+
+        let scene3D, camera3D, renderer3D, controls3D, productMesh, logoTexture;
+        let is3DInitialized = false;
+
+        const productSlug = '<?php echo $product['slug']; ?>';
+
+        function getUploadedLogoImage() {
+            if (!canvas) return null;
+            const objects = canvas.getObjects();
+            for (let i = 0; i < objects.length; i++) {
+                if (objects[i].type === 'image' && objects[i] !== canvas.backgroundImage) {
+                    return objects[i];
+                }
+            }
+            return null;
+        }
+
+        function initThreeJS() {
+            if (is3DInitialized) return;
+
+            const width = container3d.clientWidth || 500;
+            const height = container3d.clientHeight || 500;
+
+            // Escena
+            scene3D = new THREE.Scene();
+            scene3D.background = new THREE.Color(0xf1f5f9);
+
+            // Cámara
+            camera3D = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+            camera3D.position.set(0, 0, 12);
+
+            // Renderizador
+            renderer3D = new THREE.WebGLRenderer({ antialias: true });
+            renderer3D.setSize(width, height);
+            renderer3D.setPixelRatio(window.devicePixelRatio);
+            renderer3D.shadowMap.enabled = true;
+            container3d.appendChild(renderer3D.domElement);
+
+            // Controles de órbita
+            controls3D = new THREE.OrbitControls(camera3D, renderer3D.domElement);
+            controls3D.enableDamping = true;
+            controls3D.dampingFactor = 0.05;
+            controls3D.maxPolarAngle = Math.PI / 1.8;
+            controls3D.minPolarAngle = Math.PI / 3;
+
+            // Iluminación Premium
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+            scene3D.add(ambientLight);
+
+            const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.7);
+            dirLight1.position.set(5, 10, 7);
+            scene3D.add(dirLight1);
+
+            const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.3);
+            dirLight2.position.set(-5, -5, 5);
+            scene3D.add(dirLight2);
+
+            // Construir Geometría y Material según el Producto
+            let geometry, material;
+
+            if (productSlug.includes('termo')) {
+                geometry = new THREE.CylinderGeometry(1.6, 1.6, 5, 32);
+                material = new THREE.MeshStandardMaterial({
+                    color: 0x1e293b,
+                    metalness: 0.85,
+                    roughness: 0.15
+                });
+            } else if (productSlug.includes('agenda')) {
+                geometry = new THREE.BoxGeometry(3.6, 5, 0.4);
+                material = new THREE.MeshStandardMaterial({
+                    color: 0x1e293b,
+                    metalness: 0.05,
+                    roughness: 0.95
+                });
+            } else if (productSlug.includes('caja')) {
+                geometry = new THREE.BoxGeometry(4.5, 3.2, 3);
+                material = new THREE.MeshStandardMaterial({
+                    color: 0xd97706,
+                    metalness: 0.1,
+                    roughness: 0.8
+                });
+            } else if (productSlug.includes('placa')) {
+                geometry = new THREE.BoxGeometry(3.2, 4.5, 0.25);
+                material = new THREE.MeshPhysicalMaterial({
+                    color: 0xffffff,
+                    metalness: 0.0,
+                    roughness: 0.05,
+                    transmission: 0.95,
+                    opacity: 1,
+                    transparent: true
+                });
+            } else {
+                geometry = new THREE.CylinderGeometry(1.5, 1.5, 4.5, 32);
+                material = new THREE.MeshStandardMaterial({
+                    color: 0x64748b,
+                    metalness: 0.5,
+                    roughness: 0.3
+                });
+            }
+
+            productMesh = new THREE.Mesh(geometry, material);
+            scene3D.add(productMesh);
+
+            is3DInitialized = true;
+            animate3D();
+        }
+
+        function update3DTexture() {
+            if (!is3DInitialized) return;
+
+            // Extraer el logo del canvas 2D si existe
+            const logo = getUploadedLogoImage();
+            if (logo) {
+                const imgElement = logo.getElement();
+                const loader = new THREE.TextureLoader();
+                loader.load(imgElement.src, function(texture) {
+                    texture.minFilter = THREE.LinearFilter;
+                    
+                    if (productSlug.includes('termo')) {
+                        texture.wrapS = THREE.RepeatWrapping;
+                        texture.wrapT = THREE.ClampToEdgeWrapping;
+                        texture.repeat.set(1.5, 1.5);
+                        texture.offset.set(-0.25, -0.25);
+                    } else {
+                        texture.wrapS = THREE.ClampToEdgeWrapping;
+                        texture.wrapT = THREE.ClampToEdgeWrapping;
+                    }
+
+                    productMesh.material.map = texture;
+                    
+                    const effect = document.getElementById('logo-effect').value;
+                    if (effect === 'laser-silver') {
+                        productMesh.material.metalness = 0.9;
+                        productMesh.material.roughness = 0.2;
+                    } else if (effect === 'deboss') {
+                        productMesh.material.roughness = 0.95;
+                        productMesh.material.metalness = 0.05;
+                    }
+                    
+                    productMesh.material.needsUpdate = true;
+                });
+            } else {
+                productMesh.material.map = null;
+                productMesh.material.needsUpdate = true;
+            }
+        }
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            controls3D.update();
+            renderer3D.render(scene3D, camera3D);
+        }
+
+        tab2d.addEventListener('click', () => {
+            tab2d.classList.add('active');
+            tab3d.classList.remove('active');
+            container2d.style.display = 'block';
+            container3d.style.display = 'none';
+        });
+
+        tab3d.addEventListener('click', () => {
+            tab3d.classList.add('active');
+            tab2d.classList.remove('active');
+            container2d.style.display = 'none';
+            container3d.style.display = 'block';
+            
+            initThreeJS();
+            update3DTexture();
+        });
+
+        document.getElementById('logo-effect').addEventListener('change', update3DTexture);
+        document.getElementById('logo-opacity').addEventListener('input', update3DTexture);
+        
+        // Agregar manejador para actualizar la textura al presionar la pestaña 3D
+        
     </script>
 </body>
 </html>
