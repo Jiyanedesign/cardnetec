@@ -209,43 +209,81 @@
         </section>
 
         <!-- Beneficios Corporativos CardNet -->
-        <section class="section-padding section-bg-light reveal-on-scroll">
+        <section class="section-padding section-bg-light reveal-on-scroll" style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding-top: 5rem; padding-bottom: 5rem;">
             <div class="container">
-                <div class="split-feature">
-                    <div class="split-content">
-                        <span class="section-subtitle">Beneficios B2B</span>
-                        <h2>Un socio logístico para tus compras anuales</h2>
-                        <p>Da de alta tu cuenta corporativa para simplificar las tareas de marketing e inducción, logrando un flujo de entrega organizado y predecible.</p>
-                        
-                        <div class="split-bullets">
-                            <div class="bullet-item">
-                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span class="bullet-text"><strong>Ejecutivo B2B Asignado:</strong> Comunicación directa para resolver renders de maquetas y cotizaciones rápidas.</span>
-                            </div>
-                            <div class="bullet-item">
-                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span class="bullet-text"><strong>Impresión bajo demanda (On-demand):</strong> Adquiere stock volumétrico a precio preferente, lo guardamos en nuestro taller y lo marcamos según lo vayas necesitando.</span>
-                            </div>
-                            <div class="bullet-item">
-                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span class="bullet-text"><strong>Facturación y Crédito:</strong> Opciones de pago flexibles a 30 días posteriores al despacho de mercadería (sujeto a validación).</span>
-                            </div>
+                
+                <style>
+                    @media (max-width: 768px) {
+                        .split-feature-custom {
+                            grid-template-columns: 1fr !important;
+                            gap: 40px !important;
+                        }
+                        .split-feature-custom .split-visual {
+                            order: -1 !important; /* Pone la imagen arriba en móviles */
+                        }
+                    }
+                </style>
+
+                <div class="split-feature-custom" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 60px; align-items: center;">
+                    
+                    <!-- Columna Izquierda (Texto) -->
+                    <div class="split-content" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div>
+                            <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; border: 1px solid var(--primary); padding: 4px 10px; border-radius: 4px; display: inline-block; margin-bottom: 1rem;">Beneficios para Empresas</span>
+                            <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; color: var(--dark); line-height: 1.2; margin-bottom: 1rem;">Un socio logístico para tus compras anuales</h2>
+                            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                                Da de alta tu cuenta corporativa para simplificar las tareas de marketing e inducción, logrando un flujo de entrega organizado y predecible.
+                            </p>
                         </div>
-                        <a href="contacto.php" class="btn btn-primary">Solicitar Cuenta Corporativa</a>
+                        
+                        <div class="split-bullets" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                            
+                            <div class="bullet-item" style="display: flex; align-items: flex-start; gap: 12px;">
+                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                                <span class="bullet-text" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; text-align: left;">
+                                    <strong>Ejecutivo asignado:</strong> Comunicación directa para resolver renders de maquetas y cotizaciones rápidas.
+                                </span>
+                            </div>
+                            
+                            <div class="bullet-item" style="display: flex; align-items: flex-start; gap: 12px;">
+                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                                <span class="bullet-text" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; text-align: left;">
+                                    <strong>Impresión bajo demanda (On-demand):</strong> Adquiere stock volumétrico a precio preferente, lo guardamos en nuestro taller y lo grabamos según lo vayas necesitando.
+                                </span>
+                            </div>
+                            
+                            <div class="bullet-item" style="display: flex; align-items: flex-start; gap: 12px;">
+                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                                <span class="bullet-text" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; text-align: left;">
+                                    <strong>Facturación y crédito:</strong> Opciones de pago flexibles a 30 días posteriores al despacho de mercadería (sujeto a validación comercial).
+                                </span>
+                            </div>
+                            
+                        </div>
+                        
+                        <div style="margin-top: 0.5rem;">
+                            <a href="contacto.php" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600;">Solicitar cuenta corporativa</a>
+                        </div>
                     </div>
                     
-                    <div class="split-visual" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 350px;">
-                        <div style="width: 100%; max-width: 480px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); background: white;">
+                    <!-- Columna Derecha (Visual) -->
+                    <div class="split-visual" style="display: flex; justify-content: center; align-items: center;">
+                        <div style="width: 100%; max-width: 440px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.06); background: white;">
                             <img src="uploads/kit.png" alt="Socio Logístico - Welcome Kit" style="width: 100%; height: auto; display: block; object-fit: cover;">
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </section>
 
-    </main>
-
-    <!-- Pie de Página -->
+        <!-- Pie de Página -->
     <footer class="main-footer">
         <div class="container footer-top section-padding">
             <div class="footer-grid">
