@@ -144,7 +144,7 @@
                     </div>
                 </div>
                 <div class="product-card-body">
-                    <span class="product-card-price">Welcome Kits / B2B</span>
+                    <span class="product-card-price">Welcome Kits / empresas</span>
                     <h3 class="product-card-title">Kits de Bienvenida NexoTech</h3>
                     <p class="product-card-desc">Cajas rígidas de inducción para trabajadores remotos en Quito y Guayaquil, conteniendo buzo bordado y termo metálico grabado.</p>
                     <a href="cotizacion.php?proyecto=nexotech" class="product-card-link">Cotizar Similar</a>
@@ -164,7 +164,7 @@
                 <div class="product-card-body">
                     <span class="product-card-price">Regalos Premium</span>
                     <h3 class="product-card-title">Termos Grabados InnovaCorp</h3>
-                    <p class="product-card-desc">Termos negros mate de acero inoxidable con grabado láser profundo revelando el tono plateado metálico interno de alta definición.</p>
+                    <p class="product-card-desc">Termos negros mate de acero inoxidable con grabado láser profundo revelando el tono plateado metálico interno de acabado limpio.</p>
                     <a href="cotizacion.php?proyecto=innovacorp" class="product-card-link">Cotizar Similar</a>
                 </div>
             </div>
@@ -198,14 +198,14 @@
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
+                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de acabado limpio en Ecuador.</p>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>
                     <nav class="footer-links" aria-label="Enlaces corporativos">
                         <a href="nosotros.php" class="footer-link">Trayectoria</a>
                         <a href="personalizacion.php" class="footer-link">Técnicas</a>
-                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
+                        <a href="empresas.php" class="footer-link">Servicios empresas</a>
                         <a href="proyectos.php" class="footer-link">Proyectos</a>
                     </nav>
                 </div>

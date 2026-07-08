@@ -153,7 +153,7 @@
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
+                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de acabado limpio en Ecuador.</p>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>

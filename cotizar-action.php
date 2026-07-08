@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $target_phone = !empty($settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $settings['whatsapp']) : '593900000000';
 
     // Construir mensaje estructurado para WhatsApp
-    $text = "💼 *NUEVA SOLICITUD DE COTIZACIÓN B2B*\n\n";
+    $text = "💼 *NUEVA SOLICITUD DE COTIZACIÓN empresas*\n\n";
     $text .= "👤 *Cliente:* " . $name . "\n";
     if ($company) {
         $text .= "🏢 *Empresa:* " . $company . "\n";

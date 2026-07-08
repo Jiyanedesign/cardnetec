@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios para Empresas | CardNet.ec - Soluciones Corporativas B2B</title>
-    <meta name="description" content="Kits de bienvenida (onboarding), regalos corporativos de fin de año, uniformes bordados y merchandising para ferias en Ecuador. Facturación B2B simplificada.">
+    <title>Servicios para Empresas | CardNet.ec - Soluciones Corporativas empresas</title>
+    <meta name="description" content="Kits de bienvenida (onboarding), regalos corporativos de fin de año, uniformes bordados y merchandising para ferias en Ecuador. Facturación empresas simplificada.">
     <link rel="canonical" href="https://cardnet.ec/empresas.php">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cardnet.ec/empresas.php">
-    <meta property="og:title" content="Soluciones Promocionales B2B para Empresas | CardNet.ec">
+    <meta property="og:title" content="Soluciones Promocionales empresas para Empresas | CardNet.ec">
     <meta property="og:description" content="Centraliza tus compras de merchandising. Envíos programados, ejecutivos de cuenta y renders rápidos para marcas ecuatorianas.">
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
 
@@ -122,7 +122,7 @@
     <!-- Encabezado de Página Interna -->
     <div class="page-header-block">
         <div class="container">
-            <h1 class="page-header-title">Soluciones Corporativas B2B</h1>
+            <h1 class="page-header-title">Soluciones Corporativas empresas</h1>
             <p class="page-header-description">Ayudamos a los departamentos de Marketing, Compras y Recursos Humanos a gestionar su inventario promocional, campañas de fidelización y uniformidad en Ecuador.</p>
         </div>
     </div>
@@ -130,7 +130,7 @@
     <!-- MAIN CONTENT -->
     <main>
         
-        <!-- Grid de Soluciones Corporativas B2B -->
+        <!-- Grid de Soluciones Corporativas empresas -->
         <section class="section-padding container reveal-on-scroll">
             <div class="section-header center">
                 <span class="section-subtitle">Servicios Especializados</span>
@@ -301,14 +301,14 @@
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
+                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de acabado limpio en Ecuador.</p>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>
                     <nav class="footer-links" aria-label="Enlaces corporativos">
                         <a href="nosotros.php" class="footer-link">Trayectoria</a>
                         <a href="personalizacion.php" class="footer-link">Técnicas</a>
-                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
+                        <a href="empresas.php" class="footer-link">Servicios empresas</a>
                         <a href="proyectos.php" class="footer-link">Proyectos</a>
                     </nav>
                 </div>

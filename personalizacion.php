@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personalización | CardNet.ec - Técnicas de Impresión y Grabado</title>
-    <meta name="description" content="Conoce de cerca los procesos de marcado de nuestro taller: grabado láser, bordado industrial computarizado y tampografía con precisión milimétrica.">
+    <meta name="description" content="Conoce de cerca los procesos de marcado de nuestro taller: grabado láser, bordado industrial computarizado y tampografía con acabado limpio.">
     <link rel="canonical" href="https://cardnet.ec/personalizacion.php">
     
     <!-- Open Graph -->
@@ -255,14 +255,14 @@
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
+                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de acabado limpio en Ecuador.</p>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>
                     <nav class="footer-links" aria-label="Enlaces corporativos">
                         <a href="nosotros.php" class="footer-link">Trayectoria</a>
                         <a href="personalizacion.php" class="footer-link">Técnicas</a>
-                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
+                        <a href="empresas.php" class="footer-link">Servicios empresas</a>
                         <a href="proyectos.php" class="footer-link">Proyectos</a>
                     </nav>
                 </div>

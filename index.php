@@ -827,7 +827,7 @@ try {
                 <div class="slider-controls" style="display: flex; flex-direction: column; gap: 24px;">
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <h3 id="slider-title" style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 500; color: var(--dark); margin: 0;">Termo grabado</h3>
-                        <p id="slider-text" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin: 0;">De producto liso de acero inoxidable a un artículo corporativo premium grabado a láser con acabado limpio y resistencia.</p>
+                        <p id="slider-text" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin: 0;">De producto simple a detalle corporativo listo para entregar.</p>
                     </div>
 
                     <!-- Selector de pestañas -->

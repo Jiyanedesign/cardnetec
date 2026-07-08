@@ -167,7 +167,7 @@ function enrichProduct($prod) {
         $enriched['material'] = 'Acero';
         $enriched['technique'] = 'Grabado láser permanente';
         $enriched['use'] = 'Kits corporativos, eventos, uso diario';
-        $enriched['details'] = 'Termo de doble pared de acero inoxidable que mantiene la temperatura. Ideal para personalización con grabado láser de alta definición.';
+        $enriched['details'] = 'Termo de doble pared de acero inoxidable que mantiene la temperatura. Ideal para personalización con grabado láser de acabado limpio.';
     } elseif (stripos($slug, 'agenda') !== false || stripos($slug, 'libreta') !== false) {
         $enriched['material'] = 'Cuero / PU';
         $enriched['technique'] = 'Grabado láser térmico / Bajo relieve';

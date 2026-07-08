@@ -10,8 +10,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cardnet.ec/contacto.php">
-    <meta property="og:title" content="Contacto Comercial B2B | CardNet.ec">
-    <meta property="og:description" content="Comunícate con nuestros asesores de marcado técnico. Rápida respuesta corporativa.">
+    <meta property="og:title" content="Contacto Comercial empresas | CardNet.ec">
+    <meta property="og:description" content="Comunícate con nuestros asesores de grabado resistente. Rápida respuesta corporativa.">
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
 
     <!-- CSS Modulares -->
@@ -207,14 +207,14 @@
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de alta fidelidad en Ecuador.</p>
+                    <p class="footer-description">Taller de personalización y marcado de artículos promocionales de acabado limpio en Ecuador.</p>
                 </div>
                 <div class="footer-links-column">
                     <h3 class="footer-heading">Nosotros</h3>
                     <nav class="footer-links" aria-label="Enlaces corporativos">
                         <a href="nosotros.php" class="footer-link">Trayectoria</a>
                         <a href="personalizacion.php" class="footer-link">Técnicas</a>
-                        <a href="empresas.php" class="footer-link">Servicios B2B</a>
+                        <a href="empresas.php" class="footer-link">Servicios empresas</a>
                         <a href="proyectos.php" class="footer-link">Proyectos</a>
                     </nav>
                 </div>
