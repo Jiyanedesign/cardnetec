@@ -66,6 +66,23 @@ $gallery = array_unique($gallery);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
 
     <style>
+        .preview-tabs .btn {
+            background-color: white;
+            border: 1px solid var(--border) !important;
+            color: var(--dark) !important;
+            padding: 8px 16px !important;
+            font-size: 0.72rem !important;
+            letter-spacing: 0.05em !important;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+            transition: all 0.2s ease !important;
+        }
+        .preview-tabs .btn.active {
+            background-color: var(--primary) !important;
+            color: white !important;
+            border-color: var(--primary) !important;
+            box-shadow: 0 4px 10px rgba(99, 174, 44, 0.2) !important;
+        }
         .product-detail-light-theme {
             background-color: var(--light);
             color: var(--text-main);
@@ -407,6 +424,9 @@ $gallery = array_unique($gallery);
             width: 30%;
         }
     </style>
+    <!-- Three.js y OrbitControls para Vista 3D Realista -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
 
@@ -530,8 +550,28 @@ $gallery = array_unique($gallery);
                 
                 <!-- Columna Izquierda: Imagen / Canvas / Simulador -->
                 <div class="preview-column">
+                    <!-- Pestañas de Vista 2D/3D -->
+                    <div class="preview-tabs" style="display: flex; gap: 8px; margin-bottom: 12px; justify-content: center;">
+                        <button class="btn" id="tab-2d" style="padding: 6px 14px; font-size: 0.75rem; font-weight: 600; border-radius: 30px; border: 1px solid var(--border); background: white; color: var(--dark); cursor: pointer; text-transform: uppercase;">
+                            Visualizador 2D (Editor)
+                        </button>
+                        <button class="btn" id="tab-3d" style="padding: 6px 14px; font-size: 0.75rem; font-weight: 600; border-radius: 30px; border: 1px solid var(--border); background: white; color: var(--dark); cursor: pointer; display: flex; align-items: center; gap: 6px; text-transform: uppercase;">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                            Vista 3D Interactiva
+                        </button>
+                    </div>
+
                     <div class="canvas-container-outer">
                         <canvas id="canvas-simulator" width="500" height="500"></canvas>
+                    </div>
+
+                    <!-- Contenedor del Visor 3D de Three.js -->
+                    <div id="canvas-3d-container" style="display: none; width: 100%; aspect-ratio: 1; background: #f1f5f9; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; position: relative; box-sizing: border-box;">
+                        <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: var(--text-muted); pointer-events: none; background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 20px; font-weight: 600; white-space: nowrap; z-index: 10;">
+                            🖱️ Arrastra para rotar · Rueda para zoom
+                        </div>
                     </div>
 
                     <!-- Galería de Miniaturas -->
