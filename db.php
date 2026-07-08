@@ -53,6 +53,9 @@ try {
     if (!in_array('description_long', $columns)) {
         $pdo->exec("ALTER TABLE productos ADD COLUMN description_long text DEFAULT NULL;");
     }
+    if (!in_array('model_3d', $columns)) {
+        $pdo->exec("ALTER TABLE productos ADD COLUMN model_3d VARCHAR(255) DEFAULT NULL;");
+    }
 
     // 3. AUTO-MIGRACIÓN: Tabla de Configuración General
     $settingsCheck = $pdo->query("SHOW TABLES LIKE 'configuraciones'")->fetch();
