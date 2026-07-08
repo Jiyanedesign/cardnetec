@@ -964,6 +964,11 @@ $gallery = array_unique($gallery);
                     canvas.setBackgroundImage(img, () => {
                         canvas.renderAll();
                         canvasEl.style.opacity = '1';
+                        
+                        // Sincronizar el color del objeto 3D con la nueva miniatura cargada
+                        if (is3DInitialized) {
+                            extractProductColorAndApply();
+                        }
                     }, {
                         scaleX: scale,
                         scaleY: scale,
@@ -1084,6 +1089,7 @@ $gallery = array_unique($gallery);
         let is3DInitialized = false;
 
         const productSlug = '<?php echo $product['slug']; ?>';
+        const productCategory = '<?php echo addslashes($product['category_name']); ?>';
 
         function getUploadedLogoImage() {
             if (!canvas) return null;
@@ -1097,6 +1103,47 @@ $gallery = array_unique($gallery);
         }
 
         let productGroup3D, decalMesh;
+
+        // Función para extraer color del producto desde la imagen activa del simulador
+        function extractProductColorAndApply() {
+            if (!is3DInitialized || !productMesh) return;
+
+            const activeThumb = document.querySelector('.thumbnail-item.active img');
+            const imgSrc = activeThumb ? activeThumb.src : mainImgPath;
+            
+            const tempImg = new Image();
+            tempImg.crossOrigin = "Anonymous";
+            tempImg.src = imgSrc;
+            tempImg.onload = function() {
+                const tempCanvas = document.createElement('canvas');
+                const ctx = tempCanvas.getContext('2d');
+                tempCanvas.width = 10;
+                tempCanvas.height = 10;
+                ctx.drawImage(tempImg, 0, 0, 10, 10);
+                
+                // Muestrear centro de la imagen (color predominante del producto)
+                const centerData = ctx.getImageData(5, 5, 1, 1).data;
+                let r = centerData[0], g = centerData[1], b = centerData[2];
+                
+                // Si es blanco de fondo (>230), buscar en el lateral
+                if (r > 230 && g > 230 && b > 230) {
+                    const sideData = ctx.getImageData(2, 5, 1, 1).data;
+                    r = sideData[0];
+                    g = sideData[1];
+                    b = sideData[2];
+                }
+                
+                // Si sigue siendo muy claro, usar un gris/blanco satinado por defecto
+                if (r > 240 && g > 240 && b > 240) {
+                    r = 230; g = 230; b = 230;
+                }
+
+                if (productMesh && productMesh.material) {
+                    productMesh.material.color.setRGB(r / 255, g / 255, b / 255);
+                    productMesh.material.needsUpdate = true;
+                }
+            };
+        }
 
         function initThreeJS() {
             if (is3DInitialized) return;
@@ -1118,7 +1165,7 @@ $gallery = array_unique($gallery);
             renderer3D.setPixelRatio(window.devicePixelRatio);
             renderer3D.shadowMap.enabled = true;
             renderer3D.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer3D.toneMappingExposure = 1.2;
+            renderer3D.toneMappingExposure = 1.25;
             container3d.appendChild(renderer3D.domElement);
 
             // Controles de órbita
@@ -1134,7 +1181,7 @@ $gallery = array_unique($gallery);
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
             scene3D.add(ambientLight);
 
-            const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.0);
             keyLight.position.set(5, 8, 5);
             scene3D.add(keyLight);
 
@@ -1142,24 +1189,29 @@ $gallery = array_unique($gallery);
             fillLight.position.set(-5, 3, 2);
             scene3D.add(fillLight);
 
-            const rimLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
             rimLight.position.set(0, 5, -5);
             scene3D.add(rimLight);
 
             productGroup3D = new THREE.Group();
 
+            const isTermo = productSlug.includes('termo') || productCategory.toLowerCase().includes('termo') || productCategory.toLowerCase().includes('vaso');
+            const isAgenda = productSlug.includes('agenda') || productCategory.toLowerCase().includes('agenda') || productCategory.toLowerCase().includes('libreta');
+            const isCaja = productSlug.includes('caja') || productCategory.toLowerCase().includes('caja') || productCategory.toLowerCase().includes('kit');
+            const isPlaca = productSlug.includes('placa') || productCategory.toLowerCase().includes('placa') || productCategory.toLowerCase().includes('carnet');
+
             // Construir Modelos Realistas y Detallados
-            if (productSlug.includes('termo')) {
+            if (isTermo) {
                 // Termo Premium con Tapa y Cuerpo
                 const bodyGeo = new THREE.CylinderGeometry(1.05, 1.05, 3.8, 64);
                 const bodyMat = new THREE.MeshStandardMaterial({
-                    color: 0x1e2430, // Negro carbón elegante
+                    color: 0xdddddd, // Será reemplazado por la extracción de color
                     metalness: 0.15,
                     roughness: 0.55
                 });
-                const body = new THREE.Mesh(bodyGeo, bodyMat);
-                body.position.y = -0.4;
-                productGroup3D.add(body);
+                productMesh = new THREE.Mesh(bodyGeo, bodyMat);
+                productMesh.position.y = -0.4;
+                productGroup3D.add(productMesh);
 
                 // Cuello y Anillo Cromado
                 const neckGeo = new THREE.CylinderGeometry(0.9, 1.05, 0.4, 64);
@@ -1195,16 +1247,16 @@ $gallery = array_unique($gallery);
                 decalMesh.position.y = -0.4;
                 productGroup3D.add(decalMesh);
 
-            } else if (productSlug.includes('agenda')) {
+            } else if (isAgenda) {
                 // Agenda con lomo y hojas
                 const coverGeo = new THREE.BoxGeometry(3.0, 4.2, 0.35);
                 const coverMat = new THREE.MeshStandardMaterial({
-                    color: 0x18181b, // Negro mate elegante
+                    color: 0x18181b, 
                     metalness: 0.05,
                     roughness: 0.85
                 });
-                const cover = new THREE.Mesh(coverGeo, coverMat);
-                productGroup3D.add(cover);
+                productMesh = new THREE.Mesh(coverGeo, coverMat);
+                productGroup3D.add(productMesh);
 
                 // Bloque de Hojas internas (Blanco)
                 const pagesGeo = new THREE.BoxGeometry(2.9, 4.1, 0.3);
@@ -1229,16 +1281,16 @@ $gallery = array_unique($gallery);
                 decalMesh.position.set(0, 0, 0.18);
                 productGroup3D.add(decalMesh);
 
-            } else if (productSlug.includes('caja')) {
+            } else if (isCaja) {
                 // Caja de Madera fina
                 const boxGeo = new THREE.BoxGeometry(4.2, 3.0, 2.4);
                 const boxMat = new THREE.MeshStandardMaterial({
-                    color: 0xb45309, // Madera barnizada
+                    color: 0xb45309, 
                     metalness: 0.0,
                     roughness: 0.75
                 });
-                const box = new THREE.Mesh(boxGeo, boxMat);
-                productGroup3D.add(box);
+                productMesh = new THREE.Mesh(boxGeo, boxMat);
+                productGroup3D.add(productMesh);
 
                 // Malla Decal sobre la tapa
                 const decalGeo = new THREE.PlaneGeometry(3.2, 2.0);
@@ -1253,7 +1305,7 @@ $gallery = array_unique($gallery);
                 decalMesh.rotation.x = -Math.PI / 2;
                 productGroup3D.add(decalMesh);
 
-            } else if (productSlug.includes('placa')) {
+            } else if (isPlaca) {
                 // Placa de Acrílico sobre Base de Madera
                 const plateGeo = new THREE.BoxGeometry(3.0, 4.0, 0.2);
                 const plateMat = new THREE.MeshPhysicalMaterial({
@@ -1291,12 +1343,14 @@ $gallery = array_unique($gallery);
                 decalMesh.position.set(0, 0.5, 0.11);
                 productGroup3D.add(decalMesh);
 
+                productMesh = plate; // Referencia de color al acrílico (por si cambia)
+
             } else {
-                // Objeto Genérico Cilíndrico
+                // Objeto Genérico Cilíndrico Refinado
                 const geo = new THREE.CylinderGeometry(1.1, 1.1, 4, 32);
                 const mat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.4 });
-                const baseObj = new THREE.Mesh(geo, mat);
-                productGroup3D.add(baseObj);
+                productMesh = new THREE.Mesh(geo, mat);
+                productGroup3D.add(productMesh);
 
                 const decalGeo = new THREE.CylinderGeometry(1.105, 1.105, 2.5, 32, 1, true, -Math.PI/2, Math.PI);
                 const decalMat = new THREE.MeshStandardMaterial({ transparent: true, depthWrite: false });
@@ -1307,6 +1361,7 @@ $gallery = array_unique($gallery);
             scene3D.add(productGroup3D);
 
             is3DInitialized = true;
+            extractProductColorAndApply();
             animate3D();
         }
 
@@ -1331,22 +1386,18 @@ $gallery = array_unique($gallery);
                     // Aplicar efectos visuales premium de grabado
                     const effect = document.getElementById('logo-effect').value;
                     if (effect === 'laser-silver') {
-                        // Grabado metálico sobre el metal/acrílico
                         decalMesh.material.color.setHex(0xe2e8f0);
                         decalMesh.material.metalness = 0.95;
                         decalMesh.material.roughness = 0.15;
                     } else if (effect === 'laser-gold') {
-                        // Grabado dorado
                         decalMesh.material.color.setHex(0xf59e0b);
                         decalMesh.material.metalness = 0.95;
                         decalMesh.material.roughness = 0.15;
                     } else if (effect === 'deboss') {
-                        // Relieve grabado oscuro en cuero/madera
                         decalMesh.material.color.setHex(0x18181b);
                         decalMesh.material.metalness = 0.05;
                         decalMesh.material.roughness = 0.95;
                     } else {
-                        // Impresión original a color
                         decalMesh.material.color.setHex(0xffffff);
                         decalMesh.material.metalness = 0.1;
                         decalMesh.material.roughness = 0.5;
