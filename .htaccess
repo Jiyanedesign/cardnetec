@@ -26,3 +26,7 @@ RewriteRule ^index\.html$ index.php [R=301,L]
 RewriteCond %{DOCUMENT_ROOT}/$1.php -f
 RewriteRule ^(.*)\.html$ $1.php [R=301,L]
 </IfModule>
+
+# MIME types para modelos 3D (gltf / glb)
+AddType model/gltf-binary .glb
+AddType model/gltf+json .gltf

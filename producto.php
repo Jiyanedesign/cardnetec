@@ -424,6 +424,9 @@ $gallery = array_unique($gallery);
             width: 30%;
         }
     </style>
+    <!-- Google <model-viewer> para visualizar archivos 3D subidos -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
     <!-- Three.js y OrbitControls para Vista 3D Realista -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -567,11 +570,38 @@ $gallery = array_unique($gallery);
                         <canvas id="canvas-simulator" width="500" height="500"></canvas>
                     </div>
 
-                    <!-- Contenedor del Visor 3D de Three.js -->
-                    <div id="canvas-3d-container" style="display: none; width: 100%; aspect-ratio: 1; background: #f1f5f9; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; position: relative; box-sizing: border-box;">
-                        <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: var(--text-muted); pointer-events: none; background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 20px; font-weight: 600; white-space: nowrap; z-index: 10;">
-                            🖱️ Arrastra para rotar · Rueda para zoom
-                        </div>
+                    <!-- Contenedor del Visor 3D de Three.js / <model-viewer> -->
+                    <div id="canvas-3d-container" style="display: none; width: 100%; aspect-ratio: 1; background: radial-gradient(circle at center, #ffffff 0%, #eeeeee 100%); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; position: relative; box-sizing: border-box;">
+                        
+                        <?php if (!empty($product['model_3d'])): ?>
+                            <!-- Visor 3D Avanzado de Google <model-viewer> -->
+                            <model-viewer
+                                id="google-model-viewer"
+                                src="uploads/<?php echo htmlspecialchars($product['model_3d']); ?>"
+                                alt="Modelo 3D de <?php echo htmlspecialchars($product['name']); ?>"
+                                camera-controls
+                                auto-rotate
+                                rotation-per-second="25deg"
+                                shadow-intensity="1.4"
+                                exposure="1.1"
+                                environment-image="neutral"
+                                style="width: 100%; height: 100%;">
+                            </model-viewer>
+                        <?php else: ?>
+                            <!-- Si no hay archivo 3D, cae al simulador Three.js de repuesto -->
+                            <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; color: var(--text-muted); pointer-events: none; background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 20px; font-weight: 600; white-space: nowrap; z-index: 10;">
+                                🖱️ Arrastra para rotar · Rueda para zoom
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Mensaje informativo e instructivo del Visor 3D -->
+                    <div id="info-visor-3d" style="display: none; margin-top: 10px; text-align: center; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                        <?php if (!empty($product['model_3d'])): ?>
+                            Visualiza el producto en 3D, gíralo y observa sus detalles antes de personalizarlo.
+                        <?php else: ?>
+                            Este producto aún no tiene un modelo 3D dedicado disponible. Se muestra una simulación realista estándar.
+                        <?php endif; ?>
                     </div>
 
                     <!-- Galería de Miniaturas -->
@@ -1417,11 +1447,15 @@ $gallery = array_unique($gallery);
             renderer3D.render(scene3D, camera3D);
         }
 
+        const infoVisor = document.getElementById('info-visor-3d');
+        const hasCustomModel = <?php echo !empty($product['model_3d']) ? 'true' : 'false'; ?>;
+
         tab2d.addEventListener('click', () => {
             tab2d.classList.add('active');
             tab3d.classList.remove('active');
             container2d.style.display = 'block';
             container3d.style.display = 'none';
+            if (infoVisor) infoVisor.style.display = 'none';
         });
 
         tab3d.addEventListener('click', () => {
@@ -1429,9 +1463,12 @@ $gallery = array_unique($gallery);
             tab2d.classList.remove('active');
             container2d.style.display = 'none';
             container3d.style.display = 'block';
+            if (infoVisor) infoVisor.style.display = 'block';
             
-            initThreeJS();
-            update3DTexture();
+            if (!hasCustomModel) {
+                initThreeJS();
+                update3DTexture();
+            }
         });
 
         document.getElementById('logo-effect').addEventListener('change', update3DTexture);

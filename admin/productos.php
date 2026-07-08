@@ -113,12 +113,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $gallery_json = json_encode($gallery_paths);
 
+    // 3. Procesar subida de archivo de modelo 3D (.glb, .gltf)
+    $model_3d_filename = isset($_POST['existing_model_3d']) ? $_POST['existing_model_3d'] : '';
+    if (isset($_FILES['model_3d_file']) && $_FILES['model_3d_file']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['model_3d_file']['tmp_name'];
+        $file_name = $_FILES['model_3d_file']['name'];
+        $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        $mime = $_FILES['model_3d_file']['type'];
+
+        // Validar tipos de archivos 3D y MIME
+        $valid_exts = ['glb', 'gltf'];
+        $valid_mimes = ['model/gltf-binary', 'model/gltf+json', 'application/octet-stream'];
+
+        if (in_array($ext, $valid_exts) && in_array($mime, $valid_mimes)) {
+            $new_filename = 'model_' . time() . '_' . uniqid() . '.' . $ext;
+            if (move_uploaded_file($file_tmp, $upload_dir . $new_filename)) {
+                // Eliminar archivo anterior si existe
+                if (!empty($model_3d_filename) && file_exists($upload_dir . basename($model_3d_filename))) {
+                    @unlink($upload_dir . basename($model_3d_filename));
+                }
+                $model_3d_filename = 'products/' . $new_filename;
+            }
+        }
+    }
+
     if (empty($error)) {
         if ($id > 0) {
             // Edición
             try {
-                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ?, volume_prices = ?, materials_json = ? WHERE id = ?");
-                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $id]);
+                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ?, volume_prices = ?, materials_json = ?, model_3d = ? WHERE id = ?");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $model_3d_filename, $id]);
                 $message = 'Producto actualizado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al actualizar base de datos: ' . $e->getMessage();
@@ -126,8 +150,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Creación
             try {
-                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text, volume_prices, materials_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json]);
+                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text, volume_prices, materials_json, model_3d) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $model_3d_filename]);
                 $message = 'Producto creado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al crear producto: ' . $e->getMessage();
