@@ -190,6 +190,8 @@ if (isset($_GET['edit'])) {
             <a href="carrusel.php" class="nav-admin-link active">Carrusel Hero</a>
             <a href="antes-despues.php" class="nav-admin-link">Antes y Después</a>
             <a href="clientes.php" class="nav-admin-link">Logos Clientes</a>
+            <a href="credenciales.php" class="nav-admin-link">Credenciales QR</a>
+            <a href="configuracion.php" class="nav-admin-link">Configuración</a>
             <a href="logout.php" class="nav-admin-link" style="margin-top: 2rem; color: #FCA5A5;">Cerrar Sesión</a>
         </nav>
     </div>

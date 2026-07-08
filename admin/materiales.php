@@ -209,7 +209,6 @@ if (isset($_GET['edit'])) {
             <a href="index.php" class="nav-admin-link">Dashboard</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="productos.php" class="nav-admin-link">Productos</a>
-            <a href="materiales.php" class="nav-admin-link">Materiales</a>
             <a href="materiales.php" class="nav-admin-link active">Materiales</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
             <a href="antes-despues.php" class="nav-admin-link">Antes y Después</a>
