@@ -131,6 +131,91 @@ try {
     $pdo->exec("UPDATE clientes SET name = 'KRONA' WHERE id = 4 AND logo_path = 'uploads/cliente4.png';");
     $pdo->exec("UPDATE clientes SET name = 'AERO' WHERE id = 5 AND logo_path = 'uploads/cliente5.png';");
 
+    // 7. AUTO-MIGRACIÓN: Seeding de productos oficiales de CardNet
+    $stmtCheckTermo = $pdo->prepare("SELECT id FROM productos WHERE slug = 'termos-grabados'");
+    $stmtCheckTermo->execute();
+    if (!$stmtCheckTermo->fetch()) {
+        // Limpiar tablas para evitar duplicados o demos como Taza
+        $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
+        $pdo->exec("TRUNCATE TABLE productos;");
+        $pdo->exec("TRUNCATE TABLE categorias;");
+        $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
+
+        // Insertar Categorías oficiales
+        $cats = [
+            ['Termos', 'termos', 1],
+            ['Agendas', 'agendas', 2],
+            ['Kits', 'kits', 3],
+            ['Placas', 'placas', 4],
+            ['Carnets', 'carnets', 5],
+            ['Cajas', 'cajas', 6],
+            ['Llaveros', 'llaveros', 7],
+            ['Esferos', 'esferos', 8],
+            ['Reconocimientos', 'reconocimientos', 9]
+        ];
+        
+        $insCat = $pdo->prepare("INSERT INTO categorias (name, slug, order_val, is_active) VALUES (?, ?, ?, 1)");
+        foreach ($cats as $c) {
+            $insCat->execute($c);
+        }
+
+        // Obtener ids de las categorías insertadas
+        $catIds = [];
+        $stmtAllCats = $pdo->query("SELECT id, slug FROM categorias");
+        foreach ($stmtAllCats->fetchAll() as $cRow) {
+            $catIds[$cRow['slug']] = $cRow['id'];
+        }
+
+        // Insertar los 8 productos oficiales
+        $productsToSeed = [
+            [
+                'Termos grabados', 'termos-grabados', 
+                'Termos de acero inoxidable con grabado láser de acabado limpio, sobrio y altamente duradero.', 
+                $catIds['termos'], 'termo.png', json_encode(['termo_before.jpg', 'termo_after.jpg']), 'termos-grabados-sku', 1.80
+            ],
+            [
+                'Agendas personalizadas', 'agendas-personalizadas', 
+                'Agendas con cubiertas de tacto cuero (PU termosensible) listas para grabados de gran textura o bajo relieve.', 
+                $catIds['agendas'], 'agenda.png', json_encode(['agenda_before.jpg', 'agenda_after.jpg']), 'agendas-sku', 2.20
+            ],
+            [
+                'Llaveros corporativos', 'llaveros-corporativos', 
+                'Llaveros de metal cepillado y cuero con grabado láser permanente de alta precisión.', 
+                $catIds['llaveros'], 'llavero.png', json_encode(['llavero_detail.jpg']), 'llaveros-sku', 0.90
+            ],
+            [
+                'Placas corporativas', 'placas-reconocimientos', 
+                'Placas conmemorativas y de reconocimiento en acrílico, metal o madera con cortes y acabados limpios.', 
+                $catIds['placas'], 'placa.png', json_encode(['placa_detail.jpg']), 'placas-sku', 15.00
+            ],
+            [
+                'Cajas personalizadas', 'cajas-personalizadas', 
+                'Cajas de madera o cartón estructurado a medida con grabado láser CO2 de alta calidad para presentaciones corporativas.', 
+                $catIds['cajas'], 'caja.png', json_encode(['caja_before.jpg', 'caja_after.jpg']), 'cajas-sku', 4.50
+            ],
+            [
+                'Kits empresariales', 'kits-corporativos', 
+                'Cajas y empaques combinando termos grabados, agendas personalizadas y esferos a juego listos para entregar.', 
+                $catIds['kits'], 'kit.png', json_encode(['kit_detail.jpg']), 'kits-sku', 12.50
+            ],
+            [
+                'Carnets PVC', 'credenciales-pvc', 
+                'Identificación profesional e institucional impresa en PVC laminado de alta durabilidad con diseño personalizado.', 
+                $catIds['carnets'], 'carnets.png', json_encode(['carnet_detail.jpg']), 'carnets-sku', 1.20
+            ],
+            [
+                'Esferos grabados', 'esferos-grabados', 
+                'Bolígrafos de metal grabados con láser de fibra con acabados finos, ideales para merchandising o uso corporativo.', 
+                $catIds['esferos'], 'esfero.png', json_encode(['esfero_detail.jpg']), 'esferos-sku', 0.45
+            ]
+        ];
+
+        $insProd = $pdo->prepare("INSERT INTO productos (name, slug, description_short, category_id, image_main, gallery_images, sku, price, is_featured, allows_simulation, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1)");
+        foreach ($productsToSeed as $p) {
+            $insProd->execute($p);
+        }
+    }");
+
 } catch (PDOException $e) {
     die("Error de conexión a la base de datos: " . $e->getMessage());
 }
