@@ -457,198 +457,78 @@ try {
             </div>
             
             <div class="grid-3">
-                
-                <!-- Producto 1: Termos grabados -->
-                <div class="product-card catalog-product-item" data-gallery='["uploads/termo.png", "uploads/termo_before.jpg", "uploads/termo_after.jpg"]' style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                    <a href="producto.php?slug=termos-grabados" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                        <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                            <img src="uploads/termo.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Termos grabados">
-                            <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                </svg>
+                <?php if (!empty($featured_products)): ?>
+                    <?php foreach ($featured_products as $prod): ?>
+                        <?php 
+                        $enriched = enrichProduct($prod);
+                        // Obtener la galería de imágenes del producto
+                        $prod_gallery = json_decode($prod['gallery_images'], true) ?: [];
+                        if ($prod['image_main']) {
+                            array_unshift($prod_gallery, $prod['image_main']);
+                        }
+                        $prod_gallery = array_unique($prod_gallery);
+                        // Convertir a rutas relativas
+                        $prod_gallery_paths = array_map(function($img) {
+                            return 'uploads/' . $img;
+                        }, $prod_gallery);
+                        $prod_gallery_json = json_encode(array_values($prod_gallery_paths));
+                        ?>
+                        <div class="product-card catalog-product-item" 
+                             data-name="<?php echo htmlspecialchars($enriched['name']); ?>"
+                             data-gallery='<?php echo htmlspecialchars($prod_gallery_json, ENT_QUOTES, 'UTF-8'); ?>' 
+                             style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
+                            
+                            <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
+                                <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                                    <?php if ($prod['image_main']): ?>
+                                        <img src="uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="<?php echo htmlspecialchars($prod['name']); ?>">
+                                    <?php endif; ?>
+                                    <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div style="padding: 1.5rem; display: flex; flex-direction: column;">
+                                    <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($prod['name']); ?></h3>
+                                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;"><?php echo htmlspecialchars($enriched['material'] . ' · ' . $enriched['technique']); ?></p>
+                                </div>
+                            </a>
+                            <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
+                                <?php
+                                $btn_text = 'Cotizar este producto';
+                                if (stripos($prod['slug'], 'termo') !== false) {
+                                    $btn_text = 'Cotizar este producto';
+                                } elseif (stripos($prod['slug'], 'agenda') !== false) {
+                                    $btn_text = 'Quiero algo similar';
+                                } elseif (stripos($prod['slug'], 'carnet') !== false || stripos($prod['slug'], 'credencial') !== false) {
+                                    $btn_text = 'Explorar opciones';
+                                } elseif (stripos($prod['slug'], 'kit') !== false) {
+                                    $btn_text = 'Armar un kit';
+                                }
+                                ?>
+                                <button class="btn btn-primary btn-add-to-quote" 
+                                        data-slug="<?php echo htmlspecialchars($prod['slug']); ?>" 
+                                        data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
+                                        data-price="<?php echo (float)$prod['price']; ?>" 
+                                        style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
+                                    <?php echo $btn_text; ?>
+                                </button>
                             </div>
                         </div>
-                        <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Termos grabados</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">Acero inoxidable · Grabado láser</p>
-                        </div>
-                    </a>
-                    <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                        <button class="btn btn-primary btn-add-to-quote" data-slug="termos-grabados" data-name="Termos grabados" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                            Cotizar este producto
-                        </button>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem 0;">
+                        No hay productos destacados disponibles en este momento.
                     </div>
-                </div>
-
-                <!-- Producto 2: Agendas personalizadas -->
-                <div class="product-card catalog-product-item" data-gallery='["uploads/agenda.png", "uploads/agenda_before.jpg", "uploads/agenda_after.jpg"]' style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                    <a href="producto.php?slug=agendas-personalizadas" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                        <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                            <img src="uploads/agenda.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Agendas personalizadas">
-                            <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Agendas personalizadas</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">Cuero/PU · Grabado o bajo relieve</p>
-                        </div>
-                    </a>
-                    <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                        <button class="btn btn-primary btn-add-to-quote" data-slug="agendas-personalizadas" data-name="Agendas personalizadas" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                            Quiero algo similar
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Producto 3: Llaveros corporativos -->
-                <div class="product-card catalog-product-item" data-gallery='["uploads/llavero.png"]' style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                    <a href="producto.php?slug=llaveros-corporativos" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                        <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                            <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Llaveros corporativos">
-                            <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Llaveros corporativos</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">Metal o acrílico · Marcaje personalizado</p>
-                        </div>
-                    </a>
-                    <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                        <button class="btn btn-primary btn-add-to-quote" data-slug="llaveros-corporativos" data-name="Llaveros corporativos" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                            Solicitar este estilo
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Producto 4: Placas corporativas -->
-                <div class="product-card catalog-product-item" data-gallery='["uploads/placa.png", "uploads/placa_after.jpg"]' style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                    <a href="producto.php?slug=placas-reconocimientos" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                        <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                            <img src="uploads/placa.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Placas corporativas">
-                            <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Placas corporativas</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">Acrílico, metal o madera · Personalización corporativa</p>
-                        </div>
-                    </a>
-                    <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                        <button class="btn btn-primary btn-add-to-quote" data-slug="placas-reconocimientos" data-name="Placas corporativas" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                            Cotizar una idea
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Producto 5: Cajas personalizadas -->
-                <div class="product-card catalog-product-item" data-gallery='["uploads/caja.png", "uploads/caja_before.jpg", "uploads/caja_after.jpg"]' style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                    <a href="producto.php?slug=cajas-personalizadas" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                        <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                            <img src="uploads/caja.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Cajas personalizadas">
-                            <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Cajas personalizadas</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">Packaging corporativo · Acabado de marca</p>
-                        </div>
-                    </a>
-                    <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                        <button class="btn btn-primary btn-add-to-quote" data-slug="cajas-personalizadas" data-name="Cajas personalizadas" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                            Ver opciones
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Producto 6: Kits empresariales -->
-                <div class="product-card catalog-product-item" data-gallery='["uploads/kit.png"]' style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                    <a href="producto.php?slug=kits-corporativos" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                        <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                            <img src="uploads/kit.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Kits empresariales">
-                            <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Kits empresariales</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">Piezas personalizadas para clientes, equipos y eventos</p>
-                        </div>
-                    </a>
-                    <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                        <button class="btn btn-primary btn-add-to-quote" data-slug="kits-corporativos" data-name="Kits empresariales" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                            Armar un kit
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Producto 7: Carnets PVC -->
-                <div class="product-card catalog-product-item" data-gallery='["uploads/carnets.png"]' style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                    <a href="producto.php?slug=credenciales-pvc" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                        <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                            <img src="uploads/carnets.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Carnets PVC">
-                            <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Carnets PVC</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">Identificación corporativa · Diseño personalizado</p>
-                        </div>
-                    </a>
-                    <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                        <button class="btn btn-primary btn-add-to-quote" data-slug="credenciales-pvc" data-name="Carnets PVC" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                            Explorar opciones
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Producto 8: Esferos grabados -->
-                <div class="product-card catalog-product-item" data-gallery='["uploads/esfero.png"]' style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                    <a href="producto.php?slug=esferos-grabados" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                        <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
-                            <img src="uploads/esfero.png" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="Esferos grabados">
-                            <div style="display: none; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
-                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;">Esferos grabados</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">Marcaje láser · Detalle corporativo</p>
-                        </div>
-                    </a>
-                    <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                        <button class="btn btn-primary btn-add-to-quote" data-slug="esferos-grabados" data-name="Esferos grabados" data-price="2.50" style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;">
-                            Cotizar este producto
-                        </button>
-                    </div>
-                </div>
-
+                <?php endif; ?>
             </div>
             
             <div style="text-align: center; margin-top: 3.5rem;">
                 <a href="productos.php" class="btn btn-secondary" style="padding: 12px 28px; border: 1px solid var(--border); background: white;">Ver catálogo completo</a>
             </div>
         </section>
-
+        
         <!-- 3. Sección: Categorías Visuales -->
         <section id="categorias-visuales" class="section-padding" style="background: #121212; color: white; padding-top: 5rem; padding-bottom: 5rem;">
             <div class="container">
