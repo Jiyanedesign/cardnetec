@@ -255,6 +255,7 @@ if (isset($_GET['edit'])) {
             object-fit: cover;
         }
     </style>
+    <link rel="stylesheet" href="../css/admin.css?v=2.0">
 </head>
 <body>
 

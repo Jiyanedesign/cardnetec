@@ -101,6 +101,7 @@ $settings = getSiteSettings($pdo);
         .alert-success { background-color: #DEF7EC; color: #03543F; }
         .alert-danger { background-color: #FDE8E8; color: #9B1C1C; }
     </style>
+    <link rel="stylesheet" href="../css/admin.css?v=2.0">
 </head>
 <body>
 

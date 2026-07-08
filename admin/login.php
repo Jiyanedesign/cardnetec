@@ -81,8 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
         }
     </style>
+    <link rel="stylesheet" href="../css/admin.css?v=2.0">
 </head>
-<body>
+<body class="login-body">
 
     <div class="login-card">
         <div class="login-header">

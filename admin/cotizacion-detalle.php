@@ -159,6 +159,7 @@ if (!$quote) {
         .badge-completed { background-color: #D1FAE5; color: #065F46; }
         .badge-archived { background-color: #F3F4F6; color: #374151; }
     </style>
+    <link rel="stylesheet" href="../css/admin.css?v=2.0">
 </head>
 <body>
 

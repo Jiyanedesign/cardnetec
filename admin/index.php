@@ -133,6 +133,7 @@ try {
         }
         .badge-success { background-color: #DEF7EC; color: #03543F; }
     </style>
+    <link rel="stylesheet" href="../css/admin.css?v=2.0">
 </head>
 <body>
 
