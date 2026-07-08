@@ -171,46 +171,46 @@ try {
             [
                 'Termos grabados', 'termos-grabados', 
                 'Termos de acero inoxidable con grabado láser de acabado limpio, sobrio y altamente duradero.', 
-                $catIds['termos'], 'termo.png', json_encode(['termo_before.jpg', 'termo_after.jpg']), 'termos-grabados-sku', 1.80
+                $catIds['termos'], 'termo.png', json_encode(['termo_before.jpg', 'termo_after.jpg']), 'termos-grabados-sku', 1.80, 'Termos'
             ],
             [
                 'Agendas personalizadas', 'agendas-personalizadas', 
                 'Agendas con cubiertas de tacto cuero (PU termosensible) listas para grabados de gran textura o bajo relieve.', 
-                $catIds['agendas'], 'agenda.png', json_encode(['agenda_before.jpg', 'agenda_after.jpg']), 'agendas-sku', 2.20
+                $catIds['agendas'], 'agenda.png', json_encode(['agenda_before.jpg', 'agenda_after.jpg']), 'agendas-sku', 2.20, 'Agendas'
             ],
             [
                 'Llaveros corporativos', 'llaveros-corporativos', 
                 'Llaveros de metal cepillado y cuero con grabado láser permanente de alta precisión.', 
-                $catIds['llaveros'], 'llavero.png', json_encode(['llavero_detail.jpg']), 'llaveros-sku', 0.90
+                $catIds['llaveros'], 'llavero.png', json_encode(['llavero_detail.jpg']), 'llaveros-sku', 0.90, 'Llaveros'
             ],
             [
                 'Placas corporativas', 'placas-reconocimientos', 
                 'Placas conmemorativas y de reconocimiento en acrílico, metal o madera con cortes y acabados limpios.', 
-                $catIds['placas'], 'placa.png', json_encode(['placa_detail.jpg']), 'placas-sku', 15.00
+                $catIds['placas'], 'placa.png', json_encode(['placa_detail.jpg']), 'placas-sku', 15.00, 'Placas'
             ],
             [
                 'Cajas personalizadas', 'cajas-personalizadas', 
                 'Cajas de madera o cartón estructurado a medida con grabado láser CO2 de alta calidad para presentaciones corporativas.', 
-                $catIds['cajas'], 'caja.png', json_encode(['caja_before.jpg', 'caja_after.jpg']), 'cajas-sku', 4.50
+                $catIds['cajas'], 'caja.png', json_encode(['caja_before.jpg', 'caja_after.jpg']), 'cajas-sku', 4.50, 'Cajas'
             ],
             [
                 'Kits empresariales', 'kits-corporativos', 
                 'Cajas y empaques combinando termos grabados, agendas personalizadas y esferos a juego listos para entregar.', 
-                $catIds['kits'], 'kit.png', json_encode(['kit_detail.jpg']), 'kits-sku', 12.50
+                $catIds['kits'], 'kit.png', json_encode(['kit_detail.jpg']), 'kits-sku', 12.50, 'Kits'
             ],
             [
                 'Carnets PVC', 'credenciales-pvc', 
                 'Identificación profesional e institucional impresa en PVC laminado de alta durabilidad con diseño personalizado.', 
-                $catIds['carnets'], 'carnets.png', json_encode(['carnet_detail.jpg']), 'carnets-sku', 1.20
+                $catIds['carnets'], 'carnets.png', json_encode(['carnet_detail.jpg']), 'carnets-sku', 1.20, 'Carnets'
             ],
             [
                 'Esferos grabados', 'esferos-grabados', 
                 'Bolígrafos de metal grabados con láser de fibra con acabados finos, ideales para merchandising o uso corporativo.', 
-                $catIds['esferos'], 'esfero.png', json_encode(['esfero_detail.jpg']), 'esferos-sku', 0.45
+                $catIds['esferos'], 'esfero.png', json_encode(['esfero_detail.jpg']), 'esferos-sku', 0.45, 'Esferos'
             ]
         ];
 
-        $insProd = $pdo->prepare("INSERT INTO productos (name, slug, description_short, category_id, image_main, gallery_images, sku, price, is_featured, allows_simulation, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1)");
+        $insProd = $pdo->prepare("INSERT INTO productos (name, slug, description_short, category_id, image_main, gallery_images, sku, price, category, is_featured, allows_simulation, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1, 1)");
         foreach ($productsToSeed as $p) {
             $insProd->execute($p);
         }

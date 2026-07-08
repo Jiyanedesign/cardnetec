@@ -235,6 +235,8 @@ try {
                     $enriched = enrichProduct($prod);
                     ?>
                     <?php 
+                    // Inicializar $enriched para evitar errores 500 de variable no definida
+                    $enriched = enrichProduct($prod);
                     // Obtener la galería de imágenes del producto
                     $prod_gallery = json_decode($prod['gallery_images'], true) ?: [];
                     if ($prod['image_main']) {
