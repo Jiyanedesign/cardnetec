@@ -30,8 +30,8 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos | CardNet.ec</title>
-    <meta name="description" content="Explora nuestra selección de artículos promocionales listos para personalizar: termos, libretas y kits.">
+    <title>Productos personalizados | CardNet.ec</title>
+    <meta name="description" content="Explora termos, agendas, carnets, placas, kits y productos listos para personalizar con grabado láser y acabados corporativos.">
     <link rel="canonical" href="https://cardnet.ec/productos.php">
     <link rel="icon" type="image/png" href="favicon.png?v=2.0">
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
@@ -205,9 +205,10 @@ try {
     <!-- Encabezado de Página Interna -->
     <div class="page-header-block">
         <div class="container">
-            <h1 class="page-header-title">Catálogo de Productos</h1>
-            <p class="page-header-description">Seleccionamos soportes de gran tacto y durabilidad listos para recibir tu logotipo corporativo bajo estándares profesionales.</p>
+            <h1 class="page-header-title">Productos personalizados</h1>
+            <p class="page-header-description">Una selección de productos para empresas, instituciones, eventos y marcas que cuidan su presentación.</p>
         </div>
+    </div>
     </div>
 
     <!-- MAIN CONTENT -->
@@ -220,12 +221,11 @@ try {
             <button class="filter-btn" data-filter="Agenda" style="border:none; cursor:pointer;">Agendas</button>
             <button class="filter-btn" data-filter="Kit" style="border:none; cursor:pointer;">Kits</button>
             <button class="filter-btn" data-filter="Placa" style="border:none; cursor:pointer;">Placas</button>
+            <button class="filter-btn" data-filter="Carnet" style="border:none; cursor:pointer;">Carnets</button>
+            <button class="filter-btn" data-filter="Caja" style="border:none; cursor:pointer;">Cajas</button>
             <button class="filter-btn" data-filter="Llavero" style="border:none; cursor:pointer;">Llaveros</button>
-            <button class="filter-btn" data-filter="Identificación" style="border:none; cursor:pointer;">Identificación</button>
-            <button class="filter-btn" data-filter="Acero" style="border:none; cursor:pointer;">Acero</button>
-            <button class="filter-btn" data-filter="Madera" style="border:none; cursor:pointer;">Madera</button>
-            <button class="filter-btn" data-filter="Acrílico" style="border:none; cursor:pointer;">Acrílico</button>
-            <button class="filter-btn" data-filter="Cuero" style="border:none; cursor:pointer;">Cuero / PU</button>
+            <button class="filter-btn" data-filter="Esfero" style="border:none; cursor:pointer;">Esferos</button>
+            <button class="filter-btn" data-filter="Reconocimiento" style="border:none; cursor:pointer;">Reconocimientos</button>
         </div>
         
         <div class="grid-3">
@@ -268,12 +268,24 @@ try {
                             <p class="product-card-desc" style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
                             
                             <div style="display: flex; gap: 8px; margin-top: auto;">
+                                <?php
+                                $btn_text = 'Cotizar este producto';
+                                if (stripos($prod['slug'], 'termo') !== false) {
+                                    $btn_text = 'Cotizar este producto';
+                                } elseif (stripos($prod['slug'], 'agenda') !== false) {
+                                    $btn_text = 'Quiero algo similar';
+                                } elseif (stripos($prod['slug'], 'carnet') !== false || stripos($prod['slug'], 'credencial') !== false) {
+                                    $btn_text = 'Explorar opciones';
+                                } elseif (stripos($prod['slug'], 'kit') !== false) {
+                                    $btn_text = 'Armar un kit';
+                                }
+                                ?>
                                 <button class="btn btn-primary btn-add-to-quote" 
                                         data-slug="<?php echo htmlspecialchars($prod['slug']); ?>" 
                                         data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
                                         data-price="<?php echo (float)$prod['price']; ?>"
                                         style="flex-grow: 1; padding: 8px 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; border: none; cursor: pointer;">
-                                    Agregar a cotización
+                                    <?php echo $btn_text; ?>
                                 </button>
                                 <button class="btn btn-secondary btn-view-details" 
                                         data-slug="<?php echo htmlspecialchars($prod['slug']); ?>"
@@ -299,7 +311,7 @@ try {
 
     </main>
 
-    <!-- Footer Corporativo -->
+    <!-- Pie de Página -->
     <footer class="main-footer">
         <div class="container footer-top section-padding" style="padding-top: 3rem; padding-bottom: 3rem;">
             <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
@@ -307,44 +319,34 @@ try {
                     <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
                         <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                     </a>
-                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Identificación, grabado láser y personalización corporativa para empresas, instituciones y eventos.</p>
+                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Grabado láser, carnets y productos personalizados para empresas, instituciones y eventos.</p>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Líneas de Trabajo</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Productos</h3>
                     <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <a href="productos.php" class="footer-link">Grabado láser</a>
-                        <a href="productos.php" class="footer-link">Identificación corporativa</a>
-                        <a href="productos.php" class="footer-link">Kits empresariales</a>
-                        <a href="productos.php" class="footer-link">Placas y reconocimientos</a>
-                        <a href="productos.php" class="footer-link">Productos personalizados</a>
+                        <a href="productos.php" class="footer-link">Termos</a>
+                        <a href="productos.php" class="footer-link">Agendas</a>
+                        <a href="empresas.php" class="footer-link">Kits</a>
+                        <a href="productos.php" class="footer-link">Placas</a>
+                        <a href="productos.php" class="footer-link">Carnets</a>
                     </nav>
                 </div>
                 <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Para Quién Trabajamos</h3>
-                    <nav class="footer-links" aria-label="Enlaces de navegación" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Empresas</span>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Instituciones</span>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Eventos</span>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Marcas</span>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Equipos comerciales</span>
-                    </nav>
-                </div>
-                <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Solicitudes</h3>
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto</h3>
                     <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
-                        <a href="cotizacion.php" class="footer-link">Cotizar productos</a>
-                        <a href="cotizacion.php" class="footer-link">Enviar logo</a>
-                        <button class="footer-link toggle-quote-drawer-btn" style="background: none; border: none; text-align: left; padding: 0; font-family: inherit; font-size: inherit; color: inherit; cursor: pointer;">Preparar pedido corporativo</button>
-                        <a href="index.php#preguntas-frecuentes" class="footer-link">Preguntas frecuentes</a>
+                        <a href="https://wa.me/593000000000" class="footer-link" target="_blank" rel="noopener noreferrer">WhatsApp: +593 00 000 0000</a>
+                        <a href="mailto:correo@cardnet.ec" class="footer-link">Correo: correo@cardnet.ec</a>
+                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Ubicación: Ecuador</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
             <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; CardNet.ec. Todos los derechos reservados. Sitio desarrollado para presentación corporativa y solicitudes de cotización.</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
                 <div class="footer-bottom-links" style="display: flex; gap: 15px; font-size: 0.8rem;">
-                    <span style="color: var(--text-muted);">Contacto disponible próximamente</span>
+                    <a href="faq.php" class="footer-link">Preguntas Frecuentes</a>
+                    <a href="contacto.php" class="footer-link">Soporte</a>
                 </div>
             </div>
         </div>

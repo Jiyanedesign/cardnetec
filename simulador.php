@@ -238,9 +238,41 @@
 
     <!-- Pie de Página -->
     <footer class="main-footer">
-        <div class="container footer-top section-padding">
-            <div class="footer-bottom-flex">
-                <p>&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
+        <div class="container footer-top section-padding" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
+                <div class="footer-brand-column">
+                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
+                        <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
+                    </a>
+                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Grabado láser, carnets y productos personalizados para empresas, instituciones y eventos.</p>
+                </div>
+                <div class="footer-links-column">
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Productos</h3>
+                    <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+                        <a href="productos.php" class="footer-link">Termos</a>
+                        <a href="productos.php" class="footer-link">Agendas</a>
+                        <a href="empresas.php" class="footer-link">Kits</a>
+                        <a href="productos.php" class="footer-link">Placas</a>
+                        <a href="productos.php" class="footer-link">Carnets</a>
+                    </nav>
+                </div>
+                <div class="footer-links-column">
+                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto</h3>
+                    <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
+                        <a href="https://wa.me/593000000000" class="footer-link" target="_blank" rel="noopener noreferrer">WhatsApp: +593 00 000 0000</a>
+                        <a href="mailto:correo@cardnet.ec" class="footer-link">Correo: correo@cardnet.ec</a>
+                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Ubicación: Ecuador</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
+            <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
+                <div class="footer-bottom-links" style="display: flex; gap: 15px; font-size: 0.8rem;">
+                    <a href="faq.php" class="footer-link">Preguntas Frecuentes</a>
+                    <a href="contacto.php" class="footer-link">Soporte</a>
+                </div>
             </div>
         </div>
     </footer>

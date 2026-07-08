@@ -78,7 +78,7 @@ try {
       "@type": "LocalBusiness",
       "name": "CardNet.ec",
       "image": "https://cardnet.ec/images/logo.png?v=2.0",
-      "email": "info@cardnet.ec",
+      "email": "correo@cardnet.ec",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Av. Amazonas",

@@ -161,7 +161,7 @@ $settings = getSiteSettings($pdo);
                     <div class="contact-status-item">
                         <div class="status-text">
                             <h4>Asesoría personalizada</h4>
-                            <p>+593 90 000 0000</p>
+                            <p>+593 00 000 0000</p>
                         </div>
                     </div>
                 </div>

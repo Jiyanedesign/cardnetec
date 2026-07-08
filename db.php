@@ -60,7 +60,7 @@ try {
         $pdo->exec("CREATE TABLE IF NOT EXISTS `configuraciones` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `whatsapp` varchar(20) NOT NULL DEFAULT '593900000000',
-          `email` varchar(100) NOT NULL DEFAULT 'info@cardnet.ec',
+          `email` varchar(100) NOT NULL DEFAULT 'correo@cardnet.ec',
           `address` varchar(255) NOT NULL DEFAULT 'Av. Amazonas, Quito, Ecuador',
           `instagram` varchar(150) DEFAULT NULL,
           `facebook` varchar(150) DEFAULT NULL,
@@ -69,7 +69,7 @@ try {
           PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-        $pdo->exec("INSERT INTO `configuraciones` (id, whatsapp, email, address, site_title, site_description) VALUES (1, '593900000000', 'info@cardnet.ec', 'Av. Amazonas, Quito, Ecuador', 'CardNet.ec | Personalización Láser', 'Especialistas en grabado láser y personalización avanzada en Quito.');");
+        $pdo->exec("INSERT INTO `configuraciones` (id, whatsapp, email, address, site_title, site_description) VALUES (1, '593900000000', 'correo@cardnet.ec', 'Av. Amazonas, Quito, Ecuador', 'CardNet.ec | Personalización Láser', 'Especialistas en grabado láser y personalización avanzada en Quito.');");
     }
 
     // 4. AUTO-MIGRACIÓN: Agregar columna de estado y notas internas a la tabla solicitudes si faltan
@@ -141,7 +141,7 @@ function getSiteSettings($pdo) {
         $stmt = $pdo->query("SELECT * FROM configuraciones WHERE id = 1");
         return $stmt->fetch() ?: [
             'whatsapp' => '593900000000',
-            'email' => 'info@cardnet.ec',
+            'email' => 'correo@cardnet.ec',
             'address' => 'Av. Amazonas, Quito, Ecuador',
             'instagram' => '',
             'facebook' => '',
