@@ -52,7 +52,7 @@
                     <div class="contact-status-item">
                         <span class="status-icon-wrap">
                             <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72(12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                             </svg>
                         </span>
                         <div class="status-text">
@@ -219,27 +219,24 @@
                         
                         <div class="split-bullets">
                             <div class="bullet-item">
-                                <svg class="bullet-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                                 <span class="bullet-text"><strong>Ejecutivo B2B Asignado:</strong> Comunicación directa para resolver renders de maquetas y cotizaciones rápidas.</span>
                             </div>
                             <div class="bullet-item">
-                                <svg class="bullet-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                                 <span class="bullet-text"><strong>Impresión bajo demanda (On-demand):</strong> Adquiere stock volumétrico a precio preferente, lo guardamos en nuestro taller y lo marcamos según lo vayas necesitando.</span>
                             </div>
                             <div class="bullet-item">
-                                <svg class="bullet-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                                <svg class="bullet-icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: none; stroke: var(--primary); stroke-width: 3; flex-shrink: 0; margin-top: 3px;" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                                 <span class="bullet-text"><strong>Facturación y Crédito:</strong> Opciones de pago flexibles a 30 días posteriores al despacho de mercadería (sujeto a validación).</span>
                             </div>
                         </div>
                         <a href="contacto.php" class="btn btn-primary">Solicitar Cuenta Corporativa</a>
                     </div>
                     
-                    <div class="split-visual">
-                        <div class="image-placeholder theme-blue">
-                            <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            </svg>
-                            <span class="image-placeholder-text">Acuerdo de Nivel de Servicio Comercial</span>
+                    <div class="split-visual" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 350px;">
+                        <div style="width: 100%; max-width: 480px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); background: white;">
+                            <img src="uploads/kit.png" alt="Socio Logístico - Welcome Kit" style="width: 100%; height: auto; display: block; object-fit: cover;">
                         </div>
                     </div>
                 </div>
@@ -280,7 +277,7 @@
                     <h3 class="footer-heading">Contacto</h3>
                     <div class="footer-contact-info">
                         <div class="footer-contact-item">
-                            <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72(12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <svg class="footer-contact-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             <span>+593 90 000 0000</span>
                         </div>
                         <div class="footer-contact-item">
