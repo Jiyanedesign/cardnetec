@@ -137,8 +137,8 @@ try {
     if (!$stmtCheckTermo->fetch()) {
         // Limpiar tablas para evitar duplicados o demos como Taza
         $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
-        $pdo->exec("TRUNCATE TABLE productos;");
-        $pdo->exec("TRUNCATE TABLE categorias;");
+        $pdo->exec("DELETE FROM productos;");
+        $pdo->exec("DELETE FROM categorias;");
         $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
 
         // Insertar Categorías oficiales
@@ -214,7 +214,7 @@ try {
         foreach ($productsToSeed as $p) {
             $insProd->execute($p);
         }
-    }");
+    }
 
 } catch (PDOException $e) {
     die("Error de conexión a la base de datos: " . $e->getMessage());
