@@ -1096,6 +1096,8 @@ $gallery = array_unique($gallery);
             return null;
         }
 
+        let productGroup3D, decalMesh;
+
         function initThreeJS() {
             if (is3DInitialized) return;
 
@@ -1104,17 +1106,19 @@ $gallery = array_unique($gallery);
 
             // Escena
             scene3D = new THREE.Scene();
-            scene3D.background = new THREE.Color(0xf1f5f9);
+            scene3D.background = new THREE.Color(0xf8fafc);
 
             // Cámara
-            camera3D = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-            camera3D.position.set(0, 0, 12);
+            camera3D = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+            camera3D.position.set(0, 1.5, 9);
 
             // Renderizador
-            renderer3D = new THREE.WebGLRenderer({ antialias: true });
+            renderer3D = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer3D.setSize(width, height);
             renderer3D.setPixelRatio(window.devicePixelRatio);
             renderer3D.shadowMap.enabled = true;
+            renderer3D.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer3D.toneMappingExposure = 1.2;
             container3d.appendChild(renderer3D.domElement);
 
             // Controles de órbita
@@ -1123,46 +1127,136 @@ $gallery = array_unique($gallery);
             controls3D.dampingFactor = 0.05;
             controls3D.maxPolarAngle = Math.PI / 1.8;
             controls3D.minPolarAngle = Math.PI / 3;
+            controls3D.minDistance = 4;
+            controls3D.maxDistance = 15;
 
-            // Iluminación Premium
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+            // Iluminación de Estudio Premium
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
             scene3D.add(ambientLight);
 
-            const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.7);
-            dirLight1.position.set(5, 10, 7);
-            scene3D.add(dirLight1);
+            const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
+            keyLight.position.set(5, 8, 5);
+            scene3D.add(keyLight);
 
-            const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.3);
-            dirLight2.position.set(-5, -5, 5);
-            scene3D.add(dirLight2);
+            const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
+            fillLight.position.set(-5, 3, 2);
+            scene3D.add(fillLight);
 
-            // Construir Geometría y Material según el Producto
-            let geometry, material;
+            const rimLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            rimLight.position.set(0, 5, -5);
+            scene3D.add(rimLight);
 
+            productGroup3D = new THREE.Group();
+
+            // Construir Modelos Realistas y Detallados
             if (productSlug.includes('termo')) {
-                geometry = new THREE.CylinderGeometry(1.6, 1.6, 5, 32);
-                material = new THREE.MeshStandardMaterial({
-                    color: 0x1e293b,
-                    metalness: 0.85,
-                    roughness: 0.15
+                // Termo Premium con Tapa y Cuerpo
+                const bodyGeo = new THREE.CylinderGeometry(1.05, 1.05, 3.8, 64);
+                const bodyMat = new THREE.MeshStandardMaterial({
+                    color: 0x1e2430, // Negro carbón elegante
+                    metalness: 0.15,
+                    roughness: 0.55
                 });
-            } else if (productSlug.includes('agenda')) {
-                geometry = new THREE.BoxGeometry(3.6, 5, 0.4);
-                material = new THREE.MeshStandardMaterial({
-                    color: 0x1e293b,
-                    metalness: 0.05,
-                    roughness: 0.95
+                const body = new THREE.Mesh(bodyGeo, bodyMat);
+                body.position.y = -0.4;
+                productGroup3D.add(body);
+
+                // Cuello y Anillo Cromado
+                const neckGeo = new THREE.CylinderGeometry(0.9, 1.05, 0.4, 64);
+                const neckMat = new THREE.MeshStandardMaterial({
+                    color: 0xdddddd,
+                    metalness: 0.9,
+                    roughness: 0.1
                 });
-            } else if (productSlug.includes('caja')) {
-                geometry = new THREE.BoxGeometry(4.5, 3.2, 3);
-                material = new THREE.MeshStandardMaterial({
-                    color: 0xd97706,
+                const neck = new THREE.Mesh(neckGeo, neckMat);
+                neck.position.y = 1.7;
+                productGroup3D.add(neck);
+
+                // Tapa Plástica con Asa
+                const capGeo = new THREE.CylinderGeometry(0.9, 0.9, 0.6, 64);
+                const capMat = new THREE.MeshStandardMaterial({
+                    color: 0x111111,
                     metalness: 0.1,
-                    roughness: 0.8
+                    roughness: 0.5
                 });
+                const cap = new THREE.Mesh(capGeo, capMat);
+                cap.position.y = 2.2;
+                productGroup3D.add(cap);
+
+                // Malla Decal (Superficie de Calcomanía para evitar estiramientos)
+                const decalGeo = new THREE.CylinderGeometry(1.055, 1.055, 2.0, 64, 1, true, -Math.PI/2, Math.PI);
+                const decalMat = new THREE.MeshStandardMaterial({
+                    transparent: true,
+                    depthWrite: false,
+                    roughness: 0.55,
+                    metalness: 0.15
+                });
+                decalMesh = new THREE.Mesh(decalGeo, decalMat);
+                decalMesh.position.y = -0.4;
+                productGroup3D.add(decalMesh);
+
+            } else if (productSlug.includes('agenda')) {
+                // Agenda con lomo y hojas
+                const coverGeo = new THREE.BoxGeometry(3.0, 4.2, 0.35);
+                const coverMat = new THREE.MeshStandardMaterial({
+                    color: 0x18181b, // Negro mate elegante
+                    metalness: 0.05,
+                    roughness: 0.85
+                });
+                const cover = new THREE.Mesh(coverGeo, coverMat);
+                productGroup3D.add(cover);
+
+                // Bloque de Hojas internas (Blanco)
+                const pagesGeo = new THREE.BoxGeometry(2.9, 4.1, 0.3);
+                const pagesMat = new THREE.MeshStandardMaterial({
+                    color: 0xf8fafc,
+                    metalness: 0.0,
+                    roughness: 0.9
+                });
+                const pages = new THREE.Mesh(pagesGeo, pagesMat);
+                pages.position.x = 0.03;
+                productGroup3D.add(pages);
+
+                // Malla Decal sobre la portada
+                const decalGeo = new THREE.PlaneGeometry(2.2, 3.2);
+                const decalMat = new THREE.MeshStandardMaterial({
+                    transparent: true,
+                    depthWrite: false,
+                    roughness: 0.85,
+                    metalness: 0.05
+                });
+                decalMesh = new THREE.Mesh(decalGeo, decalMat);
+                decalMesh.position.set(0, 0, 0.18);
+                productGroup3D.add(decalMesh);
+
+            } else if (productSlug.includes('caja')) {
+                // Caja de Madera fina
+                const boxGeo = new THREE.BoxGeometry(4.2, 3.0, 2.4);
+                const boxMat = new THREE.MeshStandardMaterial({
+                    color: 0xb45309, // Madera barnizada
+                    metalness: 0.0,
+                    roughness: 0.75
+                });
+                const box = new THREE.Mesh(boxGeo, boxMat);
+                productGroup3D.add(box);
+
+                // Malla Decal sobre la tapa
+                const decalGeo = new THREE.PlaneGeometry(3.2, 2.0);
+                const decalMat = new THREE.MeshStandardMaterial({
+                    transparent: true,
+                    depthWrite: false,
+                    roughness: 0.75,
+                    metalness: 0.0
+                });
+                decalMesh = new THREE.Mesh(decalGeo, decalMat);
+                decalMesh.position.set(0, 1.505, 0);
+                decalMesh.rotation.x = -Math.PI / 2;
+                productGroup3D.add(decalMesh);
+
             } else if (productSlug.includes('placa')) {
-                geometry = new THREE.BoxGeometry(3.2, 4.5, 0.25);
-                material = new THREE.MeshPhysicalMaterial({
+                // Placa de Acrílico sobre Base de Madera
+                const plateGeo = new THREE.BoxGeometry(3.0, 4.0, 0.2);
+                const plateMat = new THREE.MeshPhysicalMaterial({
                     color: 0xffffff,
                     metalness: 0.0,
                     roughness: 0.05,
@@ -1170,59 +1264,99 @@ $gallery = array_unique($gallery);
                     opacity: 1,
                     transparent: true
                 });
-            } else {
-                geometry = new THREE.CylinderGeometry(1.5, 1.5, 4.5, 32);
-                material = new THREE.MeshStandardMaterial({
-                    color: 0x64748b,
-                    metalness: 0.5,
-                    roughness: 0.3
+                const plate = new THREE.Mesh(plateGeo, plateMat);
+                plate.position.y = 0.5;
+                productGroup3D.add(plate);
+
+                // Base de Madera
+                const baseGeo = new THREE.BoxGeometry(3.4, 0.4, 1.2);
+                const baseMat = new THREE.MeshStandardMaterial({
+                    color: 0x78350f,
+                    metalness: 0.1,
+                    roughness: 0.8
                 });
+                const base = new THREE.Mesh(baseGeo, baseMat);
+                base.position.y = -1.6;
+                productGroup3D.add(base);
+
+                // Malla Decal sobre el acrílico
+                const decalGeo = new THREE.PlaneGeometry(2.4, 3.2);
+                const decalMat = new THREE.MeshStandardMaterial({
+                    transparent: true,
+                    depthWrite: false,
+                    roughness: 0.05,
+                    metalness: 0.0
+                });
+                decalMesh = new THREE.Mesh(decalGeo, decalMat);
+                decalMesh.position.set(0, 0.5, 0.11);
+                productGroup3D.add(decalMesh);
+
+            } else {
+                // Objeto Genérico Cilíndrico
+                const geo = new THREE.CylinderGeometry(1.1, 1.1, 4, 32);
+                const mat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.4 });
+                const baseObj = new THREE.Mesh(geo, mat);
+                productGroup3D.add(baseObj);
+
+                const decalGeo = new THREE.CylinderGeometry(1.105, 1.105, 2.5, 32, 1, true, -Math.PI/2, Math.PI);
+                const decalMat = new THREE.MeshStandardMaterial({ transparent: true, depthWrite: false });
+                decalMesh = new THREE.Mesh(decalGeo, decalMat);
+                productGroup3D.add(decalMesh);
             }
 
-            productMesh = new THREE.Mesh(geometry, material);
-            scene3D.add(productMesh);
+            scene3D.add(productGroup3D);
 
             is3DInitialized = true;
             animate3D();
         }
 
         function update3DTexture() {
-            if (!is3DInitialized) return;
+            if (!is3DInitialized || !decalMesh) return;
 
-            // Extraer el logo del canvas 2D si existe
             const logo = getUploadedLogoImage();
             if (logo) {
                 const imgElement = logo.getElement();
                 const loader = new THREE.TextureLoader();
                 loader.load(imgElement.src, function(texture) {
                     texture.minFilter = THREE.LinearFilter;
-                    
-                    if (productSlug.includes('termo')) {
-                        texture.wrapS = THREE.RepeatWrapping;
-                        texture.wrapT = THREE.ClampToEdgeWrapping;
-                        texture.repeat.set(1.5, 1.5);
-                        texture.offset.set(-0.25, -0.25);
-                    } else {
-                        texture.wrapS = THREE.ClampToEdgeWrapping;
-                        texture.wrapT = THREE.ClampToEdgeWrapping;
-                    }
+                    texture.wrapS = THREE.ClampToEdgeWrapping;
+                    texture.wrapT = THREE.ClampToEdgeWrapping;
 
-                    productMesh.material.map = texture;
-                    
+                    // Centrar y ajustar escala del logo en la calcomanía
+                    texture.repeat.set(1, 1);
+                    texture.offset.set(0, 0);
+
+                    decalMesh.material.map = texture;
+
+                    // Aplicar efectos visuales premium de grabado
                     const effect = document.getElementById('logo-effect').value;
                     if (effect === 'laser-silver') {
-                        productMesh.material.metalness = 0.9;
-                        productMesh.material.roughness = 0.2;
+                        // Grabado metálico sobre el metal/acrílico
+                        decalMesh.material.color.setHex(0xe2e8f0);
+                        decalMesh.material.metalness = 0.95;
+                        decalMesh.material.roughness = 0.15;
+                    } else if (effect === 'laser-gold') {
+                        // Grabado dorado
+                        decalMesh.material.color.setHex(0xf59e0b);
+                        decalMesh.material.metalness = 0.95;
+                        decalMesh.material.roughness = 0.15;
                     } else if (effect === 'deboss') {
-                        productMesh.material.roughness = 0.95;
-                        productMesh.material.metalness = 0.05;
+                        // Relieve grabado oscuro en cuero/madera
+                        decalMesh.material.color.setHex(0x18181b);
+                        decalMesh.material.metalness = 0.05;
+                        decalMesh.material.roughness = 0.95;
+                    } else {
+                        // Impresión original a color
+                        decalMesh.material.color.setHex(0xffffff);
+                        decalMesh.material.metalness = 0.1;
+                        decalMesh.material.roughness = 0.5;
                     }
-                    
-                    productMesh.material.needsUpdate = true;
+
+                    decalMesh.material.needsUpdate = true;
                 });
             } else {
-                productMesh.material.map = null;
-                productMesh.material.needsUpdate = true;
+                decalMesh.material.map = null;
+                decalMesh.material.needsUpdate = true;
             }
         }
 
