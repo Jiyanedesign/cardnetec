@@ -13,10 +13,10 @@ $settings = getSiteSettings($pdo);
     <meta name="description" content="Diseña, previsualiza y cotiza credenciales, identificaciones y carnets de PVC corporativos en línea con códigos QR y fotos de empleados.">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=3.8">
-    <link rel="stylesheet" href="css/layout.css?v=3.8">
-    <link rel="stylesheet" href="css/components.css?v=3.8">
-    <link rel="stylesheet" href="css/pages.css?v=3.8">
+    <link rel="stylesheet" href="css/base.css?v=4.0">
+    <link rel="stylesheet" href="css/layout.css?v=4.0">
+    <link rel="stylesheet" href="css/components.css?v=4.0">
+    <link rel="stylesheet" href="css/pages.css?v=4.0">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Fabric.js y QRCode.js -->

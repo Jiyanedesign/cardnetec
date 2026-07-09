@@ -9,10 +9,10 @@
     <link rel="icon" type="image/png" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=3.8">
-    <link rel="stylesheet" href="css/layout.css?v=3.8">
-    <link rel="stylesheet" href="css/components.css?v=3.8">
-    <link rel="stylesheet" href="css/pages.css?v=3.8">
+    <link rel="stylesheet" href="css/base.css?v=4.0">
+    <link rel="stylesheet" href="css/layout.css?v=4.0">
+    <link rel="stylesheet" href="css/components.css?v=4.0">
+    <link rel="stylesheet" href="css/pages.css?v=4.0">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -119,7 +119,7 @@
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=3.8"></script>
+    <script src="js/main.js?v=4.0"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

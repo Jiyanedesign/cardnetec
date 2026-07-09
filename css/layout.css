@@ -522,11 +522,16 @@
    ========================================================================== */
 
 @media (max-width: 1023px) {
-    /* Header & Logo Resizing on Mobile */
+    /* Header & Logo Centrado en Móvil */
     .header-middle {
-        height: 75px !important;
-        padding: 0 10px !important;
+        height: 70px !important;
+        padding: 0 16px !important;
         gap: 0.5rem !important;
+        justify-content: center !important;
+        position: relative;
+    }
+    .logo {
+        position: static;
     }
     .logo-img {
         height: 46px !important;
@@ -534,6 +539,16 @@
     }
     .burger-menu {
         z-index: 105 !important;
+        position: absolute !important;
+        right: 16px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+    }
+    .header-contact-status {
+        display: none !important;
+    }
+    .header-search {
+        display: none !important;
     }
     .mobile-nav {
         z-index: 102 !important;
