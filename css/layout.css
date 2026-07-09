@@ -515,3 +515,101 @@
 .footer-bottom-link:hover {
     color: var(--primary);
 }
+
+
+/* ==========================================================================
+   Responsive Mobile Adjustments (Header, Hero Slider, Before/After)
+   ========================================================================== */
+
+@media (max-width: 1023px) {
+    /* Header & Logo Resizing on Mobile */
+    .header-middle {
+        height: 75px !important;
+        padding: 0 10px !important;
+        gap: 0.5rem !important;
+    }
+    .logo-img {
+        height: 46px !important;
+        width: auto !important;
+    }
+    .burger-menu {
+        z-index: 105 !important;
+    }
+    .mobile-nav {
+        z-index: 102 !important;
+        padding-top: 100px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    /* Hero Slider Responsive Fixes */
+    .hero-right-carousel {
+        height: auto !important;
+        min-height: 480px !important;
+    }
+    .hero-slide-item {
+        padding: 2.5rem 1.5rem !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    .hero-slide-item > div:first-child {
+        width: 100% !important;
+        height: 52% !important;
+        top: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        bottom: auto !important;
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%) !important;
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%) !important;
+    }
+    .hero-slide-item > div:first-child img {
+        object-position: center center !important;
+    }
+    .hero-slide-item > div:nth-child(2) {
+        background: linear-gradient(to bottom, transparent 0%, #0f110e 55%, #0f110e 100%) !important;
+    }
+    .hero-slide-item > div:nth-child(3) {
+        margin-top: 180px !important;
+        max-width: 100% !important;
+    }
+    .hero-slide-item h2 {
+        font-size: 1.6rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    .hero-slide-item p {
+        font-size: 0.88rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    .hero-slide-item .btn {
+        width: 100% !important;
+        padding: 12px 0 !important;
+        display: block;
+        text-align: center;
+    }
+    .hero-right-carousel > div:last-child {
+        right: 50% !important;
+        transform: translateX(50%) !important;
+        bottom: 1.5rem !important;
+    }
+
+    /* Before and After slider comparison stacking on mobile */
+    .interactive-slider-wrapper {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+    }
+    .before-after-selector-wrap {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .slider-tab-btn {
+        padding: 12px 14px !important;
+        font-size: 0.85rem !important;
+    }
+    .slider-tab-btn span:last-child {
+        font-size: 0.75rem !important;
+    }
+}
