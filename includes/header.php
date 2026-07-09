@@ -7,7 +7,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!-- Barra de Anuncios Superior -->
 <div class="top-announcement-bar">
-    Taller de personalización en Ecuador · Grabado láser, carnets y productos corporativos
+    Identificación y accesorios para personal · Ecuador
 </div>
 
 <!-- Cabecera de Página -->
@@ -23,7 +23,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <input class="search-input" type="text" placeholder="Buscar termos, agendas, placas...">
+                <input class="search-input" type="text" placeholder="Buscar carnets, cintas, accesorios...">
             </div>
 
             <div class="header-contact-status">
@@ -55,10 +55,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <nav class="nav-menu" aria-label="Navegación principal">
                 <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
                 <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-                <a href="index.php#laser" class="nav-link">Grabado láser</a>
-                <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Kits empresariales</a>
-                <a href="index.php#antes-despues" class="nav-link">Personalización</a>
-                <a href="index.php#proceso" class="nav-link">Cómo pedir</a>
+                <a href="productos.php?cat=carnets" class="nav-link">Carnets</a>
+                <a href="productos.php?cat=cintas" class="nav-link">Cintas</a>
+                <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
+                <a href="personalizacion.php" class="nav-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
                 <a href="cotizacion.php" class="nav-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar<?php
                 if ($c_count > 0) {
                     echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
@@ -89,10 +89,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
     <a href="index.php" class="mobile-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
     <a href="productos.php" class="mobile-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-    <a href="index.php#laser" class="mobile-link">Grabado láser</a>
-    <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Kits empresariales</a>
-    <a href="index.php#antes-despues" class="mobile-link">Personalización</a>
-    <a href="index.php#proceso" class="mobile-link">Cómo pedir</a>
+    <a href="productos.php?cat=carnets" class="mobile-link">Carnets</a>
+    <a href="productos.php?cat=cintas" class="mobile-link">Cintas</a>
+    <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
+    <a href="personalizacion.php" class="mobile-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
     <a href="cotizacion.php" class="mobile-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar</a>
     <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%; text-transform: none;">Cotizar</a>
 </nav>

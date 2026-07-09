@@ -183,8 +183,8 @@ unset($item);
     <!-- Encabezado de Página Interna -->
     <div class="page-header-block">
         <div class="container">
-            <h1 class="page-header-title">Cotiza tus productos personalizados</h1>
-            <p class="page-header-description">Cuéntanos qué producto necesitas, sube tu logo y te ayudamos a elegir el mejor acabado.</p>
+            <h1 class="page-header-title">Cotiza tus identificaciones o productos personalizados</h1>
+            <p class="page-header-description">Cuéntanos si necesitas carnets, credenciales, cintas, porta credenciales o productos personalizados, y te ayudamos a preparar una opción adecuada.</p>
         </div>
     </div>
 
@@ -232,41 +232,46 @@ unset($item);
                         </div>
                     </div>
 
-                    <!-- BLOQUE 2: Producto de interés -->
+                    <!-- BLOQUE 2: ¿Qué necesitas cotizar? -->
                     <div class="form-block-card">
                         <h3 class="form-block-title">
-                            <span class="form-block-num">2</span> Producto de interés
+                            <span class="form-block-num">2</span> ¿Qué necesitas cotizar?
                         </h3>
                         <div class="chip-group" id="product-chips">
-                            <div class="chip-option <?php echo (empty($cart)) ? 'selected' : ''; ?>" data-value="Termos">Termos</div>
-                            <div class="chip-option" data-value="Agendas">Agendas</div>
-                            <div class="chip-option" data-value="Carnets">Carnets</div>
+                            <div class="chip-option <?php echo (empty($cart)) ? 'selected' : ''; ?>" data-value="Carnets PVC">Carnets PVC</div>
                             <div class="chip-option" data-value="Credenciales">Credenciales</div>
+                            <div class="chip-option" data-value="Cintas porta credenciales">Cintas porta credenciales</div>
+                            <div class="chip-option" data-value="Porta carnets">Porta carnets</div>
+                            <div class="chip-option" data-value="Tarjetas PVC">Tarjetas PVC</div>
+                            <div class="chip-option" data-value="Accesorios para identificación">Accesorios para identificación</div>
+                            <div class="chip-option" data-value="Credenciales para eventos">Credenciales para eventos</div>
+                            <div class="chip-option" data-value="Agendas personalizadas">Agendas personalizadas</div>
+                            <div class="chip-option" data-value="Llaveros personalizados">Llaveros personalizados</div>
+                            <div class="chip-option" data-value="Termos grabados">Termos grabados</div>
                             <div class="chip-option" data-value="Kits corporativos">Kits corporativos</div>
-                            <div class="chip-option" data-value="Placas">Placas</div>
-                            <div class="chip-option" data-value="Cajas">Cajas</div>
-                            <div class="chip-option" data-value="Llaveros">Llaveros</div>
-                            <div class="chip-option" data-value="Esferos">Esferos</div>
+                            <div class="chip-option" data-value="Cajas personalizadas">Cajas personalizadas</div>
                             <div class="chip-option" data-value="Otro">Otro</div>
                         </div>
-                        <input type="hidden" id="selected-product" value="Termos">
+                        <input type="hidden" id="selected-product" value="Carnets PVC">
                     </div>
 
-                    <!-- BLOQUE 3: Tipo de personalización -->
+                    <!-- BLOQUE 3: Tipo de trabajo -->
                     <div class="form-block-card">
                         <h3 class="form-block-title">
-                            <span class="form-block-num">3</span> Tipo de personalización
+                            <span class="form-block-num">3</span> Tipo de trabajo
                         </h3>
                         <div class="chip-group" id="type-chips">
-                            <div class="chip-option selected" data-value="Grabado láser">Grabado láser</div>
-                            <div class="chip-option" data-value="Impresión UV">Impresión UV</div>
-                            <div class="chip-option" data-value="Sublimación">Sublimación</div>
-                            <div class="chip-option" data-value="Bajo relieve">Bajo relieve</div>
-                            <div class="chip-option" data-value="Carnetización">Carnetización</div>
-                            <div class="chip-option" data-value="Packaging personalizado">Packaging personalizado</div>
+                            <div class="chip-option selected" data-value="Diseño de carnet o credencial">Diseño de carnet o credencial</div>
+                            <div class="chip-option" data-value="Impresión de carnets">Impresión de carnets</div>
+                            <div class="chip-option" data-value="Cintas full color">Cintas full color</div>
+                            <div class="chip-option" data-value="Cintas a un color">Cintas a un color</div>
+                            <div class="chip-option" data-value="Cintas sin impresión">Cintas sin impresión</div>
+                            <div class="chip-option" data-value="Porta credenciales">Porta credenciales</div>
+                            <div class="chip-option" data-value="Grabado láser">Grabado láser</div>
+                            <div class="chip-option" data-value="Personalización de producto">Personalización de producto</div>
                             <div class="chip-option" data-value="No estoy seguro">No estoy seguro</div>
                         </div>
-                        <input type="hidden" id="selected-type" value="Grabado láser">
+                        <input type="hidden" id="selected-type" value="Diseño de carnet o credencial">
                     </div>
 
                     <!-- BLOQUE 4: Cantidad aproximada -->
@@ -303,13 +308,18 @@ unset($item);
                             <span class="form-block-num">6</span> Cuéntanos tu idea
                         </h3>
                         <div class="form-group">
-                            <textarea class="form-textarea" id="quote-notes" rows="4" placeholder="Indica colores de grabado, fecha aproximada del evento o cualquier detalle del estilo que buscas..."></textarea>
+                            <textarea class="form-textarea" id="quote-notes" rows="4" placeholder="Ejemplo: Necesito carnets para 30 colaboradores con cinta porta credencial y porta carnet."></textarea>
                         </div>
                     </div>
 
                     <button class="btn btn-primary" type="submit" style="width: 100%; padding: 16px; font-size: 0.95rem;" <?php echo ($settings['min_order'] > 0 && $total_qty > 0 && $total_qty < $settings['min_order']) ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
                         Enviar solicitud de cotización
                     </button>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <a href="productos.php" class="btn btn-secondary" style="flex-grow: 1; text-align: center; text-transform: none; padding: 10px 0; background: white;">Ver productos</a>
+                        <a href="cotizacion.php" class="btn btn-secondary" style="flex-grow: 1; text-align: center; text-transform: none; padding: 10px 0; background: white;">Cotizar una idea desde cero</a>
+                    </div>
                     
                     <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 12px; line-height: 1.4;">
                         No necesitas tener todo definido. Puedes enviarnos una idea general y la revisamos contigo paso a paso.

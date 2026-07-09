@@ -6,17 +6,17 @@
                     <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">
-                    Grabado láser, carnets y productos personalizados para empresas, instituciones y eventos.
+                    Identificación, carnets, credenciales, cintas y productos personalizados para empresas, instituciones y eventos.
                 </p>
             </div>
             <div class="footer-links-column">
                 <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Productos</h3>
                 <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                    <a href="productos.php" class="footer-link">Termos</a>
-                    <a href="productos.php" class="footer-link">Agendas</a>
-                    <a href="empresas.php" class="footer-link">Kits</a>
-                    <a href="productos.php" class="footer-link">Placas</a>
-                    <a href="productos.php" class="footer-link">Carnets</a>
+                    <a href="productos.php?cat=carnets" class="footer-link">Carnets</a>
+                    <a href="productos.php?cat=credenciales" class="footer-link">Credenciales</a>
+                    <a href="productos.php?cat=cintas" class="footer-link">Cintas</a>
+                    <a href="productos.php?cat=porta-credenciales" class="footer-link">Porta carnets</a>
+                    <a href="personalizacion.php" class="footer-link">Personalización</a>
                 </nav>
             </div>
             <div class="footer-links-column">
@@ -42,7 +42,7 @@
     </div>
     <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
         <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Identificación y accesorios para personal.</p>
         </div>
     </div>
 </footer>

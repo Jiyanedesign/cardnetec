@@ -177,16 +177,16 @@ try {
         $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
 
         // Insertar Categorías oficiales
-        $cats = [
-            ['Termos', 'termos', 1],
-            ['Agendas', 'agendas', 2],
-            ['Kits', 'kits', 3],
-            ['Placas', 'placas', 4],
-            ['Carnets', 'carnets', 5],
-            ['Cajas', 'cajas', 6],
-            ['Llaveros', 'llaveros', 7],
-            ['Esferos', 'esferos', 8],
-            ['Reconocimientos', 'reconocimientos', 9]
+                $cats = [
+            ['Carnets', 'carnets', 1],
+            ['Credenciales', 'credenciales', 2],
+            ['Cintas', 'cintas', 3],
+            ['Porta credenciales', 'porta-credenciales', 4],
+            ['Accesorios', 'accesorios', 5],
+            ['Tarjetas PVC', 'tarjetas-pvc', 6],
+            ['Personalización', 'personalizacion', 7],
+            ['Kits', 'kits', 8],
+            ['Placas', 'placas', 9]
         ];
         
         $insCat = $pdo->prepare("INSERT INTO categorias (name, slug, order_val, is_active) VALUES (?, ?, ?, 1)");
@@ -202,31 +202,76 @@ try {
         }
 
         // Insertar los 8 productos oficiales
-        $productsToSeed = [
+                $productsToSeed = [
             [
-                'Termos grabados', 'termos-grabados', 
-                'Termos de acero inoxidable con grabado láser de acabado limpio, sobrio y altamente duradero.', 
-                $catIds['termos'], 'termo.png', json_encode(['termo_before.jpg', 'termo_after.jpg']), 'termos-grabados-sku', 1.80, 'Termos'
+                'Carnets PVC', 'credenciales-pvc', 
+                'Identificación profesional e institucional impresa en PVC laminado de alta durabilidad con diseño personalizado.', 
+                $catIds['carnets'], 'carnets.png', json_encode(['carnet_detail.jpg']), 'carnets-sku', 1.20, 'Carnets'
+            ],
+            [
+                'Credenciales corporativas', 'credenciales-corporativas', 
+                'Credenciales de identificación personalizadas con acabado sobrio para colaboradores de empresas e instituciones.', 
+                $catIds['credenciales'], 'carnets.png', json_encode([]), 'cred-corp-sku', 1.50, 'Credenciales'
+            ],
+            [
+                'Credenciales para eventos', 'credenciales-eventos', 
+                'Credenciales claras y funcionales para staff, invitados, asistentes y control de acceso en ferias o congresos.', 
+                $catIds['credenciales'], 'carnets.png', json_encode([]), 'cred-event-sku', 1.00, 'Credenciales'
+            ],
+            [
+                'Cintas porta credenciales full color', 'cintas-full-color', 
+                'Cintas porta credenciales personalizadas con sublimación full color para mayor presencia de marca.', 
+                $catIds['cintas'], 'llavero.png', json_encode([]), 'cintas-fc-sku', 1.80, 'Cintas'
+            ],
+            [
+                'Cintas a un color', 'cintas-un-color', 
+                'Cintas porta credenciales de poliéster estampadas a un color con acabado limpio y sobrio.', 
+                $catIds['cintas'], 'llavero.png', json_encode([]), 'cintas-uc-sku', 1.20, 'Cintas'
+            ],
+            [
+                'Cintas sin impresión', 'cintas-sin-impresion', 
+                'Cintas porta credenciales lisas en colores institucionales básicos para uso diario o eventos.', 
+                $catIds['cintas'], 'llavero.png', json_encode([]), 'cintas-si-sku', 0.80, 'Cintas'
+            ],
+            [
+                'Porta carnets', 'porta-carnets', 
+                'Accesorios rígidos o flexibles transparentes para proteger y portar carnets de forma práctica.', 
+                $catIds['porta-credenciales'], 'caja.png', json_encode([]), 'porta-carnets-sku', 0.50, 'Porta credenciales'
+            ],
+            [
+                'Porta credenciales', 'porta-credenciales', 
+                'Fundas o estuches transparentes ideales para credenciales de eventos y acreditaciones de personal.', 
+                $catIds['porta-credenciales'], 'caja.png', json_encode([]), 'porta-cred-sku', 0.40, 'Porta credenciales'
+            ],
+            [
+                'Tarjetas PVC', 'tarjetas-pvc', 
+                'Tarjetas plásticas personalizadas para control de accesos, membresías, fidelización de clientes o identificación.', 
+                $catIds['tarjetas-pvc'], 'carnets.png', json_encode([]), 'tarjetas-pvc-sku', 1.10, 'Tarjetas PVC'
+            ],
+            [
+                'Accesorios para identificación', 'accesorios-identificacion', 
+                'Complementos de identificación diaria como yoyos retráctiles con resorte metálico, clips y lanyards.', 
+                $catIds['accesorios'], 'llavero.png', json_encode([]), 'acc-id-sku', 0.60, 'Accesorios'
             ],
             [
                 'Agendas personalizadas', 'agendas-personalizadas', 
                 'Agendas con cubiertas de tacto cuero (PU termosensible) listas para grabados de gran textura o bajo relieve.', 
-                $catIds['agendas'], 'agenda.png', json_encode(['agenda_before.jpg', 'agenda_after.jpg']), 'agendas-sku', 2.20, 'Agendas'
+                $catIds['personalizacion'], 'agenda.png', json_encode(['agenda_before.jpg', 'agenda_after.jpg']), 'agendas-sku', 2.20, 'Personalización'
             ],
             [
                 'Llaveros corporativos', 'llaveros-corporativos', 
                 'Llaveros de metal cepillado y cuero con grabado láser permanente de alta precisión.', 
-                $catIds['llaveros'], 'llavero.png', json_encode(['llavero_detail.jpg']), 'llaveros-sku', 0.90, 'Llaveros'
+                $catIds['personalizacion'], 'llavero.png', json_encode(['llavero_detail.jpg']), 'llaveros-sku', 0.90, 'Personalización'
             ],
             [
-                'Placas corporativas', 'placas-reconocimientos', 
-                'Placas conmemorativas y de reconocimiento en acrílico, metal o madera con cortes y acabados limpios.', 
-                $catIds['placas'], 'placa.png', json_encode(['placa_detail.jpg']), 'placas-sku', 15.00, 'Placas'
+                'Termos grabados', 'termos-grabados', 
+                'Termos de acero inoxidable con grabado láser de acabado limpio, sobrio y altamente duradero.', 
+                $catIds['personalizacion'], 'termo.png', json_encode(['termo_before.jpg', 'termo_after.jpg']), 'termos-grabados-sku', 1.80, 'Personalización'
             ],
             [
                 'Cajas personalizadas', 'cajas-personalizadas', 
                 'Cajas de madera o cartón estructurado a medida con grabado láser CO2 de alta calidad para presentaciones corporativas.', 
-                $catIds['cajas'], 'caja.png', json_encode(['caja_before.jpg', 'caja_after.jpg']), 'cajas-sku', 4.50, 'Cajas'
+                $catIds['personalizacion'], 'caja.png', json_encode(['caja_before.jpg', 'caja_after.jpg']), 'cajas-sku', 4.50, 'Personalización'
             ],
             [
                 'Kits empresariales', 'kits-corporativos', 
@@ -234,14 +279,9 @@ try {
                 $catIds['kits'], 'kit.png', json_encode(['kit_detail.jpg']), 'kits-sku', 12.50, 'Kits'
             ],
             [
-                'Carnets PVC', 'credenciales-pvc', 
-                'Identificación profesional e institucional impresa en PVC laminado de alta durabilidad con diseño personalizado.', 
-                $catIds['carnets'], 'carnets.png', json_encode(['carnet_detail.jpg']), 'carnets-sku', 1.20, 'Carnets'
-            ],
-            [
-                'Esferos grabados', 'esferos-grabados', 
-                'Bolígrafos de metal grabados con láser de fibra con acabados finos, ideales para merchandising o uso corporativo.', 
-                $catIds['esferos'], 'esfero.png', json_encode(['esfero_detail.jpg']), 'esferos-sku', 0.45, 'Esferos'
+                'Placas corporativas', 'placas-reconocimientos', 
+                'Placas conmemorativas y de reconocimiento en acrílico, metal o madera con cortes y acabados limpios.', 
+                $catIds['placas'], 'placa.png', json_encode(['placa_detail.jpg']), 'placas-sku', 15.00, 'Placas'
             ]
         ];
 

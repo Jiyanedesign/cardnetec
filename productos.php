@@ -80,8 +80,8 @@ try {
     <!-- Encabezado de Página Interna -->
     <div class="page-header-block">
         <div class="container">
-            <h1 class="page-header-title">Productos personalizados</h1>
-            <p class="page-header-description">Explora productos listos para personalizar con grabado láser, carnets, kits y acabados corporativos.</p>
+            <h1 class="page-header-title">Productos de identificación y personalización</h1>
+            <p class="page-header-description">Explora carnets, credenciales, cintas, porta credenciales y productos personalizados para empresas, instituciones y eventos.</p>
         </div>
     </div>
     </div>
@@ -89,18 +89,20 @@ try {
     <!-- MAIN CONTENT -->
     <main class="section-padding container">
 
-        <!-- Barra de Filtros por Categoría y Materiales -->
-        <div class="filter-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2.5rem; justify-content: center;">
-            <button class="filter-btn active" data-filter="all" style="border:none; cursor:pointer;">Todos</button>
-            <button class="filter-btn" data-filter="Termo" style="border:none; cursor:pointer;">Termos</button>
-            <button class="filter-btn" data-filter="Agenda" style="border:none; cursor:pointer;">Agendas</button>
-            <button class="filter-btn" data-filter="Kit" style="border:none; cursor:pointer;">Kits</button>
-            <button class="filter-btn" data-filter="Placa" style="border:none; cursor:pointer;">Placas</button>
-            <button class="filter-btn" data-filter="Carnet" style="border:none; cursor:pointer;">Carnets</button>
-            <button class="filter-btn" data-filter="Caja" style="border:none; cursor:pointer;">Cajas</button>
-            <button class="filter-btn" data-filter="Llavero" style="border:none; cursor:pointer;">Llaveros</button>
-            <button class="filter-btn" data-filter="Esfero" style="border:none; cursor:pointer;">Esferos</button>
-            <button class="filter-btn" data-filter="Reconocimiento" style="border:none; cursor:pointer;">Reconocimientos</button>
+        <!-- Barra de Filtros por Categoría (Chips con Scroll Horizontal en móvil) -->
+        <div class="filter-bar" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2.5rem; justify-content: center; overflow-x: auto; padding-bottom: 5px;">
+            <button class="filter-btn active" data-filter="all" style="border:none; cursor:pointer; white-space:nowrap;">Todos</button>
+            <button class="filter-btn" data-filter="Carnet" style="border:none; cursor:pointer; white-space:nowrap;">Carnets</button>
+            <button class="filter-btn" data-filter="Credencial" style="border:none; cursor:pointer; white-space:nowrap;">Credenciales</button>
+            <button class="filter-btn" data-filter="Cinta" style="border:none; cursor:pointer; white-space:nowrap;">Cintas</button>
+            <button class="filter-btn" data-filter="Porta" style="border:none; cursor:pointer; white-space:nowrap;">Porta credenciales</button>
+            <button class="filter-btn" data-filter="Accesorios" style="border:none; cursor:pointer; white-space:nowrap;">Accesorios</button>
+            <button class="filter-btn" data-filter="PVC" style="border:none; cursor:pointer; white-space:nowrap;">Tarjetas PVC</button>
+            <button class="filter-btn" data-filter="Personalización" style="border:none; cursor:pointer; white-space:nowrap;">Personalización</button>
+            <button class="filter-btn" data-filter="Agenda" style="border:none; cursor:pointer; white-space:nowrap;">Agendas</button>
+            <button class="filter-btn" data-filter="Llavero" style="border:none; cursor:pointer; white-space:nowrap;">Llaveros</button>
+            <button class="filter-btn" data-filter="Termo" style="border:none; cursor:pointer; white-space:nowrap;">Termos</button>
+            <button class="filter-btn" data-filter="Kit" style="border:none; cursor:pointer; white-space:nowrap;">Kits</button>
         </div>
         
         <div class="grid-3">
