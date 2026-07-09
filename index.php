@@ -62,6 +62,35 @@ try {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Efecto de elevación, glow y transiciones premium en tarjetas */
+        .showcase-card, .custom-prod-card, #cintas-credenciales div, #cintas-credenciales .grid-2 > div, 
+        #personalizacion-adicional .custom-prod-card, .faq-item, .process-step {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        
+        /* Efecto hover general premium */
+        .showcase-card:hover, .custom-prod-card:hover, .process-step:hover {
+            transform: translateY(-6px) !important;
+            box-shadow: 0 20px 40px rgba(99, 174, 44, 0.06), 0 2px 10px rgba(0,0,0,0.02) !important;
+            border-color: rgba(99, 174, 44, 0.3) !important;
+        }
+        
+        /* Transiciones premium en los botones de cotizar del comparador */
+        .before-after-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 174, 44, 0.3);
+            background-color: #559c25 !important;
+        }
+        
+        /* Animaciones para pestañas block del comparador */
+        .slider-tab-btn:hover {
+            border-color: var(--primary) !important;
+            color: var(--primary) !important;
+            transform: translateX(4px);
+        }
+    </style>
 </head>
 <body>
 
@@ -567,7 +596,7 @@ try {
                             <!-- Cintas full color -->
                             <div style="display: flex; gap: 20px; align-items: flex-start;">
                                 <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas full color">
+                                    <img src="uploads/cintas_full_color.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas full color">
                                 </div>
                                 <div style="flex-grow: 1;">
                                     <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas full color</h4>
@@ -595,7 +624,7 @@ try {
                             <!-- Cintas sin impresión -->
                             <div style="display: flex; gap: 20px; align-items: flex-start;">
                                 <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas sin impresión">
+                                    <img src="uploads/cintas_sin_impresion.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas sin impresión">
                                 </div>
                                 <div style="flex-grow: 1;">
                                     <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas sin impresión</h4>
@@ -845,10 +874,43 @@ try {
                 También contamos con una línea de personalización corporativa para empresas que desean preparar detalles, kits o productos con su marca con grabado duradero y presentación cuidada.
             </p>
 
-            <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+            <style>
+                .custom-prods-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 20px;
+                }
+                .custom-prod-card {
+                    background: white;
+                    border: 1px solid var(--border);
+                    border-radius: var(--radius-md);
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                    position: relative;
+                }
+                .custom-prod-card:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 15px 35px rgba(99, 174, 44, 0.08);
+                    border-color: var(--primary);
+                }
+                @media (max-width: 992px) {
+                    .custom-prods-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+                @media (max-width: 576px) {
+                    .custom-prods-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+            
+            <div class="custom-prods-grid">
                 <?php if (!empty($custom_prods)): ?>
                     <?php foreach ($custom_prods as $prod): ?>
-                        <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease;">
+                        <div class="custom-prod-card">
                             <div style="aspect-ratio: 1.25; background: var(--surface-light); display: flex; align-items: center; justify-content: center; padding: 1rem; border-bottom: 1px solid var(--border);">
                                 <?php
                                 $img_src = 'uploads/termo.png';
@@ -867,9 +929,9 @@ try {
                                 <img src="<?php echo $img_src; ?>" style="max-height: 100%; max-width: 100%; object-fit: contain;" alt="<?php echo htmlspecialchars($prod['name']); ?>">
                             </div>
                             <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
-                                <h4 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($prod['name']); ?></h4>
-                                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
-                                <a href="cotizacion.php?producto=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn btn-secondary" style="width: 100%; text-align: center; font-size: 0.8rem; padding: 10px 0; text-transform: none;">
+                                <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($prod['name']); ?></h4>
+                                <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
+                                <a href="cotizacion.php?producto=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn btn-secondary" style="width: 100%; text-align: center; font-size: 0.78rem; padding: 8px 0; text-transform: none;">
                                     <?php echo htmlspecialchars($prod['cta_text']); ?>
                                 </a>
                             </div>
@@ -900,42 +962,54 @@ try {
             </div>
         </section>
 
-        <!-- 8. Sección: Antes y Después del Grabado -->
+        <!-- 8. Sección: Antes y Después del Grabado (Rediseño Estilo Premium) -->
         <section id="antes-despues" class="section-padding container reveal-on-scroll" style="border-top: 1px solid var(--border); padding-top: 5rem; padding-bottom: 5rem;">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle">Garantía de Acabado</span>
-                <h2>Antes y después del grabado</h2>
-                <p>Mira cómo un producto liso se convierte en una pieza personalizada para representar a tu marca.</p>
+                <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary); font-weight: 600; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;">GARANTÍA DE ACABADO</span>
+                <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; margin-top: 10px;">Antes y después del grabado</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Mira cómo un producto simple se convierte en una pieza personalizada para tu marca.</p>
             </div>
             
-            <div class="interactive-slider-wrapper" style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; max-width: 1000px; margin: 0 auto;">
+            <div class="interactive-slider-wrapper" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; max-width: 1000px; margin: 0 auto;">
                 
                 <!-- Comparador Deslizable -->
-                <div class="before-after-slider-container" style="position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--radius-md); overflow: hidden; user-select: none; border: 1px solid var(--border); box-shadow: var(--shadow-lg); cursor: ew-resize;">
+                <div class="before-after-slider-container" style="position: relative; width: 100%; aspect-ratio: 1.2; border-radius: 8px; overflow: hidden; user-select: none; border: 1px solid var(--border); box-shadow: var(--shadow-lg); cursor: ew-resize;">
+                    <!-- Etiquetas en la esquina -->
+                    <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.8); color: white; padding: 6px 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border-radius: 4px; z-index: 8; letter-spacing: 0.05em;">Antes (Liso)</div>
+                    <div style="position: absolute; top: 15px; right: 15px; background: var(--primary); color: white; padding: 6px 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border-radius: 4px; z-index: 8; letter-spacing: 0.05em;">Después (Grabado)</div>
+                    
                     <img id="slider-img-after" src="images/termo_after.png" alt="Termo Grabado" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
                     <div id="slider-before-wrap" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; clip-path: inset(0 50% 0 0); border-right: 2px solid white;">
                         <img id="slider-img-before" src="images/termo_before.png" alt="Termo Liso" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
                     </div>
                     <div id="slider-handle" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: white; z-index: 10; margin-left: -2px; pointer-events: none;">
-                        <div style="position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; border-radius: 50%; background: white; margin-top: -20px; margin-left: -20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2D3748" stroke-width="2.5"><polyline points="8 17 12 21 16 17"/><polyline points="8 7 12 3 16 7"/></svg>
+                        <div style="position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; border-radius: 50%; background: white; margin-top: -20px; margin-left: -20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3748" stroke-width="2.5"><polyline points="8 17 12 21 16 17"/><polyline points="8 7 12 3 16 7"/></svg>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Info y Selector de Productos -->
+                <!-- Info y Selector de Productos (Estilo Tabs Block) -->
                 <div class="before-after-selector-wrap">
-                    <h3 id="slider-title" style="font-family: var(--font-heading); font-size: 1.85rem; font-weight: 500; margin-bottom: 0.75rem; color: var(--dark);">Termo grabado</h3>
-                    <p id="slider-text" style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; margin-bottom: 2rem;">De producto simple a detalle corporativo listo para entregar.</p>
+                    <h3 id="slider-title" style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--dark);">Termo grabado</h3>
+                    <p id="slider-text" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">De producto simple a detalle corporativo listo para entregar.</p>
                     
-                    <div style="display: flex; flex-direction: column; gap: 10px; background: var(--surface-light); padding: 1.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-                        <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 5px;">Elige el producto a visualizar:</span>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <button class="slider-tab-btn active" data-prod="termo" style="border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-weight: 500; font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease; background: white;">Termo</button>
-                            <button class="slider-tab-btn" data-prod="agenda" style="border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-weight: 500; font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease; background: #fbfbfb;">Agenda</button>
-                            <button class="slider-tab-btn" data-prod="caja" style="border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-weight: 500; font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease; background: #fbfbfb;">Caja</button>
+                    <div class="before-after-tabs" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 2rem;">
+                        <div class="slider-tab-btn active" data-prod="termo" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border: 2px solid var(--primary); border-radius: 6px; background: white; cursor: pointer; color: var(--primary); font-weight: 600; transition: all 0.2s ease;">
+                            <span>Termo de Acero</span>
+                            <span style="font-size: 0.85rem; font-weight: 600;">Ver muestra →</span>
+                        </div>
+                        <div class="slider-tab-btn" data-prod="agenda" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border: 1px solid var(--border); border-radius: 6px; background: white; cursor: pointer; color: var(--dark); font-weight: 500; transition: all 0.2s ease;">
+                            <span>Agenda de Cuero</span>
+                            <span style="font-size: 0.85rem; font-weight: 500;">Ver muestra →</span>
+                        </div>
+                        <div class="slider-tab-btn" data-prod="caja" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border: 1px solid var(--border); border-radius: 6px; background: white; cursor: pointer; color: var(--dark); font-weight: 500; transition: all 0.2s ease;">
+                            <span>Caja de Madera</span>
+                            <span style="font-size: 0.85rem; font-weight: 500;">Ver muestra →</span>
                         </div>
                     </div>
+                    
+                    <a href="cotizacion.php" class="btn btn-primary before-after-cta-btn" style="width: 100%; text-align: center; background-color: var(--primary); border: none; padding: 15px 0; font-weight: 700; text-transform: uppercase; border-radius: 4px; display: block; color: white; letter-spacing: 0.05em; transition: all 0.3s ease;">QUIERO ALGO SIMILAR</a>
                 </div>
             </div>
         </section>
@@ -1113,7 +1187,7 @@ try {
                 }, { passive: false });
             }
             
-            // Selector de productos del comparador
+            // Selector de productos del comparador (Clase de pestañas de bloque)
             const tabs = document.querySelectorAll(".slider-tab-btn");
             const sliderImgAfter = document.getElementById("slider-img-after");
             const sliderImgBefore = document.getElementById("slider-img-before");
@@ -1122,19 +1196,19 @@ try {
             
             const prodData = {
                 termo: {
-                    title: "Termo grabado",
+                    title: "Termo de Acero",
                     text: "De producto simple a detalle corporativo listo para entregar.",
                     before: "images/termo_before.png",
                     after: "images/termo_after.png"
                 },
                 agenda: {
-                    title: "Agenda personalizada",
+                    title: "Agenda de Cuero",
                     text: "De agenda lisa a pieza ejecutiva con identidad de marca.",
                     before: "images/agenda_before.png",
                     after: "images/agenda_after.png"
                 },
                 caja: {
-                    title: "Caja corporativa",
+                    title: "Caja de Madera",
                     text: "De empaque básico a presentación personalizada.",
                     before: "images/caja_before.png",
                     after: "images/caja_after.png"
@@ -1148,12 +1222,18 @@ try {
             function switchProduct(prodKey) {
                 tabs.forEach(t => {
                     t.classList.remove("active");
-                    t.style.background = "#fbfbfb";
+                    t.style.borderColor = "var(--border)";
+                    t.style.color = "var(--dark)";
+                    t.style.fontWeight = "500";
+                    t.querySelector("span:last-child").style.fontWeight = "500";
                 });
                 const activeTab = document.querySelector(`.slider-tab-btn[data-prod="${prodKey}"]`);
                 if (activeTab) {
                     activeTab.classList.add("active");
-                    activeTab.style.background = "white";
+                    activeTab.style.borderColor = "var(--primary)";
+                    activeTab.style.color = "var(--primary)";
+                    activeTab.style.fontWeight = "600";
+                    activeTab.querySelector("span:last-child").style.fontWeight = "600";
                 }
                 
                 const data = prodData[prodKey];
