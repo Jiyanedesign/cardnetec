@@ -78,7 +78,7 @@ foreach ($featured_products as $p) {
                                         <?php
                                         $img_path = !empty($slide['image']) ? 'uploads/' . $slide['image'] : 'uploads/carnet_mockup.jpg';
                                         ?>
-                                        <img src="<?php echo $img_path; ?>" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
+                                        <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
                                     </div>
                                     <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.8) 40%, transparent 100%); z-index: 2; pointer-events: none;"></div>
                                     
