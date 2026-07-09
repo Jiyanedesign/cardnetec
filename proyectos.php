@@ -15,10 +15,10 @@
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=3.6">
-    <link rel="stylesheet" href="css/layout.css?v=3.6">
-    <link rel="stylesheet" href="css/components.css?v=3.6">
-    <link rel="stylesheet" href="css/pages.css?v=3.6">
+    <link rel="stylesheet" href="css/base.css?v=3.7">
+    <link rel="stylesheet" href="css/layout.css?v=3.7">
+    <link rel="stylesheet" href="css/components.css?v=3.7">
+    <link rel="stylesheet" href="css/pages.css?v=3.7">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts: Marcellus (Títulos Elegantes) & Work Sans (Textos Limpios) -->
@@ -112,7 +112,7 @@
     </a>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=3.5"></script>
+    <script src="js/main.js?v=3.7"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

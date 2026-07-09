@@ -52,10 +52,10 @@ try {
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=3.6">
-    <link rel="stylesheet" href="css/layout.css?v=3.6">
-    <link rel="stylesheet" href="css/components.css?v=3.6">
-    <link rel="stylesheet" href="css/pages.css?v=3.6">
+    <link rel="stylesheet" href="css/base.css?v=3.7">
+    <link rel="stylesheet" href="css/layout.css?v=3.7">
+    <link rel="stylesheet" href="css/components.css?v=3.7">
+    <link rel="stylesheet" href="css/pages.css?v=3.7">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -142,7 +142,7 @@ try {
                                         <?php
                                         $img_path = !empty($slide['image']) ? 'uploads/' . $slide['image'] : 'uploads/carnet_mockup.jpg';
                                         ?>
-                                        <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
+                                        <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));" class="hero-slide-img">
                                     </div>
                                     <div style="position: absolute; inset: 0; background: linear-gradient(to right, #0f110e 0%, rgba(15, 17, 14, 0.8) 40%, transparent 100%); z-index: 2; pointer-events: none;"></div>
                                     
@@ -1175,7 +1175,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=3.5"></script>
+    <script src="js/main.js?v=3.7"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>

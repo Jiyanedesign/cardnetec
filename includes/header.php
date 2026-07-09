@@ -86,11 +86,19 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <!-- Menú Móvil -->
 <div class="mobile-nav-overlay"></div>
 <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
-    <a href="index.php" class="mobile-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
-    <a href="productos.php" class="mobile-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-    <a href="carnets.php" class="mobile-link">Carnets</a>
-    <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
-    <a href="personalizacion.php" class="mobile-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
-    <a href="cotizacion.php" class="mobile-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar</a>
-    <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1rem; width: 100%; text-transform: none;">Cotizar</a>
+    <!-- Logotipo al inicio del menú -->
+    <div style="text-align: center; margin-bottom: 2.25rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); width: 100%;">
+        <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" style="height: 48px; width: auto; display: inline-block;">
+    </div>
+    
+    <!-- Enlaces con margen superior incrementado -->
+    <div style="display: flex; flex-direction: column; gap: 1.25rem; width: 100%; padding-top: 0.5rem;">
+        <a href="index.php" class="mobile-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
+        <a href="productos.php" class="mobile-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
+        <a href="carnets.php" class="mobile-link <?php echo ($current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets</a>
+        <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
+        <a href="personalizacion.php" class="mobile-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
+        <a href="cotizacion.php" class="mobile-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar</a>
+        <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1.5rem; width: 100%; text-transform: none; font-weight: 600; padding: 12px 0;">Iniciar Cotización</a>
+    </div>
 </nav>

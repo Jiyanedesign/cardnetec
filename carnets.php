@@ -10,9 +10,9 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carnets Corporativos e Identificación Profesional | CardNet.ec</title>
     <meta name="description" content="Descubre por qué un buen carnet es vital para tu empresa. Explora combinaciones inteligentes de credenciales, porta carnets y lanyards personalizados.">
-    <link rel="stylesheet" href="css/base.css?v=3.6">
-    <link rel="stylesheet" href="css/layout.css?v=3.6">
-    <link rel="stylesheet" href="css/components.css?v=3.6">
+    <link rel="stylesheet" href="css/base.css?v=3.7">
+    <link rel="stylesheet" href="css/layout.css?v=3.7">
+    <link rel="stylesheet" href="css/components.css?v=3.7">
     <style>
         .carnets-hero {
             background: linear-gradient(135deg, #10140f 0%, #1c221a 100%);
@@ -368,7 +368,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=3.5"></script>
+    <script src="js/main.js?v=3.7"></script>
     <script src="js/animations.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

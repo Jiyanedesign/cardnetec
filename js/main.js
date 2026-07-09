@@ -114,14 +114,23 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-        // Inyectar Barra Inferior en Móviles
+        // Inyectar Barra Inferior en Móviles con SVG Modernos y Limpios
         const bottomBarHtml = `
-            <div class="mobile-bottom-bar">
-                <a href="https://wa.me/593900000000" class="btn btn-secondary" target="_blank" rel="noopener" style="padding:10px; font-size:0.82rem; text-align:center; font-weight:600; display:flex; align-items:center; justify-content:center; gap:5px;">
-                    💬 WhatsApp
+            <div class="mobile-bottom-bar" style="background: white; border-top: 1px solid var(--border); box-shadow: 0 -4px 15px rgba(0,0,0,0.06); padding: 12px 20px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 12px; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9999;">
+                <a href="https://wa.me/593900000000" class="btn btn-secondary" target="_blank" rel="noopener" style="padding: 12px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--border); border-radius: 6px; background: white; color: var(--dark); text-transform: none; text-decoration: none; transition: all 0.2s ease;">
+                    <svg style="width: 18px; height: 18px; fill: #25D366;" viewBox="0 0 24 24">
+                        <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.982L2 22l5.233-1.371a9.994 9.994 0 0 0 4.779 1.22h.005c5.505 0 9.99-4.478 9.99-9.985A9.988 9.988 0 0 0 12.012 2zm4.7 13.916c-.223.633-1.29 1.205-1.782 1.282-.477.075-.947.168-3.067-.665-2.707-1.06-4.442-3.817-4.577-3.996-.134-.178-1.096-1.455-1.096-2.781 0-1.325.692-1.973.938-2.228.246-.255.535-.319.714-.319.18 0 .358.001.514.009.16.008.375-.062.586.448.223.54.76 1.851.827 1.984.067.134.112.29.022.468-.09.18-.134.29-.268.447-.134.156-.282.35-.403.47-.134.134-.273.28-.117.548.156.268.693 1.139 1.492 1.85 1.026.914 1.89 1.196 2.158 1.33.268.134.424.112.58-.067.157-.18.67-.781.848-1.049.178-.268.358-.223.58-.134.224.089 1.42.67 1.666.792.246.123.411.18.47.282.06.101.06.586-.163 1.218z"/>
+                    </svg>
+                    WhatsApp
                 </a>
-                <button class="btn btn-primary toggle-quote-drawer-btn" style="padding:10px; font-size:0.82rem; text-align:center; font-weight:600;">
-                    📋 Mi Cotización
+                <button class="btn btn-primary toggle-quote-drawer-btn" style="padding: 12px; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 6px; background: var(--primary); border: none; color: white; text-transform: none; cursor: pointer; transition: all 0.2s ease;">
+                    <svg style="width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    Mi Cotización
                 </button>
             </div>
         `;

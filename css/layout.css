@@ -568,6 +568,9 @@
         object-fit: cover !important;
         object-position: center center !important;
     }
+    .hero-slide-img {
+        object-fit: cover !important;
+    }
     .hero-slide-item > div:nth-child(2) {
         background: linear-gradient(to bottom, transparent 0%, #0f110e 55%, #0f110e 100%) !important;
     }
@@ -613,4 +616,8 @@
     .slider-tab-btn span:last-child {
         font-size: 0.75rem !important;
     }
+}
+
+.hero-slide-img {
+    object-fit: contain;
 }
