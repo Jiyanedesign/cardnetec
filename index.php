@@ -262,49 +262,215 @@ foreach ($featured_products as $p) {
         </section>
 
 
-        <!-- 2. Productos principales de identificación -->
+
+        <!-- 2. Productos principales de identificación (Showcase Carrusel Moderno) -->
         <section id="productos" class="section-padding container reveal-on-scroll">
-            <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle">Identificación Corporativa</span>
-                <h2>Productos de identificación</h2>
-                <p>Carnets, credenciales, cintas y accesorios para empresas, instituciones, eventos y equipos.</p>
+            <div class="section-header center" style="margin-bottom: 3rem;">
+                <span class="section-subtitle">Galería de Soluciones</span>
+                <h2>Nuestros productos destacados</h2>
+                <p>Una muestra visual de las soluciones de identificación y personalización de nuestro taller.</p>
             </div>
             
-            <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                <?php if (!empty($identification_prods)): ?>
-                    <?php foreach ($identification_prods as $prod): ?>
-                        <div class="product-card catalog-product-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease;">
-                            <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                                <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.2; background: var(--surface-light); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 1.5rem;">
-                                    <?php
-                                    $img_src = 'uploads/carnets.png';
-                                    if (stripos($prod['slug'], 'cinta') !== false) {
-                                        $img_src = 'uploads/llavero.png';
-                                    } elseif (stripos($prod['slug'], 'porta') !== false || stripos($prod['slug'], 'accesorio') !== false) {
-                                        $img_src = 'uploads/caja.png';
-                                    }
-                                    ?>
-                                    <img src="<?php echo $img_src; ?>" style="max-height: 100%; max-width: 100%; object-fit: contain; transition: transform 0.4s ease;" alt="<?php echo htmlspecialchars($prod['name']); ?>">
-                                </div>
-                                <div style="padding: 1.5rem; display: flex; flex-direction: column;">
-                                    <h3 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($prod['name']); ?></h3>
-                                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
-                                </div>
-                            </a>
-                            <div style="padding: 0 1.5rem 1.5rem 1.5rem; display: flex; gap: 8px; margin-top: auto;">
-                                <button class="btn btn-primary btn-add-to-quote" 
-                                        data-slug="<?php echo htmlspecialchars($prod['slug']); ?>" 
-                                        data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
-                                        data-price="<?php echo (float)$prod['price']; ?>" 
-                                        style="flex-grow: 1; padding: 10px 14px; font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer; text-transform: none;">
-                                    <?php echo htmlspecialchars($prod['cta_text']); ?>
-                                </button>
-                            </div>
+            <style>
+                .showcase-carousel-wrapper {
+                    position: relative;
+                    width: 100%;
+                    overflow: hidden;
+                    padding: 10px 0;
+                }
+                .showcase-carousel-track {
+                    display: flex;
+                    gap: 24px;
+                    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+                }
+                .showcase-card {
+                    flex: 0 0 calc(33.333% - 16px);
+                    background: white;
+                    border: 1px solid var(--border);
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+                    display: flex;
+                    flex-direction: column;
+                }
+                .showcase-card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+                    border-color: var(--primary);
+                }
+                .showcase-image-wrap {
+                    width: 100%;
+                    aspect-ratio: 1.25;
+                    background: var(--surface-light);
+                    border-bottom: 1px solid var(--border);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    padding: 1.5rem;
+                    box-sizing: border-box;
+                }
+                .showcase-image-wrap img {
+                    max-height: 100%;
+                    max-width: 100%;
+                    object-fit: contain;
+                    transition: transform 0.5s ease;
+                }
+                .showcase-card:hover .showcase-image-wrap img {
+                    transform: scale(1.04);
+                }
+                .showcase-info {
+                    padding: 1.5rem;
+                    text-align: center;
+                }
+                .showcase-title {
+                    font-family: var(--font-heading);
+                    font-size: 1.25rem;
+                    font-weight: 500;
+                    color: var(--dark);
+                    margin: 0;
+                }
+                
+                /* Controles del Carrusel */
+                .showcase-control {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 50%;
+                    background: white;
+                    border: 1px solid var(--border);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+                    z-index: 10;
+                    transition: all 0.2s ease;
+                }
+                .showcase-control:hover {
+                    background: var(--primary);
+                    color: white;
+                    border-color: var(--primary);
+                    box-shadow: 0 6px 15px rgba(99,174,44,0.2);
+                }
+                .showcase-control.prev { left: 10px; }
+                .showcase-control.next { right: 10px; }
+                
+                .showcase-dots {
+                    display: flex;
+                    justify-content: center;
+                    gap: 8px;
+                    margin-top: 2rem;
+                }
+                .showcase-dot {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: var(--border);
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    padding: 0;
+                }
+                .showcase-dot.active {
+                    background: var(--primary);
+                    transform: scale(1.2);
+                }
+                
+                @media (max-width: 992px) {
+                    .showcase-card {
+                        flex: 0 0 calc(50% - 12px);
+                    }
+                }
+                @media (max-width: 576px) {
+                    .showcase-card {
+                        flex: 0 0 100%;
+                    }
+                    .showcase-control { display: none; }
+                }
+            </style>
+
+            <div class="showcase-carousel-wrapper">
+                <button class="showcase-control prev" aria-label="Anterior">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                
+                <div class="showcase-carousel-track">
+                    <!-- Carnets PVC -->
+                    <div class="showcase-card">
+                        <div class="showcase-image-wrap">
+                            <img src="uploads/carnet_mockup.jpg?v=2.2" alt="Carnets PVC">
                         </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                        <div class="showcase-info">
+                            <h3 class="showcase-title">Carnets PVC Corporativos</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Cintas y lanyards -->
+                    <div class="showcase-card">
+                        <div class="showcase-image-wrap">
+                            <img src="uploads/cintas_mockup.jpg?v=2.2" alt="Cintas y lanyards">
+                        </div>
+                        <div class="showcase-info">
+                            <h3 class="showcase-title">Cintas Porta Credenciales</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Porta credenciales -->
+                    <div class="showcase-card">
+                        <div class="showcase-image-wrap">
+                            <img src="uploads/llavero.png" alt="Porta credenciales y accesorios">
+                        </div>
+                        <div class="showcase-info">
+                            <h3 class="showcase-title">Porta Carnets y Accesorios</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Agendas -->
+                    <div class="showcase-card">
+                        <div class="showcase-image-wrap">
+                            <img src="uploads/agenda.png" alt="Agendas grabadas">
+                        </div>
+                        <div class="showcase-info">
+                            <h3 class="showcase-title">Agendas Personalizadas</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Termos -->
+                    <div class="showcase-card">
+                        <div class="showcase-image-wrap">
+                            <img src="uploads/termo.png" alt="Termos con láser">
+                        </div>
+                        <div class="showcase-info">
+                            <h3 class="showcase-title">Termos Grabados Láser</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Cajas -->
+                    <div class="showcase-card">
+                        <div class="showcase-image-wrap">
+                            <img src="uploads/caja.png" alt="Cajas de presentación">
+                        </div>
+                        <div class="showcase-info">
+                            <h3 class="showcase-title">Cajas y Empaques de Madera</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="showcase-control next" aria-label="Siguiente">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+            
+            <div class="showcase-dots">
+                <button class="showcase-dot active" data-index="0" aria-label="Grupo 1"></button>
+                <button class="showcase-dot" data-index="1" aria-label="Grupo 2"></button>
             </div>
         </section>
+
 
         <!-- 3. Sección Opciones de cintas y credenciales -->
         <section id="cintas-credenciales" class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
@@ -850,6 +1016,93 @@ foreach ($featured_products as $p) {
 
             // Iniciar rotación automática al cargar
             startBeforeAfterAutoplay();
+
+            // 12. Carrusel Showcase de Productos Destacados
+            const track = document.querySelector(".showcase-carousel-track");
+            const cards = document.querySelectorAll(".showcase-card");
+            const prevBtn = document.querySelector(".showcase-control.prev");
+            const nextBtn = document.querySelector(".showcase-control.next");
+            const dots = document.querySelectorAll(".showcase-dot");
+            
+            if (track && cards.length > 0) {
+                let index = 0;
+                
+                function getItemsPerPage() {
+                    if (window.innerWidth <= 576) return 1;
+                    if (window.innerWidth <= 992) return 2;
+                    return 3;
+                }
+                
+                function updateShowcase() {
+                    const itemsPerPage = getItemsPerPage();
+                    const maxIndex = Math.ceil(cards.length / itemsPerPage) - 1;
+                    if (index > maxIndex) index = maxIndex;
+                    if (index < 0) index = 0;
+                    
+                    const cardWidth = cards[0].getBoundingClientRect().width;
+                    const gap = 24; // Gap de CSS
+                    const amountToMove = index * (cardWidth * itemsPerPage + gap * itemsPerPage);
+                    
+                    track.style.transform = `translateX(-${amountToMove}px)`;
+                    
+                    // Actualizar dots
+                    dots.forEach((dot, idx) => {
+                        if (idx === index) {
+                            dot.classList.add("active");
+                        } else {
+                            dot.classList.remove("active");
+                        }
+                    });
+                }
+                
+                if (nextBtn) {
+                    nextBtn.addEventListener("click", () => {
+                        const itemsPerPage = getItemsPerPage();
+                        const maxIndex = Math.ceil(cards.length / itemsPerPage) - 1;
+                        if (index < maxIndex) {
+                            index++;
+                        } else {
+                            index = 0; // Cíclico
+                        }
+                        updateShowcase();
+                    });
+                }
+                
+                if (prevBtn) {
+                    prevBtn.addEventListener("click", () => {
+                        const itemsPerPage = getItemsPerPage();
+                        const maxIndex = Math.ceil(cards.length / itemsPerPage) - 1;
+                        if (index > 0) {
+                            index--;
+                        } else {
+                            index = maxIndex; // Cíclico
+                        }
+                        updateShowcase();
+                    });
+                }
+                
+                dots.forEach(dot => {
+                    dot.addEventListener("click", (e) => {
+                        index = parseInt(e.target.getAttribute("data-index"));
+                        updateShowcase();
+                    });
+                });
+                
+                window.addEventListener("resize", updateShowcase);
+                
+                // Autoplay cada 5 segundos
+                let showcaseInterval = setInterval(() => {
+                    if (nextBtn) nextBtn.click();
+                }, 5000);
+                
+                track.addEventListener("mouseenter", () => clearInterval(showcaseInterval));
+                track.addEventListener("mouseleave", () => {
+                    clearInterval(showcaseInterval);
+                    showcaseInterval = setInterval(() => {
+                        if (nextBtn) nextBtn.click();
+                    }, 5000);
+                });
+            }
         });
     </script>
 </body>
