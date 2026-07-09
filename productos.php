@@ -136,23 +136,26 @@ try {
     <!-- MAIN CONTENT -->
     <main class="section-padding container">
 
-        <!-- Selector de Ordenamiento Premium -->
-        <div style="display: flex; justify-content: center; margin-bottom: 1.5rem; align-items: center; gap: 8px; flex-wrap: wrap;">
-            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Ordenar por:</span>
-            <select id="sort-selector" style="padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: white; font-family: var(--font-body); font-size: 0.82rem; color: var(--text-dark); cursor: pointer; outline: none; transition: border-color 0.2s; font-weight: 500;" onchange="location.href = this.value;">
-                <option value="productos.php?cat=<?php echo urlencode($category_filter); ?>" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Relevancia (Destacados)</option>
-                <option value="productos.php?cat=<?php echo urlencode($category_filter); ?>&sort=price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Precio: Menor a Mayor</option>
+        <!-- Barra de Búsqueda + Ordenamiento -->
+        <div style="display: flex; gap: 10px; margin-bottom: 1.25rem; align-items: center; flex-wrap: wrap;">
+            <!-- Buscador Dinámico -->
+            <div style="flex: 1; min-width: 200px; position: relative;">
+                <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--text-muted); fill: none; stroke-width: 2; pointer-events: none;" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" id="product-search" placeholder="Buscar productos..." autocomplete="off"
+                    style="width: 100%; padding: 9px 12px 9px 36px; border: 1px solid var(--border); border-radius: 8px; font-family: var(--font-body); font-size: 0.85rem; color: var(--text-dark); background: white; outline: none; transition: border-color 0.2s;">
+            </div>
+            <!-- Ordenamiento -->
+            <select id="sort-selector" onchange="location.href=this.value;"
+                style="padding: 9px 28px 9px 12px; border-radius: 8px; border: 1px solid var(--border); background: white; font-family: var(--font-body); font-size: 0.82rem; color: var(--text-dark); cursor: pointer; outline: none; font-weight: 500; -webkit-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23999%22%20stroke-width%3D%222%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 8px center; white-space: nowrap;">
+                <option value="productos.php<?php echo $category_filter ? '?cat='.urlencode($category_filter) : ''; ?>" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Destacados</option>
+                <option value="productos.php?<?php echo $category_filter ? 'cat='.urlencode($category_filter).'&' : ''; ?>sort=price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Menor precio</option>
             </select>
         </div>
 
-        <!-- Selector de Ordenamiento -->
-        <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem; align-items: center; gap: 8px;">
-            <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">Ordenar:</span>
-            <select id="sort-selector" onchange="location.href=this.value;" style="padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); background: white; font-family: var(--font-body); font-size: 0.78rem; color: var(--text-dark); cursor: pointer; outline: none; font-weight: 500; -webkit-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23999%22%20stroke-width%3D%222%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 8px center; padding-right: 28px;">
-                <option value="productos.php<?php echo $category_filter ? '?cat='.urlencode($category_filter) : ''; ?>" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Destacados</option>
-                <option value="productos.php?<?php echo $category_filter ? 'cat='.urlencode($category_filter).'&' : ''; ?>sort=price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Precio: Menor a Mayor</option>
-            </select>
-        </div>
+        <!-- Contador de resultados de búsqueda (oculto por defecto) -->
+        <div id="search-results-count" style="display: none; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 500;"></div>
 
         <!-- Barra de Filtros por Categoría (Chips con Scroll Horizontal en móvil) -->
         <div class="filter-bar" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2.5rem; justify-content: center; overflow-x: auto; padding-bottom: 5px;">
@@ -163,7 +166,6 @@ try {
             <button class="filter-btn" data-filter="Porta" style="border:none; cursor:pointer; white-space:nowrap;">Porta credenciales</button>
             <button class="filter-btn" data-filter="Accesorios" style="border:none; cursor:pointer; white-space:nowrap;">Accesorios</button>
             <button class="filter-btn" data-filter="PVC" style="border:none; cursor:pointer; white-space:nowrap;">Tarjetas PVC</button>
-            <button class="filter-btn" data-filter="Personalización" style="border:none; cursor:pointer; white-space:nowrap;">Personalización</button>
             <button class="filter-btn" data-filter="Agenda" style="border:none; cursor:pointer; white-space:nowrap;">Agendas</button>
             <button class="filter-btn" data-filter="Llavero" style="border:none; cursor:pointer; white-space:nowrap;">Llaveros</button>
             <button class="filter-btn" data-filter="Termo" style="border:none; cursor:pointer; white-space:nowrap;">Termos</button>
@@ -275,5 +277,62 @@ try {
     <!-- Scripts Modulares -->
     <script src="js/main.js?v=3.8"></script>
     <script src="js/animations.js"></script>
+
+    <!-- Buscador Dinámico de Productos -->
+    <script>
+    (function() {
+        const searchInput = document.getElementById('product-search');
+        const resultsCounter = document.getElementById('search-results-count');
+        const productCards = document.querySelectorAll('.catalog-product-item');
+        
+        if (!searchInput || !productCards.length) return;
+
+        // Focus styling
+        searchInput.addEventListener('focus', function() {
+            this.style.borderColor = 'var(--primary)';
+            this.style.boxShadow = '0 0 0 3px rgba(99, 174, 44, 0.1)';
+        });
+        searchInput.addEventListener('blur', function() {
+            this.style.borderColor = '';
+            this.style.boxShadow = '';
+        });
+
+        // Búsqueda en tiempo real
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            productCards.forEach(function(card) {
+                const name = (card.getAttribute('data-name') || '').toLowerCase();
+                const category = (card.getAttribute('data-category') || '').toLowerCase();
+                const material = (card.getAttribute('data-material') || '').toLowerCase();
+                const technique = (card.getAttribute('data-technique') || '').toLowerCase();
+                const use = (card.getAttribute('data-use') || '').toLowerCase();
+
+                const matches = !query || 
+                    name.includes(query) || 
+                    category.includes(query) || 
+                    material.includes(query) || 
+                    technique.includes(query) ||
+                    use.includes(query);
+
+                if (matches) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Mostrar contador
+            if (query) {
+                resultsCounter.style.display = 'block';
+                resultsCounter.textContent = visibleCount + ' producto' + (visibleCount !== 1 ? 's' : '') + ' encontrado' + (visibleCount !== 1 ? 's' : '');
+            } else {
+                resultsCounter.style.display = 'none';
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
