@@ -250,7 +250,8 @@ try {
                         display: grid;
                         grid-template-columns: 1.03fr 0.97fr;
                         gap: 20px;
-                        align-items: start;
+                        align-items: stretch;
+                        flex: 1;
                     }
                     .premium-right-col {
                         display: flex;
@@ -334,7 +335,7 @@ try {
                         
                         <div class="premium-bottom-row">
                             <!-- Cajas y Empaques -->
-                            <a href="productos.php?cat=personalizacion" class="premium-cat-card" style="aspect-ratio: 288/337;">
+                            <a href="productos.php?cat=personalizacion" class="premium-cat-card" style="height: 100%; min-height: 260px;">
                                 <img src="uploads/caja.png" alt="Cajas y Empaques">
                                 <div class="premium-cat-overlay">
                                     <h3 class="premium-cat-title">Cajas y Empaques</h3>
@@ -342,7 +343,7 @@ try {
                                 </div>
                             </a>
                             <!-- Especialidad Láser (Texto limpio sin duplicaciones) -->
-                            <a href="#laser" class="premium-cat-card" style="aspect-ratio: 288/257;">
+                            <a href="#laser" class="premium-cat-card" style="height: 100%; min-height: 260px;">
                                 <img src="images/cat_laser.png" alt="Especialidad Láser">
                                 <div class="premium-cat-overlay">
                                     <h3 class="premium-cat-title">Especialidad Láser</h3>
