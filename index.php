@@ -1080,103 +1080,79 @@ try {
             </div>
         </section>
 
-        <!-- 10. Preguntas frecuentes (FAQ prioritario de identificación) -->
+        <!-- 10. Preguntas frecuentes (Refinadas y Corregidas) -->
         <section id="preguntas-frecuentes" class="section-padding section-bg-light reveal-on-scroll">
             <div class="container" style="max-width: 800px;">
                 <div class="section-header center">
-                    <span class="section-subtitle">Dudas Comunes</span>
-                    <h2>Preguntas frecuentes</h2>
-                    <p>Lo básico que necesitas saber antes de cotizar tus identificaciones o productos personalizados.</p>
+                    <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary); font-weight: 600; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;">DUDAS COMUNES</span>
+                    <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; margin-top: 10px;">Preguntas frecuentes</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Lo básico que necesitas saber antes de cotizar tus identificaciones corporativas.</p>
                 </div>
                 
-                <div class="faq-accordion" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 10px;">
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                <div class="faq-accordion" style="margin-top: 2.5rem; display: flex; flex-direction: column; gap: 14px;">
+                    <!-- Pregunta 1 -->
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Hacen carnets personalizados?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Hacen carnets personalizados?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Preparamos carnets PVC y credenciales para empresas, instituciones, eventos y equipos de trabajo en diferentes espesores y acabados.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Diseñamos e imprimimos carnets en PVC laminado de alta resistencia con acabados profesionales. Son ideales para empresas, instituciones educativas, eventos y control de accesos.</p>
                         </div>
                     </div>
                     
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                    <!-- Pregunta 2 -->
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿También hacen cintas porta credenciales?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿También hacen cintas porta credenciales?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Fabricamos y suministramos cintas (lanyards) con impresión sublimada full color, estampación a un color o cintas lisas sin impresión en una gran variedad de anchos y ganchos.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Producimos cintas (lanyards) personalizadas full color mediante sublimación de alta definición, estampados a un color o cintas lisas en colores corporativos básicos con mosquetón metálico de alta calidad.</p>
                         </div>
                     </div>
                     
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                    <!-- Pregunta 3 -->
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Tienen porta credenciales y accesorios?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Puedo enviar mi logo o diseño listo?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Contamos con porta carnets rígidos, fundas de PVC transparentes flexibles, yoyos retráctiles corporativos, clips cocodrilo y adaptadores de sujeción.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Puedes hacernos llegar tu logotipo en formatos vectoriales como PDF, AI o SVG, o en imágenes de alta resolución. Nuestro equipo se encargará de realizar el montaje y la adaptación para que quede perfecto.</p>
                         </div>
                     </div>
 
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                    <!-- Pregunta 4 -->
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Puedo enviar mi logo o diseño listo?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Puedo ver una vista previa antes de producir?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Puedes adjuntar tu logotipo en formato vectorial (.AI, .SVG, .PDF) o en imagen de alta resolución para que preparemos la adaptación.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Totalmente. Antes de iniciar cualquier fase de producción en el taller, te compartiremos una muestra digital o maqueta (vista previa) para tu revisión y aprobación formal.</p>
                         </div>
                     </div>
 
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                    <!-- Pregunta 5 -->
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Puedo ver una vista previa antes de producir?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Hacen envíos a todo el Ecuador?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Totalmente. Preparamos una muestra digital (vista previa) para tu aprobación formal antes de mandar a imprimir o personalizar en el taller.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Despachamos pedidos a todas las provincias y ciudades del Ecuador (Guayaquil, Cuenca, Manta, Loja, etc.) a través de Servientrega o cooperativas de transporte interprovincial de tu preferencia.</p>
                         </div>
                     </div>
 
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                    <!-- Pregunta 6 -->
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿También personalizan agendas, llaveros o termos?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Cuál es el tiempo promedio de entrega?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Ofrecemos como servicio adicional una línea curada de productos personalizados de presentación (termos, agendas, llaveros, placas y kits) con acabados limpios.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
-                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Cuál es la cantidad mínima de pedido (MOQ)?</span>
-                            <span class="faq-icon"></span>
-                        </button>
-                        <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">El mínimo de pedido varía según el producto. Para credenciales de PVC realizamos desde 1 unidad, y para cintas personalizadas o artículos grabados láser, consúltanos para ofrecerte las mejores escalas de precio por volumen.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
-                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Hacen envíos a todo el Ecuador?</span>
-                            <span class="faq-icon"></span>
-                        </button>
-                        <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Realizamos entregas y envíos nacionales a cualquier ciudad del Ecuador (Guayaquil, Cuenca, Manta, Loja, etc.) a través de Servientrega o cooperativas de transporte seguras.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
-                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.95rem;">¿Cuál es el tiempo promedio de entrega?</span>
-                            <span class="faq-icon"></span>
-                        </button>
-                        <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">El tiempo de producción promedio es de 3 a 5 días laborables una vez aprobado el diseño y muestra digital, dependiendo siempre del volumen y el nivel de complejidad del pedido.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">El tiempo estándar estimado es de 3 a 5 días laborables, contados a partir de la confirmación del pago y la aprobación del diseño final de las muestras.</p>
                         </div>
                     </div>
                 </div>
@@ -1332,6 +1308,33 @@ try {
 
             // Iniciar rotación automática al cargar
             startBeforeAfterAutoplay();
+
+            // Fail-safe FAQ Accordion toggle inline
+            document.querySelectorAll('.faq-trigger').forEach(trigger => {
+                trigger.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const item = this.closest('.faq-item');
+                    const content = item.querySelector('.faq-content');
+                    const isActive = item.classList.contains('active');
+                    
+                    // Cerrar todos los demás
+                    document.querySelectorAll('.faq-item').forEach(i => {
+                        i.classList.remove('active');
+                        const c = i.querySelector('.faq-content');
+                        if (c) {
+                            c.style.maxHeight = '0px';
+                        }
+                    });
+                    
+                    if (!isActive) {
+                        item.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    } else {
+                        item.classList.remove('active');
+                        content.style.maxHeight = '0px';
+                    }
+                });
+            });
 
             // 12. Carrusel Showcase de Productos Destacados
             const track = document.querySelector(".showcase-carousel-track");
