@@ -398,3 +398,4 @@ function enrichProduct($prod) {
 
     return array_merge($prod, $enriched);
 }
+ 

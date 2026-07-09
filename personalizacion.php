@@ -231,3 +231,4 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <script src="js/animations.js"></script>
 </body>
 </html>
+ 
