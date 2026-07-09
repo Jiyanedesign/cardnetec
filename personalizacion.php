@@ -55,6 +55,11 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
             border-color: var(--primary) !important;
             box-shadow: 0 12px 28px rgba(99, 174, 44, 0.06);
         }
+        @media (max-width: 767px) {
+            .grid-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -104,7 +109,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <p>Detalle de los procesos que utilizamos en taller para dar vida a tus productos de identidad corporativa.</p>
                 </div>
 
-                <div class="grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+                <div class="grid-2" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;">
                     <!-- Técnica 1: Grabado Láser -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
