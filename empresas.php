@@ -57,6 +57,11 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
             border-color: var(--primary) !important;
             box-shadow: 0 10px 25px rgba(99, 174, 44, 0.1);
         }
+        @media (max-width: 767px) {
+            .grid-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -106,7 +111,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <p>Diseñadas específicamente para cumplir las exigencias de durabilidad y estilo de tu marca.</p>
                 </div>
 
-                <div class="grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+                <div class="grid-2" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;">
                     <!-- Tarjeta 1: Carnets PVC -->
                     <div class="corp-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
