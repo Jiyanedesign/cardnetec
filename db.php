@@ -184,10 +184,28 @@ try {
             ('Cuero / PU termosensible', 'Ideal para grabados en agendas, libretas y carpetas ejecutivas.');");
     }
 
+    
+    // AUTO-MIGRACIÓN: Seeding de la tabla clientes si está vacía
+    $client_count = $pdo->query("SELECT COUNT(*) FROM clientes")->fetchColumn();
+    if ($client_count == 0) {
+        $pdo->exec("INSERT INTO `clientes` (`name`, `logo_path`, `order_val`, `is_active`) VALUES
+            ('Empresa de Logística', 'logo1.jpg', 1, 1),
+            ('Banco del Austro', 'logo2.jpg', 2, 1),
+            ('Industrias Médicas', 'logo3.jpg', 3, 1),
+            ('Consultora Andina', 'logo4.jpg', 4, 1);");
+    }
+
     // 7. AUTO-MIGRACIÓN: Seeding de productos oficiales de CardNet
     $stmtCount = $pdo->query("SELECT COUNT(*) FROM productos");
     $count = $stmtCount->fetchColumn();
-    if ($count == 0) {
+    
+    // Si la base de datos está vacía o si contiene imágenes antiguas como 'carnets.png', forzar el re-seeding
+    $firstProdImg = '';
+    try {
+        $firstProdImg = $pdo->query("SELECT image_main FROM productos WHERE slug = 'credenciales-pvc'")->fetchColumn();
+    } catch (PDOException $ex) {}
+
+    if ($count == 0 || $firstProdImg === 'carnets.png') {
         // Limpiar tablas para evitar duplicados o demos como Taza
         $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
         $pdo->exec("DELETE FROM productos;");
@@ -219,57 +237,57 @@ try {
             $catIds[$cRow['slug']] = $cRow['id'];
         }
 
-        // Insertar los 8 productos oficiales
+        // Insertar los productos oficiales con imágenes reales de alta definición
                 $productsToSeed = [
             [
                 'Carnets PVC', 'credenciales-pvc', 
                 'Identificación profesional e institucional impresa en PVC laminado de alta durabilidad con diseño personalizado.', 
-                $catIds['carnets'], 'carnets.png', json_encode(['carnet_detail.jpg']), 'carnets-sku', 1.20, 'Carnets'
+                $catIds['carnets'], 'carnet_mockup.jpg', json_encode(['carnet_mockup.jpg']), 'carnets-sku', 1.20, 'Carnets'
             ],
             [
                 'Credenciales corporativas', 'credenciales-corporativas', 
                 'Credenciales de identificación personalizadas con acabado sobrio para colaboradores de empresas e instituciones.', 
-                $catIds['credenciales'], 'carnets.png', json_encode([]), 'cred-corp-sku', 1.50, 'Credenciales'
+                $catIds['credenciales'], 'carnet_mockup.jpg', json_encode([]), 'cred-corp-sku', 1.50, 'Credenciales'
             ],
             [
                 'Credenciales para eventos', 'credenciales-eventos', 
                 'Credenciales claras y funcionales para staff, invitados, asistentes y control de acceso en ferias o congresos.', 
-                $catIds['credenciales'], 'carnets.png', json_encode([]), 'cred-event-sku', 1.00, 'Credenciales'
+                $catIds['credenciales'], 'carousel_2.jpg', json_encode([]), 'cred-event-sku', 1.00, 'Credenciales'
             ],
             [
                 'Cintas porta credenciales full color', 'cintas-full-color', 
                 'Cintas porta credenciales personalizadas con sublimación full color para mayor presencia de marca.', 
-                $catIds['cintas'], 'llavero.png', json_encode([]), 'cintas-fc-sku', 1.80, 'Cintas'
+                $catIds['cintas'], 'cintas_mockup.jpg', json_encode([]), 'cintas-fc-sku', 1.80, 'Cintas'
             ],
             [
                 'Cintas a un color', 'cintas-un-color', 
                 'Cintas porta credenciales de poliéster estampadas a un color con acabado limpio y sobrio.', 
-                $catIds['cintas'], 'llavero.png', json_encode([]), 'cintas-uc-sku', 1.20, 'Cintas'
+                $catIds['cintas'], 'cintas_mockup.jpg', json_encode([]), 'cintas-uc-sku', 1.20, 'Cintas'
             ],
             [
                 'Cintas sin impresión', 'cintas-sin-impresion', 
                 'Cintas porta credenciales lisas en colores institucionales básicos para uso diario o eventos.', 
-                $catIds['cintas'], 'llavero.png', json_encode([]), 'cintas-si-sku', 0.80, 'Cintas'
+                $catIds['cintas'], 'cintas_mockup.jpg', json_encode([]), 'cintas-si-sku', 0.80, 'Cintas'
             ],
             [
                 'Porta carnets', 'porta-carnets', 
                 'Accesorios rígidos o flexibles transparentes para proteger y portar carnets de forma práctica.', 
-                $catIds['porta-credenciales'], 'caja.png', json_encode([]), 'porta-carnets-sku', 0.50, 'Porta credenciales'
+                $catIds['porta-credenciales'], 'llavero.png', json_encode([]), 'porta-carnets-sku', 0.50, 'Porta credenciales'
             ],
             [
                 'Porta credenciales', 'porta-credenciales', 
                 'Fundas o estuches transparentes ideales para credenciales de eventos y acreditaciones de personal.', 
-                $catIds['porta-credenciales'], 'caja.png', json_encode([]), 'porta-cred-sku', 0.40, 'Porta credenciales'
+                $catIds['porta-credenciales'], 'fundas.jpg', json_encode([]), 'porta-cred-sku', 0.40, 'Porta credenciales'
             ],
             [
                 'Tarjetas PVC', 'tarjetas-pvc', 
                 'Tarjetas plásticas personalizadas para control de accesos, membresías, fidelización de clientes o identificación.', 
-                $catIds['tarjetas-pvc'], 'carnets.png', json_encode([]), 'tarjetas-pvc-sku', 1.10, 'Tarjetas PVC'
+                $catIds['tarjetas-pvc'], 'carnet_mockup.jpg', json_encode([]), 'tarjetas-pvc-sku', 1.10, 'Tarjetas PVC'
             ],
             [
                 'Accesorios para identificación', 'accesorios-identificacion', 
                 'Complementos de identificación diaria como yoyos retráctiles con resorte metálico, clips y lanyards.', 
-                $catIds['accesorios'], 'llavero.png', json_encode([]), 'acc-id-sku', 0.60, 'Accesorios'
+                $catIds['accesorios'], 'yoyos.jpg', json_encode([]), 'acc-id-sku', 0.60, 'Accesorios'
             ],
             [
                 'Agendas personalizadas', 'agendas-personalizadas', 

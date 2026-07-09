@@ -10,23 +10,28 @@ try {
     $slides = [];
 }
 
-// 2. Obtener productos destacados de identificación y luego personalización
+// 2. Obtener trabajos realizados (portfolio) desde la administración
 try {
-    $stmtFeatured = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.is_featured = 1 ORDER BY p.order_val ASC LIMIT 12");
-    $featured_products = $stmtFeatured->fetchAll();
+    $stmtShowcase = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.is_featured = 1 ORDER BY p.order_val ASC");
+    $showcase_items = $stmtShowcase->fetchAll();
 } catch (PDOException $e) {
-    $featured_products = [];
+    $showcase_items = [];
 }
 
-// Separar productos para mostrarlos ordenados: Identificación primero, Personalización después
-$identification_prods = [];
-$custom_prods = [];
-foreach ($featured_products as $p) {
-    if (in_array($p['cat_slug'], ['carnets', 'credenciales', 'cintas', 'porta-credenciales', 'tarjetas-pvc', 'accesorios'])) {
-        $identification_prods[] = $p;
-    } else {
-        $custom_prods[] = $p;
-    }
+// Obtener también productos de personalización para la sección secundaria
+try {
+    $stmtCustom = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND c.slug = 'personalizacion' ORDER BY p.order_val ASC");
+    $custom_prods = $stmtCustom->fetchAll();
+} catch (PDOException $e) {
+    $custom_prods = [];
+}
+
+// Obtener logos de clientes para prueba social
+try {
+    $stmtClients = $pdo->query("SELECT * FROM clientes WHERE is_active = 1 ORDER BY order_val ASC");
+    $clients = $stmtClients->fetchAll();
+} catch (PDOException $e) {
+    $clients = [];
 }
 ?>
 <!DOCTYPE html>
@@ -120,6 +125,78 @@ foreach ($featured_products as $p) {
                 </div>
             </div>
         </section>
+        <!-- Sección: Prueba de confianza - Logos de Marcas -->
+        <section id="marcas-confianza" style="background: white; border-bottom: 1px solid var(--border); overflow: hidden; padding-top: 3.5rem; padding-bottom: 3.5rem;">
+            <div class="container">
+                <p style="text-align: center; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 600; margin-bottom: 1.75rem;">Marcas y empresas que confían en nosotros</p>
+                
+                <style>
+                    .logos-ticker-container {
+                        width: 100%;
+                        overflow: hidden;
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                    }
+                    .logos-ticker-track {
+                        display: flex;
+                        gap: 50px;
+                        width: max-content;
+                        animation: scrollTicker 25s linear infinite;
+                    }
+                    .logos-ticker-item {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 45px;
+                        flex-shrink: 0;
+                    }
+                    .logos-ticker-item img {
+                        height: 100%;
+                        width: auto;
+                        object-fit: contain;
+                        opacity: 0.6;
+                        filter: grayscale(100%);
+                        transition: opacity 0.3s ease, filter 0.3s ease;
+                    }
+                    .logos-ticker-item img:hover {
+                        opacity: 1;
+                        filter: grayscale(0%);
+                    }
+                    @keyframes scrollTicker {
+                        0% { transform: translateX(0); }
+                        100% { transform: translateX(-50%); }
+                    }
+                </style>
+                
+                <div class="logos-ticker-container">
+                    <div class="logos-ticker-track">
+                        <?php if (!empty($clients)): ?>
+                            <?php 
+                            // Duplicar los clientes para hacer scroll infinito fluido
+                            $double_clients = array_merge($clients, $clients);
+                            ?>
+                            <?php foreach ($double_clients as $client): ?>
+                                <div class="logos-ticker-item">
+                                    <img src="uploads/<?php echo htmlspecialchars($client['logo_path']); ?>" alt="<?php echo htmlspecialchars($client['name']); ?>">
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <!-- Fallbacks estáticos premium si no hay datos cargados -->
+                            <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4"></div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- 3. Sección: Categorías Visuales (Masonry Grid de Identificación) -->
         <section id="categorias-visuales" class="section-padding" style="background: #121212; color: white; padding-top: 5rem; padding-bottom: 5rem;">
             <div class="container">
@@ -472,7 +549,7 @@ foreach ($featured_products as $p) {
         </section>
 
 
-        <!-- 3. Sección Opciones de cintas y credenciales -->
+        <!-- 3. Sección Opciones de cintas y credenciales con Fotos Ilustrativas -->
         <section id="cintas-credenciales" class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
             <div class="container">
                 <div class="section-header center" style="margin-bottom: 4rem;">
@@ -484,50 +561,94 @@ foreach ($featured_products as $p) {
                 <div class="grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
                     <!-- BLOQUE 1: Cintas -->
                     <div style="background: white; padding: 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); margin-bottom: 1.5rem; border-bottom: 2px solid var(--primary); padding-bottom: 8px;">Cintas porta credenciales</h3>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); margin-bottom: 2rem; border-bottom: 2px solid var(--primary); padding-bottom: 8px;">Cintas porta credenciales</h3>
                         
-                        <div style="display: flex; flex-direction: column; gap: 20px;">
-                            <div>
-                                <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas full color</h4>
-                                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">Ideales para diseños con logotipo, colores corporativos y mayor presencia visual.</p>
-                                <a href="cotizacion.php?producto=cintas-full-color" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 12px; text-transform: none;">Cotizar cinta full color</a>
+                        <div style="display: flex; flex-direction: column; gap: 24px;">
+                            <!-- Cintas full color -->
+                            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
+                                    <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas full color">
+                                </div>
+                                <div style="flex-grow: 1;">
+                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas full color</h4>
+                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Sublimación en poliéster suave de alta resolución.</p>
+                                    <a href="cotizacion.php?producto=cintas-full-color" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Cotizar</a>
+                                </div>
                             </div>
-                            <hr style="border: 0; border-top: 1px solid var(--border);">
-                            <div>
-                                <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas a un color</h4>
-                                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">Una opción sobria y funcional para identificar equipos o eventos.</p>
-                                <a href="cotizacion.php?producto=cintas-un-color" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 12px; text-transform: none;">Cotizar cinta a un color</a>
+                            
+                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
+                            
+                            <!-- Cintas a un color -->
+                            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
+                                    <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas a un color">
+                                </div>
+                                <div style="flex-grow: 1;">
+                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas a un color</h4>
+                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Serigrafía de alta adherencia para logotipos sólidos y sobrios.</p>
+                                    <a href="cotizacion.php?producto=cintas-un-color" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Cotizar</a>
+                                </div>
                             </div>
-                            <hr style="border: 0; border-top: 1px solid var(--border);">
-                            <div>
-                                <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas sin impresión</h4>
-                                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">Prácticas para identificaciones simples o uso interno.</p>
-                                <a href="productos.php?cat=cintas" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 12px; text-transform: none;">Ver opciones</a>
+                            
+                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
+                            
+                            <!-- Cintas sin impresión -->
+                            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
+                                    <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas sin impresión">
+                                </div>
+                                <div style="flex-grow: 1;">
+                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas sin impresión</h4>
+                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Lanyards de tela de alta resistencia en colores corporativos básicos.</p>
+                                    <a href="productos.php?cat=cintas" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Ver catálogo</a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- BLOQUE 2: Credenciales -->
                     <div style="background: white; padding: 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); margin-bottom: 1.5rem; border-bottom: 2px solid var(--primary); padding-bottom: 8px;">Credenciales y porta credenciales</h3>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); margin-bottom: 2rem; border-bottom: 2px solid var(--primary); padding-bottom: 8px;">Credenciales y porta credenciales</h3>
                         
-                        <div style="display: flex; flex-direction: column; gap: 20px;">
-                            <div>
-                                <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Credenciales PVC</h4>
-                                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">Identificaciones duraderas y personalizadas para personal o instituciones.</p>
-                                <a href="cotizacion.php?producto=credenciales-pvc" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 12px; text-transform: none;">Cotizar credenciales</a>
+                        <div style="display: flex; flex-direction: column; gap: 24px;">
+                            <!-- Credenciales PVC -->
+                            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
+                                    <img src="uploads/carnet_mockup.jpg?v=2.2" style="width: 100%; height: 100%; object-fit: cover;" alt="Credenciales PVC">
+                                </div>
+                                <div style="flex-grow: 1;">
+                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Credenciales PVC</h4>
+                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Laminado de alta durabilidad impreso a doble cara para colaboradores.</p>
+                                    <a href="cotizacion.php?producto=credenciales-pvc" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Cotizar</a>
+                                </div>
                             </div>
-                            <hr style="border: 0; border-top: 1px solid var(--border);">
-                            <div>
-                                <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Credenciales para eventos</h4>
-                                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">Opciones claras y funcionales para asistentes, staff, visitantes o equipos.</p>
-                                <a href="cotizacion.php?producto=credenciales-eventos" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 12px; text-transform: none;">Cotizar para evento</a>
+                            
+                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
+                            
+                            <!-- Credenciales para eventos -->
+                            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
+                                    <img src="uploads/carousel_2.jpg?v=2.2" style="width: 100%; height: 100%; object-fit: cover;" alt="Credenciales para eventos">
+                                </div>
+                                <div style="flex-grow: 1;">
+                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Credenciales para eventos</h4>
+                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Tarjetas de gran formato para staff, prensa y asistentes.</p>
+                                    <a href="cotizacion.php?producto=credenciales-eventos" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Cotizar</a>
+                                </div>
                             </div>
-                            <hr style="border: 0; border-top: 1px solid var(--border);">
-                            <div>
-                                <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Porta credenciales</h4>
-                                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px;">Diseños prácticos para proteger y usar las identificaciones todos los días.</p>
-                                <a href="productos.php?cat=porta-credenciales" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 12px; text-transform: none;">Ver porta credenciales</a>
+                            
+                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
+                            
+                            <!-- Porta credenciales -->
+                            <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
+                                    <img src="uploads/fundas.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta credenciales">
+                                </div>
+                                <div style="flex-grow: 1;">
+                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Porta credenciales</h4>
+                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Soportes rígidos o fundas de PVC flexible para proteger identificaciones.</p>
+                                    <a href="productos.php?cat=porta-credenciales" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Ver catálogo</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -535,7 +656,7 @@ foreach ($featured_products as $p) {
             </div>
         </section>
 
-        <!-- 4. Identificación para empresas, instituciones y eventos -->
+        <!-- 4. Identificación para empresas, instituciones y eventos con Fotos -->
         <section class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
                 <span class="section-subtitle">Soluciones de Taller</span>
@@ -544,30 +665,57 @@ foreach ($featured_products as $p) {
             </div>
 
             <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-                <div style="background: white; border: 1px solid var(--border); padding: 1.5rem; border-radius: var(--radius-sm); display: flex; flex-direction: column;">
-                    <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500;">Empresas</h3>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Carnets, cintas y accesorios para colaboradores, áreas internas y visitantes.</p>
-                    <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none;">Cotizar para mi empresa</a>
+                <!-- Empresas -->
+                <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                    <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                        <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Empresas">
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">Empresas</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Carnets, cintas y accesorios para colaboradores, áreas internas y visitantes.</p>
+                        <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">Cotizar para mi empresa</a>
+                    </div>
                 </div>
-                <div style="background: white; border: 1px solid var(--border); padding: 1.5rem; border-radius: var(--radius-sm); display: flex; flex-direction: column;">
-                    <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500;">Instituciones</h3>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Identificación para personal administrativo, equipos de apoyo, estudiantes o miembros.</p>
-                    <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none;">Solicitar opciones</a>
+                
+                <!-- Instituciones -->
+                <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                    <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                        <img src="uploads/carousel_5.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Instituciones">
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">Instituciones</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Identificación para personal administrativo, equipos de apoyo, estudiantes o miembros.</p>
+                        <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">Solicitar opciones</a>
+                    </div>
                 </div>
-                <div style="background: white; border: 1px solid var(--border); padding: 1.5rem; border-radius: var(--radius-sm); display: flex; flex-direction: column;">
-                    <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500;">Eventos</h3>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Credenciales, cintas y porta credenciales para staff, invitados y asistentes.</p>
-                    <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none;">Cotizar para evento</a>
+                
+                <!-- Eventos -->
+                <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                    <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                        <img src="uploads/carousel_2.jpg?v=2.2" style="width: 100%; height: 100%; object-fit: cover;" alt="Eventos">
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">Eventos</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Credenciales, cintas y porta credenciales para staff, invitados y asistentes.</p>
+                        <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">Cotizar para evento</a>
+                    </div>
                 </div>
-                <div style="background: white; border: 1px solid var(--border); padding: 1.5rem; border-radius: var(--radius-sm); display: flex; flex-direction: column;">
-                    <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500;">Equipos de trabajo</h3>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Soluciones prácticas para identificar cargos, áreas y personal operativo.</p>
-                    <a href="productos.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none;">Ver productos</a>
+                
+                <!-- Equipos de trabajo -->
+                <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                    <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                        <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Equipos de trabajo">
+                    </div>
+                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                        <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">Equipos de trabajo</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Soluciones prácticas para identificar cargos, áreas y personal operativo.</p>
+                        <a href="productos.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">Ver productos</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. Accesorios para el uso diario -->
+        <!-- 5. Accesorios para el uso diario con Fotos Ilustrativas -->
         <section class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border);">
             <div class="container reveal-on-scroll">
                 <div class="section-header center" style="margin-bottom: 3.5rem;">
@@ -577,25 +725,52 @@ foreach ($featured_products as $p) {
                 </div>
 
                 <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px;">Porta carnets</h4>
-                        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Protección práctica para carnets de uso diario.</p>
-                        <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none;">Ver opciones</a>
+                    <!-- Porta carnets -->
+                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                        <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                            <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets">
+                        </div>
+                        <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Porta carnets</h4>
+                            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Protección práctica para carnets y tarjetas rígidas.</p>
+                            <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Ver opciones</a>
+                        </div>
                     </div>
-                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px;">Yoyos retráctiles</h4>
-                        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Accesorio cómodo para personal que usa identificación constantemente.</p>
-                        <a href="cotizacion.php?producto=accesorios-identificacion" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none;">Cotizar accesorios</a>
+                    
+                    <!-- Yoyos retráctiles -->
+                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                        <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                            <img src="uploads/yoyos.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Yoyos retráctiles">
+                        </div>
+                        <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Yoyos retráctiles</h4>
+                            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Accesorio cómodo con cordón extensible para accesos rápidos.</p>
+                            <a href="cotizacion.php?producto=accesorios-identificacion" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Cotizar yoyos</a>
+                        </div>
                     </div>
-                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px;">Fundas transparentes</h4>
-                        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Ideales para acreditaciones en eventos y credenciales rápidas.</p>
-                        <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none;">Ver opciones</a>
+                    
+                    <!-- Fundas transparentes -->
+                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                        <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                            <img src="uploads/fundas.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Fundas transparentes">
+                        </div>
+                        <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Fundas transparentes</h4>
+                            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Fundas de PVC blando para acreditaciones de eventos.</p>
+                            <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Ver opciones</a>
+                        </div>
                     </div>
-                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.25rem; text-align: center; display: flex; flex-direction: column;">
-                        <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px;">Clips y sujetadores</h4>
-                        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Sujeción metálica o plástica segura para prender a la ropa.</p>
-                        <a href="cotizacion.php?producto=accesorios-identificacion" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none;">Cotizar accesorios</a>
+                    
+                    <!-- Clips y sujetadores -->
+                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                        <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                            <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Clips y sujetadores">
+                        </div>
+                        <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
+                            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Clips y sujetadores</h4>
+                            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Sujeción metálica o plástica segura para fijar a la prenda.</p>
+                            <a href="cotizacion.php?producto=accesorios-identificacion" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Cotizar clips</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -423,7 +423,7 @@ if (isset($_GET['edit'])) {
                         <input type="checkbox" name="is_active" <?php echo (!$edit_product || $edit_product['is_active']) ? 'checked' : ''; ?>> Producto Activo
                     </label>
                     <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                        <input type="checkbox" name="is_featured" <?php echo ($edit_product && $edit_product['is_featured']) ? 'checked' : ''; ?>> Producto Destacado
+                        <input type="checkbox" name="is_featured" <?php echo ($edit_product && $edit_product['is_featured']) ? 'checked' : ''; ?>> Mostrar en Trabajos Realizados (Carrusel Home)
                     </label>
                     <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
                         <input type="checkbox" name="allows_simulation" <?php echo ($edit_product && $edit_product['allows_simulation']) ? 'checked' : ''; ?>> Permitir Simulador Canvas
@@ -451,7 +451,7 @@ if (isset($_GET['edit'])) {
                     <th>Precio</th>
                     <th>Stock</th>
                     <th>Categoría</th>
-                    <th>Destacado</th>
+                    <th>Trabajos Realizados</th>
                     <th>Simulable</th>
                     <th>Estado</th>
                     <th>Acciones</th>
