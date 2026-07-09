@@ -91,6 +91,36 @@ try {
             transform: translateX(4px);
         }
     </style>
+
+    <style>
+        /* Borde verde y glow en hover para todas las cajas indicadas */
+        .company-card-item, .accessory-card-item, .custom-prod-card, .process-step {
+            transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        
+        .company-card-item:hover, 
+        .accessory-card-item:hover, 
+        .custom-prod-card:hover, 
+        .process-step:hover {
+            border-color: var(--primary) !important;
+            transform: translateY(-6px) !important;
+            box-shadow: 0 15px 30px rgba(99, 174, 44, 0.1) !important;
+        }
+        
+        /* Borde verde en hover para los materiales */
+        .material-visual-item {
+            cursor: pointer;
+        }
+        .material-visual-item div {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease !important;
+        }
+        .material-visual-item:hover div {
+            border-color: var(--primary) !important;
+            transform: scale(1.05) !important;
+            box-shadow: 0 8px 20px rgba(99, 174, 44, 0.12) !important;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -696,7 +726,7 @@ try {
 
             <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
                 <!-- Empresas -->
-                <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                     <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
                         <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Empresas">
                     </div>
@@ -708,7 +738,7 @@ try {
                 </div>
                 
                 <!-- Instituciones -->
-                <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                     <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
                         <img src="uploads/carousel_5.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Instituciones">
                     </div>
@@ -720,7 +750,7 @@ try {
                 </div>
                 
                 <!-- Eventos -->
-                <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                     <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
                         <img src="uploads/carousel_2.jpg?v=2.2" style="width: 100%; height: 100%; object-fit: cover;" alt="Eventos">
                     </div>
@@ -732,7 +762,7 @@ try {
                 </div>
                 
                 <!-- Equipos de trabajo -->
-                <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                     <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
                         <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Equipos de trabajo">
                     </div>
@@ -756,7 +786,7 @@ try {
 
                 <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                     <!-- Porta carnets -->
-                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                    <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                         <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
                             <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets">
                         </div>
@@ -768,7 +798,7 @@ try {
                     </div>
                     
                     <!-- Yoyos retráctiles -->
-                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                    <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                         <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
                             <img src="uploads/yoyos.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Yoyos retráctiles">
                         </div>
@@ -780,7 +810,7 @@ try {
                     </div>
                     
                     <!-- Fundas transparentes -->
-                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                    <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                         <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
                             <img src="uploads/fundas.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Fundas transparentes">
                         </div>
@@ -792,7 +822,7 @@ try {
                     </div>
                     
                     <!-- Clips y sujetadores -->
-                    <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                    <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                         <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
                             <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Clips y sujetadores">
                         </div>
@@ -1117,6 +1147,36 @@ try {
                         </button>
                         <div class="faq-content">
                             <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Ofrecemos como servicio adicional una línea curada de productos personalizados de presentación (termos, agendas, llaveros, placas y kits) con acabados limpios.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span style="font-weight: 600; font-size: 0.95rem;">¿Cuál es la cantidad mínima de pedido (MOQ)?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">El mínimo de pedido varía según el producto. Para credenciales de PVC realizamos desde 1 unidad, y para cintas personalizadas o artículos grabados láser, consúltanos para ofrecerte las mejores escalas de precio por volumen.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span style="font-weight: 600; font-size: 0.95rem;">¿Hacen envíos a todo el Ecuador?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Sí. Realizamos entregas y envíos nacionales a cualquier ciudad del Ecuador (Guayaquil, Cuenca, Manta, Loja, etc.) a través de Servientrega o cooperativas de transporte seguras.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
+                        <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                            <span style="font-weight: 600; font-size: 0.95rem;">¿Cuál es el tiempo promedio de entrega?</span>
+                            <span class="faq-icon"></span>
+                        </button>
+                        <div class="faq-content">
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">El tiempo de producción promedio es de 3 a 5 días laborables una vez aprobado el diseño y muestra digital, dependiendo siempre del volumen y el nivel de complejidad del pedido.</p>
                         </div>
                     </div>
                 </div>
