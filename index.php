@@ -125,6 +125,147 @@ foreach ($featured_products as $p) {
                 </div>
             </div>
         </section>
+        <!-- 3. Sección: Categorías Visuales (Masonry Grid de Identificación) -->
+        <section id="categorias-visuales" class="section-padding" style="background: #121212; color: white; padding-top: 5rem; padding-bottom: 5rem;">
+            <div class="container">
+                <div class="section-header" style="margin-bottom: 3.5rem; text-align: left; max-width: 700px;">
+                    <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Líneas del Taller</span>
+                    <h2 style="font-family: var(--font-heading); font-size: 3rem; color: white; font-weight: 400; margin-bottom: 1rem;">Categorías destacadas</h2>
+                    <p style="color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.6; margin: 0;">Explora las principales líneas de identificación y personalización corporativa.</p>
+                </div>
+                
+                <style>
+                    .premium-masonry-grid {
+                        display: grid;
+                        grid-template-columns: 2fr 1fr;
+                        gap: 20px;
+                    }
+                    .premium-left-col {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                    }
+                    .premium-bottom-row {
+                        display: grid;
+                        grid-template-columns: 1.03fr 0.97fr;
+                        gap: 20px;
+                        align-items: start;
+                    }
+                    .premium-right-col {
+                        display: flex;
+                        flex-column: column;
+                        gap: 20px;
+                    }
+                    .premium-cat-card {
+                        position: relative;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        background: #1c1b1b;
+                        border: 1px solid rgba(255,255,255,0.03);
+                        text-decoration: none;
+                        display: block;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+                    }
+                    .premium-cat-card img {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        object-fit: cover;
+                        filter: grayscale(100%);
+                        transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                    }
+                    .premium-cat-card:hover img {
+                        filter: grayscale(0%);
+                        transform: scale(1.025);
+                    }
+                    .premium-cat-overlay {
+                        position: absolute;
+                        inset: 0;
+                        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 65%, transparent 100%);
+                        z-index: 2;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                        padding: 2rem;
+                        box-sizing: border-box;
+                    }
+                    .premium-cat-title {
+                        font-family: var(--font-heading);
+                        font-size: 1.65rem;
+                        font-weight: 400;
+                        color: #ffffff;
+                        margin-bottom: 4px;
+                    }
+                    .premium-cat-subtitle {
+                        font-size: 0.88rem;
+                        color: rgba(255,255,255,0.65);
+                        margin: 0;
+                    }
+                    @media (max-width: 768px) {
+                        .premium-masonry-grid {
+                            grid-template-columns: 1fr;
+                            gap: 15px;
+                        }
+                        .premium-bottom-row {
+                            grid-template-columns: 1fr;
+                            gap: 15px;
+                        }
+                        .premium-cat-overlay {
+                            padding: 1.5rem;
+                        }
+                        .premium-cat-title {
+                            font-size: 1.4rem;
+                        }
+                    }
+                </style>
+
+                <div class="premium-masonry-grid">
+                    <!-- Columna Izquierda -->
+                    <div class="premium-left-col">
+                        <!-- Cintas y Lanyards (Antes Merchandising General, ahora enfocado a lo que quiere el cliente con la foto real) -->
+                        <a href="productos.php?cat=cintas" class="premium-cat-card" style="aspect-ratio: 595/302;">
+                            <img src="uploads/cintas_mockup.jpg" alt="Cintas y Lanyards">
+                            <div class="premium-cat-overlay">
+                                <h3 class="premium-cat-title">Cintas y lanyards</h3>
+                                <p class="premium-cat-subtitle">Cintas impresas full color y accesorios de sujeción.</p>
+                            </div>
+                        </a>
+                        
+                        <div class="premium-bottom-row">
+                            <!-- Cajas y Empaques -->
+                            <a href="productos.php?cat=personalizacion" class="premium-cat-card" style="aspect-ratio: 288/337;">
+                                <img src="uploads/caja.png" alt="Cajas y Empaques">
+                                <div class="premium-cat-overlay">
+                                    <h3 class="premium-cat-title">Cajas y Empaques</h3>
+                                    <p class="premium-cat-subtitle">Packaging corporativo a medida.</p>
+                                </div>
+                            </a>
+                            <!-- Especialidad Láser (Texto limpio sin duplicaciones) -->
+                            <a href="#laser" class="premium-cat-card" style="aspect-ratio: 288/257;">
+                                <img src="images/cat_laser.png" alt="Especialidad Láser">
+                                <div class="premium-cat-overlay">
+                                    <h3 class="premium-cat-title">Especialidad Láser</h3>
+                                    <p class="premium-cat-subtitle">Grabado resistente al uso diario.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha -->
+                    <div class="premium-right-col" style="display: flex; flex-direction: column;">
+                        <!-- Carnetización (Imagen real generada) -->
+                        <a href="productos.php?cat=carnets" class="premium-cat-card" style="aspect-ratio: 288/460; height: 100%;">
+                            <img src="uploads/carnet_mockup.jpg" alt="Carnetización" style="height: 100%; object-fit: cover;">
+                            <div class="premium-cat-overlay" style="height: 100%;">
+                                <h3 class="premium-cat-title">Carnetización</h3>
+                                <p class="premium-cat-subtitle">Identificación profesional para empresas e instituciones.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- 2. Productos principales de identificación -->
         <section id="productos" class="section-padding container reveal-on-scroll">
@@ -298,6 +439,63 @@ foreach ($featured_products as $p) {
                 </div>
             </div>
         </section>
+
+        
+        <!-- Sección: Materiales que trabajamos -->
+        <section id="materiales-trabajamos" class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding-top: 4rem; padding-bottom: 4rem;">
+            <div class="container">
+                <div class="section-header center" style="margin-bottom: 3rem;">
+                    <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; color: var(--dark);">Materiales que trabajamos</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Cada material requiere un acabado distinto. Elegimos la técnica según el producto y el resultado que buscas.</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-top: 2rem;">
+                    <!-- Acero -->
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
+                        <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
+                            <img src="images/mat_acero.png" alt="Acero" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Acero</span>
+                    </div>
+                    <!-- Madera -->
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
+                        <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
+                            <img src="images/mat_madera.png" alt="Madera" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Madera</span>
+                    </div>
+                    <!-- Acrílico -->
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
+                        <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
+                            <img src="images/mat_acrilico.png" alt="Acrílico" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Acrílico</span>
+                    </div>
+                    <!-- Cuero/PU -->
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
+                        <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
+                            <img src="images/mat_cuero.png" alt="Cuero/PU" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Cuero/PU</span>
+                    </div>
+                    <!-- Vidrio -->
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
+                        <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
+                            <img src="images/mat_vidrio.png" alt="Vidrio" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Vidrio</span>
+                    </div>
+                    <!-- PVC -->
+                    <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
+                        <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
+                            <img src="images/mat_pvc.png" alt="PVC" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">PVC</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- 6. Sección secundaria: ahora también personalizamos productos corporativos -->
         <section id="personalizacion-adicional" class="section-padding container reveal-on-scroll">
