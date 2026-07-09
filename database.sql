@@ -132,12 +132,12 @@ INSERT INTO `categorias` (`id`, `name`, `slug`, `order_val`, `is_active`) VALUES
 (8, 'Kits', 'kits', 8, 1),
 (9, 'Placas', 'placas', 9, 1);
 
-INSERT INTO `carrusel` (`title`, `subtitle`, `cta_text`, `cta_url`, `order_val`, `is_active`) VALUES
-('Carnets PVC personalizados', 'Identificación profesional para empresas, instituciones, eventos y equipos.', 'Cotizar carnets', 'cotizacion.php', 1, 1),
-('Credenciales para eventos y personal', 'Credenciales claras, funcionales y listas para identificar a tu equipo.', 'Ver credenciales', 'productos.php', 2, 1),
-('Cintas porta credenciales', 'Cintas impresas full color, a un color o sin impresión para diferentes necesidades.', 'Ver opciones de cintas', 'productos.php', 3, 1),
-('Porta credenciales y accesorios', 'Complementos prácticos para proteger y presentar mejor cada identificación.', 'Explorar accesorios', 'productos.php', 4, 1),
-('Identificación para empresas e instituciones', 'Soluciones para equipos que necesitan verse organizados y profesionales.', 'Cotizar para mi empresa', 'cotizacion.php', 5, 1);
+INSERT INTO `carrusel` (`title`, `subtitle`, `image`, `cta_text`, `cta_url`, `order_val`, `is_active`) VALUES
+('Carnets PVC personalizados', 'Identificación profesional para empresas, instituciones, eventos y equipos.', 'carousel_1.jpg', 'Cotizar carnets', 'cotizacion.php', 1, 1),
+('Credenciales para eventos y personal', 'Credenciales claras, funcionales y listas para identificar a tu equipo.', 'carousel_2.jpg', 'Ver credenciales', 'productos.php', 2, 1),
+('Cintas porta credenciales', 'Cintas impresas full color, a un color o sin impresión para diferentes necesidades.', 'carousel_3.jpg', 'Ver opciones de cintas', 'productos.php', 3, 1),
+('Porta credenciales y accesorios', 'Complementos prácticos para proteger y presentar mejor cada identificación.', 'carousel_4.jpg', 'Explorar accesorios', 'productos.php', 4, 1),
+('Identificación para empresas e instituciones', 'Soluciones para equipos que necesitan verse organizados y profesionales.', 'carousel_5.jpg', 'Cotizar para mi empresa', 'cotizacion.php', 5, 1);
 
 INSERT INTO `productos` (`name`, `slug`, `description_short`, `category_id`, `category`, `image_main`, `gallery_images`, `sku`, `price`, `is_featured`, `allows_simulation`, `is_active`, `order_val`, `cta_text`) VALUES
 ('Carnets PVC', 'credenciales-pvc', 'Identificación profesional e institucional impresa en PVC laminado de alta durabilidad con diseño personalizado.', 1, 'Carnets', 'carnets.png', '["carnet_detail.jpg"]', 'carnets-sku', 1.20, 1, 1, 1, 1, 'Cotizar carnets'),

@@ -76,12 +76,7 @@ foreach ($featured_products as $p) {
                                 <div class="hero-slide-item <?php echo ($idx === 0) ? 'active' : ''; ?>" data-slide-index="<?php echo $idx; ?>" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: <?php echo ($idx === 0) ? '1' : '0'; ?>; visibility: <?php echo ($idx === 0) ? 'visible' : 'hidden'; ?>; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: <?php echo ($idx === 0) ? '5' : '1'; ?>; padding: 4rem; background-color: #0f110e;">
                                     <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 55%; z-index: 1; -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); pointer-events: none;">
                                         <?php
-                                        $img_path = 'uploads/carnets.png';
-                                        if (stripos($slide['title'], 'cintas') !== false) {
-                                            $img_path = 'uploads/llavero.png';
-                                        } elseif (stripos($slide['title'], 'porta') !== false || stripos($slide['title'], 'accesorios') !== false) {
-                                            $img_path = 'uploads/caja.png';
-                                        }
+                                        $img_path = !empty($slide['image']) ? 'uploads/' . $slide['image'] : 'uploads/carnet_mockup.jpg';
                                         ?>
                                         <img src="<?php echo $img_path; ?>" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: contain; object-position: right center; filter: drop-shadow(-10px 10px 25px rgba(0,0,0,0.2));">
                                     </div>

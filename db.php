@@ -140,6 +140,24 @@ try {
         $pdo->exec("ALTER TABLE configuraciones ADD COLUMN min_order int(11) DEFAULT 1;");
     }
 
+
+    // AUTO-MIGRACIÓN: Columna de imagen en carrusel y re-seeding automático con las nuevas imágenes del carrusel
+    $carrusel_columns = $pdo->query("DESCRIBE carrusel")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('image', $carrusel_columns)) {
+        $pdo->exec("ALTER TABLE carrusel ADD COLUMN image varchar(255) DEFAULT NULL;");
+    }
+
+    $first_slide_title = $pdo->query("SELECT title FROM carrusel WHERE order_val = 1")->fetchColumn();
+    if ($first_slide_title !== 'Carnets PVC personalizados') {
+        $pdo->exec("DELETE FROM carrusel;");
+        $pdo->exec("INSERT INTO `carrusel` (`title`, `subtitle`, `image`, `cta_text`, `cta_url`, `order_val`, `is_active`) VALUES
+            ('Carnets PVC personalizados', 'Identificación profesional para empresas, instituciones, eventos y equipos.', 'carousel_1.jpg', 'Cotizar carnets', 'cotizacion.php', 1, 1),
+            ('Credenciales para eventos y personal', 'Credenciales claras, funcionales y listas para identificar a tu equipo.', 'carousel_2.jpg', 'Ver credenciales', 'productos.php', 2, 1),
+            ('Cintas porta credenciales', 'Cintas impresas full color, a un color o sin impresión para diferentes necesidades.', 'carousel_3.jpg', 'Ver opciones de cintas', 'productos.php', 3, 1),
+            ('Porta credenciales y accesorios', 'Complementos prácticos para proteger y presentar mejor cada identificación.', 'carousel_4.jpg', 'Explorar accesorios', 'productos.php', 4, 1),
+            ('Identificación para empresas e instituciones', 'Soluciones para equipos que necesitan verse organizados y profesionales.', 'carousel_5.jpg', 'Cotizar para mi empresa', 'cotizacion.php', 5, 1);");
+    }
+
     $prod_columns_migration = $pdo->query("DESCRIBE productos")->fetchAll(PDO::FETCH_COLUMN);
     if (!in_array('volume_prices', $prod_columns_migration)) {
         $pdo->exec("ALTER TABLE productos ADD COLUMN volume_prices text DEFAULT NULL;");
