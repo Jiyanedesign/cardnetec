@@ -728,7 +728,7 @@ foreach ($featured_products as $p) {
     <script src="js/animations.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Slider de Antes/Después
+            // Slider de Antes/Después con soporte táctil mejorado (evita que se mueva la pantalla al arrastrar)
             const container = document.querySelector(".before-after-slider-container");
             if (container) {
                 const beforeWrap = document.getElementById("slider-before-wrap");
@@ -744,12 +744,32 @@ foreach ($featured_products as $p) {
                     handle.style.left = position + "%";
                 }
                 
-                container.addEventListener("mousedown", () => active = true);
+                // Mousedown / Mousemove / Mouseup
+                container.addEventListener("mousedown", (e) => {
+                    active = true;
+                    slide(e.clientX);
+                });
                 window.addEventListener("mouseup", () => active = false);
-                window.addEventListener("mousemove", (e) => { if (active) slide(e.clientX); });
-                container.addEventListener("touchstart", () => active = true);
+                window.addEventListener("mousemove", (e) => {
+                    if (active) {
+                        e.preventDefault();
+                        slide(e.clientX);
+                    }
+                });
+                
+                // Touchstart / Touchmove / Touchend
+                container.addEventListener("touchstart", (e) => {
+                    active = true;
+                    slide(e.touches[0].clientX);
+                }, { passive: true });
                 window.addEventListener("touchend", () => active = false);
-                window.addEventListener("touchmove", (e) => { if (active) slide(e.touches[0].clientX); });
+                window.addEventListener("touchmove", (e) => {
+                    if (active) {
+                        // Importante: preventDefault evita el scroll de la página mientras se arrastra el comparador
+                        if (e.cancelable) e.preventDefault();
+                        slide(e.touches[0].clientX);
+                    }
+                }, { passive: false });
             }
             
             // Selector de productos del comparador
@@ -780,32 +800,56 @@ foreach ($featured_products as $p) {
                 }
             };
             
-            tabs.forEach(btn => {
-                btn.addEventListener("click", function() {
-                    tabs.forEach(t => {
-                        t.classList.remove("active");
-                        t.style.background = "#fbfbfb";
-                    });
-                    this.classList.add("active");
-                    this.style.background = "white";
+            let currentProdIndex = 0;
+            const prodsKeys = Object.keys(prodData);
+            let beforeAfterInterval;
+
+            function switchProduct(prodKey) {
+                tabs.forEach(t => {
+                    t.classList.remove("active");
+                    t.style.background = "#fbfbfb";
+                });
+                const activeTab = document.querySelector(`.slider-tab-btn[data-prod="${prodKey}"]`);
+                if (activeTab) {
+                    activeTab.classList.add("active");
+                    activeTab.style.background = "white";
+                }
+                
+                const data = prodData[prodKey];
+                if (data) {
+                    sliderImgBefore.src = data.before;
+                    sliderImgAfter.src = data.after;
+                    sliderTitle.textContent = data.title;
+                    sliderText.textContent = data.text;
                     
-                    const prod = this.getAttribute("data-prod");
-                    const data = prodData[prod];
-                    if (data) {
-                        sliderImgBefore.src = data.before;
-                        sliderImgAfter.src = data.after;
-                        sliderTitle.textContent = data.title;
-                        sliderText.textContent = data.text;
-                        
-                        const beforeWrap = document.getElementById("slider-before-wrap");
-                        const handle = document.getElementById("slider-handle");
-                        if (beforeWrap && handle) {
-                            beforeWrap.style.clipPath = `inset(0 50% 0 0)`;
-                            handle.style.left = "50%";
-                        }
+                    const beforeWrap = document.getElementById("slider-before-wrap");
+                    const handle = document.getElementById("slider-handle");
+                    if (beforeWrap && handle) {
+                        beforeWrap.style.clipPath = `inset(0 50% 0 0)`;
+                        handle.style.left = "50%";
                     }
+                }
+            }
+
+            function startBeforeAfterAutoplay() {
+                clearInterval(beforeAfterInterval);
+                beforeAfterInterval = setInterval(() => {
+                    currentProdIndex = (currentProdIndex + 1) % prodsKeys.length;
+                    switchProduct(prodsKeys[currentProdIndex]);
+                }, 5000); // 5 segundos
+            }
+
+            tabs.forEach((btn, index) => {
+                btn.addEventListener("click", function() {
+                    currentProdIndex = index;
+                    const prod = this.getAttribute("data-prod");
+                    switchProduct(prod);
+                    startBeforeAfterAutoplay(); // Resetear temporizador al interactuar
                 });
             });
+
+            // Iniciar rotación automática al cargar
+            startBeforeAfterAutoplay();
         });
     </script>
 </body>

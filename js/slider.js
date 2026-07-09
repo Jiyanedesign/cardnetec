@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function startAutoplay() {
             clearInterval(autoplayInterval);
-            autoplayInterval = setInterval(showNext, 3500);
+            autoplayInterval = setInterval(showNext, 5000);
         }
 
         function resetAutoplay() {
