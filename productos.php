@@ -12,13 +12,19 @@ try {
 
 // Obtener productos filtrados si se solicita
 $category_filter = isset($_GET['cat']) ? trim($_GET['cat']) : '';
+$sort = isset($_GET['sort']) ? trim($_GET['sort']) : '';
+
+$order_clause = "ORDER BY p.order_val ASC";
+if ($sort === 'price_asc') {
+    $order_clause = "ORDER BY p.price ASC";
+}
 
 try {
     if ($category_filter) {
-        $stmtProds = $pdo->prepare("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' AND c.slug = ? ORDER BY p.order_val ASC");
+        $stmtProds = $pdo->prepare("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' AND c.slug = ? $order_clause");
         $stmtProds->execute([$category_filter]);
     } else {
-        $stmtProds = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' ORDER BY p.order_val ASC");
+        $stmtProds = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' $order_clause");
     }
     $products = $stmtProds->fetchAll();
 } catch (PDOException $e) {
@@ -71,6 +77,47 @@ try {
             color: white;
             border-color: var(--primary);
         }
+        
+        /* Grilla responsiva de 2 por fila en móvil */
+        @media (max-width: 767px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+            .product-card-body {
+                padding: 0.85rem !important;
+            }
+            .product-card-title {
+                font-size: 0.95rem !important;
+                margin-bottom: 0.25rem !important;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                min-height: 2.2em;
+            }
+            .product-card-price {
+                font-size: 0.65rem !important;
+            }
+            .product-specs-badges {
+                display: none !important;
+            }
+            .product-card-desc {
+                display: none !important;
+            }
+            /* Acomodar botones de acción verticalmente para pantallas angostas */
+            .product-card div[style*="display: flex; gap: 8px;"] {
+                flex-direction: column !important;
+                gap: 6px !important;
+                padding: 0 0.85rem 0.85rem 0.85rem !important;
+            }
+            .product-card .btn {
+                padding: 8px 4px !important;
+                font-size: 0.72rem !important;
+                width: 100% !important;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -88,6 +135,15 @@ try {
 
     <!-- MAIN CONTENT -->
     <main class="section-padding container">
+
+        <!-- Selector de Ordenamiento Premium -->
+        <div style="display: flex; justify-content: center; margin-bottom: 1.5rem; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Ordenar por:</span>
+            <select id="sort-selector" style="padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: white; font-family: var(--font-body); font-size: 0.82rem; color: var(--text-dark); cursor: pointer; outline: none; transition: border-color 0.2s; font-weight: 500;" onchange="location.href = this.value;">
+                <option value="productos.php?cat=<?php echo urlencode($category_filter); ?>" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Relevancia (Destacados)</option>
+                <option value="productos.php?cat=<?php echo urlencode($category_filter); ?>&sort=price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Precio: Menor a Mayor</option>
+            </select>
+        </div>
 
         <!-- Barra de Filtros por Categoría (Chips con Scroll Horizontal en móvil) -->
         <div class="filter-bar" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2.5rem; justify-content: center; overflow-x: auto; padding-bottom: 5px;">
