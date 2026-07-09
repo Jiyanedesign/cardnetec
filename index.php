@@ -724,7 +724,7 @@ foreach ($featured_products as $p) {
 
     <!-- Scripts Modulares -->
     <script src="js/main.js?v=3.5"></script>
-    <script src="js/slider.js"></script>
+    <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

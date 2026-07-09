@@ -1,16 +1,16 @@
-document.addEventListener("DOMContentLoaded", function() {
+(function() {
     function initSlider() {
         const track = document.querySelector(".hero-slider-track");
         const slides = Array.from(document.querySelectorAll(".hero-slide-item"));
         const dots = Array.from(document.querySelectorAll(".hero-dot"));
 
         if (!track || slides.length === 0) {
-            console.warn("Slider components not found in DOM.");
+            console.warn("Slider: Componentes no encontrados.");
             return;
         }
 
         let currentIndex = 0;
-        let autoplayInterval;
+        let autoplayInterval = null;
 
         function updateSlider() {
             slides.forEach((slide, index) => {
@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
             updateSlider();
         }
 
+        // Listener para los puntos de navegación
         dots.forEach((dot, index) => {
             dot.addEventListener("click", () => {
                 currentIndex = index;
@@ -58,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
-        // Touch Swipe
+        // Touch Swipe para móvil
         let startX = 0;
         let isSwiping = false;
 
@@ -70,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
         track.addEventListener("touchmove", (e) => {
             if (!isSwiping) return;
             const diffX = e.touches[0].clientX - startX;
-            if (Math.abs(diffX) > 60) {
+            if (Math.abs(diffX) > 50) {
                 if (diffX > 0) {
                     showPrev();
                 } else {
@@ -86,23 +87,31 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         function startAutoplay() {
-            clearInterval(autoplayInterval);
+            stopAutoplay();
             autoplayInterval = setInterval(showNext, 5000);
         }
 
+        function stopAutoplay() {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            }
+        }
+
         function resetAutoplay() {
-            clearInterval(autoplayInterval);
             startAutoplay();
         }
 
+        // Iniciar
         updateSlider();
         startAutoplay();
-        console.log("Slider initialized successfully.");
+        console.log("Slider: Inicializado correctamente en el index (5s autoplay).");
     }
 
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initSlider);
-    } else {
+    // Ejecutar directamente ya que el script está al final del body
+    if (document.readyState === "complete" || document.readyState === "interactive") {
         initSlider();
+    } else {
+        document.addEventListener("DOMContentLoaded", initSlider);
     }
-});
+})();
