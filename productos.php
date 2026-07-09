@@ -43,10 +43,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=3.7">
-    <link rel="stylesheet" href="css/layout.css?v=3.7">
-    <link rel="stylesheet" href="css/components.css?v=3.7">
-    <link rel="stylesheet" href="css/pages.css?v=3.7">
+    <link rel="stylesheet" href="css/base.css?v=3.8">
+    <link rel="stylesheet" href="css/layout.css?v=3.8">
+    <link rel="stylesheet" href="css/components.css?v=3.8">
+    <link rel="stylesheet" href="css/pages.css?v=3.8">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -142,6 +142,15 @@ try {
             <select id="sort-selector" style="padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: white; font-family: var(--font-body); font-size: 0.82rem; color: var(--text-dark); cursor: pointer; outline: none; transition: border-color 0.2s; font-weight: 500;" onchange="location.href = this.value;">
                 <option value="productos.php?cat=<?php echo urlencode($category_filter); ?>" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Relevancia (Destacados)</option>
                 <option value="productos.php?cat=<?php echo urlencode($category_filter); ?>&sort=price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Precio: Menor a Mayor</option>
+            </select>
+        </div>
+
+        <!-- Selector de Ordenamiento -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem; align-items: center; gap: 8px;">
+            <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">Ordenar:</span>
+            <select id="sort-selector" onchange="location.href=this.value;" style="padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); background: white; font-family: var(--font-body); font-size: 0.78rem; color: var(--text-dark); cursor: pointer; outline: none; font-weight: 500; -webkit-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23999%22%20stroke-width%3D%222%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 8px center; padding-right: 28px;">
+                <option value="productos.php<?php echo $category_filter ? '?cat='.urlencode($category_filter) : ''; ?>" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Destacados</option>
+                <option value="productos.php?<?php echo $category_filter ? 'cat='.urlencode($category_filter).'&' : ''; ?>sort=price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Precio: Menor a Mayor</option>
             </select>
         </div>
 
@@ -276,7 +285,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=3.7"></script>
+    <script src="js/main.js?v=3.8"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

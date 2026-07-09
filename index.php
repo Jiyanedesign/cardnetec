@@ -52,10 +52,10 @@ try {
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=3.7">
-    <link rel="stylesheet" href="css/layout.css?v=3.7">
-    <link rel="stylesheet" href="css/components.css?v=3.7">
-    <link rel="stylesheet" href="css/pages.css?v=3.7">
+    <link rel="stylesheet" href="css/base.css?v=3.8">
+    <link rel="stylesheet" href="css/layout.css?v=3.8">
+    <link rel="stylesheet" href="css/components.css?v=3.8">
+    <link rel="stylesheet" href="css/pages.css?v=3.8">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -1175,7 +1175,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=3.7"></script>
+    <script src="js/main.js?v=3.8"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>

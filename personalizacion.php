@@ -10,9 +10,9 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Técnicas de Marcado y Personalización de Alta Gama | CardNet.ec</title>
     <meta name="description" content="Descubre nuestros procesos de marcado técnico: grabado láser, sublimación textil HD, impresión por retransferencia y resina epóxica 3D. Garantía de fidelidad.">
-    <link rel="stylesheet" href="css/base.css?v=3.7">
-    <link rel="stylesheet" href="css/layout.css?v=3.7">
-    <link rel="stylesheet" href="css/components.css?v=3.7">
+    <link rel="stylesheet" href="css/base.css?v=3.8">
+    <link rel="stylesheet" href="css/layout.css?v=3.8">
+    <link rel="stylesheet" href="css/components.css?v=3.8">
     <style>
         .personalizacion-hero {
             background: linear-gradient(135deg, #0d110b 0%, #151a12 100%);
@@ -89,7 +89,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                 </div>
                 <div class="split-visual" style="flex: 1; min-width: 300px;">
                     <div style="width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--surface-light);">
-                        <img src="uploads/laser_background_showroom_1783463342113.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Grabador Láser en Acción">
+                        <img src="uploads/termo_after.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Grabador Láser en Acción">
                     </div>
                 </div>
             </div>
@@ -108,7 +108,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 1: Grabado Láser -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/termo_after.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Grabado Láser de Termos">
+                            <img src="uploads/termo_after.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Grabado Láser de Termos">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Grabado Láser Fibra y CO2</h3>
@@ -126,7 +126,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 2: Sublimación Textil HD -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/cintas_lanyard_mockup_1783572545520.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Sublimación HD de Cintas">
+                            <img src="uploads/cintas_full_color.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Sublimación HD de Cintas">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Sublimación de Alta Definición</h3>
@@ -144,7 +144,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 3: Impresión Térmica Re-transferencia -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/carnet_pvc_mockup_1783572533372.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Impresión de Carnets PVC">
+                            <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Impresión de Carnets PVC">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Impresión por Re-transferencia</h3>
@@ -162,7 +162,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 4: Resina Epóxica Drop -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/yoyo_reel_mockup_1783574957641.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Resina Drop en Yoyos">
+                            <img src="uploads/yoyos.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Resina Drop en Yoyos">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Resina Epóxica Drop (Gota de Resina)</h3>
@@ -222,7 +222,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/main.js?v=3.7"></script>
+    <script src="js/main.js?v=3.8"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

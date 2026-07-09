@@ -10,9 +10,9 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carnets Corporativos e Identificación Profesional | CardNet.ec</title>
     <meta name="description" content="Descubre por qué un buen carnet es vital para tu empresa. Explora combinaciones inteligentes de credenciales, porta carnets y lanyards personalizados.">
-    <link rel="stylesheet" href="css/base.css?v=3.7">
-    <link rel="stylesheet" href="css/layout.css?v=3.7">
-    <link rel="stylesheet" href="css/components.css?v=3.7">
+    <link rel="stylesheet" href="css/base.css?v=3.8">
+    <link rel="stylesheet" href="css/layout.css?v=3.8">
+    <link rel="stylesheet" href="css/components.css?v=3.8">
     <style>
         .carnets-hero {
             background: linear-gradient(135deg, #10140f 0%, #1c221a 100%);
@@ -222,7 +222,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Tarjetas de Proximidad RFID -->
                     <div class="badge-type-card">
                         <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; background: #1c1b1b;">
-                            <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transform: rotate(180deg);" alt="Tarjetas RFID / Proximidad">
+                            <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); " alt="Tarjetas RFID / Proximidad">
                         </div>
                         <div style="padding: 2rem;">
                             <h3 style="font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 400;">Tecnología y Proximidad</h3>
@@ -368,7 +368,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=3.7"></script>
+    <script src="js/main.js?v=3.8"></script>
     <script src="js/animations.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

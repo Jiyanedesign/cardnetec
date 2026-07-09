@@ -10,9 +10,9 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soluciones de Identificación Corporativa para Empresas | CardNet.ec</title>
     <meta name="description" content="Soluciones integrales de identificación para empresas y equipos. Carnets PVC, cintas sublimadas y accesorios de alta gama con garantía de marca.">
-    <link rel="stylesheet" href="css/base.css?v=3.7">
-    <link rel="stylesheet" href="css/layout.css?v=3.7">
-    <link rel="stylesheet" href="css/components.css?v=3.7">
+    <link rel="stylesheet" href="css/base.css?v=3.8">
+    <link rel="stylesheet" href="css/layout.css?v=3.8">
+    <link rel="stylesheet" href="css/components.css?v=3.8">
     <style>
         .empresas-hero {
             background: linear-gradient(135deg, #0d110b 0%, #151a12 100%);
@@ -110,7 +110,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Tarjeta 1: Carnets PVC -->
                     <div class="corp-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/carnet_pvc_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Credenciales PVC">
+                            <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Credenciales PVC">
                         </div>
                         <div style="padding: 2.5rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--dark); margin-bottom: 12px; font-weight: 500;">Credenciales de PVC Laminado</h3>
@@ -161,7 +161,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Tarjeta 4: Grabado y Corporativos -->
                     <div class="corp-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/carousel_slide_2_person_event_1783573778232.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Productos Corporativos">
+                            <img src="uploads/carousel_2.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Productos Corporativos">
                         </div>
                         <div style="padding: 2.5rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--dark); margin-bottom: 12px; font-weight: 500;">Productos Corporativos Premium</h3>
@@ -218,7 +218,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/main.js?v=3.7"></script>
+    <script src="js/main.js?v=3.8"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

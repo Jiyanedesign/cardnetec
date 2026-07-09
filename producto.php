@@ -51,10 +51,10 @@ $gallery = array_unique($gallery);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($product['name']); ?> | CardNet.ec</title>
     <meta name="description" content="<?php echo htmlspecialchars($product['description_short']); ?>">
-    <link rel="stylesheet" href="css/base.css?v=3.7">
-    <link rel="stylesheet" href="css/layout.css?v=3.7">
-    <link rel="stylesheet" href="css/components.css?v=3.7">
-    <link rel="stylesheet" href="css/pages.css?v=3.7">
+    <link rel="stylesheet" href="css/base.css?v=3.8">
+    <link rel="stylesheet" href="css/layout.css?v=3.8">
+    <link rel="stylesheet" href="css/components.css?v=3.8">
+    <link rel="stylesheet" href="css/pages.css?v=3.8">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
     
     <!-- Google Fonts -->
