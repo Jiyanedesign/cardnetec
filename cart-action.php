@@ -34,6 +34,35 @@ if ($action === 'add') {
     exit;
 }
 
+if ($action === 'add_multiple') {
+    $items = isset($_POST['items']) ? json_decode($_POST['items'], true) : [];
+    if (is_array($items)) {
+        foreach ($items as $itemData) {
+            $name = isset($itemData['name']) ? trim($itemData['name']) : '';
+            $slug = isset($itemData['slug']) ? trim($itemData['slug']) : '';
+            $qty = isset($itemData['qty']) ? (int)$itemData['qty'] : 1;
+            $price = isset($itemData['price']) ? (float)$itemData['price'] : 0.0;
+            $snapshot = isset($itemData['snapshot']) ? trim($itemData['snapshot']) : '';
+
+            $item = [
+                'name' => $name,
+                'slug' => $slug,
+                'qty' => $qty,
+                'price' => $price,
+                'snapshot' => $snapshot,
+                'subtotal' => $qty * $price
+            ];
+            $_SESSION['cart'][] = $item;
+        }
+    }
+    echo json_encode([
+        'success' => true,
+        'cart_count' => count($_SESSION['cart'])
+    ]);
+    exit;
+}
+
+
 if ($action === 'remove') {
     $index = isset($_REQUEST['index']) ? (int)$_REQUEST['index'] : -1;
     if ($index >= 0 && isset($_SESSION['cart'][$index])) {

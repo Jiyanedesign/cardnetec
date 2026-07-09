@@ -55,7 +55,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <nav class="nav-menu" aria-label="Navegación principal">
                 <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
                 <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-                <a href="productos.php?cat=carnets" class="nav-link">Carnets</a>
+                <a href="carnets.php" class="nav-link">Carnets</a>
                 <a href="productos.php?cat=cintas" class="nav-link">Cintas</a>
                 <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
                 <a href="personalizacion.php" class="nav-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
@@ -89,7 +89,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
     <a href="index.php" class="mobile-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
     <a href="productos.php" class="mobile-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-    <a href="productos.php?cat=carnets" class="mobile-link">Carnets</a>
+    <a href="carnets.php" class="mobile-link">Carnets</a>
     <a href="productos.php?cat=cintas" class="mobile-link">Cintas</a>
     <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
     <a href="personalizacion.php" class="mobile-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
