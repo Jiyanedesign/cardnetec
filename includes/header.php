@@ -1,4 +1,5 @@
 <?php
+// Version Control V4.0.1
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
