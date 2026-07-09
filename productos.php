@@ -226,28 +226,16 @@ try {
                         </a>
                         
                         <div style="display: flex; gap: 8px; margin-top: auto; padding: 0 1.25rem 1.25rem 1.25rem;">
-                            <?php
-                            $btn_text = 'Cotizar este producto';
-                            if (stripos($prod['slug'], 'termo') !== false) {
-                                $btn_text = 'Cotizar este producto';
-                            } elseif (stripos($prod['slug'], 'agenda') !== false) {
-                                $btn_text = 'Quiero algo similar';
-                            } elseif (stripos($prod['slug'], 'carnet') !== false || stripos($prod['slug'], 'credencial') !== false) {
-                                $btn_text = 'Explorar opciones';
-                            } elseif (stripos($prod['slug'], 'kit') !== false) {
-                                $btn_text = 'Armar un kit';
-                            }
-                            ?>
                             <button class="btn btn-primary btn-add-to-quote" 
                                     data-slug="<?php echo htmlspecialchars($prod['slug']); ?>" 
                                     data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
                                     data-price="<?php echo (float)$prod['price']; ?>"
-                                    style="flex-grow: 1; padding: 8px 12px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; border: none; cursor: pointer;">
-                                <?php echo $btn_text; ?>
+                                    style="flex-grow: 1; padding: 8px 12px; font-size: 0.78rem; font-weight: 600; border: none; cursor: pointer; text-align: center;">
+                                Cotizar
                             </button>
                             <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn btn-secondary" 
                                     style="padding: 8px 12px; font-size: 0.78rem; font-weight: 500; border: 1px solid var(--border); text-decoration: none; text-align: center; color: var(--dark); cursor: pointer; background: white;">
-                                Ver detalles
+                                Ver más
                             </a>
                         </div>
                     </div>
