@@ -75,6 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Crear FormData para enviar
                 const formData = new FormData();
                 formData.append('name', nameInput.value);
+                
+                const selectedProd = document.getElementById('selected-product');
+                const selectedType = document.getElementById('selected-type');
+                const selectedQty = document.getElementById('selected-qty-range');
+                if (selectedProd) formData.append('custom_product', selectedProd.value);
+                if (selectedType) formData.append('custom_type', selectedType.value);
+                if (selectedQty) formData.append('custom_qty', selectedQty.value);
                 if (companyInput) formData.append('company', companyInput.value);
                 formData.append('whatsapp', phoneInput.value);
                 if (emailInput) formData.append('email', emailInput.value);

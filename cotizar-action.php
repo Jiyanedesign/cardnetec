@@ -11,6 +11,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
     
+    if (empty($cart) && isset($_POST['custom_product'])) {
+        $cart = [
+            [
+                'name' => trim($_POST['custom_product']) . ' (' . trim($_POST['custom_type']) . ')',
+                'slug' => 'custom',
+                'qty' => trim($_POST['custom_qty']),
+                'price' => 0.0,
+                'snapshot' => '',
+                'subtotal' => 0.0
+            ]
+        ];
+    }
+    
     if (empty($cart)) {
         header('Content-Type: application/json');
         echo json_encode(['success' => false, 'message' => 'El carrito está vacío.']);
@@ -110,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Obtener número de WhatsApp de configuración del sitio
     $settings = getSiteSettings($pdo);
-    $target_phone = !empty($settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $settings['whatsapp']) : '593900000000';
+    $target_phone = !empty($settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $settings['whatsapp']) : '593000000000';
 
     // Construir mensaje estructurado para WhatsApp
     $text = "💼 *NUEVA SOLICITUD DE COTIZACIÓN empresas*\n\n";

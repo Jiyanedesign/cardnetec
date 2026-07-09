@@ -415,102 +415,7 @@ $gallery = array_unique($gallery);
         Taller de personalización en Quito | Envíos corporativos asegurados a todo el Ecuador
     </div>
 
-    <!-- Cabecera de Página -->
-    <header class="main-header">
-        <div class="container">
-            <div class="header-middle">
-                <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
-                    <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
-                </a>
-                
-                <div class="header-search">
-                    <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    <input class="search-input" type="text" placeholder="Buscar grabados...">
-                </div>
-
-                <div class="header-contact-status">
-                    <div class="contact-status-item">
-                        <div class="status-text">
-                            <h4>Asesoría personalizada</h4>
-                            <p>+593 00 000 0000</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="header-bottom">
-            <div class="container nav-container">
-                <nav class="nav-menu" aria-label="Navegación principal">
-                    <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
-                    <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
-                    <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-                    <a href="index.php#laser" class="nav-link">Grabado láser</a>
-                    <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Kits empresariales</a>
-                    <a href="index.php#antes-despues" class="nav-link">Personalización</a>
-                    <a href="index.php#proceso" class="nav-link">Cómo pedir</a>
-                    <a href="cotizacion.php" class="nav-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar<?php
-                    $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
-                    if ($c_count > 0) {
-                        echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
-                    }
-                    ?></a>
-                </nav>
-                <div class="header-bottom-actions" style="display: flex; align-items: center; gap: 15px;">
-                    <!-- Icono de Carrito Flotante con Dropdown -->
-                    <div class="header-cart-dropdown-wrapper">
-                        <a href="cotizacion.php" class="cart-icon-btn" aria-label="Ver cotización">
-                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                                <line x1="3" y1="6" x2="21" y2="6"/>
-                                <path d="M16 10a4 4 0 0 1-8 0"/>
-                            </svg>
-                            <?php if ($c_count > 0): ?>
-                                <span class="cart-badge-count"><?php echo $c_count; ?></span>
-                            <?php endif; ?>
-                        </a>
-                        
-                        <?php if ($c_count > 0): ?>
-                            <div class="minicart-dropdown">
-                                <div class="minicart-items">
-                                    <?php 
-                                    $m_total = 0;
-                                    foreach ($_SESSION['cart'] as $m_item): 
-                                        $m_total += $m_item['subtotal'];
-                                    ?>
-                                        <div class="minicart-item">
-                                            <?php if (!empty($m_item['snapshot'])): ?>
-                                                <img src="<?php echo htmlspecialchars($m_item['snapshot']); ?>" width="50" height="50" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #e2e8f0; display: block; flex-shrink: 0;">
-                                            <?php else: ?>
-                                                <div class="minicart-item-img" style="background:#f4f4f4; display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:#888; width: 50px; height: 50px; flex-shrink: 0; border-radius: 4px;">Liso</div>
-                                            <?php endif; ?>
-                                            <div class="minicart-item-info">
-                                                <span class="minicart-item-name"><?php echo htmlspecialchars($m_item['name']); ?></span>
-                                                <span class="minicart-item-meta"><?php echo $m_item['qty']; ?> uds x $<?php echo number_format($m_item['price'], 2); ?></span>
-                                            </div>
-                                            <div class="minicart-item-subtotal">
-                                                $<?php echo number_format($m_item['subtotal'], 0); ?>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <div class="minicart-total">
-                                    <span class="minicart-total-label">Total Est.</span>
-                                    <span class="minicart-total-value">$<?php echo number_format($m_total, 2); ?></span>
-                                </div>
-                                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:10px 0; font-size:0.8rem; text-decoration:none;">Finalizar Cotización</a>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Botón Cotizar Principal -->
-                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">SOLICITAR COTIZACIÓN</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include 'includes/header.php'; ?>
 
     <!-- MAIN CONTENT -->
     <div class="product-detail-light-theme">
@@ -726,30 +631,14 @@ $gallery = array_unique($gallery);
             <h3 style="font-family:var(--font-heading); font-size:1.5rem; margin-bottom:0.75rem;">¡Añadido a mi Lista!</h3>
             <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.5; margin-bottom:2rem;">Hemos agregado el artículo personalizado a tu requerimiento de cotización.</p>
             <div style="display:flex; flex-direction:column; gap:10px;">
-                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:12px; font-weight:600;">Ver Lista y SOLICITAR COTIZACIÓN</a>
+                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:12px; font-weight:600;">Ver Lista y Cotizar</a>
                 <button onclick="document.getElementById('cart-modal').style.display='none'" class="btn btn-secondary" style="width:100%; padding:12px; font-weight:600; border:1px solid var(--border);">Seguir Diseñando</button>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container footer-top section-padding">
-            <div class="footer-grid">
-                <div class="footer-brand-column">
-                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
-                        <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
-                    </a>
-                    <p class="footer-description">Grabado láser y personalización corporativa en Ecuador.</p>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container footer-bottom-flex">
-                <p>&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
-            </div>
-        </div>
-    </footer>
+    <?php include 'includes/footer.php'; ?>
 
     <!-- Script de Simulación de Canvas, Transiciones y Carrito -->
     <script>

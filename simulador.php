@@ -117,40 +117,7 @@
         Taller de personalización en Quito | Envíos corporativos asegurados a todo el Ecuador
     </div>
 
-    <!-- Cabecera de Página -->
-    <header class="main-header">
-        <div class="container">
-            <div class="header-middle">
-                <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
-                    <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
-                </a>
-                <button class="burger-menu" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-nav">
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                    <span class="burger-line"></span>
-                </button>
-            </div>
-        </div>
-        <div class="header-bottom">
-            <div class="container nav-container">
-                <nav class="nav-menu" aria-label="Navegación principal">
-                    <?php $current_page = basename($_SERVER['PHP_SELF']); ?>
-                    <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
-                    <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-                    <a href="index.php#laser" class="nav-link">Grabado láser</a>
-                    <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Kits empresariales</a>
-                    <a href="index.php#antes-despues" class="nav-link">Personalización</a>
-                    <a href="index.php#proceso" class="nav-link">Cómo pedir</a>
-                    <a href="cotizacion.php" class="nav-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar<?php
-                    $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
-                    if ($c_count > 0) {
-                        echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
-                    }
-                    ?></a>
-                </nav>
-            </div>
-        </div>
-    </header>
+    <?php include 'includes/header.php'; ?>
 
     <!-- MAIN CONTENT -->
     <main class="container section-padding">
@@ -237,45 +204,7 @@
     </main>
 
     <!-- Pie de Página -->
-    <footer class="main-footer">
-        <div class="container footer-top section-padding" style="padding-top: 3rem; padding-bottom: 3rem;">
-            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
-                <div class="footer-brand-column">
-                    <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
-                        <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
-                    </a>
-                    <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">Grabado láser, carnets y productos personalizados para empresas, instituciones y eventos.</p>
-                </div>
-                <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Productos</h3>
-                    <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                        <a href="productos.php" class="footer-link">Termos</a>
-                        <a href="productos.php" class="footer-link">Agendas</a>
-                        <a href="empresas.php" class="footer-link">Kits</a>
-                        <a href="productos.php" class="footer-link">Placas</a>
-                        <a href="productos.php" class="footer-link">Carnets</a>
-                    </nav>
-                </div>
-                <div class="footer-links-column">
-                    <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto</h3>
-                    <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
-                        <a href="https://wa.me/593000000000" class="footer-link" target="_blank" rel="noopener noreferrer">WhatsApp: +593 00 000 0000</a>
-                        <a href="mailto:correo@cardnet.ec" class="footer-link">Correo: correo@cardnet.ec</a>
-                        <span class="footer-link" style="color: var(--text-muted); cursor: default;">Ubicación: Ecuador</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
-            <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Detalles personalizados para marcas que cuidan su presentación.</p>
-                <div class="footer-bottom-links" style="display: flex; gap: 15px; font-size: 0.8rem;">
-                    <a href="faq.php" class="footer-link">Preguntas Frecuentes</a>
-                    <a href="contacto.php" class="footer-link">Soporte</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'includes/footer.php'; ?>
 
     <!-- Script del Simulador Canvas -->
     <script>
@@ -565,7 +494,7 @@
                 }
                 message += `\nQuiero cotizar este acabado.`;
 
-                const phone = "593900000000"; // Cambiar por teléfono real de CardNet.ec
+                const phone = "593000000000"; // Cambiar por teléfono real de CardNet.ec
                 const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
                 // Abrir chat
