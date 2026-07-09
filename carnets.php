@@ -121,7 +121,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
         <section class="carnets-hero">
             <div class="container" style="max-width: 900px; position: relative; z-index: 5;">
                 <span style="color: var(--primary); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;">Guía de Identificación</span>
-                <h1 style="font-family: var(--font-heading); font-size: 3.2rem; font-weight: 400; margin-top: 15px; margin-bottom: 20px;">Carnets Corporativos Profesionales</h1>
+                <h1 style="font-family: var(--font-heading); font-size: 3.2rem; font-weight: 400; margin-top: 15px; margin-bottom: 20px; color: white;">Carnets Corporativos Profesionales</h1>
                 <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.85); line-height: 1.6; margin: 0 auto;">
                     La credencial de tu empresa no es solo un trozo de plástico; es la representación de tu marca, el pilar de tu seguridad física y el símbolo de pertenencia de tus colaboradores.
                 </p>
