@@ -7,10 +7,10 @@
     <meta name="description" content="Simula tu logo o texto sobre nuestros termos, agendas y artículos corporativos antes del grabado real.">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.0">
-    <link rel="stylesheet" href="css/layout.css?v=4.0">
-    <link rel="stylesheet" href="css/components.css?v=4.0">
-    <link rel="stylesheet" href="css/pages.css?v=4.0">
+    <link rel="stylesheet" href="css/base.css?v=4.1">
+    <link rel="stylesheet" href="css/layout.css?v=4.1">
+    <link rel="stylesheet" href="css/components.css?v=4.1">
+    <link rel="stylesheet" href="css/pages.css?v=4.1">
 
     <!-- Google Fonts -->
 

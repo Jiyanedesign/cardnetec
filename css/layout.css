@@ -587,7 +587,7 @@
         object-fit: cover !important;
     }
     .hero-slide-item > div:nth-child(2) {
-        background: linear-gradient(to bottom, transparent 0%, #0f110e 55%, #0f110e 100%) !important;
+        background: linear-gradient(to bottom, transparent 0%, rgba(249, 251, 247, 0.95) 50%, #f9fbf7 90%) !important;
     }
     .hero-slide-item > div:nth-child(3) {
         margin-top: 180px !important;
