@@ -571,13 +571,13 @@
     }
     .hero-slide-item > div:first-child {
         width: 100% !important;
-        height: 52% !important;
+        height: 50% !important;
         top: 0 !important;
         right: 0 !important;
         left: 0 !important;
         bottom: auto !important;
-        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%) !important;
-        mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%) !important;
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
     }
     .hero-slide-item > div:first-child img {
         object-fit: cover !important;
@@ -587,30 +587,40 @@
         object-fit: cover !important;
     }
     .hero-slide-item > div:nth-child(2) {
-        background: linear-gradient(to bottom, transparent 0%, rgba(249, 251, 247, 0.95) 50%, #f9fbf7 90%) !important;
+        display: none !important;
     }
-    .hero-slide-item > div:nth-child(3) {
-        margin-top: 180px !important;
+    .hero-text-card {
+        margin-left: 0 !important;
+        margin-top: 190px !important;
         max-width: 100% !important;
+        width: 100% !important;
+        padding: 1.5rem !important;
+        background: #f9fbf7 !important;
+        border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
+        border: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
     }
-    .hero-slide-item h2 {
-        font-size: 1.6rem !important;
+    .hero-text-card h2 {
+        font-size: 1.4rem !important;
         margin-bottom: 0.5rem !important;
     }
-    .hero-slide-item p {
-        font-size: 0.88rem !important;
-        margin-bottom: 1.5rem !important;
+    .hero-text-card p {
+        font-size: 0.85rem !important;
+        margin-bottom: 1.25rem !important;
     }
-    .hero-slide-item .btn {
+    .hero-text-card .btn {
         width: 100% !important;
-        padding: 12px 0 !important;
+        padding: 10px 0 !important;
         display: block;
         text-align: center;
     }
     .hero-right-carousel > div:last-child {
         right: 50% !important;
         transform: translateX(50%) !important;
-        bottom: 1.5rem !important;
+        bottom: 1rem !important;
+        z-index: 10 !important;
     }
 
     /* Before and After slider comparison stacking on mobile */

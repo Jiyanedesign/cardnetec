@@ -53,10 +53,10 @@ try {
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.1">
-    <link rel="stylesheet" href="css/layout.css?v=4.1">
-    <link rel="stylesheet" href="css/components.css?v=4.1">
-    <link rel="stylesheet" href="css/pages.css?v=4.1">
+    <link rel="stylesheet" href="css/base.css?v=4.2">
+    <link rel="stylesheet" href="css/layout.css?v=4.2">
+    <link rel="stylesheet" href="css/components.css?v=4.2">
+    <link rel="stylesheet" href="css/pages.css?v=4.2">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -133,24 +133,29 @@ try {
         <!-- 1. Hero Principal - Carrusel Automático Showroom de Identificación -->
         <section class="hero-block reveal-on-scroll" id="inicio" style="padding-top: 1rem; padding-bottom: 2rem;">
             <div class="container" style="position: relative;">
-                <div class="hero-right-carousel" style="width: 100%; min-height: 520px; height: 70vh; position: relative; border-radius: var(--radius-md); overflow: hidden; background: #f9fbf7; border: 1px solid var(--border); display: flex; flex-direction: column;">
+                <div class="hero-right-carousel" style="width: 100%; min-height: 520px; height: 70vh; position: relative; border-radius: var(--radius-md); overflow: hidden; background: #eef2eb; border: 1px solid var(--border); display: flex; flex-direction: column;">
                     <div class="hero-slider-track" style="width: 100%; height: 100%; position: relative; flex-grow: 1;">
                         
                         <?php if (!empty($slides)): ?>
                             <?php foreach ($slides as $idx => $slide): ?>
-                                <div class="hero-slide-item <?php echo ($idx === 0) ? 'active' : ''; ?>" data-slide-index="<?php echo $idx; ?>" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: <?php echo ($idx === 0) ? '1' : '0'; ?>; visibility: <?php echo ($idx === 0) ? 'visible' : 'hidden'; ?>; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: <?php echo ($idx === 0) ? '5' : '1'; ?>; padding: 4rem; background-color: #f9fbf7;">
-                                    <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 55%; z-index: 1; -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%); pointer-events: none;">
+                                <div class="hero-slide-item <?php echo ($idx === 0) ? 'active' : ''; ?>" data-slide-index="<?php echo $idx; ?>" style="position: absolute; inset: 0; display: flex; align-items: center; opacity: <?php echo ($idx === 0) ? '1' : '0'; ?>; visibility: <?php echo ($idx === 0) ? 'visible' : 'hidden'; ?>; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: <?php echo ($idx === 0) ? '5' : '1'; ?>; padding: 3rem;">
+                                    
+                                    <!-- Imagen al 100% del fondo -->
+                                    <div style="position: absolute; inset: 0; z-index: 1;">
                                         <?php
                                         $img_path = !empty($slide['image']) ? 'uploads/' . $slide['image'] : 'uploads/carnet_mockup.jpg';
                                         ?>
-                                        <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-position: right center;" class="hero-slide-img">
+                                        <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" class="hero-slide-img">
                                     </div>
-                                    <div style="position: absolute; inset: 0; background: linear-gradient(to right, #f9fbf7 0%, rgba(249, 251, 247, 0.95) 35%, rgba(249, 251, 247, 0.5) 60%, transparent 100%); z-index: 2; pointer-events: none;"></div>
                                     
-                                    <div style="position: relative; z-index: 3; max-width: 500px; color: var(--dark);">
-                                        <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--dark); font-weight: 500; margin-bottom: 1rem; line-height: 1.2;"><?php echo htmlspecialchars($slide['title']); ?></h2>
-                                        <p style="font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 2.2rem;"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
-                                        <a href="<?php echo htmlspecialchars($slide['cta_url']); ?>" class="btn btn-primary" style="padding: 14px 32px; font-weight: 600; text-transform: none;"><?php echo htmlspecialchars($slide['cta_text']); ?></a>
+                                    <!-- Suave capa protectora sobre la imagen completa para integrar contrastes -->
+                                    <div style="position: absolute; inset: 0; background: rgba(255, 255, 255, 0.15); z-index: 2; pointer-events: none;"></div>
+                                    
+                                    <!-- Tarjeta Flotante con Glassmorphism para el Texto -->
+                                    <div class="hero-text-card" style="position: relative; z-index: 3; max-width: 460px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 2.5rem; border-radius: var(--radius-md); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin-left: 1rem;">
+                                        <h2 style="font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--dark); font-weight: 600; margin-bottom: 0.75rem; line-height: 1.25;"><?php echo htmlspecialchars($slide['title']); ?></h2>
+                                        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.75rem;"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
+                                        <a href="<?php echo htmlspecialchars($slide['cta_url']); ?>" class="btn btn-primary" style="padding: 12px 28px; font-weight: 600; text-transform: none; display: inline-block; text-align: center; border-radius: 6px; text-decoration: none; font-size: 0.85rem;"><?php echo htmlspecialchars($slide['cta_text']); ?></a>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -1176,7 +1181,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=4.1"></script>
+    <script src="js/main.js?v=4.2"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>

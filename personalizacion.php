@@ -10,9 +10,9 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Técnicas de Marcado y Personalización de Alta Gama | CardNet.ec</title>
     <meta name="description" content="Descubre nuestros procesos de marcado técnico: grabado láser, sublimación textil HD, impresión por retransferencia y resina epóxica 3D. Garantía de fidelidad.">
-    <link rel="stylesheet" href="css/base.css?v=4.1">
-    <link rel="stylesheet" href="css/layout.css?v=4.1">
-    <link rel="stylesheet" href="css/components.css?v=4.1">
+    <link rel="stylesheet" href="css/base.css?v=4.2">
+    <link rel="stylesheet" href="css/layout.css?v=4.2">
+    <link rel="stylesheet" href="css/components.css?v=4.2">
     <style>
         .personalizacion-hero {
             background: linear-gradient(135deg, #0d110b 0%, #151a12 100%);
@@ -227,7 +227,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/main.js?v=4.1"></script>
+    <script src="js/main.js?v=4.2"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>
