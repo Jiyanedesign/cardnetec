@@ -53,10 +53,10 @@ try {
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.2">
-    <link rel="stylesheet" href="css/layout.css?v=4.2">
-    <link rel="stylesheet" href="css/components.css?v=4.2">
-    <link rel="stylesheet" href="css/pages.css?v=4.2">
+    <link rel="stylesheet" href="css/base.css?v=4.3">
+    <link rel="stylesheet" href="css/layout.css?v=4.3">
+    <link rel="stylesheet" href="css/components.css?v=4.3">
+    <link rel="stylesheet" href="css/pages.css?v=4.3">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -152,7 +152,7 @@ try {
                                     <div style="position: absolute; inset: 0; background: rgba(255, 255, 255, 0.15); z-index: 2; pointer-events: none;"></div>
                                     
                                     <!-- Tarjeta Flotante con Glassmorphism para el Texto -->
-                                    <div class="hero-text-card" style="position: relative; z-index: 3; max-width: 460px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 2.5rem; border-radius: var(--radius-md); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin-left: 1rem;">
+                                    <div class="hero-text-card" style="position: relative; z-index: 3; max-width: 460px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2.75rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 30px 60px rgba(0,0,0,0.06), 0 10px 20px rgba(0,0,0,0.02); margin-left: 2rem;">
                                         <h2 style="font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--dark); font-weight: 600; margin-bottom: 0.75rem; line-height: 1.25;"><?php echo htmlspecialchars($slide['title']); ?></h2>
                                         <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.75rem;"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
                                         <a href="<?php echo htmlspecialchars($slide['cta_url']); ?>" class="btn btn-primary" style="padding: 12px 28px; font-weight: 600; text-transform: none; display: inline-block; text-align: center; border-radius: 6px; text-decoration: none; font-size: 0.85rem;"><?php echo htmlspecialchars($slide['cta_text']); ?></a>
@@ -1181,7 +1181,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=4.2"></script>
+    <script src="js/main.js?v=4.3"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>

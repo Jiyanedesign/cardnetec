@@ -15,10 +15,10 @@
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
 
     <!-- CSS Modulares con Cache Busting -->
-    <link rel="stylesheet" href="css/base.css?v=4.2">
-    <link rel="stylesheet" href="css/layout.css?v=4.2">
-    <link rel="stylesheet" href="css/components.css?v=4.2">
-    <link rel="stylesheet" href="css/pages.css?v=4.2">
+    <link rel="stylesheet" href="css/base.css?v=4.3">
+    <link rel="stylesheet" href="css/layout.css?v=4.3">
+    <link rel="stylesheet" href="css/components.css?v=4.3">
+    <link rel="stylesheet" href="css/pages.css?v=4.3">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Optimización Google Fonts Preconnect -->
@@ -77,7 +77,7 @@
     </a>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=4.2"></script>
+    <script src="js/main.js?v=4.3"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

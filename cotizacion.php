@@ -92,10 +92,10 @@ unset($item);
     <link rel="icon" type="image/png" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.2">
-    <link rel="stylesheet" href="css/layout.css?v=4.2">
-    <link rel="stylesheet" href="css/components.css?v=4.2">
-    <link rel="stylesheet" href="css/pages.css?v=4.2">
+    <link rel="stylesheet" href="css/base.css?v=4.3">
+    <link rel="stylesheet" href="css/layout.css?v=4.3">
+    <link rel="stylesheet" href="css/components.css?v=4.3">
+    <link rel="stylesheet" href="css/pages.css?v=4.3">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -382,7 +382,7 @@ unset($item);
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=4.2"></script>
+    <script src="js/main.js?v=4.3"></script>
     <script src="js/animations.js"></script>
     <script src="js/forms.js"></script>
     <script>
