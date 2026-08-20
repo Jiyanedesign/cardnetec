@@ -21,10 +21,10 @@ if ($sort === 'price_asc') {
 
 try {
     if ($category_filter) {
-        $stmtProds = $pdo->prepare("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' AND c.slug = ? $order_clause");
+        $stmtProds = $pdo->prepare("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' AND c.slug = ? $order_clause");
         $stmtProds->execute([$category_filter]);
     } else {
-        $stmtProds = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' $order_clause");
+        $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' $order_clause");
     }
     $products = $stmtProds->fetchAll();
 } catch (PDOException $e) {
@@ -43,10 +43,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.3">
-    <link rel="stylesheet" href="css/layout.css?v=4.3">
-    <link rel="stylesheet" href="css/components.css?v=4.3">
-    <link rel="stylesheet" href="css/pages.css?v=4.3">
+    <link rel="stylesheet" href="css/base.css?v=4.4">
+    <link rel="stylesheet" href="css/layout.css?v=4.4">
+    <link rel="stylesheet" href="css/components.css?v=4.4">
+    <link rel="stylesheet" href="css/pages.css?v=4.4">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -159,17 +159,16 @@ try {
 
         <!-- Barra de Filtros por Categoría (Chips con Scroll Horizontal en móvil) -->
         <div class="filter-bar" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2.5rem; justify-content: center; overflow-x: auto; padding-bottom: 5px;">
-            <button class="filter-btn active" data-filter="all" style="border:none; cursor:pointer; white-space:nowrap;">Todos</button>
-            <button class="filter-btn" data-filter="Carnet" style="border:none; cursor:pointer; white-space:nowrap;">Carnets</button>
-            <button class="filter-btn" data-filter="Credencial" style="border:none; cursor:pointer; white-space:nowrap;">Credenciales</button>
-            <button class="filter-btn" data-filter="Cinta" style="border:none; cursor:pointer; white-space:nowrap;">Cintas</button>
-            <button class="filter-btn" data-filter="Porta" style="border:none; cursor:pointer; white-space:nowrap;">Porta credenciales</button>
-            <button class="filter-btn" data-filter="Accesorios" style="border:none; cursor:pointer; white-space:nowrap;">Accesorios</button>
-            <button class="filter-btn" data-filter="PVC" style="border:none; cursor:pointer; white-space:nowrap;">Tarjetas PVC</button>
-            <button class="filter-btn" data-filter="Agenda" style="border:none; cursor:pointer; white-space:nowrap;">Agendas</button>
-            <button class="filter-btn" data-filter="Llavero" style="border:none; cursor:pointer; white-space:nowrap;">Llaveros</button>
-            <button class="filter-btn" data-filter="Termo" style="border:none; cursor:pointer; white-space:nowrap;">Termos</button>
-            <button class="filter-btn" data-filter="Kit" style="border:none; cursor:pointer; white-space:nowrap;">Kits</button>
+            <button class="filter-btn <?php echo empty($category_filter) ? 'active' : ''; ?>" data-filter="all" style="border:none; cursor:pointer; white-space:nowrap;">Todos</button>
+            <?php if (!empty($categories)): ?>
+                <?php foreach ($categories as $cat): ?>
+                    <button class="filter-btn <?php echo ($category_filter === $cat['slug']) ? 'active' : ''; ?>" 
+                            data-filter="<?php echo htmlspecialchars($cat['name']); ?>" 
+                            style="border:none; cursor:pointer; white-space:nowrap;">
+                        <?php echo htmlspecialchars($cat['name']); ?>
+                    </button>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
         
         <div class="grid-3">
@@ -195,7 +194,7 @@ try {
                     ?>
                     <div class="product-card catalog-product-item reveal-on-scroll" 
                          data-name="<?php echo htmlspecialchars($enriched['name']); ?>" 
-                         data-category="<?php echo htmlspecialchars($enriched['category']); ?>" 
+                         data-category="<?php echo htmlspecialchars(!empty($prod['category_name']) ? $prod['category_name'] : $enriched['category']); ?>" 
                          data-material="<?php echo htmlspecialchars($enriched['material']); ?>" 
                          data-technique="<?php echo htmlspecialchars($enriched['technique']); ?>" 
                          data-use="<?php echo htmlspecialchars($enriched['use']); ?>"
@@ -216,7 +215,7 @@ try {
                                 <?php endif; ?>
                             </div>
                             <div class="product-card-body" style="padding: 1.25rem; display: flex; flex-direction: column;">
-                                <span class="product-card-price" style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); font-weight: 600; display: block; margin-bottom: 4px;"><?php echo htmlspecialchars($enriched['category']); ?></span>
+                                <span class="product-card-price" style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); font-weight: 600; display: block; margin-bottom: 4px;"><?php echo htmlspecialchars(!empty($prod['category_name']) ? $prod['category_name'] : $enriched['category']); ?></span>
                                 <h3 class="product-card-title" style="margin-bottom: 0.5rem; font-size: 1.15rem; font-family: var(--font-heading); color: var(--dark); font-weight: 500; line-height: 1.2;"><?php echo htmlspecialchars($enriched['name']); ?></h3>
                                 
                                 <div class="product-specs-badges" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.85rem; margin-top: 0.25rem;">
@@ -275,7 +274,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=4.3"></script>
+    <script src="js/main.js?v=4.4"></script>
     <script src="js/animations.js"></script>
 
     <!-- Buscador Dinámico de Productos -->
