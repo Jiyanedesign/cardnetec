@@ -254,6 +254,30 @@ if (isset($_GET['edit'])) {
             height: 100%;
             object-fit: cover;
         }
+        .gallery-img-wrap .delete-gallery-img {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            border: none;
+            line-height: 1;
+            padding: 0;
+            z-index: 10;
+        }
+        .gallery-img-wrap .delete-gallery-img:hover {
+            background: rgba(220, 38, 38, 1);
+        }
     </style>
     <link rel="stylesheet" href="../css/admin.css?v=2.0">
 </head>
@@ -365,13 +389,14 @@ if (isset($_GET['edit'])) {
                     <?php if ($edit_product && !empty($edit_product['gallery_images'])): ?>
                         <div class="gallery-preview">
                             <?php 
-                            $gallery = json_decode($edit_product['gallery_images'], true) ?: [];
-                            foreach ($gallery as $g_img): 
-                            ?>
-                                <div class="gallery-img-wrap">
-                                    <img src="../uploads/<?php echo htmlspecialchars($g_img); ?>">
-                                </div>
-                            <?php endforeach; ?>
+                             $gallery = json_decode($edit_product['gallery_images'], true) ?: [];
+                             foreach ($gallery as $g_img): 
+                             ?>
+                                 <div class="gallery-img-wrap">
+                                     <img src="../uploads/<?php echo htmlspecialchars($g_img); ?>">
+                                     <button type="button" class="delete-gallery-img" onclick="removeGalleryImage(this, '<?php echo htmlspecialchars($g_img, ENT_QUOTES, 'UTF-8'); ?>')">&times;</button>
+                                 </div>
+                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -489,5 +514,26 @@ if (isset($_GET['edit'])) {
         </table>
     </div>
 
+    <script>
+    function removeGalleryImage(btn, imgPath) {
+        if (confirm('¿Eliminar esta imagen de la galería?')) {
+            // Remover visualmente la tarjeta de la imagen
+            const wrap = btn.closest('.gallery-img-wrap');
+            if (wrap) {
+                wrap.remove();
+            }
+            
+            // Actualizar la lista en el input oculto "existing_gallery"
+            const input = document.querySelector('input[name="existing_gallery"]');
+            if (input) {
+                let gallery = JSON.parse(input.value || '[]');
+                gallery = gallery.filter(function(img) {
+                    return img !== imgPath;
+                });
+                input.value = JSON.stringify(gallery);
+            }
+        }
+    }
+    </script>
 </body>
 </html>
