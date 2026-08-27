@@ -55,6 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Procesar Materiales
     $materials = isset($_POST['materials']) ? $_POST['materials'] : [];
     $materials_json = json_encode($materials);
+
+    // Procesar Etiquetas
+    $tags = isset($_POST['tags']) ? $_POST['tags'] : [];
+    $tags_json = json_encode($tags);
     
     // Obtener nombre de la categoría para compatibilidad
     $stmtCat = $pdo->prepare("SELECT name FROM categorias WHERE id = ?");
@@ -117,8 +121,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id > 0) {
             // Edición
             try {
-                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ?, volume_prices = ?, materials_json = ? WHERE id = ?");
-                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $id]);
+                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ?, volume_prices = ?, materials_json = ?, tags_json = ? WHERE id = ?");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $tags_json, $id]);
                 $message = 'Producto actualizado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al actualizar base de datos: ' . $e->getMessage();
@@ -126,8 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Creación
             try {
-                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text, volume_prices, materials_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json]);
+                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text, volume_prices, materials_json, tags_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $tags_json]);
                 $message = 'Producto creado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al crear producto: ' . $e->getMessage();
@@ -139,6 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Cargar todas las categorías activas
 $categorias = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY order_val ASC")->fetchAll();
 $materiales_list = $pdo->query("SELECT * FROM materiales WHERE is_active = 1 ORDER BY id ASC")->fetchAll();
+$etiquetas_list = $pdo->query("SELECT * FROM etiquetas ORDER BY id ASC")->fetchAll();
 
 // Cargar todos los productos
 $products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY p.id DESC")->fetchAll();
@@ -288,6 +293,7 @@ if (isset($_GET['edit'])) {
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
+            <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
             <a href="productos.php" class="nav-admin-link active">Productos</a>
             <a href="materiales.php" class="nav-admin-link">Materiales</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
@@ -438,6 +444,27 @@ if (isset($_GET['edit'])) {
                             <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
                                 <input type="checkbox" name="materials[]" value="<?php echo $mat['id']; ?>" <?php echo in_array($mat['id'], $selected_mats) ? 'checked' : ''; ?>>
                                 <?php echo htmlspecialchars($mat['name']); ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <!-- Selector de Etiquetas -->
+                <div class="form-group" style="margin-top: 1.5rem; border: 1px solid var(--border); padding: 1.5rem; border-radius: var(--radius-md);">
+                    <h3 style="font-family: var(--font-heading); font-size: 1rem; margin-bottom: 1rem;">Etiquetas del Producto (Se muestran en el catálogo y detalle)</h3>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <?php 
+                        $selected_tags = [];
+                        if ($edit_product && !empty($edit_product['tags_json'])) {
+                            $selected_tags = json_decode($edit_product['tags_json'], true) ?: [];
+                        }
+                        foreach ($etiquetas_list as $tag): 
+                        ?>
+                            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                                <input type="checkbox" name="tags[]" value="<?php echo $tag['id']; ?>" <?php echo in_array($tag['id'], $selected_tags) ? 'checked' : ''; ?>>
+                                <span style="display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; background-color: <?php echo htmlspecialchars($tag['color']); ?>; color: <?php echo htmlspecialchars($tag['text_color']); ?>;">
+                                    <?php echo htmlspecialchars($tag['name']); ?>
+                                </span>
                             </label>
                         <?php endforeach; ?>
                     </div>

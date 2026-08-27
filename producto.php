@@ -36,6 +36,20 @@ if (!empty($product['materials_json'])) {
     }
 }
 
+// Cargar etiquetas seleccionadas
+$selected_tags = [];
+if (!empty($product['tags_json'])) {
+    $tag_ids = json_decode($product['tags_json'], true) ?: [];
+    if (!empty($tag_ids)) {
+        $in_clause = implode(',', array_map('intval', $tag_ids));
+        try {
+            $selected_tags = $pdo->query("SELECT * FROM etiquetas WHERE id IN ($in_clause)")->fetchAll();
+        } catch (PDOException $e) {
+            $selected_tags = [];
+        }
+    }
+}
+
 // Cargar galería de imágenes
 $gallery = json_decode($product['gallery_images'], true) ?: [];
 // Añadir imagen principal al inicio de la galería si existe
@@ -51,10 +65,10 @@ $gallery = array_unique($gallery);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($product['name']); ?> | CardNet.ec</title>
     <meta name="description" content="<?php echo htmlspecialchars($product['description_short']); ?>">
-    <link rel="stylesheet" href="css/base.css?v=4.6">
-    <link rel="stylesheet" href="css/layout.css?v=4.6">
-    <link rel="stylesheet" href="css/components.css?v=4.6">
-    <link rel="stylesheet" href="css/pages.css?v=4.6">
+    <link rel="stylesheet" href="css/base.css?v=4.7">
+    <link rel="stylesheet" href="css/layout.css?v=4.7">
+    <link rel="stylesheet" href="css/components.css?v=4.7">
+    <link rel="stylesheet" href="css/pages.css?v=4.7">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
     
     <!-- Google Fonts -->
@@ -518,6 +532,13 @@ $gallery = array_unique($gallery);
                             Stock disponible: <?php echo (int)$product['stock']; ?> unidades
                         </div>
                         <h1 class="product-title-style"><?php echo htmlspecialchars($product['name']); ?></h1>
+                        <?php if (!empty($selected_tags)): ?>
+                            <div class="product-specs-badges" style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 0.5rem; margin-bottom: 1rem;">
+                                <?php foreach ($selected_tags as $tag): ?>
+                                    <span style="font-size: 0.65rem; background: <?php echo htmlspecialchars($tag['color']); ?>; color: <?php echo htmlspecialchars($tag['text_color']); ?>; padding: 3px 10px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(0,0,0,0.02);"><?php echo htmlspecialchars($tag['name']); ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
                         <p style="color:var(--text-muted); margin-top:10px; line-height:1.5; font-size:0.95rem;"><?php echo htmlspecialchars($product['description_short']); ?></p>
                     </div>
 

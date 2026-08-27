@@ -14,9 +14,9 @@ $error = '';
 if (isset($_GET['delete'])) {
     $id = (int)$_GET['delete'];
     try {
-        $stmt = $pdo->prepare("DELETE FROM categorias WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM etiquetas WHERE id = ?");
         $stmt->execute([$id]);
-        $message = 'Categoría eliminada correctamente.';
+        $message = 'Etiqueta eliminada correctamente.';
     } catch (PDOException $e) {
         $error = 'Error al eliminar: ' . $e->getMessage();
     }
@@ -26,45 +26,40 @@ if (isset($_GET['delete'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $name = trim($_POST['name']);
-    $slug = trim($_POST['slug']);
-    $order_val = (int)$_POST['order_val'];
-    $is_active = isset($_POST['is_active']) ? 1 : 0;
-
-    if (empty($slug)) {
-        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
-    }
+    $color = trim($_POST['color']) ?: 'rgba(0,0,0,0.03)';
+    $text_color = trim($_POST['text_color']) ?: 'var(--text-muted)';
 
     if ($id > 0) {
         // Edición
         try {
-            $stmt = $pdo->prepare("UPDATE categorias SET name = ?, slug = ?, order_val = ?, is_active = ? WHERE id = ?");
-            $stmt->execute([$name, $slug, $order_val, $is_active, $id]);
-            $message = 'Categoría actualizada correctamente.';
+            $stmt = $pdo->prepare("UPDATE etiquetas SET name = ?, color = ?, text_color = ? WHERE id = ?");
+            $stmt->execute([$name, $color, $text_color, $id]);
+            $message = 'Etiqueta actualizada correctamente.';
         } catch (PDOException $e) {
             $error = 'Error al actualizar: ' . $e->getMessage();
         }
     } else {
         // Creación
         try {
-            $stmt = $pdo->prepare("INSERT INTO categorias (name, slug, order_val, is_active) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$name, $slug, $order_val, $is_active]);
-            $message = 'Categoría creada correctamente.';
+            $stmt = $pdo->prepare("INSERT INTO etiquetas (name, color, text_color) VALUES (?, ?, ?)");
+            $stmt->execute([$name, $color, $text_color]);
+            $message = 'Etiqueta creada correctamente.';
         } catch (PDOException $e) {
             $error = 'Error al crear: ' . $e->getMessage();
         }
     }
 }
 
-// Cargar categorías
-$categorias = $pdo->query("SELECT * FROM categorias ORDER BY order_val ASC")->fetchAll();
+// Cargar etiquetas
+$etiquetas = $pdo->query("SELECT * FROM etiquetas ORDER BY id ASC")->fetchAll();
 
-// Cargar categoría a editar
-$edit_cat = null;
+// Cargar etiqueta a editar
+$edit_tag = null;
 if (isset($_GET['edit'])) {
     $edit_id = (int)$_GET['edit'];
-    $stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT * FROM etiquetas WHERE id = ?");
     $stmt->execute([$edit_id]);
-    $edit_cat = $stmt->fetch();
+    $edit_tag = $stmt->fetch();
 }
 ?>
 <!DOCTYPE html>
@@ -72,10 +67,10 @@ if (isset($_GET['edit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Categorías | CardNet.ec</title>
-    <link rel="stylesheet" href="../css/base.css?v=2.0">
-    <link rel="stylesheet" href="../css/layout.css?v=2.0">
-    <link rel="stylesheet" href="../css/components.css?v=2.0">
+    <title>Gestión de Etiquetas | CardNet.ec</title>
+    <link rel="stylesheet" href="../css/base.css?v=4.7">
+    <link rel="stylesheet" href="../css/layout.css?v=4.7">
+    <link rel="stylesheet" href="../css/components.css?v=4.7">
     <style>
         body {
             font-family: 'Work Sans', sans-serif;
@@ -150,8 +145,17 @@ if (isset($_GET['edit'])) {
         }
         .alert-success { background-color: #DEF7EC; color: #03543F; }
         .alert-danger { background-color: #FDE8E8; color: #9B1C1C; }
+        .tag-badge-preview {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            border: 1px solid rgba(0,0,0,0.05);
+            text-transform: none;
+        }
     </style>
-    <link rel="stylesheet" href="../css/admin.css?v=2.0">
+    <link rel="stylesheet" href="../css/admin.css?v=4.7">
 </head>
 <body>
 
@@ -159,8 +163,8 @@ if (isset($_GET['edit'])) {
         <img src="../images/logo.png?v=2.0" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
-            <a href="categorias.php" class="nav-admin-link active">Categorías</a>
-            <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
+            <a href="categorias.php" class="nav-admin-link">Categorías</a>
+            <a href="etiquetas.php" class="nav-admin-link active">Etiquetas</a>
             <a href="productos.php" class="nav-admin-link">Productos</a>
             <a href="materiales.php" class="nav-admin-link">Materiales</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
@@ -173,7 +177,7 @@ if (isset($_GET['edit'])) {
     </div>
 
     <div class="main-content">
-        <h1 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 2rem;">Gestión de Categorías</h1>
+        <h1 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 2rem;">Gestión de Etiquetas</h1>
 
         <?php if ($message): ?>
             <div class="alert alert-success"><?php echo $message; ?></div>
@@ -184,78 +188,72 @@ if (isset($_GET['edit'])) {
 
         <div class="form-container">
             <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">
-                <?php echo $edit_cat ? 'Editar Categoría' : 'Añadir Nueva Categoría'; ?>
+                <?php echo $edit_tag ? 'Editar Etiqueta' : 'Añadir Nueva Etiqueta'; ?>
             </h2>
 
-            <form method="POST" action="categorias.php">
-            <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
-                <?php if ($edit_cat): ?>
-                    <input type="hidden" name="id" value="<?php echo $edit_cat['id']; ?>">
+            <form method="POST" action="etiquetas.php">
+                <?php if ($edit_tag): ?>
+                    <input type="hidden" name="id" value="<?php echo $edit_tag['id']; ?>">
                 <?php endif; ?>
 
-                <div class="grid-2">
+                <div class="grid-3">
                     <div class="form-group">
-                        <label class="form-label" for="name">Nombre de la Categoría</label>
-                        <input class="form-input" type="text" name="name" id="name" required value="<?php echo $edit_cat ? htmlspecialchars($edit_cat['name']) : ''; ?>">
+                        <label class="form-label" for="name">Nombre de la Etiqueta</label>
+                        <input class="form-input" type="text" name="name" id="name" required value="<?php echo $edit_tag ? htmlspecialchars($edit_tag['name']) : ''; ?>" placeholder="Ej. Premium">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="slug">Slug (URL amigable)</label>
-                        <input class="form-input" type="text" name="slug" id="slug" value="<?php echo $edit_cat ? htmlspecialchars($edit_cat['slug']) : ''; ?>">
+                        <label class="form-label" for="color">Color de Fondo (RGBA, Hex o nombre)</label>
+                        <input class="form-input" type="text" name="color" id="color" value="<?php echo $edit_tag ? htmlspecialchars($edit_tag['color']) : 'rgba(99, 174, 44, 0.08)'; ?>" placeholder="Ej. rgba(99, 174, 44, 0.08)">
                     </div>
-                </div>
-
-                <div class="grid-2" style="margin-top: 1rem;">
                     <div class="form-group">
-                        <label class="form-label" for="order_val">Orden de Aparición</label>
-                        <input class="form-input" type="number" name="order_val" id="order_val" value="<?php echo $edit_cat ? (int)$edit_cat['order_val'] : '0'; ?>">
-                    </div>
-                    <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 10px;">
-                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                            <input type="checkbox" name="is_active" <?php echo (!$edit_cat || $edit_cat['is_active']) ? 'checked' : ''; ?>> Categoría Activa
-                        </label>
+                        <label class="form-label" for="text_color">Color del Texto (RGBA, Hex o clase)</label>
+                        <input class="form-input" type="text" name="text_color" id="text_color" value="<?php echo $edit_tag ? htmlspecialchars($edit_tag['text_color']) : 'var(--primary-hover)'; ?>" placeholder="Ej. var(--primary-hover) o #ffffff">
                     </div>
                 </div>
 
                 <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
-                    <button class="btn btn-primary" type="submit">Guardar Categoría</button>
-                    <?php if ($edit_cat): ?>
-                        <a href="categorias.php" class="btn btn-secondary">Cancelar</a>
-                        <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
+                    <button class="btn btn-primary" type="submit">Guardar Etiqueta</button>
+                    <?php if ($edit_tag): ?>
+                        <a href="etiquetas.php" class="btn btn-secondary">Cancelar Edición</a>
                     <?php endif; ?>
                 </div>
             </form>
         </div>
 
-        <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.4rem;">Categorías Registradas</h2>
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.4rem;">Etiquetas Registradas</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Orden</th>
                     <th>Nombre</th>
-                    <th>Slug</th>
-                    <th>Estado</th>
+                    <th>Color de Fondo</th>
+                    <th>Color de Texto</th>
+                    <th>Vista Previa</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($categorias as $cat): ?>
+                <?php if (!empty($etiquetas)): ?>
+                    <?php foreach ($etiquetas as $tag): ?>
+                        <tr>
+                            <td><strong><?php echo htmlspecialchars($tag['name']); ?></strong></td>
+                            <td><code><?php echo htmlspecialchars($tag['color']); ?></code></td>
+                            <td><code><?php echo htmlspecialchars($tag['text_color']); ?></code></td>
+                            <td>
+                                <span class="tag-badge-preview" style="background-color: <?php echo htmlspecialchars($tag['color']); ?>; color: <?php echo htmlspecialchars($tag['text_color']); ?>;">
+                                    <?php echo htmlspecialchars($tag['name']); ?>
+                                </span>
+                            </td>
+                            <td>
+                                <a href="etiquetas.php?edit=<?php echo $tag['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: bold; margin-right: 10px;">Editar</a>
+                                <a href="etiquetas.php?delete=<?php echo $tag['id']; ?>" onclick="return confirm('¿Seguro que deseas eliminar esta etiqueta?')" style="color: #EF4444; text-decoration: none; font-weight: bold;">Eliminar</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?php echo (int)$cat['order_val']; ?></td>
-                        <td><strong><?php echo htmlspecialchars($cat['name']); ?></strong></td>
-                        <td><code><?php echo htmlspecialchars($cat['slug']); ?></code></td>
-                        <td>
-                            <span class="badge <?php echo $cat['is_active'] ? 'badge-success' : 'badge-danger'; ?>" style="font-size: 0.7rem; border-radius: 4px; padding: 2px 6px;">
-                                <?php echo $cat['is_active'] ? 'Activa' : 'Inactiva'; ?>
-                            </span>
-                        </td>
-                        <td>
-                            <a href="categorias.php?edit=<?php echo $cat['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: bold; margin-right: 10px;">Editar</a>
-                            <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
-                            <a href="categorias.php?delete=<?php echo $cat['id']; ?>" onclick="return confirm('¿Seguro que deseas eliminar esta categoría?')" style="color: #EF4444; text-decoration: none; font-weight: bold;">Eliminar</a>
-                            <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
-                        </td>
+                        <td colspan="5" style="text-align: center; color: var(--text-muted);">No hay etiquetas creadas.</td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>

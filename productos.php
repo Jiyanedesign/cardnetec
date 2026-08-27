@@ -10,6 +10,17 @@ try {
     $categories = [];
 }
 
+// Obtener todas las etiquetas para los badges
+try {
+    $stmtTags = $pdo->query("SELECT * FROM etiquetas");
+    $all_tags = [];
+    foreach ($stmtTags->fetchAll() as $t) {
+        $all_tags[$t['id']] = $t;
+    }
+} catch (PDOException $e) {
+    $all_tags = [];
+}
+
 // Obtener productos filtrados si se solicita
 $category_filter = isset($_GET['cat']) ? trim($_GET['cat']) : '';
 $sort = isset($_GET['sort']) ? trim($_GET['sort']) : '';
@@ -43,10 +54,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.6">
-    <link rel="stylesheet" href="css/layout.css?v=4.6">
-    <link rel="stylesheet" href="css/components.css?v=4.6">
-    <link rel="stylesheet" href="css/pages.css?v=4.6">
+    <link rel="stylesheet" href="css/base.css?v=4.7">
+    <link rel="stylesheet" href="css/layout.css?v=4.7">
+    <link rel="stylesheet" href="css/components.css?v=4.7">
+    <link rel="stylesheet" href="css/pages.css?v=4.7">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -219,8 +230,22 @@ try {
                                 <h3 class="product-card-title" style="margin-bottom: 0.5rem; font-size: 1.15rem; font-family: var(--font-heading); color: var(--dark); font-weight: 500; line-height: 1.2;"><?php echo htmlspecialchars($enriched['name']); ?></h3>
                                 
                                 <div class="product-specs-badges" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.85rem; margin-top: 0.25rem;">
-                                    <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.02);"><?php echo htmlspecialchars($enriched['material']); ?></span>
-                                    <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1);"><?php echo htmlspecialchars($enriched['technique']); ?></span>
+                                    <?php 
+                                    $prod_tags = json_decode($prod['tags_json'] ?? '[]', true) ?: [];
+                                    if (!empty($prod_tags)): 
+                                        foreach ($prod_tags as $t_id):
+                                            if (isset($all_tags[$t_id])):
+                                                $tag = $all_tags[$t_id];
+                                    ?>
+                                                <span style="font-size: 0.65rem; background: <?php echo htmlspecialchars($tag['color']); ?>; color: <?php echo htmlspecialchars($tag['text_color']); ?>; padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(0,0,0,0.02);"><?php echo htmlspecialchars($tag['name']); ?></span>
+                                    <?php 
+                                            endif;
+                                        endforeach;
+                                    else: 
+                                    ?>
+                                        <span style="font-size: 0.65rem; background: rgba(0,0,0,0.03); color: var(--text-muted); padding: 3px 8px; border-radius: 20px; font-weight: 500; border: 1px solid rgba(0,0,0,0.02);"><?php echo htmlspecialchars($enriched['material']); ?></span>
+                                        <span style="font-size: 0.65rem; background: rgba(99, 174, 44, 0.08); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 600; border: 1px solid rgba(99, 174, 44, 0.1);"><?php echo htmlspecialchars($enriched['technique']); ?></span>
+                                    <?php endif; ?>
                                 </div>
                                 <p class="product-card-desc" style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
                             </div>
@@ -274,7 +299,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=4.6"></script>
+    <script src="js/main.js?v=4.7"></script>
     <script src="js/animations.js"></script>
 
     <!-- Buscador Dinámico de Productos -->

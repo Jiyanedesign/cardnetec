@@ -56,6 +56,27 @@ try {
     if (!in_array('model_3d', $columns)) {
         $pdo->exec("ALTER TABLE productos ADD COLUMN model_3d VARCHAR(255) DEFAULT NULL;");
     }
+    if (!in_array('tags_json', $columns)) {
+        $pdo->exec("ALTER TABLE productos ADD COLUMN tags_json text DEFAULT NULL;");
+    }
+
+    // AUTO-MIGRACIÓN: Tabla de Etiquetas
+    $tagsTableCheck = $pdo->query("SHOW TABLES LIKE 'etiquetas'")->fetch();
+    if (!$tagsTableCheck) {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `etiquetas` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `name` varchar(100) NOT NULL,
+          `color` varchar(50) DEFAULT 'rgba(0,0,0,0.03)',
+          `text_color` varchar(50) DEFAULT 'var(--text-muted)',
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        $pdo->exec("INSERT INTO `etiquetas` (`name`, `color`, `text_color`) VALUES
+            ('Acero', 'rgba(0,0,0,0.03)', 'var(--text-muted)'),
+            ('Grabado láser', 'rgba(99, 174, 44, 0.08)', 'var(--primary-hover)'),
+            ('PVC', 'rgba(0,0,0,0.03)', 'var(--text-muted)'),
+            ('Sublimación HD', 'rgba(99, 174, 44, 0.08)', 'var(--primary-hover)');");
+    }
 
     // 3. AUTO-MIGRACIÓN: Tabla de Configuración General
     $settingsCheck = $pdo->query("SHOW TABLES LIKE 'configuraciones'")->fetch();

@@ -143,6 +143,7 @@ try {
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link active">Dashboard</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
+            <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
             <a href="productos.php" class="nav-admin-link">Productos</a>
             <a href="materiales.php" class="nav-admin-link">Materiales</a>
             <a href="carrusel.php" class="nav-admin-link">Carrusel Hero</a>
