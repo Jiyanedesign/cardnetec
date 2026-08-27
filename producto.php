@@ -51,10 +51,10 @@ $gallery = array_unique($gallery);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($product['name']); ?> | CardNet.ec</title>
     <meta name="description" content="<?php echo htmlspecialchars($product['description_short']); ?>">
-    <link rel="stylesheet" href="css/base.css?v=4.4">
-    <link rel="stylesheet" href="css/layout.css?v=4.4">
-    <link rel="stylesheet" href="css/components.css?v=4.4">
-    <link rel="stylesheet" href="css/pages.css?v=4.4">
+    <link rel="stylesheet" href="css/base.css?v=4.5">
+    <link rel="stylesheet" href="css/layout.css?v=4.5">
+    <link rel="stylesheet" href="css/components.css?v=4.5">
+    <link rel="stylesheet" href="css/pages.css?v=4.5">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
     
     <!-- Google Fonts -->
@@ -107,10 +107,11 @@ $gallery = array_unique($gallery);
             gap: 1.5rem;
         }
         .canvas-container-outer {
+            max-width: 500px;
+            max-height: 500px;
             width: 100%;
-            aspect-ratio: 1;
-            background-color: var(--surface-light);
-            border: 1px solid var(--border);
+            background-color: transparent;
+            border: 1.5px solid rgba(99, 174, 44, 0.35); /* Leve línea verde alrededor del producto */
             border-radius: var(--radius-md);
             overflow: hidden;
             display: flex;
@@ -118,11 +119,13 @@ $gallery = array_unique($gallery);
             align-items: center;
             position: relative;
             box-shadow: var(--shadow-sm);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, width 0.25s ease-in-out, height 0.25s ease-in-out;
+            margin: 0 auto;
         }
         .canvas-container-outer:hover {
             transform: scale(1.015);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 10px 25px rgba(99, 174, 44, 0.08);
+            border-color: rgba(99, 174, 44, 0.6);
         }
         
         /* Efecto de transición de desvanecimiento para el canvas wrapper */
@@ -809,15 +812,35 @@ $gallery = array_unique($gallery);
             setTimeout(() => {
                 canvas.clear();
                 fabric.Image.fromURL(url, function(img) {
-                    const scale = Math.min(500 / img.width, 500 / img.height);
+                    // Determinar el tamaño dinámico para evitar espacios vacíos
+                    let newWidth = 500;
+                    let newHeight = 500;
+                    if (img.width > img.height) {
+                        newHeight = Math.round((500 * img.height) / img.width);
+                    } else {
+                        newWidth = Math.round((500 * img.width) / img.height);
+                    }
+                    
+                    // Ajustar dimensiones del canvas en Fabric.js
+                    canvas.setWidth(newWidth);
+                    canvas.setHeight(newHeight);
+                    
+                    // Ajustar dimensiones del contenedor externo del canvas
+                    const outerContainer = document.querySelector('.canvas-container-outer');
+                    if (outerContainer) {
+                        outerContainer.style.width = newWidth + 'px';
+                        outerContainer.style.height = newHeight + 'px';
+                    }
+
+                    const scale = newWidth / img.width;
                     canvas.setBackgroundImage(img, () => {
                         canvas.renderAll();
                         canvasEl.style.opacity = '1';
                     }, {
                         scaleX: scale,
                         scaleY: scale,
-                        left: (500 - img.width * scale) / 2,
-                        top: (500 - img.height * scale) / 2,
+                        left: 0,
+                        top: 0,
                         originX: 'left',
                         originY: 'top'
                     });
