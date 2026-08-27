@@ -43,10 +43,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.5">
-    <link rel="stylesheet" href="css/layout.css?v=4.5">
-    <link rel="stylesheet" href="css/components.css?v=4.5">
-    <link rel="stylesheet" href="css/pages.css?v=4.5">
+    <link rel="stylesheet" href="css/base.css?v=4.6">
+    <link rel="stylesheet" href="css/layout.css?v=4.6">
+    <link rel="stylesheet" href="css/components.css?v=4.6">
+    <link rel="stylesheet" href="css/pages.css?v=4.6">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -202,9 +202,9 @@ try {
                          style="background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; padding: 0; transition: transform 0.25s ease, border-color 0.25s ease;">
                         
                         <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" style="text-decoration: none; color: inherit; display: block; flex-grow: 1;">
-                            <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: var(--surface-light); border-bottom: 1px solid var(--border);">
+                            <div class="product-card-image-wrap" style="position: relative; overflow: hidden; aspect-ratio: 1.15; background: #ffffff; padding: 10px; border-bottom: 1px solid var(--border);">
                                 <?php if ($prod['image_main']): ?>
-                                    <img src="uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width:100%; height:100%; object-fit:cover; transition: transform 0.4s ease;" loading="lazy" alt="<?php echo htmlspecialchars($prod['name']); ?>">
+                                    <img src="uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width:100%; height:100%; object-fit:contain; transition: transform 0.4s ease;" loading="lazy" alt="<?php echo htmlspecialchars($prod['name']); ?>">
                                 <?php else: ?>
                                     <div class="image-placeholder-inner" style="background: var(--surface-light); height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
                                         <svg class="image-placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity: 0.3;">
@@ -274,7 +274,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=4.5"></script>
+    <script src="js/main.js?v=4.6"></script>
     <script src="js/animations.js"></script>
 
     <!-- Buscador Dinámico de Productos -->
