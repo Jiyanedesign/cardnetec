@@ -203,7 +203,7 @@ if (isset($_GET['edit'])) {
             font-weight: 600;
         }
     </style>
-    <link rel="stylesheet" href="../css/admin.css?v=6.0">
+    <link rel="stylesheet" href="../css/admin.css?v=6.1">
 </head>
 <body>
 

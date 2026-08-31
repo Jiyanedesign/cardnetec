@@ -100,9 +100,9 @@ if (isset($_GET['edit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Categorías | CardNet.ec</title>
-    <link rel="stylesheet" href="../css/base.css?v=6.0">
-    <link rel="stylesheet" href="../css/layout.css?v=6.0">
-    <link rel="stylesheet" href="../css/components.css?v=6.0">
+    <link rel="stylesheet" href="../css/base.css?v=6.1">
+    <link rel="stylesheet" href="../css/layout.css?v=6.1">
+    <link rel="stylesheet" href="../css/components.css?v=6.1">
     <style>
         body {
             font-family: 'Work Sans', sans-serif;
@@ -198,7 +198,7 @@ if (isset($_GET['edit'])) {
             color: #1E40AF;
         }
     </style>
-    <link rel="stylesheet" href="../css/admin.css?v=6.0">
+    <link rel="stylesheet" href="../css/admin.css?v=6.1">
 </head>
 <body>
 

@@ -23,9 +23,9 @@ if (!empty($cedula)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificación de Credencial | CardNet.ec</title>
-    <link rel="stylesheet" href="css/base.css?v=6.0">
-    <link rel="stylesheet" href="css/layout.css?v=6.0">
-    <link rel="stylesheet" href="css/components.css?v=6.0">
+    <link rel="stylesheet" href="css/base.css?v=6.1">
+    <link rel="stylesheet" href="css/layout.css?v=6.1">
+    <link rel="stylesheet" href="css/components.css?v=6.1">
     <style>
         body {
             font-family: 'Work Sans', sans-serif;

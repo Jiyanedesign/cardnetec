@@ -34,6 +34,7 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
                     <a href="productos.php?cat=cintas" class="footer-link">Cintas</a>
                     <a href="productos.php?cat=porta-credenciales" class="footer-link">Porta carnets</a>
                     <a href="personalizacion.php" class="footer-link">Personalización</a>
+                    <a href="tagua.php" class="footer-link">Productos de Tagua</a>
                 </nav>
             </div>
             <div class="footer-links-column">

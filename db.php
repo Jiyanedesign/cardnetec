@@ -142,6 +142,121 @@ try {
         }
     }
 
+    // 1.9. AUTO-MIGRACIÓN: Categoría Tagua al final de todas las categorías (order_val = 99)
+    try {
+        $existTagua = $pdo->query("SELECT id FROM categorias WHERE slug = 'tagua'")->fetchColumn();
+        if ($existTagua) {
+            $pdo->exec("UPDATE categorias SET order_val = 99, custom_link = 'tagua.php' WHERE id = " . (int)$existTagua);
+        } else {
+            $stmtInsTagua = $pdo->prepare("INSERT INTO categorias (name, slug, description, image, custom_link, order_val, is_featured, is_active) VALUES (?, ?, ?, ?, ?, 99, 0, 1)");
+            $stmtInsTagua->execute([
+                'Tagua',
+                'tagua',
+                'Productos y regalos corporativos en marfil vegetal ecuatoriano con grabado y corte láser.',
+                'tagua_mockup.jpg',
+                'tagua.php'
+            ]);
+            $existTagua = $pdo->lastInsertId();
+        }
+
+        // Si la categoría Tagua no tiene productos registrados, creamos el catálogo inicial
+        if ($existTagua) {
+            $taguaCount = $pdo->query("SELECT COUNT(*) FROM productos WHERE category_id = " . (int)$existTagua)->fetchColumn();
+            if ($taguaCount == 0) {
+                $taguaDefaultProds = [
+                    [
+                        'Llaveros de Tagua Grabados a Láser',
+                        'llaveros-tagua-laser',
+                        'Llavero de marfil vegetal ecuatoriano pulido y personalizado con grabado láser permanente de tu logo o marca.',
+                        'Semilla de tagua seleccionada y pulida a mano, herraje metálico de alta resistencia y grabado láser indeleble.',
+                        'tagua_llavero.jpg',
+                        '["tagua_llavero.jpg", "tagua_mockup.jpg"]',
+                        'TAG-001',
+                        2.50,
+                        500,
+                        'Personalizar Llaveros',
+                        1
+                    ],
+                    [
+                        'Botones de Tagua Personalizados',
+                        'botones-tagua-personalizados',
+                        'Botones ecológicos de marfil vegetal para uniformes corporativos, camisas y prendas de alta gama con grabado de logotipo.',
+                        'Fabricados a partir de rodajas de tagua natural, acabado mate o brillante con 2 o 4 orificios y grabado perimetral.',
+                        'tagua_botones.jpg',
+                        '["tagua_botones.jpg", "tagua_mockup.jpg"]',
+                        'TAG-002',
+                        0.90,
+                        1200,
+                        'Cotizar Botones',
+                        2
+                    ],
+                    [
+                        'Dijes y Medallas de Tagua con Logo',
+                        'dijes-medallas-tagua',
+                        'Medallas y dijes conmemorativos para eventos sostenibles, congresos, reconocimientos y recuerdos turísticos.',
+                        'Corte de silueta y grabado en relieve sobre lámina de tagua natural. Incluye perforación o cordón.',
+                        'tagua_dije.jpg',
+                        '["tagua_dije.jpg", "tagua_mockup.jpg"]',
+                        'TAG-003',
+                        1.80,
+                        400,
+                        'Solicitar Muestra',
+                        3
+                    ],
+                    [
+                        'Porta Credenciales Ecológico con Tagua',
+                        'porta-credenciales-tagua',
+                        'Accesorio de identificación corporativa que combina cordón textil y un elegante broche distintivo de tagua grabado.',
+                        'La alternativa perfecta para empresas con políticas ESG y compromiso ecológico en sus eventos e identificación.',
+                        'tagua_portacarnet.jpg',
+                        '["tagua_portacarnet.jpg", "tagua_mockup.jpg"]',
+                        'TAG-004',
+                        3.20,
+                        350,
+                        'Cotizar para Eventos',
+                        4
+                    ],
+                    [
+                        'Placa de Reconocimiento en Tagua y Madera',
+                        'placa-reconocimiento-tagua-madera',
+                        'Placa conmemorativa premium en madera noble con apliques centrales de tagua tallada y grabada al láser.',
+                        'Ideal para reconocimientos corporativos, premios ecológicos y eventos institucionales de prestigio.',
+                        'tagua_placa.jpg',
+                        '["tagua_placa.jpg", "tagua_mockup.jpg"]',
+                        'TAG-005',
+                        18.00,
+                        100,
+                        'Cotizar Placa',
+                        5
+                    ],
+                    [
+                        'Kit Ejecutivo Ecológico con Tagua',
+                        'kit-ejecutivo-tagua',
+                        'Caja de madera con libreta reciclada, bolígrafo de bambú y llavero de tagua grabado con el logo de tu empresa.',
+                        'Presentación lista para regalos de fin de año, bienvenida a nuevos colaboradores y regalos VIP para clientes.',
+                        'tagua_kit.jpg',
+                        '["tagua_kit.jpg", "tagua_mockup.jpg"]',
+                        'TAG-006',
+                        15.50,
+                        150,
+                        'Cotizar Kit',
+                        6
+                    ]
+                ];
+
+                $insTaguaProd = $pdo->prepare("INSERT INTO productos (category_id, name, slug, description_short, description_long, image_main, gallery_images, sku, price, stock, cta_text, order_val, is_active, is_featured) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0)");
+                foreach ($taguaDefaultProds as $tp) {
+                    $insTaguaProd->execute([
+                        $existTagua,
+                        $tp[0], $tp[1], $tp[2], $tp[3], $tp[4], $tp[5], $tp[6], $tp[7], $tp[8], $tp[9], $tp[10]
+                    ]);
+                }
+            }
+        }
+    } catch (PDOException $e) {
+        // Ignorar si ya existe
+    }
+
     // 2. AUTO-MIGRACIÓN: Agregar campos de Galería de Imágenes, SKU, Stock, Precio y Descripción Larga si faltan
     $columns = $pdo->query("DESCRIBE productos")->fetchAll(PDO::FETCH_COLUMN);
     
@@ -543,6 +658,11 @@ function enrichProduct($prod) {
         $enriched['technique'] = 'Impresión térmica color';
         $enriched['use'] = 'Identificación institucional, seguridad, eventos';
         $enriched['details'] = 'Carnets impresos en PVC laminado de alta duración. Compatible con código de barras, QR y chips de proximidad.';
+    } elseif (stripos($slug, 'tagua') !== false || stripos($slug, 'boton') !== false || stripos($slug, 'dije') !== false) {
+        $enriched['material'] = 'Semilla de Tagua (Marfil Vegetal Ecuatoriano 100% Ecológico)';
+        $enriched['technique'] = 'Corte y Grabado Láser CO2 / Fibra de Alta Precisión';
+        $enriched['use'] = 'Regalos corporativos sostenibles, eventos, souvenirs de marca y moda';
+        $enriched['details'] = 'Semilla de tagua natural cosechada de forma silvestre y sostenible en Ecuador. Pulida con acabado suave y personalizada con grabado láser indeleble.';
     }
 
     return array_merge($prod, $enriched);

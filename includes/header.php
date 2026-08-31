@@ -63,9 +63,10 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
             <nav class="nav-menu" aria-label="Navegación principal">
                 <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
                 <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-                <a href="carnets.php" class="nav-link">Carnets</a>
+                <a href="carnets.php" class="nav-link <?php echo ($current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets</a>
                 <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
                 <a href="personalizacion.php" class="nav-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
+                <a href="tagua.php" class="nav-link <?php echo ($current_page == 'tagua.php') ? 'active' : ''; ?>">Tagua</a>
                 <a href="cotizacion.php" class="nav-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar<?php
                 if ($c_count > 0) {
                     echo '<span style="background: var(--primary); color: white; border-radius: 10px; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; margin-left: 3px;">' . $c_count . '</span>';
@@ -106,6 +107,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
         <a href="carnets.php" class="mobile-link <?php echo ($current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets</a>
         <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
         <a href="personalizacion.php" class="mobile-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
+        <a href="tagua.php" class="mobile-link <?php echo ($current_page == 'tagua.php') ? 'active' : ''; ?>">Tagua</a>
         <a href="cotizacion.php" class="mobile-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar</a>
         <a href="cotizacion.php" class="btn btn-primary" style="margin-top: 1.5rem; width: 100%; text-transform: none; font-weight: 600; padding: 12px 0;">Iniciar Cotización</a>
     </div>

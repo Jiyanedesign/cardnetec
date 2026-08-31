@@ -93,10 +93,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=6.0">
-    <link rel="stylesheet" href="css/layout.css?v=6.0">
-    <link rel="stylesheet" href="css/components.css?v=6.0">
-    <link rel="stylesheet" href="css/pages.css?v=6.0">
+    <link rel="stylesheet" href="css/base.css?v=6.1">
+    <link rel="stylesheet" href="css/layout.css?v=6.1">
+    <link rel="stylesheet" href="css/components.css?v=6.1">
+    <link rel="stylesheet" href="css/pages.css?v=6.1">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -1206,7 +1206,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.0"></script>
+    <script src="js/main.js?v=6.1"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>

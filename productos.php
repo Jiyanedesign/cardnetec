@@ -2,9 +2,9 @@
 session_start();
 require_once 'db.php';
 
-// Obtener todas las categorías para los filtros
+// Obtener todas las categorías para los filtros (Tagua siempre al final)
 try {
-    $stmtCats = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY order_val ASC");
+    $stmtCats = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY CASE WHEN slug = 'tagua' THEN 999999 WHEN order_val IS NULL OR order_val = 0 THEN 999998 ELSE order_val END ASC, id ASC");
     $categories = $stmtCats->fetchAll();
 } catch (PDOException $e) {
     $categories = [];
@@ -58,10 +58,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=6.0">
-    <link rel="stylesheet" href="css/layout.css?v=6.0">
-    <link rel="stylesheet" href="css/components.css?v=6.0">
-    <link rel="stylesheet" href="css/pages.css?v=6.0">
+    <link rel="stylesheet" href="css/base.css?v=6.1">
+    <link rel="stylesheet" href="css/layout.css?v=6.1">
+    <link rel="stylesheet" href="css/components.css?v=6.1">
+    <link rel="stylesheet" href="css/pages.css?v=6.1">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -303,7 +303,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.0"></script>
+    <script src="js/main.js?v=6.1"></script>
     <script src="js/animations.js"></script>
 
     <!-- Buscador Dinámico de Productos -->
