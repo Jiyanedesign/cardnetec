@@ -2,6 +2,8 @@
 session_start();
 require_once 'db.php';
 $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+$site_settings = getSiteSettings($pdo);
+$emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -10,9 +12,9 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soluciones de Identificación Corporativa para Empresas | CardNet.ec</title>
     <meta name="description" content="Soluciones integrales de identificación para empresas y equipos. Carnets PVC, cintas sublimadas y accesorios de alta gama con garantía de marca.">
-    <link rel="stylesheet" href="css/base.css?v=5.1">
-    <link rel="stylesheet" href="css/layout.css?v=5.1">
-    <link rel="stylesheet" href="css/components.css?v=5.1">
+    <link rel="stylesheet" href="css/base.css?v=5.2">
+    <link rel="stylesheet" href="css/layout.css?v=5.2">
+    <link rel="stylesheet" href="css/components.css?v=5.2">
     <style>
         .empresas-hero {
             background: linear-gradient(135deg, #0d110b 0%, #151a12 100%);
@@ -215,7 +217,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                 <p style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.6; margin-bottom: 2rem;">Envíanos los requerimientos de tu equipo (número de colaboradores, tipos de carnet o accesorios) y te responderemos con una cotización formal en menos de 24 horas laborables.</p>
                 <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                     <a href="cotizacion.php" class="btn btn-primary" style="padding: 14px 30px; font-weight: 600; text-transform: none;">Iniciar Cotización Corporativa</a>
-                    <a href="https://wa.me/593000000000" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 14px 30px; font-weight: 600; text-transform: none;">Hablar con un Asesor</a>
+                    <a href="https://wa.me/<?php echo $emp_wa_clean; ?>" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 14px 30px; font-weight: 600; text-transform: none;">Hablar con un Asesor</a>
                 </div>
             </div>
         </section>
@@ -223,7 +225,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/main.js?v=5.1"></script>
+    <script src="js/main.js?v=5.2"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

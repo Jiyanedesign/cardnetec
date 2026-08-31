@@ -1,16 +1,22 @@
+<?php
+session_start();
+require_once 'db.php';
+$site_settings = getSiteSettings($pdo);
+$sim_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Grabado | CardNet.ec</title>
-    <meta name="description" content="Simula tu logo o texto sobre nuestros termos, agendas y artículos corporativos antes del grabado real.">
+    <title>Simulador de Personalización | CardNet.ec</title>
+    <meta name="description" content="Simula tu logo o texto sobre nuestros carnets, cintas y artículos corporativos.">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.1">
-    <link rel="stylesheet" href="css/layout.css?v=5.1">
-    <link rel="stylesheet" href="css/components.css?v=5.1">
-    <link rel="stylesheet" href="css/pages.css?v=5.1">
+    <link rel="stylesheet" href="css/base.css?v=5.2">
+    <link rel="stylesheet" href="css/layout.css?v=5.2">
+    <link rel="stylesheet" href="css/components.css?v=5.2">
+    <link rel="stylesheet" href="css/pages.css?v=5.2">
 
     <!-- Google Fonts -->
 
@@ -494,7 +500,7 @@
                 }
                 message += `\nQuiero cotizar este acabado.`;
 
-                const phone = "593000000000"; // Cambiar por teléfono real de CardNet.ec
+                const phone = "<?php echo $sim_wa_clean; ?>";
                 const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
                 // Abrir chat

@@ -34,29 +34,34 @@ try {
 } catch (PDOException $e) {
     $clients = [];
 }
+
+// 4. Cargar configuraciones del sitio
+$site_settings = getSiteSettings($pdo);
+$page_title = !empty($site_settings['site_title']) ? $site_settings['site_title'] : 'CardNet.ec | Identificación y accesorios para personal en Ecuador';
+$page_description = !empty($site_settings['site_description']) ? $site_settings['site_description'] : 'Especialistas en carnets PVC, credenciales, cintas porta credenciales impresas y accesorios para identificar a tu equipo de forma profesional.';
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CardNet.ec | Identificación y accesorios para personal en Ecuador</title>
-    <meta name="description" content="Especialistas en carnets PVC, credenciales, cintas porta credenciales impresas y accesorios para identificar a tu equipo de forma profesional.">
+    <title><?php echo htmlspecialchars($page_title); ?></title>
+    <meta name="description" content="<?php echo htmlspecialchars($page_description); ?>">
     <link rel="canonical" href="https://cardnet.ec/index.php">
     <link rel="icon" type="image/png" href="favicon.png?v=2.0">
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="CardNet.ec | Identificación y accesorios para personal">
-    <meta property="og:description" content="Carnets, credenciales y cintas para empresas, instituciones y eventos en Ecuador.">
+    <meta property="og:title" content="<?php echo htmlspecialchars($page_title); ?>">
+    <meta property="og:description" content="<?php echo htmlspecialchars($page_description); ?>">
     <meta property="og:url" content="https://cardnet.ec">
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.1">
-    <link rel="stylesheet" href="css/layout.css?v=5.1">
-    <link rel="stylesheet" href="css/components.css?v=5.1">
-    <link rel="stylesheet" href="css/pages.css?v=5.1">
+    <link rel="stylesheet" href="css/base.css?v=5.2">
+    <link rel="stylesheet" href="css/layout.css?v=5.2">
+    <link rel="stylesheet" href="css/components.css?v=5.2">
+    <link rel="stylesheet" href="css/pages.css?v=5.2">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -1181,7 +1186,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.1"></script>
+    <script src="js/main.js?v=5.2"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>

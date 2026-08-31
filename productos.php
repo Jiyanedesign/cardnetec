@@ -21,6 +21,10 @@ try {
     $all_tags = [];
 }
 
+// Cargar configuraciones del sitio
+$site_settings = getSiteSettings($pdo);
+$prod_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
+
 // Obtener productos filtrados si se solicita
 $category_filter = isset($_GET['cat']) ? trim($_GET['cat']) : '';
 $sort = isset($_GET['sort']) ? trim($_GET['sort']) : '';
@@ -54,10 +58,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.1">
-    <link rel="stylesheet" href="css/layout.css?v=5.1">
-    <link rel="stylesheet" href="css/components.css?v=5.1">
-    <link rel="stylesheet" href="css/pages.css?v=5.1">
+    <link rel="stylesheet" href="css/base.css?v=5.2">
+    <link rel="stylesheet" href="css/layout.css?v=5.2">
+    <link rel="stylesheet" href="css/components.css?v=5.2">
+    <link rel="stylesheet" href="css/pages.css?v=5.2">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -290,7 +294,7 @@ try {
             <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; margin-bottom: 1.75rem;">Envíanos tu idea, tu logo o una referencia. Te ayudamos a elegir el producto y el acabado adecuado para representar a tu marca.</p>
             <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                 <a href="cotizacion.php" class="btn btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">Iniciar cotización</a>
-                <a href="https://wa.me/593000000000" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" style="padding: 10px 22px; font-size: 0.85rem; background: white;">Enviar mi logo</a>
+                <a href="https://wa.me/<?php echo $prod_wa_clean; ?>" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" style="padding: 10px 22px; font-size: 0.85rem; background: white;">Enviar mi logo</a>
             </div>
         </div>
     </section>
@@ -299,7 +303,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.1"></script>
+    <script src="js/main.js?v=5.2"></script>
     <script src="js/animations.js"></script>
 
     <!-- Buscador Dinámico de Productos -->

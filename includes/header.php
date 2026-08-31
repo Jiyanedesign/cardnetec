@@ -5,6 +5,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 $current_page = basename($_SERVER['PHP_SELF']);
+
+// Cargar configuraciones del sitio
+if (!isset($site_settings) && isset($pdo)) {
+    $site_settings = getSiteSettings($pdo);
+}
+$header_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
+$header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 00 000 0000';
 ?>
 <!-- Barra de Anuncios Superior -->
 <div class="top-announcement-bar">
@@ -28,7 +35,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </div>
 
             <div class="header-contact-status">
-                <a href="https://wa.me/593000000000" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                <a href="https://wa.me/<?php echo $header_wa_clean; ?>" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
                     <div class="contact-status-item">
                         <span class="status-icon-wrap">
                             <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">
@@ -37,7 +44,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         </span>
                         <div class="status-text">
                             <h4>Asesoría personalizada</h4>
-                            <p style="font-size: 0.8rem; font-weight: 500; color: var(--primary);">+593 00 000 0000</p>
+                            <p style="font-size: 0.8rem; font-weight: 500; color: var(--primary);"><?php echo htmlspecialchars($header_wa_display); ?></p>
                         </div>
                     </div>
                 </a>

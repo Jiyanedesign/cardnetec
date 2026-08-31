@@ -22,8 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $min_order = (int)$_POST['min_order'];
 
     try {
-        $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, email = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ? WHERE id = 1");
-        $stmt->execute([$whatsapp, $email, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
+        $count = $pdo->query("SELECT COUNT(*) FROM configuraciones WHERE id = 1")->fetchColumn();
+        if ($count > 0) {
+            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, email = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ? WHERE id = 1");
+            $stmt->execute([$whatsapp, $email, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, email, address, instagram, facebook, site_title, site_description, min_order) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$whatsapp, $email, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
+        }
         $message = 'Configuración guardada correctamente.';
     } catch (PDOException $e) {
         $error = 'Error al guardar la configuración: ' . $e->getMessage();

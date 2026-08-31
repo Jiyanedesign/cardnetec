@@ -94,6 +94,12 @@ try {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
         $pdo->exec("INSERT INTO `configuraciones` (id, whatsapp, email, address, site_title, site_description) VALUES (1, '593000000000', 'correo@cardnet.ec', 'Av. Amazonas, Quito, Ecuador', 'CardNet.ec | Personalización Láser', 'Especialistas en grabado láser y personalización avanzada en Quito.');");
+    } else {
+        // Asegurar que exista la fila id = 1
+        $configRowCount = $pdo->query("SELECT COUNT(*) FROM configuraciones WHERE id = 1")->fetchColumn();
+        if ($configRowCount == 0) {
+            $pdo->exec("INSERT INTO `configuraciones` (id, whatsapp, email, address, site_title, site_description) VALUES (1, '593000000000', 'correo@cardnet.ec', 'Av. Amazonas, Quito, Ecuador', 'CardNet.ec | Identificación y accesorios para personal', 'Especialistas en carnets PVC, credenciales, cintas porta credenciales impresas y accesorios.');");
+        }
     }
 
     // 4. AUTO-MIGRACIÓN: Agregar columna de estado y notas internas a la tabla solicitudes si faltan
