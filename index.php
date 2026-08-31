@@ -58,10 +58,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.2">
-    <link rel="stylesheet" href="css/layout.css?v=5.2">
-    <link rel="stylesheet" href="css/components.css?v=5.2">
-    <link rel="stylesheet" href="css/pages.css?v=5.2">
+    <link rel="stylesheet" href="css/base.css?v=5.3">
+    <link rel="stylesheet" href="css/layout.css?v=5.3">
+    <link rel="stylesheet" href="css/components.css?v=5.3">
+    <link rel="stylesheet" href="css/pages.css?v=5.3">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -247,8 +247,18 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             $double_clients = array_merge($clients, $clients);
                             ?>
                             <?php foreach ($double_clients as $client): ?>
+                                <?php
+                                $c_logo = trim($client['logo_path']);
+                                if (!empty($c_logo)) {
+                                    if (strpos($c_logo, 'uploads/') !== 0 && strpos($c_logo, 'images/') !== 0 && strpos($c_logo, 'http') !== 0) {
+                                        $c_logo = 'uploads/' . $c_logo;
+                                    }
+                                } else {
+                                    $c_logo = 'uploads/cliente1.png';
+                                }
+                                ?>
                                 <div class="logos-ticker-item">
-                                    <img src="uploads/<?php echo htmlspecialchars($client['logo_path']); ?>" alt="<?php echo htmlspecialchars($client['name']); ?>">
+                                    <img src="<?php echo htmlspecialchars($c_logo); ?>" alt="<?php echo htmlspecialchars($client['name']); ?>" loading="lazy" onerror="this.style.opacity='0.4';">
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -1186,7 +1196,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.2"></script>
+    <script src="js/main.js?v=5.3"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>
