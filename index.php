@@ -66,10 +66,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.8">
-    <link rel="stylesheet" href="css/layout.css?v=5.8">
-    <link rel="stylesheet" href="css/components.css?v=5.8">
-    <link rel="stylesheet" href="css/pages.css?v=5.8">
+    <link rel="stylesheet" href="css/base.css?v=5.9">
+    <link rel="stylesheet" href="css/layout.css?v=5.9">
+    <link rel="stylesheet" href="css/components.css?v=5.9">
+    <link rel="stylesheet" href="css/pages.css?v=5.9">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -1021,28 +1021,30 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 <?php if (!empty($custom_prods)): ?>
                     <?php foreach ($custom_prods as $prod): ?>
                         <div class="custom-prod-card">
-                            <div style="aspect-ratio: 1.25; background: var(--surface-light); display: flex; align-items: center; justify-content: center; padding: 1rem; border-bottom: 1px solid var(--border);">
+                            <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" style="aspect-ratio: 1.25; background: var(--surface-light); display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid var(--border); text-decoration: none;">
                                 <?php
-                                $img_src = 'uploads/termo.png';
-                                if (stripos($prod['slug'], 'agenda') !== false) {
-                                    $img_src = 'uploads/agenda.png';
-                                } elseif (stripos($prod['slug'], 'llavero') !== false) {
-                                    $img_src = 'uploads/llavero.png';
-                                } elseif (stripos($prod['slug'], 'caja') !== false) {
-                                    $img_src = 'uploads/caja.png';
-                                } elseif (stripos($prod['slug'], 'kit') !== false) {
-                                    $img_src = 'uploads/kit.png';
-                                } elseif (stripos($prod['slug'], 'placa') !== false) {
-                                    $img_src = 'uploads/placa.png';
+                                $prod_img = !empty($prod['image_main']) ? $prod['image_main'] : '';
+                                if (!empty($prod_img)) {
+                                    if (strpos($prod_img, 'http') === 0 || strpos($prod_img, 'uploads/') === 0 || strpos($prod_img, 'images/') === 0) {
+                                        $img_src = $prod_img;
+                                    } else {
+                                        $img_src = 'uploads/' . $prod_img;
+                                    }
+                                } else {
+                                    $img_src = 'uploads/cintas_mockup.jpg';
                                 }
                                 ?>
-                                <img src="<?php echo $img_src; ?>" style="max-height: 100%; max-width: 100%; object-fit: contain;" alt="<?php echo htmlspecialchars($prod['name']); ?>">
-                            </div>
+                                <img src="<?php echo htmlspecialchars($img_src); ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" alt="<?php echo htmlspecialchars($prod['name']); ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            </a>
                             <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
-                                <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($prod['name']); ?></h4>
+                                <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--dark); margin-bottom: 0.5rem;">
+                                    <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" style="color: inherit; text-decoration: none;">
+                                        <?php echo htmlspecialchars($prod['name']); ?>
+                                    </a>
+                                </h4>
                                 <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
                                 <a href="cotizacion.php?producto=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn btn-secondary" style="width: 100%; text-align: center; font-size: 0.78rem; padding: 8px 0; text-transform: none;">
-                                    <?php echo htmlspecialchars($prod['cta_text']); ?>
+                                    <?php echo htmlspecialchars($prod['cta_text'] ?: 'Quiero este acabado'); ?>
                                 </a>
                             </div>
                         </div>
@@ -1254,7 +1256,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.8"></script>
+    <script src="js/main.js?v=5.9"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>
