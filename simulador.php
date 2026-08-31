@@ -13,10 +13,10 @@ $sim_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
     <meta name="description" content="Simula tu logo o texto sobre nuestros carnets, cintas y artículos corporativos.">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.5">
-    <link rel="stylesheet" href="css/layout.css?v=5.5">
-    <link rel="stylesheet" href="css/components.css?v=5.5">
-    <link rel="stylesheet" href="css/pages.css?v=5.5">
+    <link rel="stylesheet" href="css/base.css?v=5.6">
+    <link rel="stylesheet" href="css/layout.css?v=5.6">
+    <link rel="stylesheet" href="css/components.css?v=5.6">
+    <link rel="stylesheet" href="css/pages.css?v=5.6">
 
     <!-- Google Fonts -->
 

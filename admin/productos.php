@@ -255,22 +255,41 @@ if (isset($_GET['edit'])) {
         .alert-danger { background-color: #FDE8E8; color: #9B1C1C; }
         .gallery-preview {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-top: 10px;
             flex-wrap: wrap;
         }
         .gallery-img-wrap {
             position: relative;
-            width: 80px;
-            height: 80px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
+            width: 90px;
+            height: 90px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
             overflow: hidden;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+            background: white;
+        }
+        .gallery-img-wrap:active {
+            cursor: grabbing;
+        }
+        .gallery-img-wrap.dragging {
+            opacity: 0.35;
+            transform: scale(0.92);
+            border-style: dashed;
+            border-color: var(--primary);
+        }
+        .gallery-img-wrap.drag-over {
+            transform: scale(1.08);
+            border-color: var(--primary);
+            box-shadow: 0 4px 14px rgba(99, 174, 44, 0.4);
         }
         .gallery-img-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            pointer-events: none;
         }
         .gallery-img-wrap .delete-gallery-img {
             position: absolute;
@@ -279,12 +298,12 @@ if (isset($_GET['edit'])) {
             background: rgba(239, 68, 68, 0.9);
             color: white;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 13px;
             cursor: pointer;
             font-weight: bold;
             transition: background 0.2s;
@@ -295,6 +314,19 @@ if (isset($_GET['edit'])) {
         }
         .gallery-img-wrap .delete-gallery-img:hover {
             background: rgba(220, 38, 38, 1);
+        }
+        .gallery-drag-badge {
+            position: absolute;
+            bottom: 3px;
+            left: 3px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 500;
+            pointer-events: none;
+            letter-spacing: 0.05em;
         }
     </style>
     <link rel="stylesheet" href="../css/admin.css?v=2.0">
@@ -410,14 +442,18 @@ if (isset($_GET['edit'])) {
                     <input class="form-input" type="file" name="gallery[]" id="gallery" multiple>
                     
                     <?php if ($edit_product && !empty($edit_product['gallery_images'])): ?>
-                        <div class="gallery-preview">
+                        <small style="color: var(--text-muted); display: block; margin-top: 8px; font-size: 0.85rem;">
+                            🖐️ <strong>Arrastra y suelta</strong> las imágenes para definir el orden en que se mostrarán en la galería del producto.
+                        </small>
+                        <div class="gallery-preview" id="gallery-sortable-preview">
                             <?php 
                              $gallery = json_decode($edit_product['gallery_images'], true) ?: [];
                              foreach ($gallery as $g_img): 
                              ?>
-                                 <div class="gallery-img-wrap">
-                                     <img src="../uploads/<?php echo htmlspecialchars($g_img); ?>">
-                                     <button type="button" class="delete-gallery-img" onclick="removeGalleryImage(this, '<?php echo htmlspecialchars($g_img, ENT_QUOTES, 'UTF-8'); ?>')">&times;</button>
+                                 <div class="gallery-img-wrap" draggable="true" data-img-path="<?php echo htmlspecialchars($g_img); ?>" title="Arrastra para reordenar">
+                                     <img src="../uploads/<?php echo htmlspecialchars($g_img); ?>" alt="Foto Galería">
+                                     <span class="gallery-drag-badge">⠿ Mover</span>
+                                     <button type="button" class="delete-gallery-img" onclick="removeGalleryImage(this, '<?php echo htmlspecialchars($g_img, ENT_QUOTES, 'UTF-8'); ?>')" title="Eliminar imagen">&times;</button>
                                  </div>
                              <?php endforeach; ?>
                         </div>
@@ -567,25 +603,88 @@ if (isset($_GET['edit'])) {
     </div>
 
     <script>
+    function updateGalleryInputOrder() {
+        const preview = document.getElementById('gallery-sortable-preview');
+        const input = document.querySelector('input[name="existing_gallery"]');
+        if (!preview || !input) return;
+
+        const updatedPaths = [];
+        preview.querySelectorAll('.gallery-img-wrap').forEach(function(wrap) {
+            const path = wrap.getAttribute('data-img-path');
+            if (path) {
+                updatedPaths.push(path);
+            }
+        });
+        input.value = JSON.stringify(updatedPaths);
+    }
+
     function removeGalleryImage(btn, imgPath) {
         if (confirm('¿Eliminar esta imagen de la galería?')) {
-            // Remover visualmente la tarjeta de la imagen
             const wrap = btn.closest('.gallery-img-wrap');
             if (wrap) {
                 wrap.remove();
             }
-            
-            // Actualizar la lista en el input oculto "existing_gallery"
-            const input = document.querySelector('input[name="existing_gallery"]');
-            if (input) {
-                let gallery = JSON.parse(input.value || '[]');
-                gallery = gallery.filter(function(img) {
-                    return img !== imgPath;
-                });
-                input.value = JSON.stringify(gallery);
-            }
+            updateGalleryInputOrder();
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const preview = document.getElementById('gallery-sortable-preview');
+        if (!preview) return;
+
+        let draggedItem = null;
+
+        function addDragEvents(wrap) {
+            wrap.addEventListener('dragstart', function(e) {
+                draggedItem = wrap;
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', wrap.getAttribute('data-img-path') || '');
+                setTimeout(function() {
+                    wrap.classList.add('dragging');
+                }, 0);
+            });
+
+            wrap.addEventListener('dragend', function() {
+                wrap.classList.remove('dragging');
+                preview.querySelectorAll('.gallery-img-wrap').forEach(function(w) {
+                    w.classList.remove('drag-over');
+                });
+                draggedItem = null;
+                updateGalleryInputOrder();
+            });
+
+            wrap.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                if (draggedItem && wrap !== draggedItem) {
+                    wrap.classList.add('drag-over');
+                }
+            });
+
+            wrap.addEventListener('dragleave', function() {
+                wrap.classList.remove('drag-over');
+            });
+
+            wrap.addEventListener('drop', function(e) {
+                e.preventDefault();
+                wrap.classList.remove('drag-over');
+                if (draggedItem && wrap !== draggedItem) {
+                    const allItems = Array.from(preview.querySelectorAll('.gallery-img-wrap'));
+                    const draggedIndex = allItems.indexOf(draggedItem);
+                    const targetIndex = allItems.indexOf(wrap);
+
+                    if (draggedIndex < targetIndex) {
+                        wrap.after(draggedItem);
+                    } else {
+                        wrap.before(draggedItem);
+                    }
+                    updateGalleryInputOrder();
+                }
+            });
+        }
+
+        preview.querySelectorAll('.gallery-img-wrap').forEach(addDragEvents);
+    });
     </script>
 </body>
 </html>
