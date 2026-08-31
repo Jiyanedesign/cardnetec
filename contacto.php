@@ -3,8 +3,14 @@ session_start();
 require_once 'db.php';
 $site_settings = getSiteSettings($pdo);
 $contact_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 00 000 0000';
+$contact_phone_2 = !empty($site_settings['phone_2']) ? $site_settings['phone_2'] : '';
+$contact_phone_3 = !empty($site_settings['phone_3']) ? $site_settings['phone_3'] : '';
 $contact_email_display = !empty($site_settings['email']) ? $site_settings['email'] : 'correo@cardnet.ec';
+$contact_email_2 = !empty($site_settings['email_2']) ? $site_settings['email_2'] : '';
 $contact_address_display = !empty($site_settings['address']) ? $site_settings['address'] : 'Av. Amazonas, Quito, Ecuador';
+
+$all_phones = array_filter([$contact_wa_display, $contact_phone_2, $contact_phone_3]);
+$all_emails = array_filter([$contact_email_display, $contact_email_2]);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -23,10 +29,10 @@ $contact_address_display = !empty($site_settings['address']) ? $site_settings['a
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.3">
-    <link rel="stylesheet" href="css/layout.css?v=5.3">
-    <link rel="stylesheet" href="css/components.css?v=5.3">
-    <link rel="stylesheet" href="css/pages.css?v=5.3">
+    <link rel="stylesheet" href="css/base.css?v=5.4">
+    <link rel="stylesheet" href="css/layout.css?v=5.4">
+    <link rel="stylesheet" href="css/components.css?v=5.4">
+    <link rel="stylesheet" href="css/pages.css?v=5.4">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 </head>
 <body>
@@ -46,14 +52,34 @@ $contact_address_display = !empty($site_settings['address']) ? $site_settings['a
                 <p>Nuestra planta y taller se encuentran ubicados estratégicamente para el despacho de pedidos a todo el Ecuador.</p>
                 
                 <div class="footer-contact-info" style="margin-bottom: 2rem; gap: 1rem;">
-                    <div class="footer-contact-item" style="font-size: 1rem;">
-                        <svg class="footer-contact-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        <span><strong>Teléfono / WhatsApp:</strong> <?php echo htmlspecialchars($contact_wa_display); ?></span>
-                    </div>
-                    <div class="footer-contact-item" style="font-size: 1rem;">
-                        <svg class="footer-contact-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                        <span><strong>Correo:</strong> <?php echo htmlspecialchars($contact_email_display); ?></span>
-                    </div>
+                    <?php if (!empty($all_phones)): ?>
+                        <div class="footer-contact-item" style="font-size: 1rem; align-items: flex-start;">
+                            <svg class="footer-contact-icon" style="width: 20px; height: 20px; margin-top: 3px;" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <div>
+                                <strong>Teléfonos / WhatsApp:</strong><br>
+                                <?php foreach ($all_phones as $idx => $p): ?>
+                                    <span style="display: block; font-size: 0.95rem; color: var(--text-muted); margin-top: 2px;">
+                                        • <?php echo htmlspecialchars($p); ?>
+                                    </span>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($all_emails)): ?>
+                        <div class="footer-contact-item" style="font-size: 1rem; align-items: flex-start;">
+                            <svg class="footer-contact-icon" style="width: 20px; height: 20px; margin-top: 3px;" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+                            <div>
+                                <strong>Correos Electrónicos:</strong><br>
+                                <?php foreach ($all_emails as $idx => $em): ?>
+                                    <a href="mailto:<?php echo htmlspecialchars($em); ?>" style="display: block; font-size: 0.95rem; color: var(--primary); text-decoration: none; margin-top: 2px;">
+                                        • <?php echo htmlspecialchars($em); ?>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                     <div class="footer-contact-item" style="font-size: 1rem;">
                         <svg class="footer-contact-icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         <span><strong>Ubicación:</strong> <?php echo htmlspecialchars($contact_address_display); ?></span>
@@ -110,7 +136,7 @@ $contact_address_display = !empty($site_settings['address']) ? $site_settings['a
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.3"></script>
+    <script src="js/main.js?v=5.4"></script>
     <script src="js/animations.js"></script>
     <script src="js/forms.js"></script>
 </body>

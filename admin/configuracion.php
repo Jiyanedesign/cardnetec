@@ -13,7 +13,10 @@ $error = '';
 // Procesar Formulario de Guardado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $whatsapp = trim($_POST['whatsapp']);
+    $phone_2 = trim($_POST['phone_2'] ?? '');
+    $phone_3 = trim($_POST['phone_3'] ?? '');
     $email = trim($_POST['email']);
+    $email_2 = trim($_POST['email_2'] ?? '');
     $address = trim($_POST['address']);
     $instagram = trim($_POST['instagram']);
     $facebook = trim($_POST['facebook']);
@@ -24,11 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $count = $pdo->query("SELECT COUNT(*) FROM configuraciones WHERE id = 1")->fetchColumn();
         if ($count > 0) {
-            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, email = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ? WHERE id = 1");
-            $stmt->execute([$whatsapp, $email, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
+            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ? WHERE id = 1");
+            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
         } else {
-            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, email, address, instagram, facebook, site_title, site_description, min_order) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$whatsapp, $email, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
+            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
         }
         $message = 'Configuración guardada correctamente.';
     } catch (PDOException $e) {
@@ -140,26 +143,44 @@ $settings = getSiteSettings($pdo);
 
         <div class="form-container">
             <form method="POST" action="configuracion.php">
-                <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">Datos de Contacto Comercial</h2>
-                
+                <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">Teléfonos de Contacto (3 Líneas)</h2>
                 <div class="grid-3">
+                    <div class="form-group">
+                        <label class="form-label" for="whatsapp">Teléfono 1 / WhatsApp Principal *</label>
+                        <input class="form-input" type="text" name="whatsapp" id="whatsapp" required placeholder="Ej: 593900000000 o 0991234567" value="<?php echo htmlspecialchars($settings['whatsapp'] ?? ''); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone_2">Teléfono 2 (Secundario / Fijo)</label>
+                        <input class="form-input" type="text" name="phone_2" id="phone_2" placeholder="Ej: (02) 234-5678" value="<?php echo htmlspecialchars($settings['phone_2'] ?? ''); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone_3">Teléfono 3 (Adicional / Celular)</label>
+                        <input class="form-input" type="text" name="phone_3" id="phone_3" placeholder="Ej: 0987654321" value="<?php echo htmlspecialchars($settings['phone_3'] ?? ''); ?>">
+                    </div>
+                </div>
+
+                <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">Correos Electrónicos (2 Correos)</h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Correo Principal (Ventas / Cotizaciones) *</label>
+                        <input class="form-input" type="email" name="email" id="email" required placeholder="ventas@cardnet.ec" value="<?php echo htmlspecialchars($settings['email'] ?? ''); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email_2">Correo Secundario (Información / Soporte)</label>
+                        <input class="form-input" type="email" name="email_2" id="email_2" placeholder="info@cardnet.ec" value="<?php echo htmlspecialchars($settings['email_2'] ?? ''); ?>">
+                    </div>
+                </div>
+
+                <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">Ubicación y Pedido Mínimo</h2>
+                <div class="grid-2">
                     <div class="form-group">
                         <label class="form-label" for="min_order">Pedido Mínimo Global (0 = Sin mínimo)</label>
                         <input class="form-input" type="number" name="min_order" id="min_order" min="0" value="<?php echo htmlspecialchars($settings['min_order'] ?? '1'); ?>">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="whatsapp">WhatsApp (ej: 593900000000) *</label>
-                        <input class="form-input" type="text" name="whatsapp" id="whatsapp" required value="<?php echo htmlspecialchars($settings['whatsapp']); ?>">
+                        <label class="form-label" for="address">Dirección Física del Taller *</label>
+                        <input class="form-input" type="text" name="address" id="address" required value="<?php echo htmlspecialchars($settings['address'] ?? ''); ?>">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="email">Correo de Contacto *</label>
-                        <input class="form-input" type="email" name="email" id="email" required value="<?php echo htmlspecialchars($settings['email']); ?>">
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label" for="address">Dirección Física del Taller *</label>
-                    <input class="form-input" type="text" name="address" id="address" required value="<?php echo htmlspecialchars($settings['address']); ?>">
                 </div>
 
                 <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">Redes Sociales (Footer)</h2>

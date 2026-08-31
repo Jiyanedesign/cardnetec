@@ -5,8 +5,15 @@ if (!isset($site_settings) && isset($pdo)) {
 }
 $footer_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
 $footer_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 00 000 0000';
+$footer_phone_2 = !empty($site_settings['phone_2']) ? $site_settings['phone_2'] : '';
+$footer_phone_3 = !empty($site_settings['phone_3']) ? $site_settings['phone_3'] : '';
 $footer_email_display = !empty($site_settings['email']) ? $site_settings['email'] : 'correo@cardnet.ec';
+$footer_email_2 = !empty($site_settings['email_2']) ? $site_settings['email_2'] : '';
 $footer_address_display = !empty($site_settings['address']) ? $site_settings['address'] : 'Ecuador';
+
+// Agrupar teléfonos y correos no vacíos
+$all_phones = array_filter([$footer_wa_display, $footer_phone_2, $footer_phone_3]);
+$all_emails = array_filter([$footer_email_display, $footer_email_2]);
 ?>
 <footer class="main-footer">
     <div class="container footer-top section-padding" style="padding-top: 3rem; padding-bottom: 3rem;">
@@ -38,15 +45,37 @@ $footer_address_display = !empty($site_settings['address']) ? $site_settings['ad
                 </div>
             </div>
             <div class="footer-links-column">
-                <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Ubicación</h3>
+                <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Ubicación y Contacto</h3>
                 <div style="margin-bottom: 1rem;">
                     <iframe src="https://www.google.com/maps?ll=-0.165355,-78.483023&z=15&t=m&hl=es&gl=EC&mapclient=embed&cid=13164539704964091228&output=embed" width="100%" height="150" style="border:0; border-radius: 6px;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
-                <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
-                    WhatsApp: <?php echo htmlspecialchars($footer_wa_display); ?><br>
-                    Correo: <?php echo htmlspecialchars($footer_email_display); ?><br>
-                    Ubicación: <?php echo htmlspecialchars($footer_address_display); ?>
-                </p>
+                <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                    <?php if (!empty($all_phones)): ?>
+                        <div style="margin-bottom: 4px;">
+                            <strong>Teléfonos:</strong><br>
+                            <?php foreach ($all_phones as $idx => $p): ?>
+                                <span style="display: inline-block; margin-right: 8px;">
+                                    <?php echo htmlspecialchars($p); ?><?php echo ($idx < count($all_phones) - 1) ? ' ·' : ''; ?>
+                                </span>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($all_emails)): ?>
+                        <div style="margin-bottom: 4px;">
+                            <strong>Correos:</strong><br>
+                            <?php foreach ($all_emails as $idx => $em): ?>
+                                <a href="mailto:<?php echo htmlspecialchars($em); ?>" style="color: inherit; text-decoration: none; display: inline-block; margin-right: 8px;">
+                                    <?php echo htmlspecialchars($em); ?><?php echo ($idx < count($all_emails) - 1) ? ' ·' : ''; ?>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <div>
+                        <strong>Ubicación:</strong> <?php echo htmlspecialchars($footer_address_display); ?>
+                    </div>
+                </div>
                 <?php if (!empty($site_settings['instagram']) || !empty($site_settings['facebook'])): ?>
                     <div style="display: flex; gap: 12px; margin-top: 10px;">
                         <?php if (!empty($site_settings['instagram'])): ?>

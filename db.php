@@ -161,10 +161,19 @@ try {
     $pdo->exec("UPDATE clientes SET name = 'KRONA' WHERE id = 4 AND logo_path = 'uploads/cliente4.png';");
     $pdo->exec("UPDATE clientes SET name = 'AERO' WHERE id = 5 AND logo_path = 'uploads/cliente5.png';");
 
-        // 6.5. AUTO-MIGRACIÓN: Campos de Pedido Mínimo, Precios por Volumen y Materiales
+    // 6.5. AUTO-MIGRACIÓN: Campos de Pedido Mínimo, Teléfonos y Correos Adicionales
     $config_columns = $pdo->query("DESCRIBE configuraciones")->fetchAll(PDO::FETCH_COLUMN);
     if (!in_array('min_order', $config_columns)) {
         $pdo->exec("ALTER TABLE configuraciones ADD COLUMN min_order int(11) DEFAULT 1;");
+    }
+    if (!in_array('phone_2', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN phone_2 varchar(50) DEFAULT NULL;");
+    }
+    if (!in_array('phone_3', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN phone_3 varchar(50) DEFAULT NULL;");
+    }
+    if (!in_array('email_2', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN email_2 varchar(100) DEFAULT NULL;");
     }
 
 
@@ -364,12 +373,15 @@ function getSiteSettings($pdo) {
         $stmt = $pdo->query("SELECT * FROM configuraciones WHERE id = 1");
         return $stmt->fetch() ?: [
             'whatsapp' => '593000000000',
+            'phone_2' => '',
+            'phone_3' => '',
             'email' => 'correo@cardnet.ec',
+            'email_2' => '',
             'address' => 'Av. Amazonas, Quito, Ecuador',
             'instagram' => '',
             'facebook' => '',
-            'site_title' => 'CardNet.ec | Personalización Láser',
-            'site_description' => 'Especialistas en grabado láser y personalización avanzada en Quito.'
+            'site_title' => 'CardNet.ec | Identificación y accesorios para personal en Ecuador',
+            'site_description' => 'Especialistas en carnets PVC, credenciales, cintas porta credenciales impresas y accesorios.'
         ];
     } catch (PDOException $e) {
         return [];
