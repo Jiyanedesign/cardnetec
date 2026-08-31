@@ -54,10 +54,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.9">
-    <link rel="stylesheet" href="css/layout.css?v=4.9">
-    <link rel="stylesheet" href="css/components.css?v=4.9">
-    <link rel="stylesheet" href="css/pages.css?v=4.9">
+    <link rel="stylesheet" href="css/base.css?v=5.0">
+    <link rel="stylesheet" href="css/layout.css?v=5.0">
+    <link rel="stylesheet" href="css/components.css?v=5.0">
+    <link rel="stylesheet" href="css/pages.css?v=5.0">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -299,7 +299,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=4.9"></script>
+    <script src="js/main.js?v=5.0"></script>
     <script src="js/animations.js"></script>
 
     <!-- Buscador Dinámico de Productos -->
