@@ -13,10 +13,10 @@ $settings = getSiteSettings($pdo);
     <meta name="description" content="Diseña, previsualiza y cotiza credenciales, identificaciones y carnets de PVC corporativos en línea con códigos QR y fotos de empleados.">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=4.8">
-    <link rel="stylesheet" href="css/layout.css?v=4.8">
-    <link rel="stylesheet" href="css/components.css?v=4.8">
-    <link rel="stylesheet" href="css/pages.css?v=4.8">
+    <link rel="stylesheet" href="css/base.css?v=4.9">
+    <link rel="stylesheet" href="css/layout.css?v=4.9">
+    <link rel="stylesheet" href="css/components.css?v=4.9">
+    <link rel="stylesheet" href="css/pages.css?v=4.9">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Fabric.js y QRCode.js -->
@@ -270,7 +270,7 @@ $settings = getSiteSettings($pdo);
 
     <footer class="main-footer" style="margin-top: 5rem;">
         <div class="container footer-bottom-flex" style="padding: 2rem 0; border-top: 1px solid var(--border);">
-            <p>&copy; 2026 CardNet.ec — Especialistas en identificación y marcado corporativo.</p>
+            <p><a href="admin/" style="color: inherit; text-decoration: none;" title="Panel de Administración">&copy; 2026</a> CardNet.ec — Especialistas en identificación y marcado corporativo.</p>
         </div>
     </footer>
 

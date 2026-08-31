@@ -42,7 +42,7 @@
     </div>
     <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
         <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <p style="font-size: 0.8rem; color: var(--text-muted);">&copy; 2026 CardNet.ec — Identificación y accesorios para personal.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);"><a href="admin/" style="color: inherit; text-decoration: none;" title="Panel de Administración">&copy; 2026</a> CardNet.ec — Identificación y accesorios para personal.</p>
         </div>
     </div>
 </footer>
