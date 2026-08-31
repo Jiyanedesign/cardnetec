@@ -103,6 +103,45 @@ try {
         }
     }
 
+    // 1.8. AUTO-MIGRACIÓN: Tabla secciones_home para Soluciones de Taller y Opciones de Catálogo
+    $tableSecciones = $pdo->query("SHOW TABLES LIKE 'secciones_home'")->fetch();
+    if (!$tableSecciones) {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `secciones_home` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `section_key` varchar(50) NOT NULL,
+          `group_name` varchar(100) DEFAULT NULL,
+          `title` varchar(150) NOT NULL,
+          `subtitle` text DEFAULT NULL,
+          `image` varchar(255) DEFAULT NULL,
+          `btn_text` varchar(80) DEFAULT NULL,
+          `btn_link` varchar(255) DEFAULT NULL,
+          `order_val` int(11) DEFAULT 0,
+          `is_active` tinyint(1) DEFAULT 1,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        $defaultSecciones = [
+            // Soluciones de Taller (4 cards)
+            ['soluciones', NULL, 'Empresas', 'Carnets, cintas y accesorios para colaboradores, áreas internas y visitantes.', 'carnet_mockup.jpg', 'Cotizar para mi empresa', 'cotizacion.php', 1],
+            ['soluciones', NULL, 'Instituciones', 'Identificación para personal administrativo, equipos de apoyo, estudiantes o miembros.', 'carousel_5.jpg', 'Solicitar opciones', 'cotizacion.php', 2],
+            ['soluciones', NULL, 'Eventos', 'Credenciales, cintas y porta credenciales para staff, invitados y asistentes.', 'carousel_2.jpg', 'Cotizar para evento', 'cotizacion.php', 3],
+            ['soluciones', NULL, 'Equipos de trabajo', 'Soluciones prácticas para identificar cargos, áreas y personal operativo.', 'cintas_mockup.jpg', 'Ver productos', 'productos.php', 4],
+
+            // Catálogo Detallado (6 cards)
+            ['catalogo_opciones', 'Cintas porta credenciales', 'Cintas full color', 'Sublimación en poliéster suave de alta resolución.', 'cintas_full_color.jpg', 'Cotizar', 'cotizacion.php?producto=cintas-full-color', 1],
+            ['catalogo_opciones', 'Cintas porta credenciales', 'Cintas a un color', 'Serigrafía de alta adherencia para logotipos sólidos y sobrios.', 'cintas_mockup.jpg', 'Cotizar', 'cotizacion.php?producto=cintas-un-color', 2],
+            ['catalogo_opciones', 'Cintas porta credenciales', 'Cintas sin impresión', 'Lanyards de tela de alta resistencia en colores corporativos básicos.', 'cintas_sin_impresion.jpg', 'Ver catálogo', 'productos.php?cat=cintas', 3],
+            ['catalogo_opciones', 'Credenciales y porta credenciales', 'Credenciales PVC', 'Laminado de alta durabilidad impreso a doble cara para colaboradores.', 'carnet_mockup.jpg', 'Cotizar', 'cotizacion.php?producto=credenciales-pvc', 4],
+            ['catalogo_opciones', 'Credenciales y porta credenciales', 'Credenciales para eventos', 'Tarjetas de gran formato para staff, prensa y asistentes.', 'carousel_2.jpg', 'Cotizar', 'cotizacion.php?producto=credenciales-eventos', 5],
+            ['catalogo_opciones', 'Credenciales y porta credenciales', 'Porta credenciales', 'Soportes rígidos o fundas de PVC flexible para proteger identificaciones.', 'fundas.jpg', 'Ver catálogo', 'productos.php?cat=porta-credenciales', 6]
+        ];
+
+        $stmtInsSec = $pdo->prepare("INSERT INTO secciones_home (section_key, group_name, title, subtitle, image, btn_text, btn_link, order_val, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)");
+        foreach ($defaultSecciones as $sec) {
+            $stmtInsSec->execute($sec);
+        }
+    }
+
     // 2. AUTO-MIGRACIÓN: Agregar campos de Galería de Imágenes, SKU, Stock, Precio y Descripción Larga si faltan
     $columns = $pdo->query("DESCRIBE productos")->fetchAll(PDO::FETCH_COLUMN);
     

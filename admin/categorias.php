@@ -100,9 +100,9 @@ if (isset($_GET['edit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Categorías | CardNet.ec</title>
-    <link rel="stylesheet" href="../css/base.css?v=5.7">
-    <link rel="stylesheet" href="../css/layout.css?v=5.7">
-    <link rel="stylesheet" href="../css/components.css?v=5.7">
+    <link rel="stylesheet" href="../css/base.css?v=6.0">
+    <link rel="stylesheet" href="../css/layout.css?v=6.0">
+    <link rel="stylesheet" href="../css/components.css?v=6.0">
     <style>
         body {
             font-family: 'Work Sans', sans-serif;
@@ -198,7 +198,7 @@ if (isset($_GET['edit'])) {
             color: #1E40AF;
         }
     </style>
-    <link rel="stylesheet" href="../css/admin.css?v=5.7">
+    <link rel="stylesheet" href="../css/admin.css?v=6.0">
 </head>
 <body>
 
@@ -207,6 +207,7 @@ if (isset($_GET['edit'])) {
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
             <a href="categorias.php" class="nav-admin-link active">Categorías</a>
+            <a href="secciones.php" class="nav-admin-link">Secciones Home</a>
             <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
             <a href="productos.php" class="nav-admin-link">Productos</a>
             <a href="materiales.php" class="nav-admin-link">Materiales</a>

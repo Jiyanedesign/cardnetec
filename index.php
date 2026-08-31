@@ -43,6 +43,33 @@ try {
     $featured_categories = [];
 }
 
+// Obtener tarjetas de Soluciones de Taller (Empresas, Instituciones, Eventos)
+try {
+    $stmtSecSol = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'soluciones' AND is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
+    $home_soluciones = $stmtSecSol->fetchAll();
+} catch (PDOException $e) {
+    $home_soluciones = [];
+}
+
+// Obtener opciones de catálogo (Cintas y Credenciales)
+try {
+    $stmtSecCat = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'catalogo_opciones' AND is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
+    $home_catalogo_opciones = $stmtSecCat->fetchAll();
+} catch (PDOException $e) {
+    $home_catalogo_opciones = [];
+}
+
+// Helper para resolver rutas de imágenes
+if (!function_exists('resolveHomeImg')) {
+    function resolveHomeImg($img, $default = 'uploads/carnet_mockup.jpg') {
+        if (empty($img)) return $default;
+        if (strpos($img, 'http') === 0 || strpos($img, 'uploads/') === 0 || strpos($img, 'images/') === 0) {
+            return $img;
+        }
+        return 'uploads/' . $img;
+    }
+}
+
 // 4. Cargar configuraciones del sitio
 $site_settings = getSiteSettings($pdo);
 $page_title = !empty($site_settings['site_title']) ? $site_settings['site_title'] : 'CardNet.ec | Identificación y accesorios para personal en Ecuador';
@@ -66,10 +93,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.9">
-    <link rel="stylesheet" href="css/layout.css?v=5.9">
-    <link rel="stylesheet" href="css/components.css?v=5.9">
-    <link rel="stylesheet" href="css/pages.css?v=5.9">
+    <link rel="stylesheet" href="css/base.css?v=6.0">
+    <link rel="stylesheet" href="css/layout.css?v=6.0">
+    <link rel="stylesheet" href="css/components.css?v=6.0">
+    <link rel="stylesheet" href="css/pages.css?v=6.0">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -615,65 +642,50 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 </button>
                 
                 <div class="showcase-carousel-track">
-                    <!-- Carnets PVC -->
-                    <div class="showcase-card">
-                        <div class="showcase-image-wrap">
-                            <img src="uploads/carnet_mockup.jpg?v=2.2" alt="Carnets PVC">
+                    <?php if (!empty($showcase_items)): ?>
+                        <?php foreach ($showcase_items as $item): ?>
+                            <?php
+                            $i_img = !empty($item['image_main']) ? $item['image_main'] : '';
+                            $item_src = resolveHomeImg($i_img, 'uploads/carnet_mockup.jpg');
+                            ?>
+                            <a href="producto.php?slug=<?php echo htmlspecialchars($item['slug']); ?>" class="showcase-card" style="text-decoration: none; color: inherit;">
+                                <div class="showcase-image-wrap">
+                                    <img src="<?php echo htmlspecialchars($item_src); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                                </div>
+                                <div class="showcase-info">
+                                    <h3 class="showcase-title"><?php echo htmlspecialchars($item['name']); ?></h3>
+                                </div>
+                            </a>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <!-- Carnets PVC -->
+                        <div class="showcase-card">
+                            <div class="showcase-image-wrap">
+                                <img src="uploads/carnet_mockup.jpg?v=2.2" alt="Carnets PVC">
+                            </div>
+                            <div class="showcase-info">
+                                <h3 class="showcase-title">Carnets PVC Corporativos</h3>
+                            </div>
                         </div>
-                        <div class="showcase-info">
-                            <h3 class="showcase-title">Carnets PVC Corporativos</h3>
+                        <!-- Cintas y lanyards -->
+                        <div class="showcase-card">
+                            <div class="showcase-image-wrap">
+                                <img src="uploads/cintas_mockup.jpg?v=2.2" alt="Cintas y lanyards">
+                            </div>
+                            <div class="showcase-info">
+                                <h3 class="showcase-title">Cintas Porta Credenciales</h3>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- Cintas y lanyards -->
-                    <div class="showcase-card">
-                        <div class="showcase-image-wrap">
-                            <img src="uploads/cintas_mockup.jpg?v=2.2" alt="Cintas y lanyards">
+                        <!-- Porta credenciales -->
+                        <div class="showcase-card">
+                            <div class="showcase-image-wrap">
+                                <img src="uploads/llavero.png" alt="Porta credenciales y accesorios">
+                            </div>
+                            <div class="showcase-info">
+                                <h3 class="showcase-title">Porta Carnets y Accesorios</h3>
+                            </div>
                         </div>
-                        <div class="showcase-info">
-                            <h3 class="showcase-title">Cintas Porta Credenciales</h3>
-                        </div>
-                    </div>
-                    
-                    <!-- Porta credenciales -->
-                    <div class="showcase-card">
-                        <div class="showcase-image-wrap">
-                            <img src="uploads/llavero.png" alt="Porta credenciales y accesorios">
-                        </div>
-                        <div class="showcase-info">
-                            <h3 class="showcase-title">Porta Carnets y Accesorios</h3>
-                        </div>
-                    </div>
-                    
-                    <!-- Agendas -->
-                    <div class="showcase-card">
-                        <div class="showcase-image-wrap">
-                            <img src="uploads/agenda.png" alt="Agendas grabadas">
-                        </div>
-                        <div class="showcase-info">
-                            <h3 class="showcase-title">Agendas Personalizadas</h3>
-                        </div>
-                    </div>
-                    
-                    <!-- Termos -->
-                    <div class="showcase-card">
-                        <div class="showcase-image-wrap">
-                            <img src="uploads/termo.png" alt="Termos con láser">
-                        </div>
-                        <div class="showcase-info">
-                            <h3 class="showcase-title">Termos Grabados Láser</h3>
-                        </div>
-                    </div>
-                    
-                    <!-- Cajas -->
-                    <div class="showcase-card">
-                        <div class="showcase-image-wrap">
-                            <img src="uploads/caja.png" alt="Cajas de presentación">
-                        </div>
-                        <div class="showcase-info">
-                            <h3 class="showcase-title">Cajas y Empaques de Madera</h3>
-                        </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
                 
                 <button class="showcase-control next" aria-label="Siguiente">
@@ -697,51 +709,42 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <p>Elige el tipo de identificación que mejor se adapta a tu empresa, evento o institución.</p>
                 </div>
 
+                <?php
+                // Separar opciones por grupo
+                $group_cintas = [];
+                $group_credenciales = [];
+                foreach ($home_catalogo_opciones as $op) {
+                    if (stripos($op['group_name'] ?? '', 'cintas') !== false || stripos($op['title'], 'cinta') !== false) {
+                        $group_cintas[] = $op;
+                    } else {
+                        $group_credenciales[] = $op;
+                    }
+                }
+                ?>
+
                 <div class="grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
                     <!-- BLOQUE 1: Cintas -->
                     <div style="background: white; padding: 2.5rem; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
                         <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); margin-bottom: 2rem; border-bottom: 2px solid var(--primary); padding-bottom: 8px;">Cintas porta credenciales</h3>
                         
                         <div style="display: flex; flex-direction: column; gap: 24px;">
-                            <!-- Cintas full color -->
-                            <div style="display: flex; gap: 20px; align-items: flex-start;">
-                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="uploads/cintas_full_color.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas full color">
+                            <?php foreach ($group_cintas as $idx => $card): ?>
+                                <?php if ($idx > 0): ?>
+                                    <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
+                                <?php endif; ?>
+                                <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                    <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
+                                        <img src="<?php echo htmlspecialchars(resolveHomeImg($card['image'], 'uploads/cintas_full_color.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($card['title']); ?>">
+                                    </div>
+                                    <div style="flex-grow: 1;">
+                                        <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;"><?php echo htmlspecialchars($card['title']); ?></h4>
+                                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;"><?php echo htmlspecialchars($card['subtitle']); ?></p>
+                                        <a href="<?php echo htmlspecialchars($card['btn_link'] ?: 'cotizacion.php'); ?>" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">
+                                            <?php echo htmlspecialchars($card['btn_text'] ?: 'Cotizar'); ?>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div style="flex-grow: 1;">
-                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas full color</h4>
-                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Sublimación en poliéster suave de alta resolución.</p>
-                                    <a href="cotizacion.php?producto=cintas-full-color" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Cotizar</a>
-                                </div>
-                            </div>
-                            
-                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
-                            
-                            <!-- Cintas a un color -->
-                            <div style="display: flex; gap: 20px; align-items: flex-start;">
-                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas a un color">
-                                </div>
-                                <div style="flex-grow: 1;">
-                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas a un color</h4>
-                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Serigrafía de alta adherencia para logotipos sólidos y sobrios.</p>
-                                    <a href="cotizacion.php?producto=cintas-un-color" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Cotizar</a>
-                                </div>
-                            </div>
-                            
-                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
-                            
-                            <!-- Cintas sin impresión -->
-                            <div style="display: flex; gap: 20px; align-items: flex-start;">
-                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="uploads/cintas_sin_impresion.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas sin impresión">
-                                </div>
-                                <div style="flex-grow: 1;">
-                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Cintas sin impresión</h4>
-                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Lanyards de tela de alta resistencia en colores corporativos básicos.</p>
-                                    <a href="productos.php?cat=cintas" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Ver catálogo</a>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
 
@@ -750,45 +753,23 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--dark); margin-bottom: 2rem; border-bottom: 2px solid var(--primary); padding-bottom: 8px;">Credenciales y porta credenciales</h3>
                         
                         <div style="display: flex; flex-direction: column; gap: 24px;">
-                            <!-- Credenciales PVC -->
-                            <div style="display: flex; gap: 20px; align-items: flex-start;">
-                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="uploads/carnet_mockup.jpg?v=2.2" style="width: 100%; height: 100%; object-fit: cover;" alt="Credenciales PVC">
+                            <?php foreach ($group_credenciales as $idx => $card): ?>
+                                <?php if ($idx > 0): ?>
+                                    <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
+                                <?php endif; ?>
+                                <div style="display: flex; gap: 20px; align-items: flex-start;">
+                                    <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
+                                        <img src="<?php echo htmlspecialchars(resolveHomeImg($card['image'], 'uploads/carnet_mockup.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($card['title']); ?>">
+                                    </div>
+                                    <div style="flex-grow: 1;">
+                                        <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;"><?php echo htmlspecialchars($card['title']); ?></h4>
+                                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;"><?php echo htmlspecialchars($card['subtitle']); ?></p>
+                                        <a href="<?php echo htmlspecialchars($card['btn_link'] ?: 'cotizacion.php'); ?>" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">
+                                            <?php echo htmlspecialchars($card['btn_text'] ?: 'Cotizar'); ?>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div style="flex-grow: 1;">
-                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Credenciales PVC</h4>
-                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Laminado de alta durabilidad impreso a doble cara para colaboradores.</p>
-                                    <a href="cotizacion.php?producto=credenciales-pvc" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Cotizar</a>
-                                </div>
-                            </div>
-                            
-                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
-                            
-                            <!-- Credenciales para eventos -->
-                            <div style="display: flex; gap: 20px; align-items: flex-start;">
-                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="uploads/carousel_2.jpg?v=2.2" style="width: 100%; height: 100%; object-fit: cover;" alt="Credenciales para eventos">
-                                </div>
-                                <div style="flex-grow: 1;">
-                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Credenciales para eventos</h4>
-                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Tarjetas de gran formato para staff, prensa y asistentes.</p>
-                                    <a href="cotizacion.php?producto=credenciales-eventos" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Cotizar</a>
-                                </div>
-                            </div>
-                            
-                            <hr style="border: 0; border-top: 1px solid var(--border); margin: 0;">
-                            
-                            <!-- Porta credenciales -->
-                            <div style="display: flex; gap: 20px; align-items: flex-start;">
-                                <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="uploads/fundas.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta credenciales">
-                                </div>
-                                <div style="flex-grow: 1;">
-                                    <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;">Porta credenciales</h4>
-                                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">Soportes rígidos o fundas de PVC flexible para proteger identificaciones.</p>
-                                    <a href="productos.php?cat=porta-credenciales" class="btn btn-secondary" style="font-size: 0.72rem; padding: 4px 10px; text-transform: none; background: white; display: inline-block;">Ver catálogo</a>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
@@ -804,53 +785,22 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
             </div>
 
             <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-                <!-- Empresas -->
-                <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
-                    <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                        <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Empresas">
-                    </div>
-                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
-                        <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">Empresas</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Carnets, cintas y accesorios para colaboradores, áreas internas y visitantes.</p>
-                        <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">Cotizar para mi empresa</a>
-                    </div>
-                </div>
-                
-                <!-- Instituciones -->
-                <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
-                    <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                        <img src="uploads/carousel_5.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Instituciones">
-                    </div>
-                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
-                        <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">Instituciones</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Identificación para personal administrativo, equipos de apoyo, estudiantes o miembros.</p>
-                        <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">Solicitar opciones</a>
-                    </div>
-                </div>
-                
-                <!-- Eventos -->
-                <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
-                    <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                        <img src="uploads/carousel_2.jpg?v=2.2" style="width: 100%; height: 100%; object-fit: cover;" alt="Eventos">
-                    </div>
-                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
-                        <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">Eventos</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Credenciales, cintas y porta credenciales para staff, invitados y asistentes.</p>
-                        <a href="cotizacion.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">Cotizar para evento</a>
-                    </div>
-                </div>
-                
-                <!-- Equipos de trabajo -->
-                <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
-                    <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                        <img src="uploads/cintas_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Equipos de trabajo">
-                    </div>
-                    <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
-                        <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">Equipos de trabajo</h3>
-                        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;">Soluciones prácticas para identificar cargos, áreas y personal operativo.</p>
-                        <a href="productos.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">Ver productos</a>
-                    </div>
-                </div>
+                <?php if (!empty($home_soluciones)): ?>
+                    <?php foreach ($home_soluciones as $sol): ?>
+                        <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                            <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                                <img src="<?php echo htmlspecialchars(resolveHomeImg($sol['image'], 'uploads/carnet_mockup.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($sol['title']); ?>">
+                            </div>
+                            <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
+                                <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);"><?php echo htmlspecialchars($sol['title']); ?></h3>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;"><?php echo htmlspecialchars($sol['subtitle']); ?></p>
+                                <a href="<?php echo htmlspecialchars($sol['btn_link'] ?: 'cotizacion.php'); ?>" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px; text-align: center; text-transform: none; margin-top: auto;">
+                                    <?php echo htmlspecialchars($sol['btn_text'] ?: 'Cotizar'); ?>
+                                </a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </section>
 
@@ -1256,7 +1206,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.9"></script>
+    <script src="js/main.js?v=6.0"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>

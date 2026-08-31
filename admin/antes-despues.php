@@ -157,6 +157,7 @@ if (isset($_GET['edit'])) {
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
+            <a href="secciones.php" class="nav-admin-link">Secciones Home</a>
             <a href="etiquetas.php" class="nav-admin-link">Etiquetas</a>
             <a href="productos.php" class="nav-admin-link">Productos</a>
             <a href="materiales.php" class="nav-admin-link">Materiales</a>
