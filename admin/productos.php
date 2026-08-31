@@ -22,8 +22,20 @@ if (isset($_GET['delete'])) {
     }
 }
 
+// Procesar actualización rápida de orden
+if (isset($_POST['quick_order_id'])) {
+    $q_id = (int)$_POST['quick_order_id'];
+    $q_val = (int)$_POST['quick_order_val'];
+    try {
+        $pdo->prepare("UPDATE productos SET order_val = ? WHERE id = ?")->execute([$q_val, $q_id]);
+        $message = 'Orden actualizado correctamente.';
+    } catch (PDOException $e) {
+        $error = 'Error al actualizar orden: ' . $e->getMessage();
+    }
+}
+
 // Procesar Formulario (Creación o Edición)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['quick_order_id'])) {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $name = trim($_POST['name']);
     $slug = trim($_POST['slug']);
@@ -33,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sku = trim($_POST['sku']);
     $stock = (int)$_POST['stock'];
     $price = (float)$_POST['price'];
+    $order_val = isset($_POST['order_val']) ? (int)$_POST['order_val'] : 0;
     $is_active = isset($_POST['is_active']) ? 1 : 0;
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
     $allows_simulation = isset($_POST['allows_simulation']) ? 1 : 0;
@@ -121,8 +134,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id > 0) {
             // Edición
             try {
-                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ?, volume_prices = ?, materials_json = ?, tags_json = ? WHERE id = ?");
-                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $tags_json, $id]);
+                $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ?, volume_prices = ?, materials_json = ?, tags_json = ?, order_val = ? WHERE id = ?");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $tags_json, $order_val, $id]);
                 $message = 'Producto actualizado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al actualizar base de datos: ' . $e->getMessage();
@@ -130,8 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Creación
             try {
-                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text, volume_prices, materials_json, tags_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $tags_json]);
+                $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text, volume_prices, materials_json, tags_json, order_val) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $tags_json, $order_val]);
                 $message = 'Producto creado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al crear producto: ' . $e->getMessage();
@@ -145,8 +158,8 @@ $categorias = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY
 $materiales_list = $pdo->query("SELECT * FROM materiales WHERE is_active = 1 ORDER BY id ASC")->fetchAll();
 $etiquetas_list = $pdo->query("SELECT * FROM etiquetas ORDER BY id ASC")->fetchAll();
 
-// Cargar todos los productos
-$products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY p.id DESC")->fetchAll();
+// Cargar todos los productos ordenados por order_val ASC, id DESC
+$products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY p.order_val ASC, p.id DESC")->fetchAll();
 
 // Cargar producto a editar
 $edit_product = null;
@@ -340,7 +353,7 @@ if (isset($_GET['edit'])) {
                     </div>
                 </div>
 
-                <div class="grid-3" style="margin-top: 1rem;">
+                <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-top: 1rem;">
                     <div class="form-group">
                         <label class="form-label" for="sku">SKU *</label>
                         <input class="form-input" type="text" name="sku" id="sku" required placeholder="Ej: 44434" value="<?php echo $edit_product ? htmlspecialchars($edit_product['sku']) : ''; ?>">
@@ -352,6 +365,10 @@ if (isset($_GET['edit'])) {
                     <div class="form-group">
                         <label class="form-label" for="price">Precio Unitario ($) *</label>
                         <input class="form-input" type="number" step="0.01" name="price" id="price" required placeholder="Ej: 2.50" value="<?php echo $edit_product ? number_format($edit_product['price'], 2) : '2.50'; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="order_val">Orden en Catálogo</label>
+                        <input class="form-input" type="number" name="order_val" id="order_val" required placeholder="1, 2, 3..." value="<?php echo $edit_product ? (int)$edit_product['order_val'] : '0'; ?>" title="Menor número aparece primero">
                     </div>
                 </div>
 
@@ -497,6 +514,7 @@ if (isset($_GET['edit'])) {
         <table>
             <thead>
                 <tr>
+                    <th>Orden</th>
                     <th>Imagen</th>
                     <th>Nombre</th>
                     <th>SKU</th>
@@ -512,6 +530,13 @@ if (isset($_GET['edit'])) {
             <tbody>
                 <?php foreach ($products as $prod): ?>
                     <tr>
+                        <td style="width: 100px;">
+                            <form method="POST" action="productos.php" style="display: flex; align-items: center; gap: 4px; margin: 0;">
+                                <input type="hidden" name="quick_order_id" value="<?php echo $prod['id']; ?>">
+                                <input type="number" name="quick_order_val" value="<?php echo (int)$prod['order_val']; ?>" style="width: 50px; padding: 4px 6px; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 4px; text-align: center;">
+                                <button type="submit" class="btn btn-secondary" style="padding: 3px 6px; font-size: 0.75rem; line-height: 1;" title="Guardar orden">✓</button>
+                            </form>
+                        </td>
                         <td>
                             <?php if ($prod['image_main']): ?>
                                 <img src="../uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width: 44px; height: 44px; object-fit: cover; border-radius: 4px;">

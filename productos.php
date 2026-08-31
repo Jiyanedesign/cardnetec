@@ -29,7 +29,7 @@ $prod_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '
 $category_filter = isset($_GET['cat']) ? trim($_GET['cat']) : '';
 $sort = isset($_GET['sort']) ? trim($_GET['sort']) : '';
 
-$order_clause = "ORDER BY p.order_val ASC";
+$order_clause = "ORDER BY p.order_val ASC, p.id DESC";
 if ($sort === 'price_asc') {
     $order_clause = "ORDER BY p.price ASC";
 }
@@ -58,10 +58,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.4">
-    <link rel="stylesheet" href="css/layout.css?v=5.4">
-    <link rel="stylesheet" href="css/components.css?v=5.4">
-    <link rel="stylesheet" href="css/pages.css?v=5.4">
+    <link rel="stylesheet" href="css/base.css?v=5.5">
+    <link rel="stylesheet" href="css/layout.css?v=5.5">
+    <link rel="stylesheet" href="css/components.css?v=5.5">
+    <link rel="stylesheet" href="css/pages.css?v=5.5">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -303,7 +303,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.4"></script>
+    <script src="js/main.js?v=5.5"></script>
     <script src="js/animations.js"></script>
 
     <!-- Buscador Dinámico de Productos -->

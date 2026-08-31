@@ -59,6 +59,9 @@ try {
     if (!in_array('tags_json', $columns)) {
         $pdo->exec("ALTER TABLE productos ADD COLUMN tags_json text DEFAULT NULL;");
     }
+    if (!in_array('order_val', $columns)) {
+        $pdo->exec("ALTER TABLE productos ADD COLUMN order_val int(11) DEFAULT 0;");
+    }
 
     // AUTO-MIGRACIÓN: Tabla de Etiquetas
     $tagsTableCheck = $pdo->query("SHOW TABLES LIKE 'etiquetas'")->fetch();
