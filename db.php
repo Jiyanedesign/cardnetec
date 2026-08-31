@@ -35,6 +35,74 @@ try {
         $pdo->exec("ALTER TABLE `productos` ADD COLUMN `category_id` int(11) DEFAULT NULL;");
     }
 
+    // 1.5. AUTO-MIGRACIÓN: Columnas en tabla categorias para el Bento Grid / Categorías destacadas
+    $cat_cols = $pdo->query("DESCRIBE categorias")->fetchAll(PDO::FETCH_COLUMN);
+    if (!in_array('description', $cat_cols)) {
+        $pdo->exec("ALTER TABLE categorias ADD COLUMN description varchar(255) DEFAULT NULL;");
+    }
+    if (!in_array('image', $cat_cols)) {
+        $pdo->exec("ALTER TABLE categorias ADD COLUMN image varchar(255) DEFAULT NULL;");
+    }
+    if (!in_array('custom_link', $cat_cols)) {
+        $pdo->exec("ALTER TABLE categorias ADD COLUMN custom_link varchar(255) DEFAULT NULL;");
+    }
+    if (!in_array('is_featured', $cat_cols)) {
+        $pdo->exec("ALTER TABLE categorias ADD COLUMN is_featured tinyint(1) DEFAULT 1;");
+    }
+
+    // Inicializar o actualizar las 4 categorías destacadas del Bento Grid si aún no tienen imagen configurada
+    $featuredCount = $pdo->query("SELECT COUNT(*) FROM categorias WHERE is_featured = 1 AND image IS NOT NULL")->fetchColumn();
+    if ($featuredCount < 4) {
+        $defaultFeatured = [
+            [
+                'name' => 'Cintas y lanyards',
+                'slug' => 'cintas',
+                'description' => 'Cintas impresas full color y accesorios de sujeción.',
+                'image' => 'cintas_mockup.jpg',
+                'custom_link' => 'productos.php?cat=cintas',
+                'order_val' => 1
+            ],
+            [
+                'name' => 'Cajas y Empaques',
+                'slug' => 'cajas-y-empaques',
+                'description' => 'Packaging corporativo a medida.',
+                'image' => 'caja.png',
+                'custom_link' => 'productos.php?cat=personalizacion',
+                'order_val' => 2
+            ],
+            [
+                'name' => 'Especialidad Láser',
+                'slug' => 'especialidad-laser',
+                'description' => 'Grabado resistente al uso diario.',
+                'image' => 'images/cat_laser.png',
+                'custom_link' => '#laser',
+                'order_val' => 3
+            ],
+            [
+                'name' => 'Carnetización',
+                'slug' => 'carnets',
+                'description' => 'Identificación profesional para empresas e instituciones.',
+                'image' => 'carnet_mockup.jpg',
+                'custom_link' => 'productos.php?cat=carnets',
+                'order_val' => 4
+            ]
+        ];
+
+        foreach ($defaultFeatured as $df) {
+            $exist = $pdo->prepare("SELECT id FROM categorias WHERE slug = ? OR name = ?");
+            $exist->execute([$df['slug'], $df['name']]);
+            $existing_id = $exist->fetchColumn();
+
+            if ($existing_id) {
+                $upd = $pdo->prepare("UPDATE categorias SET description = COALESCE(description, ?), image = COALESCE(image, ?), custom_link = COALESCE(custom_link, ?), is_featured = 1, order_val = ? WHERE id = ?");
+                $upd->execute([$df['description'], $df['image'], $df['custom_link'], $df['order_val'], $existing_id]);
+            } else {
+                $ins = $pdo->prepare("INSERT INTO categorias (name, slug, description, image, custom_link, order_val, is_featured, is_active) VALUES (?, ?, ?, ?, ?, ?, 1, 1)");
+                $ins->execute([$df['name'], $df['slug'], $df['description'], $df['image'], $df['custom_link'], $df['order_val']]);
+            }
+        }
+    }
+
     // 2. AUTO-MIGRACIÓN: Agregar campos de Galería de Imágenes, SKU, Stock, Precio y Descripción Larga si faltan
     $columns = $pdo->query("DESCRIBE productos")->fetchAll(PDO::FETCH_COLUMN);
     

@@ -35,6 +35,14 @@ try {
     $clients = [];
 }
 
+// Obtener las 4 categorías destacadas para el Bento Grid (Líneas del Taller)
+try {
+    $stmtFeaturedCats = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 AND is_featured = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC LIMIT 4");
+    $featured_categories = $stmtFeaturedCats->fetchAll();
+} catch (PDOException $e) {
+    $featured_categories = [];
+}
+
 // 4. Cargar configuraciones del sitio
 $site_settings = getSiteSettings($pdo);
 $page_title = !empty($site_settings['site_title']) ? $site_settings['site_title'] : 'CardNet.ec | Identificación y accesorios para personal en Ecuador';
@@ -58,10 +66,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.7">
-    <link rel="stylesheet" href="css/layout.css?v=5.7">
-    <link rel="stylesheet" href="css/components.css?v=5.7">
-    <link rel="stylesheet" href="css/pages.css?v=5.7">
+    <link rel="stylesheet" href="css/base.css?v=5.8">
+    <link rel="stylesheet" href="css/layout.css?v=5.8">
+    <link rel="stylesheet" href="css/components.css?v=5.8">
+    <link rel="stylesheet" href="css/pages.css?v=5.8">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -372,33 +380,81 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     }
                 </style>
 
+                <?php
+                // Mapear las 4 posiciones del Bento Grid
+                $bento_1 = $featured_categories[0] ?? [
+                    'name' => 'Cintas y lanyards',
+                    'description' => 'Cintas impresas full color y accesorios de sujeción.',
+                    'image' => 'cintas_mockup.jpg',
+                    'custom_link' => 'productos.php?cat=cintas'
+                ];
+                $bento_2 = $featured_categories[1] ?? [
+                    'name' => 'Cajas y Empaques',
+                    'description' => 'Packaging corporativo a medida.',
+                    'image' => 'caja.png',
+                    'custom_link' => 'productos.php?cat=personalizacion'
+                ];
+                $bento_3 = $featured_categories[2] ?? [
+                    'name' => 'Especialidad Láser',
+                    'description' => 'Grabado resistente al uso diario.',
+                    'image' => 'images/cat_laser.png',
+                    'custom_link' => '#laser'
+                ];
+                $bento_4 = $featured_categories[3] ?? [
+                    'name' => 'Carnetización',
+                    'description' => 'Identificación profesional para empresas e instituciones.',
+                    'image' => 'carnet_mockup.jpg',
+                    'custom_link' => 'productos.php?cat=carnets'
+                ];
+
+                function getBentoImgUrl($img) {
+                    if (empty($img)) return 'uploads/cintas_mockup.jpg';
+                    if (strpos($img, 'http') === 0 || strpos($img, 'images/') === 0 || strpos($img, 'uploads/') === 0) {
+                        return $img;
+                    }
+                    return 'uploads/' . $img;
+                }
+
+                function getBentoLinkUrl($cat) {
+                    if (!empty($cat['custom_link'])) return $cat['custom_link'];
+                    if (!empty($cat['slug'])) return 'productos.php?cat=' . $cat['slug'];
+                    return 'productos.php';
+                }
+                ?>
+
                 <div class="premium-masonry-grid">
                     <!-- Columna Izquierda -->
                     <div class="premium-left-col">
-                        <!-- Cintas y Lanyards (Antes Merchandising General, ahora enfocado a lo que quiere el cliente con la foto real) -->
-                        <a href="productos.php?cat=cintas" class="premium-cat-card" style="aspect-ratio: 595/302;">
-                            <img src="uploads/cintas_mockup.jpg" alt="Cintas y Lanyards">
+                        <!-- Tarjeta 1: Superior Izquierda Ancha -->
+                        <a href="<?php echo htmlspecialchars(getBentoLinkUrl($bento_1)); ?>" class="premium-cat-card" style="aspect-ratio: 595/302;">
+                            <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_1['image'])); ?>" alt="<?php echo htmlspecialchars($bento_1['name']); ?>">
                             <div class="premium-cat-overlay">
-                                <h3 class="premium-cat-title">Cintas y lanyards</h3>
-                                <p class="premium-cat-subtitle">Cintas impresas full color y accesorios de sujeción.</p>
+                                <h3 class="premium-cat-title"><?php echo htmlspecialchars($bento_1['name']); ?></h3>
+                                <?php if (!empty($bento_1['description'])): ?>
+                                    <p class="premium-cat-subtitle"><?php echo htmlspecialchars($bento_1['description']); ?></p>
+                                <?php endif; ?>
                             </div>
                         </a>
                         
                         <div class="premium-bottom-row">
-                            <!-- Cajas y Empaques -->
-                            <a href="productos.php?cat=personalizacion" class="premium-cat-card" style="height: 100%; min-height: 260px;">
-                                <img src="uploads/caja.png" alt="Cajas y Empaques">
+                            <!-- Tarjeta 2: Inferior Izquierda 1 -->
+                            <a href="<?php echo htmlspecialchars(getBentoLinkUrl($bento_2)); ?>" class="premium-cat-card" style="height: 100%; min-height: 260px;">
+                                <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_2['image'])); ?>" alt="<?php echo htmlspecialchars($bento_2['name']); ?>">
                                 <div class="premium-cat-overlay">
-                                    <h3 class="premium-cat-title">Cajas y Empaques</h3>
-                                    <p class="premium-cat-subtitle">Packaging corporativo a medida.</p>
+                                    <h3 class="premium-cat-title"><?php echo htmlspecialchars($bento_2['name']); ?></h3>
+                                    <?php if (!empty($bento_2['description'])): ?>
+                                        <p class="premium-cat-subtitle"><?php echo htmlspecialchars($bento_2['description']); ?></p>
+                                    <?php endif; ?>
                                 </div>
                             </a>
-                            <!-- Especialidad Láser (Texto limpio sin duplicaciones) -->
-                            <a href="#laser" class="premium-cat-card" style="height: 100%; min-height: 260px;">
-                                <img src="images/cat_laser.png" alt="Especialidad Láser">
+                            <!-- Tarjeta 3: Inferior Izquierda 2 -->
+                            <a href="<?php echo htmlspecialchars(getBentoLinkUrl($bento_3)); ?>" class="premium-cat-card" style="height: 100%; min-height: 260px;">
+                                <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_3['image'])); ?>" alt="<?php echo htmlspecialchars($bento_3['name']); ?>">
                                 <div class="premium-cat-overlay">
-                                    <h3 class="premium-cat-title">Especialidad Láser</h3>
-                                    <p class="premium-cat-subtitle">Grabado resistente al uso diario.</p>
+                                    <h3 class="premium-cat-title"><?php echo htmlspecialchars($bento_3['name']); ?></h3>
+                                    <?php if (!empty($bento_3['description'])): ?>
+                                        <p class="premium-cat-subtitle"><?php echo htmlspecialchars($bento_3['description']); ?></p>
+                                    <?php endif; ?>
                                 </div>
                             </a>
                         </div>
@@ -406,12 +462,14 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
 
                     <!-- Columna Derecha -->
                     <div class="premium-right-col" style="display: flex; flex-direction: column;">
-                        <!-- Carnetización (Imagen real generada) -->
-                        <a href="productos.php?cat=carnets" class="premium-cat-card" style="aspect-ratio: 288/460; height: 100%;">
-                            <img src="uploads/carnet_mockup.jpg" alt="Carnetización" style="height: 100%; object-fit: cover;">
+                        <!-- Tarjeta 4: Derecha Alta Vertical -->
+                        <a href="<?php echo htmlspecialchars(getBentoLinkUrl($bento_4)); ?>" class="premium-cat-card" style="aspect-ratio: 288/460; height: 100%;">
+                            <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_4['image'])); ?>" alt="<?php echo htmlspecialchars($bento_4['name']); ?>" style="height: 100%; object-fit: cover;">
                             <div class="premium-cat-overlay" style="height: 100%;">
-                                <h3 class="premium-cat-title">Carnetización</h3>
-                                <p class="premium-cat-subtitle">Identificación profesional para empresas e instituciones.</p>
+                                <h3 class="premium-cat-title"><?php echo htmlspecialchars($bento_4['name']); ?></h3>
+                                <?php if (!empty($bento_4['description'])): ?>
+                                    <p class="premium-cat-subtitle"><?php echo htmlspecialchars($bento_4['description']); ?></p>
+                                <?php endif; ?>
                             </div>
                         </a>
                     </div>
@@ -1196,7 +1254,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.7"></script>
+    <script src="js/main.js?v=5.8"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>
