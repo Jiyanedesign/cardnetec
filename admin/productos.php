@@ -158,8 +158,8 @@ $categorias = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY
 $materiales_list = $pdo->query("SELECT * FROM materiales WHERE is_active = 1 ORDER BY id ASC")->fetchAll();
 $etiquetas_list = $pdo->query("SELECT * FROM etiquetas ORDER BY id ASC")->fetchAll();
 
-// Cargar todos los productos ordenados por order_val ASC, id DESC
-$products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY p.order_val ASC, p.id DESC")->fetchAll();
+// Cargar todos los productos ordenados por orden personalizado (1, 2, 3...) y los no ordenados al final
+$products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC")->fetchAll();
 
 // Cargar producto a editar
 $edit_product = null;

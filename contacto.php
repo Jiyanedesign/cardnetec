@@ -29,10 +29,10 @@ $all_emails = array_filter([$contact_email_display, $contact_email_2]);
     <meta property="og:image" content="https://cardnet.ec/images/og-image.jpg">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.6">
-    <link rel="stylesheet" href="css/layout.css?v=5.6">
-    <link rel="stylesheet" href="css/components.css?v=5.6">
-    <link rel="stylesheet" href="css/pages.css?v=5.6">
+    <link rel="stylesheet" href="css/base.css?v=5.7">
+    <link rel="stylesheet" href="css/layout.css?v=5.7">
+    <link rel="stylesheet" href="css/components.css?v=5.7">
+    <link rel="stylesheet" href="css/pages.css?v=5.7">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 </head>
 <body>
@@ -136,7 +136,7 @@ $all_emails = array_filter([$contact_email_display, $contact_email_2]);
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.6"></script>
+    <script src="js/main.js?v=5.7"></script>
     <script src="js/animations.js"></script>
     <script src="js/forms.js"></script>
 </body>

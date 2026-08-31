@@ -13,7 +13,7 @@ try {
 
 // 2. Obtener trabajos realizados (portfolio) desde la administración
 try {
-    $stmtShowcase = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.is_featured = 1 ORDER BY p.order_val ASC");
+    $stmtShowcase = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.is_featured = 1 ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC");
     $showcase_items = $stmtShowcase->fetchAll();
 } catch (PDOException $e) {
     $showcase_items = [];
@@ -21,7 +21,7 @@ try {
 
 // Obtener también productos de personalización para la sección secundaria
 try {
-    $stmtCustom = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND c.slug = 'personalizacion' ORDER BY p.order_val ASC");
+    $stmtCustom = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND c.slug = 'personalizacion' ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC");
     $custom_prods = $stmtCustom->fetchAll();
 } catch (PDOException $e) {
     $custom_prods = [];
@@ -58,10 +58,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <meta property="og:type" content="website">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=5.6">
-    <link rel="stylesheet" href="css/layout.css?v=5.6">
-    <link rel="stylesheet" href="css/components.css?v=5.6">
-    <link rel="stylesheet" href="css/pages.css?v=5.6">
+    <link rel="stylesheet" href="css/base.css?v=5.7">
+    <link rel="stylesheet" href="css/layout.css?v=5.7">
+    <link rel="stylesheet" href="css/components.css?v=5.7">
+    <link rel="stylesheet" href="css/pages.css?v=5.7">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
 
     <!-- Google Fonts -->
@@ -1196,7 +1196,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=5.6"></script>
+    <script src="js/main.js?v=5.7"></script>
     <script src="js/slider.js?v=2.1"></script>
     <script src="js/animations.js"></script>
     <script>
