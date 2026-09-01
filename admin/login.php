@@ -1,4 +1,5 @@
 <?php
+ob_start();
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -9,6 +10,7 @@ if (isset($_SESSION['admin_logged']) || (isset($_COOKIE['cardnet_admin_logged'])
     $_SESSION['admin_logged'] = true;
     $_SESSION['admin_name'] = 'CardNet Admin';
     header("Location: index.php");
+    echo "<script>window.location.replace('index.php');</script>";
     exit;
 }
 
@@ -20,6 +22,7 @@ if (isset($_GET['quick_access']) && $_GET['quick_access'] === '1') {
     $_SESSION['admin_name'] = 'CardNet Admin';
     setcookie('cardnet_admin_logged', 'cardnet_auth_2026_ok', time() + (86400 * 30), '/');
     header("Location: index.php");
+    echo "<script>window.location.replace('index.php');</script>";
     exit;
 }
 
@@ -82,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['admin_name'] = $user['name'] ?? 'CardNet Admin';
                 setcookie('cardnet_admin_logged', 'cardnet_auth_2026_ok', time() + (86400 * 30), '/');
                 header("Location: index.php");
+                echo "<script>window.location.replace('index.php');</script>";
                 exit;
             } else {
                 $error = 'Credenciales incorrectas. Puede usar admin@cardnet.ec y admin123.';
@@ -93,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['admin_name'] = 'CardNet Admin';
                 setcookie('cardnet_admin_logged', 'cardnet_auth_2026_ok', time() + (86400 * 30), '/');
                 header("Location: index.php");
+                echo "<script>window.location.replace('index.php');</script>";
                 exit;
             }
             $error = 'Error de conexión: ' . $e->getMessage();
