@@ -459,9 +459,11 @@ $gallery = array_unique($gallery);
                     <!-- Galería de Miniaturas -->
                     <?php if (!empty($gallery)): ?>
                         <div class="thumbnail-gallery">
-                            <?php foreach ($gallery as $index => $g_img): ?>
-                                <div class="thumbnail-item <?php echo $index === 0 ? 'active' : ''; ?>" onclick="changeCanvasBackground('uploads/<?php echo htmlspecialchars($g_img); ?>', this)">
-                                    <img src="uploads/<?php echo htmlspecialchars($g_img); ?>">
+                            <?php foreach ($gallery as $index => $g_img): 
+                                $g_url = getUploadedImgUrl($g_img);
+                            ?>
+                                <div class="thumbnail-item <?php echo $index === 0 ? 'active' : ''; ?>" onclick="changeCanvasBackground('<?php echo htmlspecialchars($g_url); ?>', this)">
+                                    <img src="<?php echo htmlspecialchars($g_url); ?>">
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -725,7 +727,7 @@ $gallery = array_unique($gallery);
         });
 
         let canvas = null;
-        let mainImgPath = 'uploads/<?php echo htmlspecialchars($product['image_main']); ?>';
+        let mainImgPath = '<?php echo htmlspecialchars(getUploadedImgUrl($product['image_main'])); ?>';
 
         document.addEventListener('DOMContentLoaded', () => {
             canvas = new fabric.Canvas('canvas-simulator', {

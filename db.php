@@ -658,6 +658,19 @@ function getSiteSettings($pdo) {
     }
 }
 
+// Función auxiliar para resolver rutas de imágenes sin duplicar uploads/
+function getUploadedImgUrl($path, $default = 'uploads/carnet_mockup.jpg') {
+    if (empty($path)) return $default;
+    $path = trim($path);
+    if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
+        return $path;
+    }
+    if (strpos($path, 'uploads/') === 0 || strpos($path, 'images/') === 0) {
+        return $path;
+    }
+    return 'uploads/' . $path;
+}
+
 // Función auxiliar para enriquecer productos con atributos comerciales para buscador, filtros y modales
 function enrichProduct($prod) {
     $slug = $prod['slug'];
