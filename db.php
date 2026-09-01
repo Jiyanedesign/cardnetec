@@ -1,11 +1,10 @@
 <?php
-// Configuración de la Base de Datos para CardNet.ec
-// Conexión oficial de producción para Hostinger
+// Configuración Oficial de Base de Datos para CardNet.ec (cPanel)
 
 $db_host = 'localhost';
-$db_name = 'u434851126_cardnetec';
-$db_user = 'u434851126_cardnetec_usr';
-$db_pass = 'Cardnetec2026!';
+$db_name = 'cardnet_db';     
+$db_user = 'cardnet_user'; 
+$db_pass = 'CardNet2026!#$';
 
 try {
     $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass, [
