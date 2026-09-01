@@ -2,14 +2,16 @@
 session_start();
 require_once 'db.php';
 
-// Cargar configuraciones del sitio
+// Cargar configuraciones del sitio y contenido dinámico de Tagua
 $site_settings = getSiteSettings($pdo);
+$tagua_c = getTaguaContent($pdo);
+
 $page_title = 'Productos de Tagua Personalizados | Marfil Vegetal Ecuatoriano con Grabado Láser | CardNet.ec';
 $page_description = 'Llaveros, botones, medallas, placas y regalos corporativos en Tagua (marfil vegetal ecuatoriano 100% ecológico). Personalización de alta precisión con grabado láser indeleble.';
 $tagua_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
 $tagua_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 00 000 0000';
 
-// Obtener productos de Tagua desde la base de datos
+// Obtener productos de Tagua desde la base de datos (SOLO los productos de la categoría tagua)
 try {
     $stmtTagua = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug 
                               FROM productos p 
@@ -21,64 +23,12 @@ try {
     $tagua_products = [];
 }
 
-// Fallback de catálogo si no hubiera productos cargados aún
-if (empty($tagua_products)) {
-    $tagua_products = [
-        [
-            'name' => 'Llaveros de Tagua Grabados a Láser',
-            'slug' => 'llaveros-tagua-laser',
-            'description_short' => 'Llavero de marfil vegetal ecuatoriano pulido y personalizado con grabado láser permanente de su logotipo corporativo.',
-            'image_main' => 'tagua_llavero.jpg',
-            'sku' => 'TAG-001',
-            'price' => 2.50,
-            'cta_text' => 'Cotizar Llaveros'
-        ],
-        [
-            'name' => 'Botones de Tagua Personalizados',
-            'slug' => 'botones-tagua-personalizados',
-            'description_short' => 'Botones ecológicos de marfil vegetal para uniformes corporativos, camisas y prendas institucionales con grabado perimetral.',
-            'image_main' => 'tagua_botones.jpg',
-            'sku' => 'TAG-002',
-            'price' => 0.90,
-            'cta_text' => 'Cotizar Botones'
-        ],
-        [
-            'name' => 'Dijes y Medallas de Tagua con Logo',
-            'slug' => 'dijes-medallas-tagua',
-            'description_short' => 'Medallas y distintivos conmemorativos para eventos sostenibles, congresos internacionales y reconocimientos de marca.',
-            'image_main' => 'tagua_llavero.jpg',
-            'sku' => 'TAG-003',
-            'price' => 1.80,
-            'cta_text' => 'Cotizar Medallas'
-        ],
-        [
-            'name' => 'Porta Credenciales Ecológico con Tagua',
-            'slug' => 'porta-credenciales-tagua',
-            'description_short' => 'Accesorio de identificación corporativa que integra cordón textil y un broche distintivo de tagua grabado con logotipo.',
-            'image_main' => 'tagua_llavero.jpg',
-            'sku' => 'TAG-004',
-            'price' => 3.20,
-            'cta_text' => 'Cotizar Porta Carnets'
-        ],
-        [
-            'name' => 'Placa de Reconocimiento en Tagua y Madera',
-            'slug' => 'placa-reconocimiento-tagua-madera',
-            'description_short' => 'Placa conmemorativa premium en madera noble con apliques centrales de tagua tallada y grabada en alta resolución.',
-            'image_main' => 'tagua_hero_bg.jpg',
-            'sku' => 'TAG-005',
-            'price' => 18.00,
-            'cta_text' => 'Cotizar Placa'
-        ],
-        [
-            'name' => 'Kit Ejecutivo Ecológico con Tagua',
-            'slug' => 'kit-ejecutivo-tagua',
-            'description_short' => 'Set corporativo con estuche de madera, libreta de fibra reciclada, bolígrafo de bambú y llavero de tagua grabado.',
-            'image_main' => 'tagua_hero_bg.jpg',
-            'sku' => 'TAG-006',
-            'price' => 15.50,
-            'cta_text' => 'Cotizar Kit Ejecutivo'
-        ]
-    ];
+// Helper para resolver imagen del Hero
+$hero_bg_img = !empty($tagua_c['hero_image']) ? $tagua_c['hero_image'] : 'tagua_hero_bg.jpg';
+if (strpos($hero_bg_img, 'http') === 0 || strpos($hero_bg_img, 'uploads/') === 0 || strpos($hero_bg_img, 'images/') === 0) {
+    $hero_bg_url = $hero_bg_img;
+} else {
+    $hero_bg_url = 'uploads/' . $hero_bg_img;
 }
 ?>
 <!DOCTYPE html>
@@ -97,13 +47,13 @@ if (empty($tagua_products)) {
     <meta property="og:description" content="<?php echo htmlspecialchars($page_description); ?>">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cardnet.ec/tagua.php">
-    <meta property="og:image" content="https://cardnet.ec/uploads/tagua_hero_bg.jpg">
+    <meta property="og:image" content="https://cardnet.ec/<?php echo htmlspecialchars($hero_bg_url); ?>">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=6.1">
-    <link rel="stylesheet" href="css/layout.css?v=6.1">
-    <link rel="stylesheet" href="css/components.css?v=6.1">
-    <link rel="stylesheet" href="css/pages.css?v=6.1">
+    <link rel="stylesheet" href="css/base.css?v=6.2">
+    <link rel="stylesheet" href="css/layout.css?v=6.2">
+    <link rel="stylesheet" href="css/components.css?v=6.2">
+    <link rel="stylesheet" href="css/pages.css?v=6.2">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -121,7 +71,7 @@ if (empty($tagua_products)) {
         /* HERO TAGUA */
         .tagua-hero-container {
             background-color: #0b140d;
-            background-image: linear-gradient(135deg, rgba(11, 20, 13, 0.94) 0%, rgba(18, 33, 20, 0.88) 100%), url('uploads/tagua_hero_bg.jpg');
+            background-image: linear-gradient(135deg, rgba(11, 20, 13, 0.94) 0%, rgba(18, 33, 20, 0.88) 100%), url('<?php echo htmlspecialchars($hero_bg_url); ?>');
             background-size: cover;
             background-position: center;
             color: white;
@@ -384,19 +334,19 @@ if (empty($tagua_products)) {
             <div class="container center" style="max-width: 920px; position: relative; z-index: 5;">
                 <div class="tagua-badge-pill">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    Marfil Vegetal Ecuatoriano · Línea Ecológica Corporativa
+                    <?php echo htmlspecialchars($tagua_c['hero_badge']); ?>
                 </div>
-                <h1 class="tagua-hero-h1">Artesanía y Precisión en Tagua Personalizada</h1>
+                <h1 class="tagua-hero-h1"><?php echo htmlspecialchars($tagua_c['hero_title']); ?></h1>
                 <p class="tagua-hero-p">
-                    Transformamos la semilla de marfil vegetal ecuatoriano en artículos de identificación, botones, accesorios y regalos corporativos mediante grabado y corte láser de alta definición.
+                    <?php echo htmlspecialchars($tagua_c['hero_subtitle']); ?>
                 </p>
                 
                 <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 1rem;">
-                    <a href="#catalogo-tagua" class="btn btn-primary" style="padding: 12px 28px; font-size: 0.88rem; text-transform: none; font-weight: 600;">
-                        Explorar Catálogo de Tagua
+                    <a href="<?php echo htmlspecialchars($tagua_c['hero_btn_url']); ?>" class="btn btn-primary" style="padding: 12px 28px; font-size: 0.88rem; text-transform: none; font-weight: 600;">
+                        <?php echo htmlspecialchars($tagua_c['hero_btn_text']); ?>
                     </a>
                     <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20CardNet,%20deseo%20cotizar%20articulos%20en%20Tagua%20personalizada" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 12px 24px; font-size: 0.88rem; text-transform: none; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.25);">
-                        Consultar con un Asesor
+                        <?php echo htmlspecialchars($tagua_c['hero_btn_sec_text']); ?>
                     </a>
                 </div>
 
@@ -404,23 +354,23 @@ if (empty($tagua_products)) {
                 <div class="tagua-stats-bar">
                     <div class="tagua-stat-cell">
                         <svg class="tagua-stat-icon-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                        <div class="tagua-stat-head">100% Biodegradable</div>
-                        <div class="tagua-stat-sub">Sustituto natural al plástico</div>
+                        <div class="tagua-stat-head"><?php echo htmlspecialchars($tagua_c['stat_1_title']); ?></div>
+                        <div class="tagua-stat-sub"><?php echo htmlspecialchars($tagua_c['stat_1_desc']); ?></div>
                     </div>
                     <div class="tagua-stat-cell">
                         <svg class="tagua-stat-icon-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        <div class="tagua-stat-head">Grabado Láser HD</div>
-                        <div class="tagua-stat-sub">Marcado térmico inalterable</div>
+                        <div class="tagua-stat-head"><?php echo htmlspecialchars($tagua_c['stat_2_title']); ?></div>
+                        <div class="tagua-stat-sub"><?php echo htmlspecialchars($tagua_c['stat_2_desc']); ?></div>
                     </div>
                     <div class="tagua-stat-cell">
                         <svg class="tagua-stat-icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-                        <div class="tagua-stat-head">Origen Ecuatoriano</div>
-                        <div class="tagua-stat-sub">Cosecha silvestre seleccionada</div>
+                        <div class="tagua-stat-head"><?php echo htmlspecialchars($tagua_c['stat_3_title']); ?></div>
+                        <div class="tagua-stat-sub"><?php echo htmlspecialchars($tagua_c['stat_3_desc']); ?></div>
                     </div>
                     <div class="tagua-stat-cell">
                         <svg class="tagua-stat-icon-svg" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                        <div class="tagua-stat-head">Pedidos por Mayor</div>
-                        <div class="tagua-stat-sub">Empresas, eventos y marcas</div>
+                        <div class="tagua-stat-head"><?php echo htmlspecialchars($tagua_c['stat_4_title']); ?></div>
+                        <div class="tagua-stat-sub"><?php echo htmlspecialchars($tagua_c['stat_4_desc']); ?></div>
                     </div>
                 </div>
             </div>
@@ -429,10 +379,10 @@ if (empty($tagua_products)) {
         <!-- 2. ORIGEN Y SUSTENTABILIDAD -->
         <section class="section-padding container">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle">Sostenibilidad & Cumplimiento ESG</span>
-                <h2>Propiedades y Ventajas del Marfil Vegetal</h2>
+                <span class="section-subtitle"><?php echo htmlspecialchars($tagua_c['esg_badge']); ?></span>
+                <h2><?php echo htmlspecialchars($tagua_c['esg_title']); ?></h2>
                 <p style="max-width: 780px; margin: 0 auto;">
-                    La Tagua (*Phytelephas aequatorialis*) es una semilla originaria de los bosques húmedos del Ecuador. Al madurar y secarse, alcanza una dureza y tonalidad aperlada equivalente al marfil animal, permitiendo obtener piezas orgánicas de alta elegancia sin impacto ecológico negativo.
+                    <?php echo htmlspecialchars($tagua_c['esg_description']); ?>
                 </p>
             </div>
 
@@ -441,9 +391,9 @@ if (empty($tagua_products)) {
                     <div class="benefit-svg-box">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                     </div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.18rem; color: var(--dark); margin-bottom: 0.6rem;">Cero Huella Plástica</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.18rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['benefit_1_title']); ?></h3>
                     <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        Ideal para organizaciones con directrices ambientales y programas de sostenibilidad que requieren merchandising 100% orgánico.
+                        <?php echo htmlspecialchars($tagua_c['benefit_1_desc']); ?>
                     </p>
                 </div>
 
@@ -451,9 +401,9 @@ if (empty($tagua_products)) {
                     <div class="benefit-svg-box">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     </div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.18rem; color: var(--dark); margin-bottom: 0.6rem;">Grabado Inalterable</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.18rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['benefit_2_title']); ?></h3>
                     <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        La tecnología láser cauteriza la fibra interna de la semilla generando un contraste nítido que resiste fricción, humedad y paso del tiempo.
+                        <?php echo htmlspecialchars($tagua_c['benefit_2_desc']); ?>
                     </p>
                 </div>
 
@@ -461,9 +411,9 @@ if (empty($tagua_products)) {
                     <div class="benefit-svg-box">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     </div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.18rem; color: var(--dark); margin-bottom: 0.6rem;">Piezas Exclusivas</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.18rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['benefit_3_title']); ?></h3>
                     <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        Cada botón, llavero o distintivo conserva las vetas y tonalidades botánicas de la semilla, haciendo que cada producto sea irrepetible.
+                        <?php echo htmlspecialchars($tagua_c['benefit_3_desc']); ?>
                     </p>
                 </div>
 
@@ -471,9 +421,9 @@ if (empty($tagua_products)) {
                     <div class="benefit-svg-box">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     </div>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.18rem; color: var(--dark); margin-bottom: 0.6rem;">Producción Nacional</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.18rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['benefit_4_title']); ?></h3>
                     <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        Elaborado con materia prima recolectada éticamente en Ecuador, apoyando el trabajo artesanal y la preservación de los bosques.
+                        <?php echo htmlspecialchars($tagua_c['benefit_4_desc']); ?>
                     </p>
                 </div>
             </div>
@@ -483,9 +433,9 @@ if (empty($tagua_products)) {
         <section id="catalogo-tagua" class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
             <div class="container">
                 <div class="section-header center" style="margin-bottom: 3.5rem;">
-                    <span class="section-subtitle">Catálogo Corporativo</span>
-                    <h2>Línea de Productos en Tagua</h2>
-                    <p>Modelos listos para personalizar con su logotipo institucional, numeración o nombres.</p>
+                    <span class="section-subtitle"><?php echo htmlspecialchars($tagua_c['catalog_badge']); ?></span>
+                    <h2><?php echo htmlspecialchars($tagua_c['catalog_title']); ?></h2>
+                    <p><?php echo htmlspecialchars($tagua_c['catalog_description']); ?></p>
                 </div>
 
                 <div class="tagua-catalog-grid">
@@ -539,12 +489,12 @@ if (empty($tagua_products)) {
                 </div>
 
                 <div style="text-align: center; margin-top: 3.5rem; background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2rem;">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;">¿Requiere medidas, siluetas o cortes especiales?</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($tagua_c['custom_box_title']); ?></h3>
                     <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 1.25rem auto;">
-                        Fabricamos piezas bajo plano vectorial con diámetros, grosores y perforaciones a la medida de su proyecto.
+                        <?php echo htmlspecialchars($tagua_c['custom_box_desc']); ?>
                     </p>
                     <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20CardNet,%20deseo%20solicitar%20piezas%20de%20Tagua%20con%20medidas%20especiales" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-transform: none; font-size: 0.85rem; padding: 10px 24px;">
-                        Solicitar Fabricación a Medida
+                        <?php echo htmlspecialchars($tagua_c['custom_box_btn_text']); ?>
                     </a>
                 </div>
             </div>
@@ -608,41 +558,41 @@ if (empty($tagua_products)) {
         <section class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
             <div class="container">
                 <div class="section-header center" style="margin-bottom: 3.5rem;">
-                    <span class="section-subtitle">Control y Precisión</span>
-                    <h2>Flujo de Producción y Grabado en Taller</h2>
-                    <p>Protocolo riguroso desde la selección de la semilla hasta la entrega corporativa.</p>
+                    <span class="section-subtitle"><?php echo htmlspecialchars($tagua_c['process_badge']); ?></span>
+                    <h2><?php echo htmlspecialchars($tagua_c['process_title']); ?></h2>
+                    <p><?php echo htmlspecialchars($tagua_c['process_description']); ?></p>
                 </div>
 
                 <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
                     <div class="process-box">
                         <span class="process-step-num">Paso 01</span>
-                        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;">Selección y Curado</h3>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($tagua_c['step_1_title']); ?></h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
-                            Clasificación de semillas maduras con porcentaje de humedad controlado para evitar deformaciones mecánicas.
+                            <?php echo htmlspecialchars($tagua_c['step_1_desc']); ?>
                         </p>
                     </div>
 
                     <div class="process-box">
                         <span class="process-step-num">Paso 02</span>
-                        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;">Torneado y Calibración</h3>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($tagua_c['step_2_title']); ?></h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
-                            Desbaste y pulido a espejo para generar una superficie plana milimétrica de alta adherencia óptica.
+                            <?php echo htmlspecialchars($tagua_c['step_2_desc']); ?>
                         </p>
                     </div>
 
                     <div class="process-box">
                         <span class="process-step-num">Paso 03</span>
-                        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;">Marcado Láser CNC</h3>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($tagua_c['step_3_title']); ?></h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
-                            Aplicación del diseño vectorial mediante haz concentrado de alta resolución para líneas y textos finos.
+                            <?php echo htmlspecialchars($tagua_c['step_3_desc']); ?>
                         </p>
                     </div>
 
                     <div class="process-box">
                         <span class="process-step-num">Paso 04</span>
-                        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;">Inspección y Despacho</h3>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;"><?php echo htmlspecialchars($tagua_c['step_4_title']); ?></h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
-                            Control de calidad unidad por unidad, ensamblado de herrajes y empaque protegido para envío nacional.
+                            <?php echo htmlspecialchars($tagua_c['step_4_desc']); ?>
                         </p>
                     </div>
                 </div>
@@ -652,37 +602,37 @@ if (empty($tagua_products)) {
         <!-- 6. SECTORES Y APLICACIONES -->
         <section class="section-padding container">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle">Aplicaciones Comerciales</span>
-                <h2>Soluciones para Empresas e Instituciones</h2>
-                <p>Sectores que integran productos de Tagua en sus operaciones y eventos.</p>
+                <span class="section-subtitle"><?php echo htmlspecialchars($tagua_c['sectors_badge']); ?></span>
+                <h2><?php echo htmlspecialchars($tagua_c['sectors_title']); ?></h2>
+                <p><?php echo htmlspecialchars($tagua_c['sectors_description']); ?></p>
             </div>
 
             <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
                 <div style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-sm);">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;">Cumbres y Congresos ESG</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['sector_1_title']); ?></h3>
                     <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        Credenciales, medallas conmemorativas y souvenirs para eventos corporativos con compromiso ecológico.
+                        <?php echo htmlspecialchars($tagua_c['sector_1_desc']); ?>
                     </p>
                 </div>
 
                 <div style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-sm);">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;">Hotelería y Turismo VIP</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['sector_2_title']); ?></h3>
                     <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        Llaveros de habitación con numeración permanente y detalles exclusivos para huéspedes internacionales.
+                        <?php echo htmlspecialchars($tagua_c['sector_2_desc']); ?>
                     </p>
                 </div>
 
                 <div style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-sm);">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;">Confección y Uniformes</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['sector_3_title']); ?></h3>
                     <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        Botones personalizados con monograma grabado para camisas ejecutivas y prendas corporativas de alta gama.
+                        <?php echo htmlspecialchars($tagua_c['sector_3_desc']); ?>
                     </p>
                 </div>
 
                 <div style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-sm);">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;">Reconocimientos y Kits</h3>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['sector_4_title']); ?></h3>
                     <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        Placas conmemorativas y sets corporativos para premiaciones internas y regalos de fin de año.
+                        <?php echo htmlspecialchars($tagua_c['sector_4_desc']); ?>
                     </p>
                 </div>
             </div>
@@ -700,41 +650,41 @@ if (empty($tagua_products)) {
                 <div style="max-width: 800px; margin: 0 auto;">
                     <div class="faq-item-serious">
                         <button class="faq-trigger" onclick="toggleFaqSerious(this)">
-                            ¿Qué es la tagua y por qué se denomina marfil vegetal?
+                            <?php echo htmlspecialchars($tagua_c['faq_1_q']); ?>
                             <span style="font-size: 1.1rem; transition: transform 0.3s;">+</span>
                         </button>
                         <div class="faq-body">
-                            La tagua es la semilla madura de la palma *Phytelephas aequatorialis*, nativa de los bosques húmedos del Ecuador. Una vez deshidratada, adquiere una dureza, color marfil y densidad similar a la del marfil animal, constituyendo una alternativa 100% ecológica, sostenible y legal.
+                            <?php echo htmlspecialchars($tagua_c['faq_1_a']); ?>
                         </div>
                     </div>
 
                     <div class="faq-item-serious">
                         <button class="faq-trigger" onclick="toggleFaqSerious(this)">
-                            ¿Es posible reproducir logotipos con tipografías y detalles finos?
+                            <?php echo htmlspecialchars($tagua_c['faq_2_q']); ?>
                             <span style="font-size: 1.1rem; transition: transform 0.3s;">+</span>
                         </button>
                         <div class="faq-body">
-                            Sí. Mediante sistemas de corte y grabado láser computarizado reproducimos vectores, isotipos y textos con precisión micrométrica. Previo a la fabricación enviamos una simulación digital para su revisión y aprobación técnica.
+                            <?php echo htmlspecialchars($tagua_c['faq_2_a']); ?>
                         </div>
                     </div>
 
                     <div class="faq-item-serious">
                         <button class="faq-trigger" onclick="toggleFaqSerious(this)">
-                            ¿El grabado láser en tagua es resistente al uso diario?
+                            <?php echo htmlspecialchars($tagua_c['faq_3_q']); ?>
                             <span style="font-size: 1.1rem; transition: transform 0.3s;">+</span>
                         </button>
                         <div class="faq-body">
-                            Totalmente. Al no tratarse de tintas superficiales sino de una cauterización térmica en la propia estructura botánica de la semilla, el grabado es indeleble y no se desprende con la fricción, el agua o la exposición al ambiente.
+                            <?php echo htmlspecialchars($tagua_c['faq_3_a']); ?>
                         </div>
                     </div>
 
                     <div class="faq-item-serious">
                         <button class="faq-trigger" onclick="toggleFaqSerious(this)">
-                            ¿Cuáles son los tiempos de entrega y cobertura de envíos?
+                            <?php echo htmlspecialchars($tagua_c['faq_4_q']); ?>
                             <span style="font-size: 1.1rem; transition: transform 0.3s;">+</span>
                         </button>
                         <div class="faq-body">
-                            Despachamos pedidos a Quito, Guayaquil, Cuenca y todas las provincias del Ecuador mediante Servientrega o transporte logístico especializado. Los tiempos de producción estándar oscilan entre 24 y 72 horas según el volumen requerido.
+                            <?php echo htmlspecialchars($tagua_c['faq_4_a']); ?>
                         </div>
                     </div>
                 </div>
@@ -745,20 +695,20 @@ if (empty($tagua_products)) {
         <section class="section-padding" style="background: #101511; color: white; text-align: center;">
             <div class="container" style="max-width: 760px;">
                 <div class="tagua-badge-pill" style="margin-bottom: 1.25rem;">
-                    Asesoría Corporativa Inmediata
+                    <?php echo htmlspecialchars($tagua_c['cta_badge']); ?>
                 </div>
                 <h2 style="font-family: var(--font-heading); font-size: 2.3rem; color: white; margin-bottom: 1rem; font-weight: 400;">
-                    Inicie su Cotización de Productos en Tagua
+                    <?php echo htmlspecialchars($tagua_c['cta_title']); ?>
                 </h2>
                 <p style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.6; margin-bottom: 2.25rem;">
-                    Envíenos los requerimientos de su empresa junto con su logotipo. Le entregaremos una propuesta técnica y cotización formal a la brevedad.
+                    <?php echo htmlspecialchars($tagua_c['cta_subtitle']); ?>
                 </p>
                 <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
                     <a href="cotizacion.php?cat=tagua" class="btn btn-primary" style="padding: 13px 30px; font-size: 0.92rem; text-transform: none; font-weight: 600;">
-                        Iniciar Cotización Formal
+                        <?php echo htmlspecialchars($tagua_c['cta_btn_text']); ?>
                     </a>
                     <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20CardNet,%20deseo%20asesoria%20tecnica%20para%20un%20pedido%20en%20Tagua" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 13px 26px; font-size: 0.92rem; text-transform: none; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.25);">
-                        Contactar Asesor por WhatsApp
+                        <?php echo htmlspecialchars($tagua_c['cta_btn_sec_text']); ?>
                     </a>
                 </div>
             </div>

@@ -257,6 +257,18 @@ try {
         // Ignorar si ya existe
     }
 
+    // 1.10. AUTO-MIGRACIÓN: Tabla tagua_content para personalización dinámica de la página Tagua desde Dashboard
+    $tableTaguaContent = $pdo->query("SHOW TABLES LIKE 'tagua_content'")->fetch();
+    if (!$tableTaguaContent) {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `tagua_content` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `content_key` varchar(100) NOT NULL UNIQUE,
+          `content_value` longtext DEFAULT NULL,
+          `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    }
+
     // 2. AUTO-MIGRACIÓN: Agregar campos de Galería de Imágenes, SKU, Stock, Precio y Descripción Larga si faltan
     $columns = $pdo->query("DESCRIBE productos")->fetchAll(PDO::FETCH_COLUMN);
     
@@ -666,5 +678,108 @@ function enrichProduct($prod) {
     }
 
     return array_merge($prod, $enriched);
+}
+
+// Valores por defecto para la página de Tagua (editables desde admin/tagua.php)
+$defaultTaguaContent = [
+    // Hero
+    'hero_badge' => 'Marfil Vegetal Ecuatoriano · Línea Ecológica Corporativa',
+    'hero_title' => 'Artesanía y Precisión en Tagua Personalizada',
+    'hero_subtitle' => 'Transformamos la semilla de marfil vegetal ecuatoriano en artículos de identificación, botones, accesorios y regalos corporativos mediante grabado y corte láser de alta definición.',
+    'hero_image' => 'tagua_hero_bg.jpg',
+    'hero_btn_text' => 'Explorar Catálogo de Tagua',
+    'hero_btn_url' => '#catalogo-tagua',
+    'hero_btn_sec_text' => 'Consultar con un Asesor',
+
+    // Stats Bar
+    'stat_1_title' => '100% Biodegradable',
+    'stat_1_desc' => 'Sustituto natural al plástico',
+    'stat_2_title' => 'Grabado Láser HD',
+    'stat_2_desc' => 'Marcado térmico inalterable',
+    'stat_3_title' => 'Origen Ecuatoriano',
+    'stat_3_desc' => 'Cosecha silvestre seleccionada',
+    'stat_4_title' => 'Pedidos por Mayor',
+    'stat_4_desc' => 'Empresas, eventos y marcas',
+
+    // Origen & ESG
+    'esg_badge' => 'Sostenibilidad & Cumplimiento ESG',
+    'esg_title' => 'Propiedades y Ventajas del Marfil Vegetal',
+    'esg_description' => 'La Tagua (Phytelephas aequatorialis) es una semilla originaria de los bosques húmedos del Ecuador. Al madurar y secarse, alcanza una dureza y tonalidad aperlada equivalente al marfil animal, permitiendo obtener piezas orgánicas de alta elegancia sin impacto ecológico negativo.',
+    
+    // Beneficios 1-4
+    'benefit_1_title' => 'Cero Huella Plástica',
+    'benefit_1_desc' => 'Ideal para organizaciones con directrices ambientales y programas de sostenibilidad que requieren merchandising 100% orgánico.',
+    'benefit_2_title' => 'Grabado Inalterable',
+    'benefit_2_desc' => 'La tecnología láser cauteriza la fibra interna de la semilla generando un contraste nítido que resiste fricción, humedad y paso del tiempo.',
+    'benefit_3_title' => 'Piezas Exclusivas',
+    'benefit_3_desc' => 'Cada botón, llavero o distintivo conserva las vetas y tonalidades botánicas de la semilla, haciendo que cada producto sea irrepetible.',
+    'benefit_4_title' => 'Producción Nacional',
+    'benefit_4_desc' => 'Elaborado con materia prima recolectada éticamente en Ecuador, apoyando el trabajo artesanal y la preservación de los bosques.',
+
+    // Catálogo Intro & Custom Box
+    'catalog_badge' => 'Catálogo Corporativo',
+    'catalog_title' => 'Línea de Productos en Tagua',
+    'catalog_description' => 'Modelos listos para personalizar con su logotipo institucional, numeración o nombres.',
+    'custom_box_title' => '¿Requiere medidas, siluetas o cortes especiales?',
+    'custom_box_desc' => 'Fabricamos piezas bajo plano vectorial con diámetros, grosores y perforaciones a la medida de su proyecto.',
+    'custom_box_btn_text' => 'Solicitar Fabricación a Medida',
+
+    // Proceso de Taller
+    'process_badge' => 'Control y Precisión',
+    'process_title' => 'Flujo de Producción y Grabado en Taller',
+    'process_description' => 'Protocolo riguroso desde la selección de la semilla hasta la entrega corporativa.',
+    'step_1_title' => 'Selección y Curado',
+    'step_1_desc' => 'Clasificación de semillas maduras con porcentaje de humedad controlado para evitar deformaciones mecánicas.',
+    'step_2_title' => 'Torneado y Calibración',
+    'step_2_desc' => 'Desbaste y pulido a espejo para generar una superficie plana milimétrica de alta adherencia óptica.',
+    'step_3_title' => 'Marcado Láser CNC',
+    'step_3_desc' => 'Aplicación del diseño vectorial mediante haz concentrado de alta resolución para líneas y textos finos.',
+    'step_4_title' => 'Inspección y Despacho',
+    'step_4_desc' => 'Control de calidad unidad por unidad, ensamblado de herrajes y empaque protegido para envío nacional.',
+
+    // Sectores
+    'sectors_badge' => 'Aplicaciones Comerciales',
+    'sectors_title' => 'Soluciones para Empresas e Instituciones',
+    'sectors_description' => 'Sectores que integran productos de Tagua en sus operaciones y eventos.',
+    'sector_1_title' => 'Cumbres y Congresos ESG',
+    'sector_1_desc' => 'Credenciales, medallas conmemorativas y souvenirs para eventos corporativos con compromiso ecológico.',
+    'sector_2_title' => 'Hotelería y Turismo VIP',
+    'sector_2_desc' => 'Llaveros de habitación con numeración permanente y detalles exclusivos para huéspedes internacionales.',
+    'sector_3_title' => 'Confección y Uniformes',
+    'sector_3_desc' => 'Botones personalizados con monograma grabado para camisas ejecutivas y prendas corporativas de alta gama.',
+    'sector_4_title' => 'Reconocimientos y Kits',
+    'sector_4_desc' => 'Placas conmemorativas y sets corporativos para premiaciones internas y regalos de fin de año.',
+
+    // FAQ 1-4
+    'faq_1_q' => '¿Qué es la tagua y por qué se denomina marfil vegetal?',
+    'faq_1_a' => 'La tagua es la semilla madura de la palma Phytelephas aequatorialis, nativa de los bosques húmedos del Ecuador. Una vez deshidratada, adquiere una dureza, color marfil y densidad similar a la del marfil animal, constituyendo una alternativa 100% ecológica, sostenible y legal.',
+    'faq_2_q' => '¿Es posible reproducir logotipos con tipografías y detalles finos?',
+    'faq_2_a' => 'Sí. Mediante sistemas de corte y grabado láser computarizado reproducimos vectores, isotipos y textos con precisión micrométrica. Previo a la fabricación enviamos una simulación digital para su revisión y aprobación técnica.',
+    'faq_3_q' => '¿El grabado láser en tagua es resistente al uso diario?',
+    'faq_3_a' => 'Totalmente. Al no tratarse de tintas superficiales sino de una cauterización térmica en la propia estructura botánica de la semilla, el grabado es indeleble y no se desprende con la fricción, el agua o la exposición al ambiente.',
+    'faq_4_q' => '¿Cuáles son los tiempos de entrega y cobertura de envíos?',
+    'faq_4_a' => 'Despachamos pedidos a Quito, Guayaquil, Cuenca y todas las provincias del Ecuador mediante Servientrega o transporte logístico especializado. Los tiempos de producción estándar oscilan entre 24 y 72 horas según el volumen requerido.',
+
+    // CTA Final
+    'cta_badge' => 'Asesoría Corporativa Inmediata',
+    'cta_title' => 'Inicie su Cotización de Productos en Tagua',
+    'cta_subtitle' => 'Envíenos los requerimientos de su empresa junto con su logotipo. Le entregaremos una propuesta técnica y cotización formal a la brevedad.',
+    'cta_btn_text' => 'Iniciar Cotización Formal',
+    'cta_btn_sec_text' => 'Contactar Asesor por WhatsApp'
+];
+
+function getTaguaContent($pdo) {
+    global $defaultTaguaContent;
+    $res = [];
+    try {
+        $stmt = $pdo->query("SELECT content_key, content_value FROM tagua_content");
+        while ($row = $stmt->fetch()) {
+            if ($row['content_value'] !== null && $row['content_value'] !== '') {
+                $res[$row['content_key']] = $row['content_value'];
+            }
+        }
+    } catch (PDOException $e) {}
+    
+    return array_merge($defaultTaguaContent, $res);
 }
  

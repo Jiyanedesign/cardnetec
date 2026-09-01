@@ -39,7 +39,8 @@ try {
         $stmtProds = $pdo->prepare("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' AND c.slug = ? $order_clause");
         $stmtProds->execute([$category_filter]);
     } else {
-        $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' $order_clause");
+        // En la vista general (Todos), los productos de Tagua NO aparecen (solo en su categoría y página de Tagua)
+        $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' AND (c.slug != 'tagua' OR c.slug IS NULL) $order_clause");
     }
     $products = $stmtProds->fetchAll();
 } catch (PDOException $e) {
@@ -58,10 +59,10 @@ try {
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=6.1">
-    <link rel="stylesheet" href="css/layout.css?v=6.1">
-    <link rel="stylesheet" href="css/components.css?v=6.1">
-    <link rel="stylesheet" href="css/pages.css?v=6.1">
+    <link rel="stylesheet" href="css/base.css?v=6.2">
+    <link rel="stylesheet" href="css/layout.css?v=6.2">
+    <link rel="stylesheet" href="css/components.css?v=6.2">
+    <link rel="stylesheet" href="css/pages.css?v=6.2">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
 
     <!-- Google Fonts -->
@@ -303,7 +304,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.1"></script>
+    <script src="js/main.js?v=6.2"></script>
     <script src="js/animations.js"></script>
 
     <!-- Buscador Dinámico de Productos -->
