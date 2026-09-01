@@ -150,13 +150,13 @@ DROP TABLE IF EXISTS `clientes`;
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `logo_url` varchar(255) NOT NULL,
+  `logo_path` varchar(255) NOT NULL,
   `order_val` int(11) DEFAULT 0,
   `is_active` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `clientes` (`id`, `name`, `logo_url`, `order_val`, `is_active`) VALUES
+INSERT INTO `clientes` (`id`, `name`, `logo_path`, `order_val`, `is_active`) VALUES
 (1, 'Cliente 1', 'cliente1.png', 1, 1),
 (2, 'Cliente 2', 'cliente2.png', 2, 1),
 (3, 'Cliente 3', 'cliente3.png', 3, 1),

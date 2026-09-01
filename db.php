@@ -411,12 +411,25 @@ try {
             (5, 'AERO', 'uploads/cliente5.png', 5, 1);");
     }
 
-    // Asegurar que los nombres de clientes coincidan con los logotipos generados
-    $pdo->exec("UPDATE clientes SET name = 'APEX' WHERE id = 1 AND logo_path = 'uploads/cliente1.png';");
-    $pdo->exec("UPDATE clientes SET name = 'LUMINA' WHERE id = 2 AND logo_path = 'uploads/cliente2.png';");
-    $pdo->exec("UPDATE clientes SET name = 'VORTEX' WHERE id = 3 AND logo_path = 'uploads/cliente3.png';");
-    $pdo->exec("UPDATE clientes SET name = 'KRONA' WHERE id = 4 AND logo_path = 'uploads/cliente4.png';");
-    $pdo->exec("UPDATE clientes SET name = 'AERO' WHERE id = 5 AND logo_path = 'uploads/cliente5.png';");
+    // Asegurar que la tabla clientes tenga la columna logo_path
+    try {
+        $cliCols = $pdo->query("DESCRIBE clientes")->fetchAll(PDO::FETCH_COLUMN);
+        if (in_array('logo_url', $cliCols) && !in_array('logo_path', $cliCols)) {
+            $pdo->exec("ALTER TABLE clientes CHANGE COLUMN logo_url logo_path varchar(255) NOT NULL;");
+        }
+        if (!in_array('logo_path', $cliCols) && !in_array('logo_url', $cliCols)) {
+            $pdo->exec("ALTER TABLE clientes ADD COLUMN logo_path varchar(255) NOT NULL;");
+        }
+
+        // Asegurar que los nombres de clientes coincidan con los logotipos generados
+        $pdo->exec("UPDATE clientes SET name = 'APEX' WHERE id = 1 AND (logo_path = 'uploads/cliente1.png' OR logo_path = 'cliente1.png');");
+        $pdo->exec("UPDATE clientes SET name = 'LUMINA' WHERE id = 2 AND (logo_path = 'uploads/cliente2.png' OR logo_path = 'cliente2.png');");
+        $pdo->exec("UPDATE clientes SET name = 'VORTEX' WHERE id = 3 AND (logo_path = 'uploads/cliente3.png' OR logo_path = 'cliente3.png');");
+        $pdo->exec("UPDATE clientes SET name = 'KRONA' WHERE id = 4 AND (logo_path = 'uploads/cliente4.png' OR logo_path = 'cliente4.png');");
+        $pdo->exec("UPDATE clientes SET name = 'AERO' WHERE id = 5 AND (logo_path = 'uploads/cliente5.png' OR logo_path = 'cliente5.png');");
+    } catch (PDOException $e) {
+        // Ignorar si ya está sincronizado
+    }
 
     // 6.5. AUTO-MIGRACIÓN: Campos de Pedido Mínimo, Teléfonos y Correos Adicionales
     $config_columns = $pdo->query("DESCRIBE configuraciones")->fetchAll(PDO::FETCH_COLUMN);
