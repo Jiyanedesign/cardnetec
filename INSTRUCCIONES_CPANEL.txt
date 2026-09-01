@@ -1,0 +1,51 @@
+# GUÍA DE MIGRACIÓN PASO A PASO A CPANEL
+
+Este paquete contiene TODO el sitio web (código, imágenes, uploads, estilos y base de datos) listo para funcionar en cualquier hosting con cPanel.
+
+---
+
+### PASO 1: Subir los Archivos al Administrador de Archivos de cPanel
+1. Ingresa a tu nuevo cPanel.
+2. Abre el Administrador de Archivos (File Manager).
+3. Entra a la carpeta public_html (o la carpeta de tu dominio/subdominio).
+4. Haz clic en Cargar (Upload) y sube el archivo cardnet_completo_cpanel.zip.
+5. Una vez cargado, haz clic derecho sobre el archivo ZIP y selecciona Extract (Extraer).
+
+---
+
+### PASO 2: Crear la Base de Datos en cPanel
+1. En cPanel, abre Bases de Datos MySQL (o Asistente de bases de datos MySQL).
+2. Crea una nueva base de datos (por ejemplo: usuario_cardnet).
+3. Crea un nuevo usuario con una contraseña segura (por ejemplo: usuario_admin / MiClave2026!).
+4. Añade el usuario a la base de datos y marca TODOS LOS PRIVILEGIOS (ALL PRIVILEGES).
+
+---
+
+### PASO 3: Importar la Base de Datos en phpMyAdmin
+1. En cPanel, abre phpMyAdmin.
+2. Selecciona la base de datos que acabas de crear a la izquierda.
+3. Haz clic en la pestaña superior Importar (Import).
+4. Selecciona el archivo database_backup_cardnet.sql (que viene dentro del ZIP o descargado).
+5. Haz clic en Continuar / Importar.
+
+---
+
+### PASO 4: Conectar db.php con tus Nuevas Credenciales
+1. En el Administrador de Archivos de cPanel, entra a la carpeta donde extrajiste la web y edita el archivo db.php (clic derecho -> Edit):
+2. En las primeras líneas coloca los datos de tu nueva base de datos creada en el Paso 2:
+
+ = 'localhost';
+ = 'NOMBRE_DE_TU_NUEVA_BD';
+ = 'NOMBRE_DE_TU_NUEVO_USUARIO';
+ = 'TU_NUEVA_CONTRASEÑA';
+
+3. Guarda los cambios.
+
+---
+
+### PASO 5: ¡Listo! Acceso al Dashboard
+Tu sitio ya está 100% operativo sin perder imágenes ni configuraciones:
+- Web Pública: https://tudominio.com
+- Panel de Administración: https://tudominio.com/admin/login.php
+- Usuario: admin@cardnet.ec
+- Contraseña: admin123
