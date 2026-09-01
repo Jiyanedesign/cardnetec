@@ -14,6 +14,27 @@ try {
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
 
+    // 0. AUTO-MIGRACIÓN: Crear tabla de administradores y usuario por defecto si falta
+    $tableAdminCheck = $pdo->query("SHOW TABLES LIKE 'usuarios_admin'")->fetch();
+    if (!$tableAdminCheck) {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `usuarios_admin` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `name` varchar(100) NOT NULL,
+          `email` varchar(100) NOT NULL UNIQUE,
+          `password` varchar(255) NOT NULL,
+          `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    }
+    
+    // Asegurar usuario admin@cardnet.ec con contraseña admin123
+    $adminExist = $pdo->query("SELECT id FROM usuarios_admin WHERE email = 'admin@cardnet.ec'")->fetchColumn();
+    if (!$adminExist) {
+        $adminPassHash = password_hash('admin123', PASSWORD_BCRYPT);
+        $stmtInsAdmin = $pdo->prepare("INSERT INTO usuarios_admin (name, email, password) VALUES (?, ?, ?)");
+        $stmtInsAdmin->execute(['CardNet Admin', 'admin@cardnet.ec', $adminPassHash]);
+    }
+
     // 1. AUTO-MIGRACIÓN: Crear tabla de categorías si falta
     $tableCheck = $pdo->query("SHOW TABLES LIKE 'categorias'")->fetch();
     if (!$tableCheck) {
