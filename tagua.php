@@ -50,10 +50,10 @@ if (strpos($hero_bg_img, 'http') === 0 || strpos($hero_bg_img, 'uploads/') === 0
     <meta property="og:image" content="https://cardnet.ec/<?php echo htmlspecialchars($hero_bg_url); ?>">
 
     <!-- CSS Modulares -->
-    <link rel="stylesheet" href="css/base.css?v=6.2">
-    <link rel="stylesheet" href="css/layout.css?v=6.2">
-    <link rel="stylesheet" href="css/components.css?v=6.2">
-    <link rel="stylesheet" href="css/pages.css?v=6.2">
+    <link rel="stylesheet" href="css/base.css?v=6.3">
+    <link rel="stylesheet" href="css/layout.css?v=6.3">
+    <link rel="stylesheet" href="css/components.css?v=6.3">
+    <link rel="stylesheet" href="css/pages.css?v=6.3">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
