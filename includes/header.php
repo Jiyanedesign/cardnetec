@@ -86,7 +86,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
                         <?php endif; ?>
                     </a>
                 </div>
-                <a href="cotizacion.php" class="btn btn-primary header-cta" style="padding: 8px 16px; font-size: 0.8rem; text-transform: none;">Cotizar</a>
+                <a href="cotizacion.php" class="btn btn-primary header-cta" style="padding: 8px 16px; font-size: 0.8rem; text-transform: none;">Cotizar.</a>
             </div>
         </div>
     </div>

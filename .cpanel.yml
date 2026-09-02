@@ -1,5 +1,12 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/cardnet/public_html/
-    - /bin/cp -a . 
+    - export DEPLOYPATH=/home/cardnet/public_html
+    - /bin/cp -rf * /
+    - /bin/cp -rf .htaccess /
+    - /bin/cp -rf includes/* /includes/
+    - /bin/cp -rf uploads/* /uploads/
+    - /bin/cp -rf images/* /images/
+    - /bin/cp -rf css/* /css/
+    - /bin/cp -rf js/* /js/
+    - /bin/cp -rf admin/* /admin/
