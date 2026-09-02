@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/cardnet/public_html/
-    - /bin/cp -R * 
+    - /bin/cp -a . 
