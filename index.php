@@ -62,11 +62,7 @@ try {
 // Helper para resolver rutas de imágenes
 if (!function_exists('resolveHomeImg')) {
     function resolveHomeImg($img, $default = 'uploads/carnet_mockup.jpg') {
-        if (empty($img)) return $default;
-        if (strpos($img, 'http') === 0 || strpos($img, 'uploads/') === 0 || strpos($img, 'images/') === 0) {
-            return $img;
-        }
-        return 'uploads/' . $img;
+        return getUploadedImgUrl($img, $default);
     }
 }
 
@@ -435,11 +431,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 ];
 
                 function getBentoImgUrl($img) {
-                    if (empty($img)) return 'uploads/cintas_mockup.jpg';
-                    if (strpos($img, 'http') === 0 || strpos($img, 'images/') === 0 || strpos($img, 'uploads/') === 0) {
-                        return $img;
-                    }
-                    return 'uploads/' . $img;
+                    return getUploadedImgUrl($img, 'uploads/cintas_mockup.jpg');
                 }
 
                 function getBentoLinkUrl($cat) {

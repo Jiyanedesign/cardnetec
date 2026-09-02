@@ -658,7 +658,7 @@ function getSiteSettings($pdo) {
     }
 }
 
-// Función auxiliar para resolver rutas de imágenes sin duplicar uploads/
+// Función auxiliar para resolver rutas de imágenes omni-compatible
 function getUploadedImgUrl($path, $default = 'uploads/carnet_mockup.jpg') {
     if (empty($path)) return $default;
     $path = trim($path);
@@ -667,6 +667,18 @@ function getUploadedImgUrl($path, $default = 'uploads/carnet_mockup.jpg') {
     }
     if (strpos($path, 'uploads/') === 0 || strpos($path, 'images/') === 0) {
         return $path;
+    }
+    if (strpos($path, 'cat_') === 0) {
+        return 'uploads/categories/' . $path;
+    }
+    if (strpos($path, 'prod_') === 0 || strpos($path, 'gal_') === 0) {
+        return 'uploads/products/' . $path;
+    }
+    if (strpos($path, 'slide_') === 0) {
+        return 'uploads/carousel/' . $path;
+    }
+    if (strpos($path, 'sec_') === 0) {
+        return 'uploads/sections/' . $path;
     }
     return 'uploads/' . $path;
 }
