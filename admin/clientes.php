@@ -261,6 +261,12 @@ if (isset($_GET['edit'])) {
                     <div class="form-group">
                         <label class="form-label" for="logo">Archivo de Logo (.png transparente, idealmente monocromo/gris)</label>
                         <input class="form-input" type="file" name="logo" id="logo" <?php echo $edit_client ? '' : 'required'; ?>>
+                        <?php if ($edit_client && !empty($edit_client['logo_path'])): ?>
+                            <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($edit_client['logo_path'])); ?>" style="max-height: 40px; background-color: #f4f4f4; padding: 4px; border-radius: 4px; border: 1px solid var(--border);" alt="Logo actual">
+                                <small style="color: var(--text-muted);">Logo actual asignado</small>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 2rem;">
                         <input type="checkbox" name="is_active" id="is_active" value="1" <?php echo (!$edit_client || $edit_client['is_active']) ? 'checked' : ''; ?>>
@@ -292,7 +298,7 @@ if (isset($_GET['edit'])) {
                 <?php foreach ($clientes as $c): ?>
                     <tr>
                         <td>
-                            <img src="../<?php echo htmlspecialchars($c['logo_path']); ?>" alt="Logo" style="max-height: 40px; background-color: #f4f4f4; padding: 5px; border-radius: 4px;">
+                            <img src="<?php echo htmlspecialchars(getUploadedImgUrl($c['logo_path'])); ?>" alt="Logo" style="max-height: 40px; background-color: #f4f4f4; padding: 5px; border-radius: 4px; border: 1px solid var(--border);">
                         </td>
                         <td><?php echo htmlspecialchars($c['name']); ?></td>
                         <td><?php echo htmlspecialchars($c['order_val']); ?></td>

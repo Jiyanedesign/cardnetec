@@ -285,12 +285,7 @@ if (isset($_GET['edit'])) {
                         <input class="form-input" type="file" name="image" id="image">
                         <?php if ($edit_cat && !empty($edit_cat['image'])): ?>
                             <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
-                                <?php 
-                                    $img_src = (strpos($edit_cat['image'], 'images/') === 0 || strpos($edit_cat['image'], 'uploads/') === 0) 
-                                        ? '../' . $edit_cat['image'] 
-                                        : '../uploads/' . $edit_cat['image'];
-                                ?>
-                                <img src="<?php echo htmlspecialchars($img_src); ?>" class="cat-thumb-preview" alt="Foto actual">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($edit_cat['image'])); ?>" class="cat-thumb-preview" alt="Foto actual">
                                 <small style="color: var(--text-muted);">Imagen actual asignada</small>
                             </div>
                         <?php endif; ?>
@@ -337,12 +332,7 @@ if (isset($_GET['edit'])) {
                         <td><strong>#<?php echo (int)$cat['order_val']; ?></strong></td>
                         <td>
                             <?php if (!empty($cat['image'])): ?>
-                                <?php 
-                                    $img_src = (strpos($cat['image'], 'images/') === 0 || strpos($cat['image'], 'uploads/') === 0) 
-                                        ? '../' . $cat['image'] 
-                                        : '../uploads/' . $cat['image'];
-                                ?>
-                                <img src="<?php echo htmlspecialchars($img_src); ?>" class="cat-thumb-preview" alt="Miniatura">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($cat['image'])); ?>" class="cat-thumb-preview" alt="Miniatura">
                             <?php else: ?>
                                 <div style="width: 70px; height: 50px; background: #eee; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999;">Sin foto</div>
                             <?php endif; ?>

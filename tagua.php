@@ -24,12 +24,7 @@ try {
 }
 
 // Helper para resolver imagen del Hero
-$hero_bg_img = !empty($tagua_c['hero_image']) ? $tagua_c['hero_image'] : 'tagua_hero_bg.jpg';
-if (strpos($hero_bg_img, 'http') === 0 || strpos($hero_bg_img, 'uploads/') === 0 || strpos($hero_bg_img, 'images/') === 0) {
-    $hero_bg_url = $hero_bg_img;
-} else {
-    $hero_bg_url = 'uploads/' . $hero_bg_img;
-}
+$hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero_image'] : 'tagua_hero_bg.jpg', 'images/tagua_hero_bg.jpg');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -441,16 +436,7 @@ if (strpos($hero_bg_img, 'http') === 0 || strpos($hero_bg_img, 'uploads/') === 0
                 <div class="tagua-catalog-grid">
                     <?php foreach ($tagua_products as $tp): ?>
                         <?php
-                        $p_img = !empty($tp['image_main']) ? $tp['image_main'] : '';
-                        if (!empty($p_img)) {
-                            if (strpos($p_img, 'http') === 0 || strpos($p_img, 'uploads/') === 0 || strpos($p_img, 'images/') === 0) {
-                                $img_src = $p_img;
-                            } else {
-                                $img_src = 'uploads/' . $p_img;
-                            }
-                        } else {
-                            $img_src = 'uploads/tagua_llavero.jpg';
-                        }
+                        $img_src = getUploadedImgUrl($tp['image_main'] ?? '', 'uploads/tagua_llavero.jpg');
                         ?>
                         <div class="tagua-prod-card">
                             <a href="producto.php?slug=<?php echo htmlspecialchars($tp['slug']); ?>" class="tagua-prod-media" style="text-decoration: none;">

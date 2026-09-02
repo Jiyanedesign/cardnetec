@@ -251,6 +251,12 @@ if (isset($_GET['edit'])) {
                     <div class="form-group">
                         <label class="form-label" for="image">Imagen de Fondo (Slide)</label>
                         <input class="form-input" type="file" name="image" id="image">
+                        <?php if ($edit_slide && !empty($edit_slide['image'])): ?>
+                            <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($edit_slide['image'])); ?>" style="width: 80px; height: 44px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border);" alt="Slide actual">
+                                <small style="color: var(--text-muted);">Imagen actual asignada</small>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -294,7 +300,7 @@ if (isset($_GET['edit'])) {
                     <tr>
                         <td>
                             <?php if ($sl['image']): ?>
-                                <img src="../uploads/<?php echo htmlspecialchars($sl['image']); ?>" style="width: 80px; height: 44px; object-fit: cover; border-radius: 4px;">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($sl['image'])); ?>" style="width: 80px; height: 44px; object-fit: cover; border-radius: 4px;">
                             <?php else: ?>
                                 <div style="width: 80px; height: 44px; background-color: var(--border); border-radius: 4px;"></div>
                             <?php endif; ?>

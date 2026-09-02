@@ -659,83 +659,94 @@ function getSiteSettings($pdo) {
 }
 
 // Función auxiliar para resolver rutas de imágenes omni-compatible
-function getUploadedImgUrl($path, $default = 'uploads/carnet_mockup.jpg') {
-    if (empty($path)) return $default;
+function getUploadedImgUrl($path, $default = 'uploads/carnet_mockup.jpg', $isAdmin = null) {
+    if ($isAdmin === null) {
+        $script_name = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
+        $isAdmin = (strpos($script_name, '/admin/') !== false);
+    }
+    $prefix = $isAdmin ? '../' : '';
+
+    if (empty($path)) {
+        return $prefix . ltrim($default, './');
+    }
     $path = trim($path);
     if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
         return $path;
     }
-    if (strpos($path, 'uploads/') === 0 || strpos($path, 'images/') === 0) {
-        return $path;
+    
+    // Normalizar eliminando prefijos relativos o uploads/ duplicados
+    $clean = preg_replace('#^(\.\./)*(uploads/)?#', '', $path);
+    
+    if (strpos($clean, 'images/') === 0) {
+        return $prefix . $clean;
     }
-    if (strpos($path, 'cat_') === 0) {
-        return 'uploads/categories/' . $path;
+    if (strpos($clean, 'categories/') === 0 || strpos($clean, 'products/') === 0 || strpos($clean, 'carousel/') === 0 || strpos($clean, 'sections/') === 0) {
+        return $prefix . 'uploads/' . $clean;
     }
-    if (strpos($path, 'prod_') === 0 || strpos($path, 'gal_') === 0) {
-        return 'uploads/products/' . $path;
+    if (strpos($clean, 'cat_') === 0) {
+        return $prefix . 'uploads/categories/' . $clean;
     }
-    if (strpos($path, 'slide_') === 0) {
-        return 'uploads/carousel/' . $path;
+    if (strpos($clean, 'prod_') === 0 || strpos($clean, 'gal_') === 0) {
+        return $prefix . 'uploads/products/' . $clean;
     }
-    if (strpos($path, 'sec_') === 0) {
-        return 'uploads/sections/' . $path;
+    if (strpos($clean, 'slide_') === 0) {
+        return $prefix . 'uploads/carousel/' . $clean;
     }
-    return 'uploads/' . $path;
+    if (strpos($clean, 'sec_') === 0) {
+        return $prefix . 'uploads/sections/' . $clean;
+    }
+    return $prefix . 'uploads/' . $clean;
 }
 
 // Función auxiliar para enriquecer productos con atributos comerciales para buscador, filtros y modales
 function enrichProduct($prod) {
-    $slug = $prod['slug'];
+    if (empty($prod)) return [];
+    $slug = $prod['slug'] ?? '';
+    
+    // Atributos de apoyo para filtros y buscador si no están definidos
     $enriched = [
-        'material' => 'Acero',
+        'material' => 'Acero / Metal',
         'technique' => 'Grabado láser',
-        'use' => 'Kits corporativos, eventos',
-        'details' => 'Recomendado para regalos ejecutivos y promocionales de alta gama.'
+        'use' => 'Kits corporativos, eventos, uso institucional',
+        'details' => $prod['description_short'] ?? 'Artículo corporativo listo para personalización.'
     ];
 
     if (stripos($slug, 'termo') !== false) {
-        $enriched['material'] = 'Acero';
+        $enriched['material'] = 'Acero Inoxidable';
         $enriched['technique'] = 'Grabado láser permanente';
         $enriched['use'] = 'Kits corporativos, eventos, uso diario';
-        $enriched['details'] = 'Termo de doble pared de acero inoxidable que mantiene la temperatura. Ideal para personalización con grabado láser de acabado limpio.';
     } elseif (stripos($slug, 'agenda') !== false || stripos($slug, 'libreta') !== false) {
-        $enriched['material'] = 'Cuero / PU';
+        $enriched['material'] = 'Cuero / Cuerina PU';
         $enriched['technique'] = 'Grabado láser térmico / Bajo relieve';
         $enriched['use'] = 'Oficina, congresos, regalos ejecutivos';
-        $enriched['details'] = 'Agenda ejecutiva con hojas de papel avena, marcapáginas y cubierta de tacto cuero (cuerina PU termosensible) ideal para grabado láser de bajo relieve.';
     } elseif (stripos($slug, 'placa') !== false) {
-        $enriched['material'] = 'Acrílico';
+        $enriched['material'] = 'Acrílico Cristalino / Metal';
         $enriched['technique'] = 'Corte y grabado láser de alta precisión';
         $enriched['use'] = 'Reconocimientos, premiaciones, señalética';
-        $enriched['details'] = 'Placa conmemorativa de acrílico cristalino o madera noble. Acabados pulidos y grabado posterior de gran profundidad.';
     } elseif (stripos($slug, 'kit') !== false) {
-        $enriched['material'] = 'Mixto (Acero/Madera/Cuero)';
+        $enriched['material'] = 'Mixto (Acero / Madera / Cuero)';
         $enriched['technique'] = 'Grabado y serigrafía';
         $enriched['use'] = 'Regalos empresariales, bienvenida a colaboradores';
-        $enriched['details'] = 'Kit completo premium en caja de madera o cartón rígido personalizado. Incluye termo grabado, agenda y bolígrafo.';
     } elseif (stripos($slug, 'llavero') !== false) {
         $enriched['material'] = 'Acero / Cuero';
         $enriched['technique'] = 'Grabado láser de fibra';
         $enriched['use'] = 'Regalos promocionales, merchandising';
-        $enriched['details'] = 'Llavero robusto metálico con inserciones de cuero PU. Marcado indeleble de alta visibilidad para tu marca.';
     } elseif (stripos($slug, 'caja') !== false) {
-        $enriched['material'] = 'Madera';
+        $enriched['material'] = 'Madera / MDF';
         $enriched['technique'] = 'Grabado láser CO2';
         $enriched['use'] = 'Empaque de regalo, botellas de vino, kits';
-        $enriched['details'] = 'Caja de madera de pino o MDF con tapa deslizable. Grabado láser de gran contraste para presentaciones corporativas.';
     } elseif (stripos($slug, 'carnet') !== false || stripos($slug, 'credencial') !== false) {
         $enriched['material'] = 'Plástico PVC';
         $enriched['technique'] = 'Impresión térmica color';
         $enriched['use'] = 'Identificación institucional, seguridad, eventos';
-        $enriched['details'] = 'Carnets impresos en PVC laminado de alta duración. Compatible con código de barras, QR y chips de proximidad.';
     } elseif (stripos($slug, 'tagua') !== false || stripos($slug, 'boton') !== false || stripos($slug, 'dije') !== false) {
-        $enriched['material'] = 'Semilla de Tagua (Marfil Vegetal Ecuatoriano 100% Ecológico)';
-        $enriched['technique'] = 'Corte y Grabado Láser CO2 / Fibra de Alta Precisión';
-        $enriched['use'] = 'Regalos corporativos sostenibles, eventos, souvenirs de marca y moda';
-        $enriched['details'] = 'Semilla de tagua natural cosechada de forma silvestre y sostenible en Ecuador. Pulida con acabado suave y personalizada con grabado láser indeleble.';
+        $enriched['material'] = 'Semilla de Tagua (Marfil Vegetal Ecuatoriano)';
+        $enriched['technique'] = 'Corte y Grabado Láser';
+        $enriched['use'] = 'Regalos corporativos sostenibles, souvenirs, moda';
     }
 
-    return array_merge($prod, $enriched);
+    // Los datos reales de la BD siempre prevalecen sobre los valores por defecto
+    return array_merge($enriched, $prod);
 }
 
 // Valores por defecto para la página de Tagua (editables desde admin/tagua.php)

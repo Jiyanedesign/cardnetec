@@ -282,7 +282,12 @@ if ($tagua_cat_id) {
                     <div class="form-group">
                         <label>Imagen de Fondo del Hero:</label>
                         <input type="file" name="hero_image_file" class="form-control" accept="image/*">
-                        <small style="color: var(--text-muted);">Actual: <strong><?php echo htmlspecialchars($tagua_c['hero_image']); ?></strong></small>
+                        <?php if (!empty($tagua_c['hero_image'])): ?>
+                            <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($tagua_c['hero_image'])); ?>" style="width: 70px; height: 44px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border);" alt="Hero actual">
+                                <small style="color: var(--text-muted);">Actual: <strong><?php echo htmlspecialchars($tagua_c['hero_image']); ?></strong></small>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label>Texto Botón Principal:</label>
@@ -558,12 +563,9 @@ if ($tagua_cat_id) {
                     </thead>
                     <tbody>
                         <?php foreach ($tagua_prods as $tp): ?>
-                            <?php
-                            $img_src = !empty($tp['image_main']) ? '../uploads/' . $tp['image_main'] : '../uploads/tagua_llavero.jpg';
-                            ?>
                             <tr>
                                 <td>
-                                    <img src="<?php echo htmlspecialchars($img_src); ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border);" alt="">
+                                    <img src="<?php echo htmlspecialchars(getUploadedImgUrl($tp['image_main'] ?? '', 'uploads/tagua_llavero.jpg')); ?>" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border); background: white; padding: 2px;" alt="">
                                 </td>
                                 <td>
                                     <strong><?php echo htmlspecialchars($tp['name']); ?></strong><br>

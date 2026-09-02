@@ -290,12 +290,7 @@ if (isset($_GET['edit'])) {
                         <input class="form-input" type="file" name="image" id="image">
                         <?php if ($edit_card && !empty($edit_card['image'])): ?>
                             <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
-                                <?php 
-                                    $img_src = (strpos($edit_card['image'], 'images/') === 0 || strpos($edit_card['image'], 'uploads/') === 0) 
-                                        ? '../' . $edit_card['image'] 
-                                        : '../uploads/' . $edit_card['image'];
-                                ?>
-                                <img src="<?php echo htmlspecialchars($img_src); ?>" class="card-thumb-preview" alt="Foto actual">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($edit_card['image'])); ?>" class="card-thumb-preview" alt="Foto actual">
                                 <small style="color: var(--text-muted);">Foto asignada</small>
                             </div>
                         <?php endif; ?>
@@ -357,12 +352,7 @@ if (isset($_GET['edit'])) {
                         <td><strong>#<?php echo (int)$card['order_val']; ?></strong></td>
                         <td>
                             <?php if (!empty($card['image'])): ?>
-                                <?php 
-                                    $img_src = (strpos($card['image'], 'images/') === 0 || strpos($card['image'], 'uploads/') === 0) 
-                                        ? '../' . $card['image'] 
-                                        : '../uploads/' . $card['image'];
-                                ?>
-                                <img src="<?php echo htmlspecialchars($img_src); ?>" class="card-thumb-preview" alt="Miniatura">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($card['image'])); ?>" class="card-thumb-preview" alt="Miniatura">
                             <?php else: ?>
                                 <div style="width: 70px; height: 50px; background: #eee; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999;">Sin foto</div>
                             <?php endif; ?>
@@ -410,12 +400,7 @@ if (isset($_GET['edit'])) {
                         <td><strong>#<?php echo (int)$card['order_val']; ?></strong></td>
                         <td>
                             <?php if (!empty($card['image'])): ?>
-                                <?php 
-                                    $img_src = (strpos($card['image'], 'images/') === 0 || strpos($card['image'], 'uploads/') === 0) 
-                                        ? '../' . $card['image'] 
-                                        : '../uploads/' . $card['image'];
-                                ?>
-                                <img src="<?php echo htmlspecialchars($img_src); ?>" class="card-thumb-preview" alt="Miniatura">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($card['image'])); ?>" class="card-thumb-preview" alt="Miniatura">
                             <?php else: ?>
                                 <div style="width: 70px; height: 50px; background: #eee; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999;">Sin foto</div>
                             <?php endif; ?>

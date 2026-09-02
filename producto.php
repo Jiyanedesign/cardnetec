@@ -2,15 +2,23 @@
 session_start();
 require_once 'db.php';
 
-// Obtener producto por slug
+// Obtener producto por slug o por id
 $slug = isset($_GET['slug']) ? trim($_GET['slug']) : '';
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $product = null;
 
-if ($slug) {
+if ($slug || $id > 0) {
     try {
-        $stmt = $pdo->prepare("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.slug = ? AND p.is_active = 1");
-        $stmt->execute([$slug]);
-        $product = $stmt->fetch();
+        if ($slug) {
+            $stmt = $pdo->prepare("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.slug = ? AND p.is_active = 1");
+            $stmt->execute([$slug]);
+            $product = $stmt->fetch();
+        }
+        if (!$product && $id > 0) {
+            $stmt = $pdo->prepare("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.id = ? AND p.is_active = 1");
+            $stmt->execute([$id]);
+            $product = $stmt->fetch();
+        }
     } catch (PDOException $e) {
         $product = null;
     }

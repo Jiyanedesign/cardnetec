@@ -438,6 +438,12 @@ if (isset($_GET['edit'])) {
                     <div class="form-group">
                         <label class="form-label" for="image">Imagen de Portada Principal</label>
                         <input class="form-input" type="file" name="image" id="image">
+                        <?php if ($edit_product && !empty($edit_product['image_main'])): ?>
+                            <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($edit_product['image_main'])); ?>" style="width: 50px; height: 50px; object-fit: contain; border: 1px solid var(--border); border-radius: 4px; background: white; padding: 2px;">
+                                <small style="color: var(--text-muted); font-size: 0.8rem;">Imagen actual asignada</small>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
                     <div class="form-group">
@@ -460,7 +466,7 @@ if (isset($_GET['edit'])) {
                              foreach ($gallery as $g_img): 
                              ?>
                                  <div class="gallery-img-wrap" draggable="true" data-img-path="<?php echo htmlspecialchars($g_img); ?>" title="Arrastra para reordenar">
-                                     <img src="../uploads/<?php echo htmlspecialchars($g_img); ?>" alt="Foto Galería">
+                                     <img src="<?php echo htmlspecialchars(getUploadedImgUrl($g_img)); ?>" alt="Foto Galería">
                                      <span class="gallery-drag-badge">⠿ Mover</span>
                                      <button type="button" class="delete-gallery-img" onclick="removeGalleryImage(this, '<?php echo htmlspecialchars($g_img, ENT_QUOTES, 'UTF-8'); ?>')" title="Eliminar imagen">&times;</button>
                                  </div>
@@ -584,7 +590,7 @@ if (isset($_GET['edit'])) {
                         </td>
                         <td>
                             <?php if ($prod['image_main']): ?>
-                                <img src="../uploads/<?php echo htmlspecialchars($prod['image_main']); ?>" style="width: 44px; height: 44px; object-fit: cover; border-radius: 4px;">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($prod['image_main'])); ?>" style="width: 44px; height: 44px; object-fit: contain; border-radius: 4px; background: white; border: 1px solid var(--border); padding: 2px;">
                             <?php else: ?>
                                 <div style="width: 44px; height: 44px; background-color: var(--border); border-radius: 4px;"></div>
                             <?php endif; ?>

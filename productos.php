@@ -36,11 +36,11 @@ if ($sort === 'price_asc') {
 
 try {
     if ($category_filter) {
-        $stmtProds = $pdo->prepare("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' AND c.slug = ? $order_clause");
+        $stmtProds = $pdo->prepare("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND c.slug = ? $order_clause");
         $stmtProds->execute([$category_filter]);
     } else {
-        // En la vista general (Todos), los productos de Tagua NO aparecen (solo en su categoría y página de Tagua)
-        $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.name NOT LIKE '%test%' AND p.name NOT LIKE '%Taza%' AND p.name NOT LIKE '%demo%' AND (c.slug != 'tagua' OR c.slug IS NULL) $order_clause");
+        // En la vista general (Todos), los productos activos se listan ordenados
+        $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND (c.slug != 'tagua' OR c.slug IS NULL) $order_clause");
     }
     $products = $stmtProds->fetchAll();
 } catch (PDOException $e) {
@@ -209,8 +209,8 @@ try {
                     $prod_gallery_json = json_encode(array_values($prod_gallery_paths));
                     ?>
                     <div class="product-card catalog-product-item reveal-on-scroll" 
-                         data-name="<?php echo htmlspecialchars($enriched['name']); ?>" 
-                         data-category="<?php echo htmlspecialchars(!empty($prod['category_name']) ? $prod['category_name'] : $enriched['category']); ?>" 
+                         data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
+                         data-category="<?php echo htmlspecialchars(!empty($prod['category_name']) ? $prod['category_name'] : $prod['category']); ?>" 
                          data-material="<?php echo htmlspecialchars($enriched['material']); ?>" 
                          data-technique="<?php echo htmlspecialchars($enriched['technique']); ?>" 
                          data-use="<?php echo htmlspecialchars($enriched['use']); ?>"
@@ -231,8 +231,8 @@ try {
                                 <?php endif; ?>
                             </div>
                             <div class="product-card-body" style="padding: 1.25rem; display: flex; flex-direction: column;">
-                                <span class="product-card-price" style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); font-weight: 600; display: block; margin-bottom: 4px;"><?php echo htmlspecialchars(!empty($prod['category_name']) ? $prod['category_name'] : $enriched['category']); ?></span>
-                                <h3 class="product-card-title" style="margin-bottom: 0.5rem; font-size: 1.15rem; font-family: var(--font-heading); color: var(--dark); font-weight: 500; line-height: 1.2;"><?php echo htmlspecialchars($enriched['name']); ?></h3>
+                                <span class="product-card-price" style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--primary); font-weight: 600; display: block; margin-bottom: 4px;"><?php echo htmlspecialchars(!empty($prod['category_name']) ? $prod['category_name'] : $prod['category']); ?></span>
+                                <h3 class="product-card-title" style="margin-bottom: 0.5rem; font-size: 1.15rem; font-family: var(--font-heading); color: var(--dark); font-weight: 500; line-height: 1.2;"><?php echo htmlspecialchars($prod['name']); ?></h3>
                                 
                                 <div class="product-specs-badges" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.85rem; margin-top: 0.25rem;">
                                     <?php 
