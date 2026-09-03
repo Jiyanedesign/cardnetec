@@ -537,35 +537,34 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 .showcase-card {
                     flex: 0 0 calc(33.333% - 16px);
                     background: white;
-                    border: 1px solid var(--border);
+                    border: none;
                     border-radius: 8px;
                     overflow: hidden;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-                    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+                    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
                     display: flex;
                     flex-direction: column;
                 }
                 .showcase-card:hover {
                     transform: translateY(-4px);
-                    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-                    border-color: var(--primary);
+                    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
                 }
                 .showcase-image-wrap {
                     width: 100%;
-                    aspect-ratio: 1.25;
-                    background: var(--surface-light);
-                    border-bottom: 1px solid var(--border);
+                    aspect-ratio: 1.35;
+                    background: #FFFFFF;
+                    border-bottom: none;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     overflow: hidden;
-                    padding: 1.5rem;
+                    padding: 0;
                     box-sizing: border-box;
                 }
                 .showcase-image-wrap img {
-                    max-height: 100%;
-                    max-width: 100%;
-                    object-fit: contain;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                     transition: transform 0.5s ease;
                 }
                 .showcase-card:hover .showcase-image-wrap img {
@@ -592,20 +591,19 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     height: 44px;
                     border-radius: 50%;
                     background: white;
-                    border: 1px solid var(--border);
+                    border: none;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     cursor: pointer;
-                    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+                    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
                     z-index: 10;
                     transition: all 0.2s ease;
                 }
                 .showcase-control:hover {
                     background: var(--primary);
                     color: white;
-                    border-color: var(--primary);
-                    box-shadow: 0 6px 15px rgba(99,174,44,0.2);
+                    box-shadow: 0 6px 18px rgba(99,174,44,0.3);
                 }
                 .showcase-control.prev { left: 10px; }
                 .showcase-control.next { right: 10px; }
