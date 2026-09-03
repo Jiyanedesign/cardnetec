@@ -138,11 +138,10 @@ try {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
         $defaultSecciones = [
-            // Soluciones de Taller (4 cards)
+            // Soluciones de Taller (3 cards)
             ['soluciones', NULL, 'Empresas', 'Carnets, cintas y accesorios para colaboradores, áreas internas y visitantes.', 'carnet_mockup.jpg', 'Cotizar para mi empresa', 'cotizacion.php', 1],
             ['soluciones', NULL, 'Instituciones', 'Identificación para personal administrativo, equipos de apoyo, estudiantes o miembros.', 'carousel_5.jpg', 'Solicitar opciones', 'cotizacion.php', 2],
             ['soluciones', NULL, 'Eventos', 'Credenciales, cintas y porta credenciales para staff, invitados y asistentes.', 'carousel_2.jpg', 'Cotizar para evento', 'cotizacion.php', 3],
-            ['soluciones', NULL, 'Equipos de trabajo', 'Soluciones prácticas para identificar cargos, áreas y personal operativo.', 'cintas_mockup.jpg', 'Ver productos', 'productos.php', 4],
 
             // Catálogo Detallado (6 cards)
             ['catalogo_opciones', 'Cintas porta credenciales', 'Cintas full color', 'Sublimación en poliéster suave de alta resolución.', 'cintas_full_color.jpg', 'Cotizar', 'cotizacion.php?producto=cintas-full-color', 1],

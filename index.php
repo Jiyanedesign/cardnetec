@@ -802,7 +802,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 <p>Soluciones a escala humana: cada proyecto recibe piezas con atención al detalle, nombres personalizados y presentación impecable.</p>
             </div>
 
-            <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+            <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
                 <?php if (!empty($home_soluciones)): ?>
                     <?php foreach ($home_soluciones as $sol): ?>
                         <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
