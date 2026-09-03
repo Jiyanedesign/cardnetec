@@ -24,8 +24,18 @@ if (isset($_GET['delete'])) {
         $stmt = $pdo->prepare("DELETE FROM productos WHERE id = ?");
         $stmt->execute([$id]);
         $message = 'Producto eliminado correctamente.';
+        if (isset($_GET['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => true, 'message' => $message]);
+            exit;
+        }
     } catch (PDOException $e) {
         $error = 'Error al eliminar: ' . $e->getMessage();
+        if (isset($_GET['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => false, 'error' => $error]);
+            exit;
+        }
     }
 }
 
@@ -36,8 +46,18 @@ if (isset($_POST['quick_order_id'])) {
     try {
         $pdo->prepare("UPDATE productos SET order_val = ? WHERE id = ?")->execute([$q_val, $q_id]);
         $message = 'Orden actualizado correctamente.';
+        if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => true, 'message' => $message]);
+            exit;
+        }
     } catch (PDOException $e) {
         $error = 'Error al actualizar orden: ' . $e->getMessage();
+        if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => false, 'error' => $error]);
+            exit;
+        }
     }
 }
 
@@ -144,18 +164,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['quick_order_id'])) {
                 $stmt = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, description_short = ?, description_long = ?, category = ?, category_id = ?, image_main = ?, gallery_images = ?, sku = ?, stock = ?, price = ?, is_active = ?, is_featured = ?, allows_simulation = ?, cta_text = ?, volume_prices = ?, materials_json = ?, tags_json = ?, order_val = ? WHERE id = ?");
                 $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $tags_json, $order_val, $id]);
                 $message = 'Producto actualizado correctamente.';
+                if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+                    header('Content-Type: application/json; charset=utf-8');
+                    echo json_encode([
+                        'success' => true,
+                        'message' => $message,
+                        'id' => $id,
+                        'action' => 'update',
+                        'image_main' => $image_filename ? getUploadedImgUrl($image_filename) : null
+                    ]);
+                    exit;
+                }
             } catch (PDOException $e) {
                 $error = 'Error al actualizar base de datos: ' . $e->getMessage();
+                if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+                    header('Content-Type: application/json; charset=utf-8');
+                    echo json_encode(['success' => false, 'error' => $error]);
+                    exit;
+                }
             }
         } else {
             // Creación
             try {
                 $stmt = $pdo->prepare("INSERT INTO productos (name, slug, description_short, description_long, category, category_id, image_main, gallery_images, sku, stock, price, is_active, is_featured, allows_simulation, cta_text, volume_prices, materials_json, tags_json, order_val) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([$name, $slug, $description_short, $description_long, $category_name, $category_id, $image_filename, $gallery_json, $sku, $stock, $price, $is_active, $is_featured, $allows_simulation, $cta_text, $volume_prices, $materials_json, $tags_json, $order_val]);
+                $new_id = $pdo->lastInsertId();
                 $message = 'Producto creado correctamente.';
+                if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+                    header('Content-Type: application/json; charset=utf-8');
+                    echo json_encode([
+                        'success' => true,
+                        'message' => $message,
+                        'id' => $new_id,
+                        'action' => 'create'
+                    ]);
+                    exit;
+                }
             } catch (PDOException $e) {
                 $error = 'Error al crear producto: ' . $e->getMessage();
+                if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+                    header('Content-Type: application/json; charset=utf-8');
+                    echo json_encode(['success' => false, 'error' => $error]);
+                    exit;
+                }
             }
+        }
+    } else {
+        if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => false, 'error' => $error]);
+            exit;
         }
     }
 }
@@ -168,12 +226,16 @@ $etiquetas_list = $pdo->query("SELECT * FROM etiquetas ORDER BY id ASC")->fetchA
 // Cargar todos los productos ordenados por orden personalizado (1, 2, 3...) y los no ordenados al final
 $products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC")->fetchAll();
 
-// Cargar producto a editar
+// Cargar producto a editar (o mantener cargado el producto que se acaba de actualizar)
 $edit_product = null;
 if (isset($_GET['edit'])) {
     $edit_id = (int)$_GET['edit'];
     $stmt = $pdo->prepare("SELECT * FROM productos WHERE id = ?");
     $stmt->execute([$edit_id]);
+    $edit_product = $stmt->fetch();
+} elseif (isset($_POST['id']) && (int)$_POST['id'] > 0 && empty($error)) {
+    $stmt = $pdo->prepare("SELECT * FROM productos WHERE id = ?");
+    $stmt->execute([(int)$_POST['id']]);
     $edit_product = $stmt->fetch();
 }
 ?>
@@ -580,9 +642,9 @@ if (isset($_GET['edit'])) {
             </thead>
             <tbody>
                 <?php foreach ($products as $prod): ?>
-                    <tr>
+                    <tr id="prod-row-<?php echo $prod['id']; ?>">
                         <td style="width: 100px;">
-                            <form method="POST" action="productos.php" style="display: flex; align-items: center; gap: 4px; margin: 0;">
+                            <form method="POST" action="productos.php" class="quick-order-form" style="display: flex; align-items: center; gap: 4px; margin: 0;">
                                 <input type="hidden" name="quick_order_id" value="<?php echo $prod['id']; ?>">
                                 <input type="number" name="quick_order_val" value="<?php echo (int)$prod['order_val']; ?>" style="width: 50px; padding: 4px 6px; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 4px; text-align: center;">
                                 <button type="submit" class="btn btn-secondary" style="padding: 3px 6px; font-size: 0.75rem; line-height: 1;" title="Guardar orden">✓</button>
@@ -609,7 +671,7 @@ if (isset($_GET['edit'])) {
                         </td>
                         <td>
                             <a href="productos.php?edit=<?php echo $prod['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: bold; margin-right: 10px;">Editar</a>
-                            <a href="productos.php?delete=<?php echo $prod['id']; ?>" onclick="return confirm('¿Seguro que deseas eliminar este producto?')" style="color: #EF4444; text-decoration: none; font-weight: bold;">Eliminar</a>
+                            <a href="productos.php?delete=<?php echo $prod['id']; ?>" class="btn-delete-prod" data-id="<?php echo $prod['id']; ?>" style="color: #EF4444; text-decoration: none; font-weight: bold;">Eliminar</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -617,7 +679,64 @@ if (isset($_GET['edit'])) {
         </table>
     </div>
 
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;"></div>
+
     <script>
+    // Sistema de Notificaciones Toast flotantes
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.style.pointerEvents = 'auto';
+        toast.style.padding = '12px 20px';
+        toast.style.borderRadius = '8px';
+        toast.style.color = '#fff';
+        toast.style.fontSize = '0.9rem';
+        toast.style.fontWeight = '500';
+        toast.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+        toast.style.display = 'flex';
+        toast.style.alignItems = 'center';
+        toast.style.gap = '10px';
+        toast.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+        toast.style.transform = 'translateY(20px)';
+        toast.style.opacity = '0';
+        toast.style.maxWidth = '380px';
+
+        if (type === 'success') {
+            toast.style.backgroundColor = '#059669';
+            toast.innerHTML = '<span style="font-size: 1.1rem;">✓</span> <span>' + message + '</span>';
+        } else {
+            toast.style.backgroundColor = '#DC2626';
+            toast.innerHTML = '<span style="font-size: 1.1rem;">⚠</span> <span>' + message + '</span>';
+        }
+
+        container.appendChild(toast);
+        requestAnimationFrame(() => {
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+        });
+
+        setTimeout(() => {
+            toast.style.transform = 'translateY(15px)';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3200);
+    }
+
+    // Preservar y restaurar la posición exacta de scroll
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('admin_prod_scroll', window.scrollY);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedY = sessionStorage.getItem('admin_prod_scroll');
+        if (savedY !== null) {
+            window.scrollTo(0, parseInt(savedY, 10));
+        }
+    });
+
     function updateGalleryInputOrder() {
         const preview = document.getElementById('gallery-sortable-preview');
         const input = document.querySelector('input[name="existing_gallery"]');
@@ -644,61 +763,214 @@ if (isset($_GET['edit'])) {
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+        // 1. Galería Drag & Drop
         const preview = document.getElementById('gallery-sortable-preview');
-        if (!preview) return;
+        if (preview) {
+            let draggedItem = null;
 
-        let draggedItem = null;
-
-        function addDragEvents(wrap) {
-            wrap.addEventListener('dragstart', function(e) {
-                draggedItem = wrap;
-                e.dataTransfer.effectAllowed = 'move';
-                e.dataTransfer.setData('text/plain', wrap.getAttribute('data-img-path') || '');
-                setTimeout(function() {
-                    wrap.classList.add('dragging');
-                }, 0);
-            });
-
-            wrap.addEventListener('dragend', function() {
-                wrap.classList.remove('dragging');
-                preview.querySelectorAll('.gallery-img-wrap').forEach(function(w) {
-                    w.classList.remove('drag-over');
+            function addDragEvents(wrap) {
+                wrap.addEventListener('dragstart', function(e) {
+                    draggedItem = wrap;
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', wrap.getAttribute('data-img-path') || '');
+                    setTimeout(function() {
+                        wrap.classList.add('dragging');
+                    }, 0);
                 });
-                draggedItem = null;
-                updateGalleryInputOrder();
-            });
 
-            wrap.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'move';
-                if (draggedItem && wrap !== draggedItem) {
-                    wrap.classList.add('drag-over');
-                }
-            });
-
-            wrap.addEventListener('dragleave', function() {
-                wrap.classList.remove('drag-over');
-            });
-
-            wrap.addEventListener('drop', function(e) {
-                e.preventDefault();
-                wrap.classList.remove('drag-over');
-                if (draggedItem && wrap !== draggedItem) {
-                    const allItems = Array.from(preview.querySelectorAll('.gallery-img-wrap'));
-                    const draggedIndex = allItems.indexOf(draggedItem);
-                    const targetIndex = allItems.indexOf(wrap);
-
-                    if (draggedIndex < targetIndex) {
-                        wrap.after(draggedItem);
-                    } else {
-                        wrap.before(draggedItem);
-                    }
+                wrap.addEventListener('dragend', function() {
+                    wrap.classList.remove('dragging');
+                    preview.querySelectorAll('.gallery-img-wrap').forEach(function(w) {
+                        w.classList.remove('drag-over');
+                    });
+                    draggedItem = null;
                     updateGalleryInputOrder();
-                }
+                });
+
+                wrap.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    if (draggedItem && wrap !== draggedItem) {
+                        wrap.classList.add('drag-over');
+                    }
+                });
+
+                wrap.addEventListener('dragleave', function() {
+                    wrap.classList.remove('drag-over');
+                });
+
+                wrap.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    wrap.classList.remove('drag-over');
+                    if (draggedItem && wrap !== draggedItem) {
+                        const allItems = Array.from(preview.querySelectorAll('.gallery-img-wrap'));
+                        const draggedIndex = allItems.indexOf(draggedItem);
+                        const targetIndex = allItems.indexOf(wrap);
+
+                        if (draggedIndex < targetIndex) {
+                            wrap.after(draggedItem);
+                        } else {
+                            wrap.before(draggedItem);
+                        }
+                        updateGalleryInputOrder();
+                    }
+                });
+            }
+
+            preview.querySelectorAll('.gallery-img-wrap').forEach(addDragEvents);
+        }
+
+        // 2. Guardado de Formulario Principal vía AJAX (In-Place, sin saltar ni recargar)
+        const mainForm = document.querySelector('.form-container form');
+        if (mainForm) {
+            mainForm.addEventListener('submit', function(e) {
+                const submitBtn = mainForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                const idInput = mainForm.querySelector('input[name="id"]');
+                const isEdit = idInput && parseInt(idInput.value, 10) > 0;
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '⏳ Guardando...';
+
+                const formData = new FormData(mainForm);
+                formData.append('ajax', '1');
+
+                fetch('productos.php', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    submitBtn.disabled = false;
+                    if (data.success) {
+                        submitBtn.innerHTML = '✓ Guardado';
+                        submitBtn.style.backgroundColor = '#059669';
+                        showToast(data.message, 'success');
+
+                        // Si hubo nueva imagen de portada, actualizar vista previa
+                        if (data.image_main) {
+                            const imgContainer = mainForm.querySelector('.form-group img');
+                            if (imgContainer) {
+                                imgContainer.src = data.image_main;
+                            }
+                            const fileImg = mainForm.querySelector('input[name="image"]');
+                            if (fileImg) fileImg.value = '';
+                        }
+
+                        // Limpiar input de galería de archivos nuevos
+                        const galleryInput = mainForm.querySelector('input[name="gallery[]"]');
+                        if (galleryInput) galleryInput.value = '';
+
+                        // Si fue una creación, redirigir a edición de ese nuevo producto manteniendo scroll
+                        if (data.action === 'create' && data.id) {
+                            sessionStorage.setItem('admin_prod_scroll', window.scrollY);
+                            setTimeout(() => {
+                                window.location.href = 'productos.php?edit=' + data.id;
+                            }, 600);
+                        } else {
+                            setTimeout(() => {
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.style.backgroundColor = '';
+                            }, 1800);
+                        }
+                    } else {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.backgroundColor = '';
+                        showToast(data.error || 'Ocurrió un error al guardar', 'danger');
+                    }
+                })
+                .catch(err => {
+                    // Fallback a envío tradicional
+                    sessionStorage.setItem('admin_prod_scroll', window.scrollY);
+                    mainForm.submit();
+                });
+
+                e.preventDefault();
             });
         }
 
-        preview.querySelectorAll('.gallery-img-wrap').forEach(addDragEvents);
+        // 3. Eliminación vía AJAX (In-Place con animación y sin salto de scroll)
+        document.querySelectorAll('.btn-delete-prod').forEach(function(delBtn) {
+            delBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!confirm('¿Seguro que deseas eliminar este producto?')) return;
+
+                const row = delBtn.closest('tr');
+                const origText = delBtn.innerHTML;
+                delBtn.innerHTML = '...';
+                delBtn.style.pointerEvents = 'none';
+
+                const url = delBtn.getAttribute('href') + '&ajax=1';
+
+                fetch(url, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message, 'success');
+                        if (row) {
+                            row.style.transition = 'all 0.35s ease';
+                            row.style.backgroundColor = '#FEE2E2';
+                            row.style.opacity = '0';
+                            row.style.transform = 'scale(0.97)';
+                            setTimeout(() => row.remove(), 350);
+                        }
+                    } else {
+                        showToast(data.error || 'Error al eliminar producto', 'danger');
+                        delBtn.innerHTML = origText;
+                        delBtn.style.pointerEvents = 'auto';
+                    }
+                })
+                .catch(err => {
+                    sessionStorage.setItem('admin_prod_scroll', window.scrollY);
+                    window.location.href = delBtn.getAttribute('href');
+                });
+            });
+        });
+
+        // 4. Orden Rápido vía AJAX (In-Place sin recarga ni salto)
+        document.querySelectorAll('.quick-order-form').forEach(function(qForm) {
+            qForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = qForm.querySelector('button[type="submit"]');
+                const origText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '...';
+
+                const formData = new FormData(qForm);
+                formData.append('ajax', '1');
+
+                fetch('productos.php', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    btn.disabled = false;
+                    if (data.success) {
+                        btn.innerHTML = '✓';
+                        btn.style.backgroundColor = '#059669';
+                        btn.style.color = '#fff';
+                        showToast(data.message, 'success');
+                        setTimeout(() => {
+                            btn.innerHTML = origText;
+                            btn.style.backgroundColor = '';
+                            btn.style.color = '';
+                        }, 1500);
+                    } else {
+                        btn.innerHTML = origText;
+                        showToast(data.error || 'Error al actualizar orden', 'danger');
+                    }
+                })
+                .catch(err => {
+                    sessionStorage.setItem('admin_prod_scroll', window.scrollY);
+                    qForm.submit();
+                });
+            });
+        });
     });
     </script>
 </body>
