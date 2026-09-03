@@ -189,10 +189,15 @@ try {
             $existTagua = $pdo->lastInsertId();
         }
 
-        // Si la categoría Tagua no tiene productos registrados, creamos el catálogo inicial
+        // Si la categoría Tagua nunca ha sido sembrada, creamos el catálogo inicial una sola vez
         if ($existTagua) {
+            $taguaSeeded = false;
+            try {
+                $taguaSeeded = $pdo->query("SELECT content_value FROM tagua_content WHERE content_key = 'tagua_prods_seeded'")->fetchColumn();
+            } catch (PDOException $e) {}
+
             $taguaCount = $pdo->query("SELECT COUNT(*) FROM productos WHERE category_id = " . (int)$existTagua)->fetchColumn();
-            if ($taguaCount == 0) {
+            if (!$taguaSeeded && $taguaCount == 0) {
                 $taguaDefaultProds = [
                     [
                         'Llaveros de Tagua Grabados a Láser',
@@ -203,59 +208,59 @@ try {
                         '["tagua_llavero.jpg", "tagua_mockup.jpg"]',
                         'TAG-001',
                         2.50,
-                        500,
-                        'Personalizar Llaveros',
+                        200,
+                        'Cotizar Llaveros',
                         1
                     ],
                     [
                         'Botones de Tagua Personalizados',
                         'botones-tagua-personalizados',
-                        'Botones ecológicos de marfil vegetal para uniformes corporativos, camisas y prendas de alta gama con grabado de logotipo.',
+                        'Botones sustentables de tagua para uniformes corporativos o prendas exclusivas con grabado fino de logotipo.',
                         'Fabricados a partir de rodajas de tagua natural, acabado mate o brillante con 2 o 4 orificios y grabado perimetral.',
                         'tagua_botones.jpg',
                         '["tagua_botones.jpg", "tagua_mockup.jpg"]',
                         'TAG-002',
-                        0.90,
-                        1200,
+                        0.85,
+                        500,
                         'Cotizar Botones',
                         2
                     ],
                     [
                         'Dijes y Medallas de Tagua con Logo',
                         'dijes-medallas-tagua',
-                        'Medallas y dijes conmemorativos para eventos sostenibles, congresos, reconocimientos y recuerdos turísticos.',
+                        'Dijes y medallas corporativas o conmemorativas elaboradas en fina tagua pulida con calado láser preciso.',
                         'Corte de silueta y grabado en relieve sobre lámina de tagua natural. Incluye perforación o cordón.',
                         'tagua_dije.jpg',
                         '["tagua_dije.jpg", "tagua_mockup.jpg"]',
                         'TAG-003',
-                        1.80,
-                        400,
-                        'Solicitar Muestra',
+                        1.90,
+                        300,
+                        'Cotizar Dijes',
                         3
                     ],
                     [
                         'Porta Credenciales Ecológico con Tagua',
                         'porta-credenciales-tagua',
                         'Accesorio de identificación corporativa que combina cordón textil y un elegante broche distintivo de tagua grabado.',
-                        'La alternativa perfecta para empresas con políticas ESG y compromiso ecológico en sus eventos e identificación.',
+                        'Elegancia orgánica para colaboradores y directivos que valoran el diseño sustentable y la identidad ecuatoriana.',
                         'tagua_portacarnet.jpg',
                         '["tagua_portacarnet.jpg", "tagua_mockup.jpg"]',
                         'TAG-004',
                         3.20,
-                        350,
-                        'Cotizar para Eventos',
+                        150,
+                        'Cotizar Accesorio',
                         4
                     ],
                     [
                         'Placa de Reconocimiento en Tagua y Madera',
                         'placa-reconocimiento-tagua-madera',
                         'Placa conmemorativa premium en madera noble con apliques centrales de tagua tallada y grabada al láser.',
-                        'Ideal para reconocimientos corporativos, premios ecológicos y eventos institucionales de prestigio.',
+                        'El máximo galardón corporativo ecológico para homenajes, certificaciones, aniversarios o eventos institucionales.',
                         'tagua_placa.jpg',
                         '["tagua_placa.jpg", "tagua_mockup.jpg"]',
                         'TAG-005',
                         18.00,
-                        100,
+                        50,
                         'Cotizar Placa',
                         5
                     ],
@@ -263,7 +268,7 @@ try {
                         'Kit Ejecutivo Ecológico con Tagua',
                         'kit-ejecutivo-tagua',
                         'Caja de madera con libreta reciclada, bolígrafo de bambú y llavero de tagua grabado con el logo de tu empresa.',
-                        'Presentación lista para regalos de fin de año, bienvenida a nuevos colaboradores y regalos VIP para clientes.',
+                        'Set de bienvenida corporativo que comunica valores de sostenibilidad, elegancia y orgullo por el origen natural.',
                         'tagua_kit.jpg',
                         '["tagua_kit.jpg", "tagua_mockup.jpg"]',
                         'TAG-006',
@@ -274,13 +279,16 @@ try {
                     ]
                 ];
 
-                $insTaguaProd = $pdo->prepare("INSERT INTO productos (category_id, name, slug, description_short, description_long, image_main, gallery_images, sku, price, stock, cta_text, order_val, is_active, is_featured) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0)");
+                $insTaguaProd = $pdo->prepare("INSERT INTO productos (category_id, category, name, slug, description_short, description_long, image_main, gallery_images, sku, price, stock, cta_text, order_val, is_active, is_featured) VALUES (?, 'Tagua', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0)");
                 foreach ($taguaDefaultProds as $tp) {
                     $insTaguaProd->execute([
                         $existTagua,
                         $tp[0], $tp[1], $tp[2], $tp[3], $tp[4], $tp[5], $tp[6], $tp[7], $tp[8], $tp[9], $tp[10]
                     ]);
                 }
+                try {
+                    $pdo->exec("INSERT INTO tagua_content (content_key, content_value) VALUES ('tagua_prods_seeded', '1') ON DUPLICATE KEY UPDATE content_value = '1'");
+                } catch (PDOException $e) {}
             }
         }
     } catch (PDOException $e) {

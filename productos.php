@@ -35,14 +35,18 @@ if ($sort === 'price_asc') {
 }
 
 try {
-    if ($category_filter) {
+    if ($category_filter === 'tagua') {
+        $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND (c.slug = 'tagua' OR p.category = 'Tagua' OR p.slug LIKE '%tagua%') $order_clause");
+        $products = $stmtProds->fetchAll();
+    } elseif ($category_filter) {
         $stmtProds = $pdo->prepare("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND c.slug = ? $order_clause");
         $stmtProds->execute([$category_filter]);
+        $products = $stmtProds->fetchAll();
     } else {
-        // En la vista general (Todos), los productos activos se listan ordenados
-        $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND (c.slug != 'tagua' OR c.slug IS NULL) $order_clause");
+        // En la vista general (Todos), los productos activos se listan ordenados excluyendo Tagua
+        $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND (c.slug != 'tagua' OR c.slug IS NULL) AND (p.category != 'Tagua' OR p.category IS NULL) AND (p.slug NOT LIKE '%tagua%') $order_clause");
+        $products = $stmtProds->fetchAll();
     }
-    $products = $stmtProds->fetchAll();
 } catch (PDOException $e) {
     $products = [];
 }

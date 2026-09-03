@@ -223,8 +223,27 @@ $categorias = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 ORDER BY
 $materiales_list = $pdo->query("SELECT * FROM materiales WHERE is_active = 1 ORDER BY id ASC")->fetchAll();
 $etiquetas_list = $pdo->query("SELECT * FROM etiquetas ORDER BY id ASC")->fetchAll();
 
-// Cargar todos los productos ordenados por orden personalizado (1, 2, 3...) y los no ordenados al final
-$products = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC")->fetchAll();
+// Filtro de categoría en el listado (Por defecto 'general' excluye Tagua)
+$cat_filter = isset($_GET['cat']) ? trim($_GET['cat']) : 'general';
+
+if ($cat_filter === 'tagua') {
+    // Solo productos de la categoría Tagua
+    $stmtProds = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE c.slug = 'tagua' OR p.category = 'Tagua' OR p.slug LIKE '%tagua%' ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC");
+    $products = $stmtProds->fetchAll();
+} elseif ($cat_filter === 'todos') {
+    // Todos los productos del catálogo completo
+    $stmtProds = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC");
+    $products = $stmtProds->fetchAll();
+} elseif ($cat_filter !== '' && $cat_filter !== 'general') {
+    // Filtrar por categoría seleccionada
+    $stmtProds = $pdo->prepare("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE (c.slug = ? OR c.id = ?) ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC");
+    $stmtProds->execute([$cat_filter, (int)$cat_filter]);
+    $products = $stmtProds->fetchAll();
+} else {
+    // 'general' (por defecto): Solo productos generales, excluyendo Tagua
+    $stmtProds = $pdo->query("SELECT p.*, c.name as category_name FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE (c.slug != 'tagua' OR c.slug IS NULL) AND (p.category != 'Tagua' OR p.category IS NULL) AND (p.slug NOT LIKE '%tagua%') ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC");
+    $products = $stmtProds->fetchAll();
+}
 
 // Cargar producto a editar (o mantener cargado el producto que se acaba de actualizar)
 $edit_product = null;
@@ -612,18 +631,48 @@ if (isset($_GET['edit'])) {
                     </label>
                 </div>
 
-                <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
+                <div style="margin-top: 1.5rem; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <button class="btn btn-primary" type="submit">Guardar Producto</button>
                     <?php if ($edit_product): ?>
-                    <input type="hidden" name="volume_prices_existing" value="<?php echo htmlspecialchars($edit_product['volume_prices'] ?: '[]'); ?>">
-                    <input type="hidden" name="materials_json_existing" value="<?php echo htmlspecialchars($edit_product['materials_json'] ?: '[]'); ?>">
+                        <input type="hidden" name="volume_prices_existing" value="<?php echo htmlspecialchars($edit_product['volume_prices'] ?: '[]'); ?>">
+                        <input type="hidden" name="materials_json_existing" value="<?php echo htmlspecialchars($edit_product['materials_json'] ?: '[]'); ?>">
+                        <button type="button" class="btn-delete-prod-form" data-id="<?php echo $edit_product['id']; ?>" style="background-color: #DC2626; color: white; border: none; padding: 10px 18px; border-radius: 4px; font-weight: 500; cursor: pointer;">
+                            🗑️ Eliminar este Producto
+                        </button>
                         <a href="productos.php" class="btn btn-secondary">Cancelar Edición</a>
                     <?php endif; ?>
                 </div>
             </form>
         </div>
 
-        <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.4rem;">Productos Registrados</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 15px;">
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.4rem; margin: 0;">Productos Registrados (<?php echo count($products); ?>)</h2>
+                <small style="color: var(--text-muted);">
+                    <?php if ($cat_filter === 'tagua'): ?>
+                        Mostrando únicamente productos asignados a la categoría <strong>Tagua</strong>.
+                    <?php elseif ($cat_filter === 'todos'): ?>
+                        Mostrando todo el catálogo completo del sistema.
+                    <?php else: ?>
+                        Mostrando catálogo general de identificación corporativa (excluye Tagua).
+                    <?php endif; ?>
+                </small>
+            </div>
+
+            <!-- Filtros por Categoría para aislar Tagua -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-right: 4px;">Categoría:</span>
+                <a href="productos.php?cat=general" class="btn <?php echo ($cat_filter === 'general' || empty($cat_filter)) ? 'btn-primary' : 'btn-secondary'; ?>" style="padding: 5px 12px; font-size: 0.78rem; text-transform: none; text-decoration: none;">
+                    General (Sin Tagua)
+                </a>
+                <a href="productos.php?cat=tagua" class="btn <?php echo ($cat_filter === 'tagua') ? 'btn-primary' : 'btn-secondary'; ?>" style="padding: 5px 12px; font-size: 0.78rem; text-transform: none; text-decoration: none; <?php echo ($cat_filter === 'tagua') ? 'background-color: #059669; border-color: #059669;' : ''; ?>">
+                    🌱 Tagua
+                </a>
+                <a href="productos.php?cat=todos" class="btn <?php echo ($cat_filter === 'todos') ? 'btn-primary' : 'btn-secondary'; ?>" style="padding: 5px 12px; font-size: 0.78rem; text-transform: none; text-decoration: none;">
+                    Ver Todo
+                </a>
+            </div>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -929,6 +978,41 @@ if (isset($_GET['edit'])) {
                 });
             });
         });
+
+        // Eliminación directa desde el formulario de edición de productos
+        const formDelBtn = document.querySelector('.btn-delete-prod-form');
+        if (formDelBtn) {
+            formDelBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!confirm('¿Seguro que deseas eliminar definitivamente este producto?')) return;
+
+                const prodId = formDelBtn.getAttribute('data-id');
+                formDelBtn.disabled = true;
+                formDelBtn.innerHTML = 'Eliminando...';
+
+                fetch('productos.php?delete=' + prodId + '&ajax=1', {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message, 'success');
+                        const row = document.getElementById('prod-row-' + prodId);
+                        if (row) row.remove();
+                        setTimeout(() => {
+                            window.location.href = 'productos.php';
+                        }, 500);
+                    } else {
+                        showToast(data.error || 'Error al eliminar producto', 'danger');
+                        formDelBtn.disabled = false;
+                        formDelBtn.innerHTML = '🗑️ Eliminar este Producto';
+                    }
+                })
+                .catch(err => {
+                    window.location.href = 'productos.php?delete=' + prodId;
+                });
+            });
+        }
 
         // 4. Orden Rápido vía AJAX (In-Place sin recarga ni salto)
         document.querySelectorAll('.quick-order-form').forEach(function(qForm) {

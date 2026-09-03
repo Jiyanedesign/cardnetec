@@ -17,7 +17,114 @@ require_once '../db.php';
 $message = '';
 $error = '';
 
-// Procesar formulario de actualización de contenidos
+// Procesar Eliminación de Producto de Tagua
+if (isset($_GET['delete_product'])) {
+    $del_id = (int)$_GET['delete_product'];
+    try {
+        $pdo->prepare("DELETE FROM productos WHERE id = ?")->execute([$del_id]);
+        $message = 'Producto de Tagua eliminado correctamente.';
+        if (isset($_GET['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => true, 'message' => $message]);
+            exit;
+        }
+    } catch (PDOException $e) {
+        $error = 'Error al eliminar producto: ' . $e->getMessage();
+        if (isset($_GET['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => false, 'error' => $error]);
+            exit;
+        }
+    }
+}
+
+// Procesar Orden Rápido de Producto de Tagua
+if (isset($_POST['quick_order_id'])) {
+    $q_id = (int)$_POST['quick_order_id'];
+    $q_val = (int)$_POST['quick_order_val'];
+    try {
+        $pdo->prepare("UPDATE productos SET order_val = ? WHERE id = ?")->execute([$q_val, $q_id]);
+        if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => true, 'message' => 'Orden actualizado']);
+            exit;
+        }
+    } catch (PDOException $e) {
+        if (isset($_POST['ajax'])) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            exit;
+        }
+    }
+}
+
+// Obtener categoría Tagua
+$catTagua = $pdo->query("SELECT * FROM categorias WHERE slug = 'tagua'")->fetch();
+$tagua_cat_id = $catTagua ? (int)$catTagua['id'] : 0;
+
+// Procesar Guardado/Edición de Producto de Tagua desde la Pestaña de Tagua
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_tagua_product'])) {
+    $tp_id = isset($_POST['tagua_prod_id']) ? (int)$_POST['tagua_prod_id'] : 0;
+    $tp_name = trim($_POST['tp_name'] ?? '');
+    $tp_slug = trim($_POST['tp_slug'] ?? '');
+    if (empty($tp_slug)) {
+        $tp_slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $tp_name)));
+    }
+    $tp_sku = trim($_POST['tp_sku'] ?? '');
+    $tp_price = (float)($_POST['tp_price'] ?? 0);
+    $tp_stock = (int)($_POST['tp_stock'] ?? 0);
+    $tp_order_val = (int)($_POST['tp_order_val'] ?? 0);
+    $tp_desc_short = trim($_POST['tp_description_short'] ?? '');
+    $tp_desc_long = trim($_POST['tp_description_long'] ?? '');
+    $tp_cta = trim($_POST['tp_cta_text'] ?? 'Cotizar');
+    $tp_is_active = isset($_POST['tp_is_active']) ? 1 : 0;
+
+    $upload_dir = '../uploads/products/';
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+    $tp_image = $_POST['existing_tp_image'] ?? '';
+    if (isset($_FILES['tp_image']) && $_FILES['tp_image']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['tp_image']['tmp_name'];
+        $file_name = $_FILES['tp_image']['name'];
+        $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+            $new_fn = 'tagua_p_' . time() . '_' . uniqid() . '.' . $ext;
+            if (move_uploaded_file($file_tmp, $upload_dir . $new_fn)) {
+                $tp_image = 'products/' . $new_fn;
+            }
+        }
+    }
+
+    if (empty($tp_name)) {
+        $error = 'El nombre del producto de Tagua es obligatorio.';
+    } else {
+        if ($tp_id > 0) {
+            try {
+                $stmtUp = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, sku = ?, price = ?, stock = ?, order_val = ?, description_short = ?, description_long = ?, cta_text = ?, is_active = ?, image_main = ?, category = 'Tagua', category_id = ? WHERE id = ?");
+                $stmtUp->execute([$tp_name, $tp_slug, $tp_sku, $tp_price, $tp_stock, $tp_order_val, $tp_desc_short, $tp_desc_long, $tp_cta, $tp_is_active, $tp_image, $tagua_cat_id, $tp_id]);
+                $message = 'Producto de Tagua actualizado correctamente.';
+            } catch (PDOException $e) {
+                $error = 'Error al actualizar producto: ' . $e->getMessage();
+            }
+        } else {
+            try {
+                $stmtIn = $pdo->prepare("INSERT INTO productos (category_id, category, name, slug, sku, price, stock, order_val, description_short, description_long, cta_text, is_active, is_featured, image_main) VALUES (?, 'Tagua', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)");
+                $stmtIn->execute([$tagua_cat_id, $tp_name, $tp_slug, $tp_sku, $tp_price, $tp_stock, $tp_order_val, $tp_desc_short, $tp_desc_long, $tp_cta, $tp_is_active, $tp_image]);
+                $message = 'Producto de Tagua creado correctamente.';
+            } catch (PDOException $e) {
+                $error = 'Error al crear producto: ' . $e->getMessage();
+            }
+        }
+        if (isset($_POST['ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['success' => empty($error), 'message' => $message ?: $error]);
+            exit;
+        }
+    }
+}
+
+// Procesar formulario de actualización de contenidos de la página de Tagua
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_tagua_content'])) {
     try {
         $upload_dir = '../uploads/';
@@ -58,11 +165,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_tagua_content'])
 // Cargar contenidos actuales
 $tagua_c = getTaguaContent($pdo);
 
-// Obtener categoría Tagua
-$catTagua = $pdo->query("SELECT * FROM categorias WHERE slug = 'tagua'")->fetch();
-$tagua_cat_id = $catTagua ? $catTagua['id'] : 0;
+// Cargar producto de Tagua en edición (si se pasó ?edit_prod=ID)
+$edit_tagua_prod = null;
+if (isset($_GET['edit_prod'])) {
+    $ep_id = (int)$_GET['edit_prod'];
+    $stmtEP = $pdo->prepare("SELECT * FROM productos WHERE id = ?");
+    $stmtEP->execute([$ep_id]);
+    $edit_tagua_prod = $stmtEP->fetch();
+}
 
-// Obtener productos de Tagua
+// Obtener lista actualizada de productos de Tagua
 $tagua_prods = [];
 if ($tagua_cat_id) {
     $stmtProds = $pdo->prepare("SELECT * FROM productos WHERE category_id = ? OR slug LIKE '%tagua%' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
@@ -532,51 +644,158 @@ if ($tagua_cat_id) {
             </div>
 
             <div style="position: sticky; bottom: 20px; background: white; padding: 1.25rem 2rem; border-radius: var(--radius-md); box-shadow: 0 -4px 20px rgba(0,0,0,0.1); border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 100;">
-                <span style="font-size: 0.9rem; color: var(--text-muted);">Guarda los cambios realizados en cualquier sección.</span>
-                <button type="submit" class="btn btn-primary" style="padding: 12px 32px; font-weight: 600; text-transform: none;">Guardar Todos los Cambios</button>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Guarda los cambios realizados en cualquier sección de la página.</span>
+                <button type="submit" class="btn btn-primary" style="padding: 12px 32px; font-weight: 600; text-transform: none;">Guardar Contenidos de Tagua</button>
             </div>
         </form>
 
-        <!-- 7. GESTIÓN DE PRODUCTOS DE TAGUA -->
-        <div class="admin-section-box" style="margin-top: 3rem;">
-            <div class="admin-section-title">
-                <span>Productos asignados a la Categoría Tagua (<?php echo count($tagua_prods); ?>)</span>
-                <a href="productos.php?cat_id=<?php echo $tagua_cat_id; ?>" class="btn btn-primary" style="font-size: 0.8rem; padding: 8px 16px; text-transform: none;">
-                    + Gestionar / Añadir Productos
-                </a>
+        <!-- 7. GESTIÓN DE PRODUCTOS DE TAGUA (EDICIÓN Y ELIMINACIÓN DIRECTA) -->
+        <div id="seccion-productos-tagua" class="admin-section-box" style="margin-top: 3rem; border-left: 4px solid var(--primary);">
+            <div class="admin-section-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Catálogo de Productos de Tagua (<?php echo count($tagua_prods); ?>)</span>
+                <?php if ($edit_tagua_prod): ?>
+                    <a href="tagua.php#form-tagua-prod" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 14px; text-transform: none;">+ Añadir Nuevo Producto de Tagua</a>
+                <?php endif; ?>
             </div>
 
+            <!-- Formulario de Añadir / Editar Producto de Tagua -->
+            <div id="form-tagua-prod" style="background: var(--surface-light); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
+                <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 8px;">
+                    <span><?php echo $edit_tagua_prod ? '✏️ Editar Producto de Tagua' : '➕ Añadir Nuevo Producto de Tagua'; ?></span>
+                    <?php if ($edit_tagua_prod): ?>
+                        <small style="font-size: 0.8rem; color: var(--primary);">(ID #<?php echo $edit_tagua_prod['id']; ?>: <?php echo htmlspecialchars($edit_tagua_prod['name']); ?>)</small>
+                    <?php endif; ?>
+                </h3>
+
+                <form method="POST" action="tagua.php#form-tagua-prod" enctype="multipart/form-data" id="tagua-prod-form">
+                    <input type="hidden" name="save_tagua_product" value="1">
+                    <input type="hidden" name="tagua_prod_id" value="<?php echo $edit_tagua_prod ? $edit_tagua_prod['id'] : '0'; ?>">
+                    <input type="hidden" name="existing_tp_image" value="<?php echo htmlspecialchars($edit_tagua_prod['image_main'] ?? ''); ?>">
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Nombre del Producto *:</label>
+                            <input type="text" name="tp_name" class="form-control" required placeholder="Ej: Llaveros de Tagua Grabados a Láser" value="<?php echo htmlspecialchars($edit_tagua_prod['name'] ?? ''); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Slug / URL limpia (Opcional):</label>
+                            <input type="text" name="tp_slug" class="form-control" placeholder="ej: llaveros-tagua-laser" value="<?php echo htmlspecialchars($edit_tagua_prod['slug'] ?? ''); ?>">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 1rem;">
+                        <div class="form-group">
+                            <label>SKU / Código:</label>
+                            <input type="text" name="tp_sku" class="form-control" placeholder="TAG-001" value="<?php echo htmlspecialchars($edit_tagua_prod['sku'] ?? ''); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Precio Unitario ($) *:</label>
+                            <input type="number" step="0.01" name="tp_price" class="form-control" required placeholder="2.50" value="<?php echo $edit_tagua_prod ? $edit_tagua_prod['price'] : ''; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Stock (uds):</label>
+                            <input type="number" name="tp_stock" class="form-control" placeholder="100" value="<?php echo $edit_tagua_prod ? (int)$edit_tagua_prod['stock'] : '100'; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Orden (1, 2, 3...):</label>
+                            <input type="number" name="tp_order_val" class="form-control" placeholder="1" value="<?php echo $edit_tagua_prod ? (int)$edit_tagua_prod['order_val'] : '1'; ?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Foto Principal del Producto de Tagua:</label>
+                        <input type="file" name="tp_image" class="form-control">
+                        <?php if ($edit_tagua_prod && !empty($edit_tagua_prod['image_main'])): ?>
+                            <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($edit_tagua_prod['image_main'])); ?>" style="width: 44px; height: 44px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border); background: white; padding: 2px;">
+                                <small style="color: var(--text-muted);">Foto actual asignada</small>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Descripción Corta (Aparece en tarjetas y listados):</label>
+                        <textarea name="tp_description_short" class="form-control" rows="2" placeholder="Resumen conciso de la pieza de tagua..."><?php echo htmlspecialchars($edit_tagua_prod['description_short'] ?? ''); ?></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Descripción Completa (Aparece en la ficha del producto):</label>
+                        <textarea name="tp_description_long" class="form-control" rows="3" placeholder="Detalles de acabado, grabado láser, dimensiones..."><?php echo htmlspecialchars($edit_tagua_prod['description_long'] ?? ''); ?></textarea>
+                    </div>
+
+                    <div class="form-grid-2" style="margin-top: 1rem;">
+                        <div class="form-group">
+                            <label>Texto del Botón:</label>
+                            <input type="text" name="tp_cta_text" class="form-control" value="<?php echo htmlspecialchars($edit_tagua_prod['cta_text'] ?? 'Cotizar'); ?>">
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 1.8rem;">
+                            <label style="cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                                <input type="checkbox" name="tp_is_active" <?php echo (!$edit_tagua_prod || $edit_tagua_prod['is_active']) ? 'checked' : ''; ?>>
+                                Producto de Tagua Activo (Visible)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <button type="submit" class="btn btn-primary" style="padding: 10px 24px;">
+                            <?php echo $edit_tagua_prod ? '✓ Guardar Cambios del Producto' : '+ Crear Producto de Tagua'; ?>
+                        </button>
+                        <?php if ($edit_tagua_prod): ?>
+                            <button type="button" class="btn-delete-tagua-form" data-id="<?php echo $edit_tagua_prod['id']; ?>" style="background-color: #DC2626; color: white; border: none; padding: 10px 18px; border-radius: 4px; font-weight: 500; cursor: pointer;">
+                                🗑️ Eliminar este Producto
+                            </button>
+                            <a href="tagua.php#seccion-productos-tagua" class="btn btn-secondary" style="padding: 10px 18px; text-decoration: none;">Cancelar Edición</a>
+                        <?php endif; ?>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tabla de Productos de Tagua -->
+            <h4 style="font-family: var(--font-heading); font-size: 1rem; margin-bottom: 1rem; color: var(--dark);">Lista de Productos en Tagua</h4>
             <?php if (empty($tagua_prods)): ?>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">No hay productos asignados a la categoría Tagua todavía.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">No hay productos registrados en la categoría Tagua. Utiliza el formulario superior para añadir uno.</p>
             <?php else: ?>
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 70px;">Foto</th>
+                            <th style="width: 50px;">Orden</th>
+                            <th style="width: 60px;">Foto</th>
                             <th>Nombre</th>
                             <th>SKU</th>
                             <th>Precio</th>
                             <th>Stock</th>
-                            <th>Orden</th>
+                            <th>Estado</th>
                             <th style="text-align: right;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($tagua_prods as $tp): ?>
-                            <tr>
+                            <tr id="tagua-prod-row-<?php echo $tp['id']; ?>">
+                                <td style="width: 90px;">
+                                    <form method="POST" action="tagua.php" class="quick-order-tagua-form" style="display: flex; align-items: center; gap: 4px; margin: 0;">
+                                        <input type="hidden" name="quick_order_id" value="<?php echo $tp['id']; ?>">
+                                        <input type="number" name="quick_order_val" value="<?php echo (int)$tp['order_val']; ?>" style="width: 44px; padding: 4px 6px; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 4px; text-align: center;">
+                                        <button type="submit" class="btn btn-secondary" style="padding: 3px 6px; font-size: 0.75rem; line-height: 1;" title="Guardar orden">✓</button>
+                                    </form>
+                                </td>
                                 <td>
-                                    <img src="<?php echo htmlspecialchars(getUploadedImgUrl($tp['image_main'] ?? '', 'uploads/tagua_llavero.jpg')); ?>" style="width: 50px; height: 50px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border); background: white; padding: 2px;" alt="">
+                                    <img src="<?php echo htmlspecialchars(getUploadedImgUrl($tp['image_main'] ?? '', 'uploads/tagua_llavero.jpg')); ?>" style="width: 44px; height: 44px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border); background: white; padding: 2px;" alt="">
                                 </td>
                                 <td>
                                     <strong><?php echo htmlspecialchars($tp['name']); ?></strong><br>
-                                    <small style="color: var(--text-muted);"><?php echo htmlspecialchars(mb_substr($tp['description_short'] ?? '', 0, 60)) . '...'; ?></small>
+                                    <small style="color: var(--text-muted);"><?php echo htmlspecialchars(mb_substr($tp['description_short'] ?? '', 0, 50)) . '...'; ?></small>
                                 </td>
                                 <td><code><?php echo htmlspecialchars($tp['sku'] ?? 'N/A'); ?></code></td>
                                 <td><strong>$<?php echo number_format($tp['price'], 2); ?></strong></td>
                                 <td><?php echo (int)($tp['stock'] ?? 0); ?> u.</td>
-                                <td><?php echo (int)$tp['order_val']; ?></td>
-                                <td style="text-align: right;">
-                                    <a href="productos.php?edit=<?php echo $tp['id']; ?>" class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.75rem; text-transform: none;">Editar Producto</a>
+                                <td>
+                                    <span class="badge <?php echo $tp['is_active'] ? 'badge-success' : 'badge-danger'; ?>" style="font-size: 0.7rem; border-radius: 4px; padding: 2px 6px;">
+                                        <?php echo $tp['is_active'] ? 'Activo' : 'Inactivo'; ?>
+                                    </span>
+                                </td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="tagua.php?edit_prod=<?php echo $tp['id']; ?>#form-tagua-prod" class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.75rem; text-transform: none; margin-right: 6px;">Editar</a>
+                                    <a href="tagua.php?delete_product=<?php echo $tp['id']; ?>" class="btn-delete-tagua-prod" data-id="<?php echo $tp['id']; ?>" style="color: #EF4444; font-weight: bold; font-size: 0.85rem; text-decoration: none;">Eliminar</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -586,5 +805,176 @@ if ($tagua_cat_id) {
         </div>
     </div>
 
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" style="position: fixed; bottom: 25px; right: 25px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;"></div>
+
+    <script>
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.style.pointerEvents = 'auto';
+        toast.style.padding = '12px 20px';
+        toast.style.borderRadius = '8px';
+        toast.style.color = '#fff';
+        toast.style.fontSize = '0.9rem';
+        toast.style.fontWeight = '500';
+        toast.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+        toast.style.display = 'flex';
+        toast.style.alignItems = 'center';
+        toast.style.gap = '10px';
+        toast.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+        toast.style.transform = 'translateY(20px)';
+        toast.style.opacity = '0';
+        toast.style.maxWidth = '380px';
+
+        if (type === 'success') {
+            toast.style.backgroundColor = '#059669';
+            toast.innerHTML = '<span style="font-size: 1.1rem;">✓</span> <span>' + message + '</span>';
+        } else {
+            toast.style.backgroundColor = '#DC2626';
+            toast.innerHTML = '<span style="font-size: 1.1rem;">⚠</span> <span>' + message + '</span>';
+        }
+
+        container.appendChild(toast);
+        requestAnimationFrame(() => {
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+        });
+
+        setTimeout(() => {
+            toast.style.transform = 'translateY(15px)';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3200);
+    }
+
+    // Preservar y restaurar la posición exacta de scroll
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('admin_tagua_scroll', window.scrollY);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedY = sessionStorage.getItem('admin_tagua_scroll');
+        if (savedY !== null) {
+            window.scrollTo(0, parseInt(savedY, 10));
+        }
+
+        // Eliminación AJAX de producto desde la tabla
+        document.querySelectorAll('.btn-delete-tagua-prod').forEach(function(delBtn) {
+            delBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!confirm('¿Seguro que deseas eliminar este producto de Tagua?')) return;
+
+                const row = delBtn.closest('tr');
+                const origText = delBtn.innerHTML;
+                delBtn.innerHTML = '...';
+                delBtn.style.pointerEvents = 'none';
+
+                fetch(delBtn.getAttribute('href') + '&ajax=1', {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message, 'success');
+                        if (row) {
+                            row.style.transition = 'all 0.35s ease';
+                            row.style.backgroundColor = '#FEE2E2';
+                            row.style.opacity = '0';
+                            row.style.transform = 'scale(0.97)';
+                            setTimeout(() => row.remove(), 350);
+                        }
+                    } else {
+                        showToast(data.error || 'Error al eliminar', 'danger');
+                        delBtn.innerHTML = origText;
+                        delBtn.style.pointerEvents = 'auto';
+                    }
+                })
+                .catch(err => {
+                    sessionStorage.setItem('admin_tagua_scroll', window.scrollY);
+                    window.location.href = delBtn.getAttribute('href');
+                });
+            });
+        });
+
+        // Eliminación directa desde el botón del formulario de edición
+        const formDelBtn = document.querySelector('.btn-delete-tagua-form');
+        if (formDelBtn) {
+            formDelBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!confirm('¿Seguro que deseas eliminar definitivamente este producto de Tagua?')) return;
+
+                const prodId = formDelBtn.getAttribute('data-id');
+                formDelBtn.disabled = true;
+                formDelBtn.innerHTML = 'Eliminando...';
+
+                fetch('tagua.php?delete_product=' + prodId + '&ajax=1', {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message, 'success');
+                        const row = document.getElementById('tagua-prod-row-' + prodId);
+                        if (row) row.remove();
+                        setTimeout(() => {
+                            window.location.href = 'tagua.php#seccion-productos-tagua';
+                        }, 600);
+                    } else {
+                        showToast(data.error || 'Error al eliminar', 'danger');
+                        formDelBtn.disabled = false;
+                        formDelBtn.innerHTML = '🗑️ Eliminar este Producto';
+                    }
+                })
+                .catch(err => {
+                    window.location.href = 'tagua.php?delete_product=' + prodId;
+                });
+            });
+        }
+
+        // Orden Rápido AJAX
+        document.querySelectorAll('.quick-order-tagua-form').forEach(function(qForm) {
+            qForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = qForm.querySelector('button[type="submit"]');
+                const origText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '...';
+
+                const formData = new FormData(qForm);
+                formData.append('ajax', '1');
+
+                fetch('tagua.php', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    btn.disabled = false;
+                    if (data.success) {
+                        btn.innerHTML = '✓';
+                        btn.style.backgroundColor = '#059669';
+                        btn.style.color = '#fff';
+                        showToast(data.message, 'success');
+                        setTimeout(() => {
+                            btn.innerHTML = origText;
+                            btn.style.backgroundColor = '';
+                            btn.style.color = '';
+                        }, 1500);
+                    } else {
+                        btn.innerHTML = origText;
+                        showToast(data.error || 'Error al actualizar orden', 'danger');
+                    }
+                })
+                .catch(err => {
+                    qForm.submit();
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>
