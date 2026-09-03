@@ -831,7 +831,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <p>Complementos prácticos para proteger, portar y presentar mejor cada credencial.</p>
                 </div>
 
-                <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
                     <!-- Porta carnets -->
                     <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                         <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
@@ -865,18 +865,6 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Fundas transparentes</h4>
                             <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Fundas de PVC blando para acreditaciones de eventos.</p>
                             <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Ver opciones</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Clips y sujetadores -->
-                    <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
-                        <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                            <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Clips y sujetadores">
-                        </div>
-                        <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
-                            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Clips y sujetadores</h4>
-                            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Sujeción metálica o plástica segura para fijar a la prenda.</p>
-                            <a href="cotizacion.php?producto=accesorios-identificacion" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Cotizar clips</a>
                         </div>
                     </div>
                 </div>
