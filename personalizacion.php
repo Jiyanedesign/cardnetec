@@ -8,8 +8,8 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Técnicas de Marcado y Personalización de Alta Gama | CardNet.ec</title>
-    <meta name="description" content="Descubre nuestros procesos de marcado técnico: grabado láser, sublimación textil HD, impresión por retransferencia y resina epóxica 3D. Garantía de fidelidad.">
+    <title>Maestría en Grabado Láser & Personalización de Autor | CardNet.ec</title>
+    <meta name="description" content="El referente en personalización de precisión y grabado láser en Ecuador. Acabados indelebles en acero, cuero, madera, acrílico y tagua. Sin mínimos masivos.">
     <link rel="stylesheet" href="css/base.css?v=6.3">
     <link rel="stylesheet" href="css/layout.css?v=6.3">
     <link rel="stylesheet" href="css/components.css?v=6.3">
@@ -69,11 +69,11 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <main>
         <!-- Hero Section -->
         <section class="personalizacion-hero">
-            <div class="container" style="max-width: 900px; position: relative; z-index: 5;">
-                <span style="color: var(--primary); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;">Procesos de Taller</span>
-                <h1 style="font-family: var(--font-heading); font-size: 3.2rem; font-weight: 400; margin-top: 15px; margin-bottom: 20px; color: white;">Técnicas de Marcado de Precisión</h1>
-                <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.85); line-height: 1.6; margin: 0 auto;">
-                    Explicamos de forma abierta cómo aplicamos tu logotipo. El marcaje correcto respeta las propiedades de cada material para garantizar una durabilidad excelente.
+            <div class="container" style="max-width: 920px; position: relative; z-index: 5;">
+                <span style="color: #9eff42; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;">El Estándar Más Alto de Ecuador</span>
+                <h1 style="font-family: var(--font-heading); font-size: 3.2rem; font-weight: 400; margin-top: 15px; margin-bottom: 20px; color: white; line-height: 1.15;">Maestría en Grabado Láser & Personalización de Autor</h1>
+                <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.88); line-height: 1.6; margin: 0 auto;">
+                    No somos una fábrica de maquila masiva descartable. Somos el taller donde cada pieza recibe calibración óptica microscópica, acabados permanentes y control de calidad individual.
                 </p>
             </div>
         </section>
@@ -82,15 +82,15 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
         <section class="section-padding container">
             <div class="split-feature" style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
                 <div class="split-content" style="flex: 1; min-width: 300px;">
-                    <span class="section-subtitle">Precisión Táctil</span>
-                    <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; color: var(--dark); margin-bottom: 1.25rem;">Un logotipo mal impreso degrada la percepción de tu marca</h2>
+                    <span class="section-subtitle">Filosofía de Taller</span>
+                    <h2 style="font-family: var(--font-heading); font-size: 2.3rem; font-weight: 500; color: var(--dark); margin-bottom: 1.25rem;">¿Por qué tu marca no debe conformarse con la producción masiva genérica?</h2>
                     <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
-                        En nuestro taller calibramos individualmente la distancia de enfoque, la potencia del haz y la velocidad del trazado en todos los pedidos. Evitamos automatizaciones genéricas que queman la madera u opacan el acero.
+                        Las fábricas masivas tradicionales te exigen comprar miles de unidades y aplican tintas baratas que se rayan o se borran en pocas semanas. El resultado son regalos que terminan en la basura y degradan la imagen de tu empresa.
                     </p>
                     <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem;">
-                        Te guiamos en la elección del método adecuado y te entregamos un render técnico con medidas de sangrado y proporciones antes de procesar el lote.
+                        En CardNet.ec cambiamos las reglas: grabamos piezas nobles con láser de fibra óptica y CO2 de alta gama. <strong>Sin mínimos forzados:</strong> atendemos desde piezas exclusivas y regalos directivos, hasta lotes corporativos selectos donde cada unidad se inspecciona a mano.
                     </p>
-                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 12px 28px; text-transform: none;">Solicitar Render de Prueba</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="padding: 14px 30px; text-transform: none;">Cotizar mi proyecto de personalización</a>
                 </div>
                 <div class="split-visual" style="flex: 1; min-width: 300px;">
                     <div style="width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--surface-light);">

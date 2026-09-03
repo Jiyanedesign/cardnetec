@@ -212,17 +212,17 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         <!-- Barra de Garantías / Satisfacción -->
         <section class="satisfaction-bar" style="border-bottom: 1px solid var(--border); background: var(--surface-light); padding: 1.5rem 0;">
             <div class="container satisfaction-grid" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
-                <div class="satisfaction-item" style="display: flex; align-items: center; gap: 8px;">
-                    <svg class="satisfaction-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    <span style="font-size: 0.9rem; font-weight: 500; color: var(--dark);">Identificación profesional certificada</span>
+                <div class="satisfaction-item" style="display: flex; align-items: center; gap: 10px;">
+                    <svg class="satisfaction-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+                    <span style="font-size: 0.88rem; font-weight: 600; color: var(--dark);">Grabado Láser de Precisión Milimétrica</span>
                 </div>
-                <div class="satisfaction-item" style="display: flex; align-items: center; gap: 8px;">
-                    <svg class="satisfaction-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    <span style="font-size: 0.9rem; font-weight: 500; color: var(--dark);">Materiales duraderos y de alta resistencia</span>
+                <div class="satisfaction-item" style="display: flex; align-items: center; gap: 10px;">
+                    <svg class="satisfaction-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    <span style="font-size: 0.88rem; font-weight: 600; color: var(--dark);">Personalización de Taller (Sin Mínimos Masivos)</span>
                 </div>
-                <div class="satisfaction-item" style="display: flex; align-items: center; gap: 8px;">
-                    <svg class="satisfaction-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    <span style="font-size: 0.9rem; font-weight: 500; color: var(--dark);">Vista previa antes de personalizar</span>
+                <div class="satisfaction-item" style="display: flex; align-items: center; gap: 10px;">
+                    <svg class="satisfaction-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);"><path d="M2 12h20"/><path d="M20 12v8H4v-8"/><path d="m4 4 16 0"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span style="font-size: 0.88rem; font-weight: 600; color: var(--dark);">Calibración Individual Pieza por Pieza</span>
                 </div>
             </div>
         </section>
@@ -311,10 +311,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         <!-- 3. Sección: Categorías Visuales (Masonry Grid de Identificación) -->
         <section id="categorias-visuales" class="section-padding" style="background: #121212; color: white; padding-top: 5rem; padding-bottom: 5rem;">
             <div class="container">
-                <div class="section-header" style="margin-bottom: 3.5rem; text-align: left; max-width: 700px;">
-                    <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Líneas del Taller</span>
-                    <h2 style="font-family: var(--font-heading); font-size: 3rem; color: white; font-weight: 400; margin-bottom: 1rem;">Categorías destacadas</h2>
-                    <p style="color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.6; margin: 0;">Explora las principales líneas de identificación y personalización corporativa.</p>
+                <div class="section-header" style="margin-bottom: 3.5rem; text-align: left; max-width: 720px;">
+                    <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Maestría en Materiales</span>
+                    <h2 style="font-family: var(--font-heading); font-size: 3rem; color: white; font-weight: 400; margin-bottom: 1rem;">Líneas de personalización de autor</h2>
+                    <p style="color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.6; margin: 0;">No producimos volumen genérico descartable. Grabamos y personalizamos piezas nobles con acabado indeleble, textura palpable y control de calidad individual.</p>
                 </div>
                 
                 <style>
@@ -406,28 +406,28 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 <?php
                 // Mapear las 4 posiciones del Bento Grid
                 $bento_1 = $featured_categories[0] ?? [
-                    'name' => 'Cintas y lanyards',
-                    'description' => 'Cintas impresas full color y accesorios de sujeción.',
-                    'image' => 'cintas_mockup.jpg',
-                    'custom_link' => 'productos.php?cat=cintas'
+                    'name' => 'Grabado Láser de Precisión',
+                    'description' => 'Fidelidad milimétrica en acero inoxidable, aluminio y metales.',
+                    'image' => 'images/cat_laser.png',
+                    'custom_link' => 'personalizacion.php'
                 ];
                 $bento_2 = $featured_categories[1] ?? [
-                    'name' => 'Cajas y Empaques',
-                    'description' => 'Packaging corporativo a medida.',
+                    'name' => 'Packaging y Cajas de Autor',
+                    'description' => 'Presentación premium y cajas grabadas a medida.',
                     'image' => 'caja.png',
                     'custom_link' => 'productos.php?cat=personalizacion'
                 ];
                 $bento_3 = $featured_categories[2] ?? [
-                    'name' => 'Especialidad Láser',
-                    'description' => 'Grabado resistente al uso diario.',
-                    'image' => 'images/cat_laser.png',
-                    'custom_link' => '#laser'
+                    'name' => 'Cuero y Madera Grabada',
+                    'description' => 'Termograbado en bajo relieve y corte artesanal.',
+                    'image' => 'images/mat_cuero.png',
+                    'custom_link' => 'productos.php?cat=personalizacion'
                 ];
                 $bento_4 = $featured_categories[3] ?? [
-                    'name' => 'Carnetización',
-                    'description' => 'Identificación profesional para empresas e instituciones.',
+                    'name' => 'Identificación de Autor',
+                    'description' => 'Credenciales y cintas con estándares de alta presentación institucional.',
                     'image' => 'carnet_mockup.jpg',
-                    'custom_link' => 'productos.php?cat=carnets'
+                    'custom_link' => 'carnets.php'
                 ];
 
                 function getBentoImgUrl($img) {
@@ -501,9 +501,9 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         <!-- 2. Productos principales de identificación (Showcase Carrusel Moderno) -->
         <section id="productos" class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3rem;">
-                <span class="section-subtitle">Galería de Soluciones</span>
-                <h2>Nuestros productos destacados</h2>
-                <p>Una muestra visual de las soluciones de identificación y personalización de nuestro taller.</p>
+                <span class="section-subtitle">Obras del Taller</span>
+                <h2>Piezas seleccionadas para personalizar</h2>
+                <p>Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.</p>
             </div>
             
             <style>
@@ -696,9 +696,9 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         <section id="cintas-credenciales" class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
             <div class="container">
                 <div class="section-header center" style="margin-bottom: 4rem;">
-                    <span class="section-subtitle">Catálogo Detallado</span>
-                    <h2>Opciones de cintas y credenciales</h2>
-                    <p>Elige el tipo de identificación que mejor se adapta a tu empresa, evento o institución.</p>
+                    <span class="section-subtitle">Identidad Corporativa</span>
+                    <h2>Credenciales y lanyards de alta fidelidad</h2>
+                    <p>Materiales de resistencia superior, nitidez de impresión y personalización pensada para representar con orgullo a tu organización.</p>
                 </div>
 
                 <?php
@@ -771,9 +771,9 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         <!-- 4. Identificación para empresas, instituciones y eventos con Fotos -->
         <section class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle">Soluciones de Taller</span>
-                <h2>Identificación para empresas, instituciones y eventos</h2>
-                <p>Preparamos soluciones de identificación para equipos que necesitan orden, presentación y claridad.</p>
+                <span class="section-subtitle">Proyectos a Medida</span>
+                <h2>Personalización para marcas, instituciones y eventos selectos</h2>
+                <p>Soluciones a escala humana: cada proyecto recibe piezas con atención al detalle, nombres personalizados y presentación impecable.</p>
             </div>
 
             <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
@@ -914,16 +914,16 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         </section>
 
 
-        <!-- 6. Sección secundaria: ahora también personalizamos productos corporativos -->
+        <!-- 6. Sección: Maestría en Personalización & Piezas de Autor -->
         <section id="personalizacion-adicional" class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle">Servicio Adicional</span>
-                <h2>Ahora también personalizamos productos corporativos</h2>
-                <p>Además de identificación, también preparamos detalles personalizados para empresas, clientes y eventos.</p>
+                <span class="section-subtitle">Maestría en Grabado</span>
+                <h2>Piezas selectas con grabado láser de alta fidelidad</h2>
+                <p>Rechazamos la mediocridad de la maquila genérica. Grabamos piezas individuales y proyectos corporativos con calibración óptica milimétrica.</p>
             </div>
             
-            <p style="font-size: 0.92rem; color: var(--text-muted); text-align: center; max-width: 750px; margin: 0 auto 2.5rem auto; line-height: 1.6;">
-                También contamos con una línea de personalización corporativa para empresas que desean preparar detalles, kits o productos con su marca con grabado duradero y presentación cuidada.
+            <p style="font-size: 0.96rem; color: var(--text-muted); text-align: center; max-width: 780px; margin: 0 auto 2.5rem auto; line-height: 1.6;">
+                A diferencia de las fábricas masivas que exigen miles de unidades descartables, en nuestro taller personalizamos artículos nobles: acero inoxidable térmico, libretas en cuero PU de alto contraste, madera tratada y marfil vegetal de tagua. Cada pieza recibe control de calidad individual.
             </p>
 
             <style>
@@ -966,15 +966,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             <a href="producto.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" style="aspect-ratio: 1.25; background: var(--surface-light); display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid var(--border); text-decoration: none;">
                                 <?php
                                 $prod_img = !empty($prod['image_main']) ? $prod['image_main'] : '';
-                                if (!empty($prod_img)) {
-                                    if (strpos($prod_img, 'http') === 0 || strpos($prod_img, 'uploads/') === 0 || strpos($prod_img, 'images/') === 0) {
-                                        $img_src = $prod_img;
-                                    } else {
-                                        $img_src = 'uploads/' . $prod_img;
-                                    }
-                                } else {
-                                    $img_src = 'uploads/cintas_mockup.jpg';
-                                }
+                                $img_src = getUploadedImgUrl($prod_img, 'uploads/cintas_mockup.jpg');
                                 ?>
                                 <img src="<?php echo htmlspecialchars($img_src); ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" alt="<?php echo htmlspecialchars($prod['name']); ?>" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                             </a>
@@ -986,7 +978,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                                 </h4>
                                 <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; flex-grow: 1;"><?php echo htmlspecialchars($prod['description_short']); ?></p>
                                 <a href="cotizacion.php?producto=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn btn-secondary" style="width: 100%; text-align: center; font-size: 0.78rem; padding: 8px 0; text-transform: none;">
-                                    <?php echo htmlspecialchars($prod['cta_text'] ?: 'Quiero este acabado'); ?>
+                                    <?php echo htmlspecialchars($prod['cta_text'] ?: 'Personalizar pieza'); ?>
                                 </a>
                             </div>
                         </div>
@@ -995,23 +987,85 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
             </div>
         </section>
 
+        <!-- Bloque Comparativo: Personalización de Autor vs Producción Masiva Genérica -->
+        <section class="section-padding" style="background: #11140e; color: white; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <div class="container">
+                <div class="section-header center" style="margin-bottom: 3.5rem;">
+                    <span class="section-subtitle" style="color: #9eff42; border-color: #9eff42;">El Estándar CardNet</span>
+                    <h2 style="color: white; font-family: var(--font-heading); font-size: 2.3rem;">Personalización de taller vs. producción masiva</h2>
+                    <p style="color: rgba(255,255,255,0.7); max-width: 680px; margin: 0 auto;">Por qué las marcas y profesionales que cuidan su reputación eligen la precisión de nuestro taller en lugar del volumen genérico sin control.</p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto;">
+                    <!-- Caja 1: Producción Masiva Típica (Lo que evitamos) -->
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 2.25rem;">
+                        <span style="display: inline-block; background: rgba(239, 68, 68, 0.15); color: #f87171; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 4px; margin-bottom: 1rem;">La típica maquila masiva</span>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: #e5e7eb; margin-bottom: 1.25rem;">Impresión en serie descartable</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; font-size: 0.88rem; color: rgba(255,255,255,0.65);">
+                            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: #f87171; font-weight: bold;">✕</span>
+                                <span><strong>Mínimos forzados:</strong> te obligan a comprar cientos o miles de piezas que muchas veces no necesitas.</span>
+                            </li>
+                            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: #f87171; font-weight: bold;">✕</span>
+                                <span><strong>Tintas superficiales:</strong> estampados que se desgastan, se rayan o se borran en pocas semanas de uso.</span>
+                            </li>
+                            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: #f87171; font-weight: bold;">✕</span>
+                                <span><strong>Cero revisión humana:</strong> tu logo pasa directo a la máquina sin calibrar proporciones ni sangrados.</span>
+                            </li>
+                            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: #f87171; font-weight: bold;">✕</span>
+                                <span><strong>Sensación de baratija:</strong> artículos genéricos que los clientes perciben de poco valor.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Caja 2: Nuestro Taller (Lo que nos diferencia) -->
+                    <div style="background: rgba(158, 255, 66, 0.05); border: 2px solid rgba(158, 255, 66, 0.35); border-radius: 12px; padding: 2.25rem; position: relative;">
+                        <div style="position: absolute; top: -12px; right: 20px; background: #9eff42; color: #0d110b; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 20px;">Nuestra Promesa</div>
+                        <span style="display: inline-block; background: rgba(158, 255, 66, 0.15); color: #9eff42; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 4px; margin-bottom: 1rem;">Personalización de Autor CardNet</span>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: white; margin-bottom: 1.25rem;">Grabado láser de alta fidelidad</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; font-size: 0.88rem; color: rgba(255,255,255,0.9);">
+                            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: #9eff42; font-weight: bold;">✓</span>
+                                <span><strong>Sin mínimos absurdos:</strong> atendemos desde piezas únicas, regalos directivos exclusivos y lotes selectos.</span>
+                            </li>
+                            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: #9eff42; font-weight: bold;">✓</span>
+                                <span><strong>100% Indeleble:</strong> el láser de fibra y CO2 graba la materia prima; jamás se desprende ni se decolora.</span>
+                            </li>
+                            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: #9eff42; font-weight: bold;">✓</span>
+                                <span><strong>Calibración individual:</strong> adaptamos vectores, profundidad y potencia óptica para que cada trazo sea perfecto.</span>
+                            </li>
+                            <li style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: #9eff42; font-weight: bold;">✓</span>
+                                <span><strong>Prestigio tangible:</strong> piezas que generan orgullo y que las personas conservan por años.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- 7. Grabado láser y personalización (Servicio técnico e ilustrativo) -->
         <section id="laser" class="section-padding container reveal-on-scroll" style="border-top: 1px solid var(--border);">
             <div class="laser-section" style="padding: 4rem; background-image: url('images/laser_action.jpg'); background-size: cover; background-position: center; border-radius: var(--radius-lg); overflow: hidden; position: relative;">
-                <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.98) 0%, rgba(16, 20, 15, 0.85) 45%, rgba(16, 20, 15, 0.2) 100%); z-index: 1;"></div>
-                <div style="max-width: 600px; position: relative; z-index: 5;">
-                    <span class="section-subtitle" style="color: #8CFF32; border-color: #8CFF32;">Servicio de Taller</span>
-                    <h2 style="color: white; font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; margin-bottom: 1.25rem;">Grabado láser y personalización</h2>
+                <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(16, 20, 15, 0.98) 0%, rgba(16, 20, 15, 0.88) 50%, rgba(16, 20, 15, 0.3) 100%); z-index: 1;"></div>
+                <div style="max-width: 620px; position: relative; z-index: 5;">
+                    <span class="section-subtitle" style="color: #8CFF32; border-color: #8CFF32;">Tecnología de Taller</span>
+                    <h2 style="color: white; font-family: var(--font-heading); font-size: 2.3rem; font-weight: 500; margin-bottom: 1.25rem;">La mejor tecnología de personalización en Ecuador</h2>
                     <p style="color: rgba(255,255,255,0.85); font-size: 1.05rem; line-height: 1.6; margin-bottom: 2rem;">
-                        Personalizamos productos seleccionados con acabados limpios y duraderos, ideales para detalles corporativos y piezas de presentación.
+                        El grabado láser no es una impresión superficial: es una transformación óptica que funde tu identidad en la materia prima. Cero tintas que se borran, cero etiquetas pegadas.
                     </p>
-                    <ul style="color: rgba(255,255,255,0.9); margin-bottom: 2rem; padding-left: 20px; line-height: 1.8; font-size: 0.95rem;">
-                        <li>✓ Acabado limpio y permanente sin tintas</li>
-                        <li>✓ Grabado resistente al uso diario</li>
-                        <li>✓ Excelente definición de trazos finos en metales</li>
-                        <li>✓ Personalización de marcas en agendas y cajas</li>
+                    <ul style="color: rgba(255,255,255,0.9); margin-bottom: 2rem; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.95rem;">
+                        <li><span style="color: #8CFF32; font-weight: bold; margin-right: 8px;">✓</span> <strong>Sin barreras de volumen:</strong> personaliza desde 1 pieza exclusiva hasta lotes corporativos selectos.</li>
+                        <li><span style="color: #8CFF32; font-weight: bold; margin-right: 8px;">✓</span> <strong>Grabado 100% indeleble:</strong> resistente al uso diario continuo, lavados y roces.</li>
+                        <li><span style="color: #8CFF32; font-weight: bold; margin-right: 8px;">✓</span> <strong>Resolución micrométrica:</strong> definición nítida en letras pequeñas, isotipos y detalles finos.</li>
+                        <li><span style="color: #8CFF32; font-weight: bold; margin-right: 8px;">✓</span> <strong>Inspección visual unitaria:</strong> cada pieza es revisada y pulida a mano antes del empaque.</li>
                     </ul>
-                    <a href="cotizacion.php" class="btn btn-primary" style="background-color: var(--primary); border: none; padding: 12px 28px; font-weight: 600; text-transform: none;">Cotizar personalización</a>
+                    <a href="cotizacion.php" class="btn btn-primary" style="background-color: var(--primary); border: none; padding: 14px 32px; font-weight: 600; text-transform: none; font-size: 0.9rem;">Cotizar proyecto de personalización</a>
                 </div>
             </div>
         </section>
@@ -1071,67 +1125,68 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         <!-- 9. Cómo hacemos tu pedido -->
         <section id="proceso" class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <h2>Cómo hacemos tu pedido</h2>
-                <p>Nuestra metodología simplificada para garantizar que cada pedido cumpla tus expectativas.</p>
+                <span class="section-subtitle">Metodología de Taller</span>
+                <h2>Cómo personalizamos cada pieza</h2>
+                <p>Cuidamos cada fase con precisión óptica y rigor artesanal, garantizando acabados de máxima definición.</p>
             </div>
             
             <div class="process-grid">
                 <div class="process-step" style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-md);">
                     <div class="process-number" style="color: var(--primary); font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">01</div>
-                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Eliges el producto</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Seleccionas carnets, credenciales, cintas, accesorios o productos personalizados.</p>
+                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Eliges la pieza base</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Seleccionas termos térmicos, libretas en cuero PU, madera, tagua ecológica o credenciales.</p>
                 </div>
                 <div class="process-step" style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-md);">
                     <div class="process-number" style="color: var(--primary); font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">02</div>
-                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Nos envías tu logo o idea</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Revisamos tu diseño, colores y el tipo de producto que necesitas.</p>
+                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Envías tu marca o logotipo</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Analizamos vectores, curvas y contrastes para garantizar un grabado con nitidez microscópica.</p>
                 </div>
                 <div class="process-step" style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-md);">
                     <div class="process-number" style="color: var(--primary); font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">03</div>
-                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Preparamos una vista previa</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Te mostramos una referencia visual de cómo quedará antes de personalizar.</p>
+                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Calibración y render técnico</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Te enviamos una maqueta digital con escala y ubicación exacta antes de pasar a máquina.</p>
                 </div>
                 <div class="process-step" style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-md);">
                     <div class="process-number" style="color: var(--primary); font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">04</div>
-                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Personalizamos y entregamos</h4>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Preparamos tus piezas para que estén listas para representar a tu equipo o empresa.</p>
+                    <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Grabado láser y control unitario</h4>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin: 0;">Grabamos cada pieza en taller y realizamos una inspección visual manual antes del despacho.</p>
                 </div>
             </div>
             
             <div style="text-align: center; margin-top: 3.5rem;">
-                <a href="cotizacion.php" class="btn btn-primary" style="padding: 12px 28px; text-transform: none;">Iniciar cotización</a>
+                <a href="cotizacion.php" class="btn btn-primary" style="padding: 12px 28px; text-transform: none;">Iniciar cotización sin mínimos forzados</a>
             </div>
         </section>
 
-        <!-- 10. Preguntas frecuentes (Refinadas y Corregidas) -->
+        <!-- 10. Preguntas frecuentes (Refinadas y Persuasivas) -->
         <section id="preguntas-frecuentes" class="section-padding section-bg-light reveal-on-scroll">
             <div class="container" style="max-width: 800px;">
                 <div class="section-header center">
-                    <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary); font-weight: 600; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;">DUDAS COMUNES</span>
-                    <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; margin-top: 10px;">Preguntas frecuentes</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">Lo básico que necesitas saber antes de cotizar tus identificaciones corporativas.</p>
+                    <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary); font-weight: 600; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;">DUDAS RESUELTAS</span>
+                    <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 500; margin-top: 10px;">Preguntas sobre personalización</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Transparencia total sobre nuestros acabados, cantidades y tiempos de entrega.</p>
                 </div>
                 
                 <div class="faq-accordion" style="margin-top: 2.5rem; display: flex; flex-direction: column; gap: 14px;">
-                    <!-- Pregunta 1 -->
+                    <!-- Pregunta 1: Desarmar la idea de pedido masivo -->
                     <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Hacen carnets personalizados?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Tengo que hacer un pedido masivo o puedo personalizar cantidades pequeñas o piezas exclusivas?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Diseñamos e imprimimos carnets en PVC laminado de alta resistencia con acabados profesionales. Son ideales para empresas, instituciones educativas, eventos y control de accesos.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;"><strong>No exigimos pedidos masivos.</strong> En CardNet nos especializamos en la personalización de alta calidad y precisión de taller, no en la maquila genérica en serie. Puedes personalizar desde piezas individuales y regalos directivos exclusivos hasta lotes corporativos selectos. Cada unidad recibe exactamente la misma calibración óptica, inspección minuciosa y acabado perfecto.</p>
                         </div>
                     </div>
                     
-                    <!-- Pregunta 2 -->
+                    <!-- Pregunta 2: Superioridad del grabado láser vs tintas -->
                     <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿También hacen cintas porta credenciales?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Por qué su grabado láser es superior a la impresión promocional genérica?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Producimos cintas (lanyards) personalizadas full color mediante sublimación de alta definición, estampados a un color o cintas lisas en colores corporativos básicos con mosquetón metálico de alta calidad.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Porque no utilizamos tintas superficiales que se decoloran, pelan o rayan en semanas. Trabajamos con tecnología láser de fibra óptica y CO2 que graba directamente sobre la estructura del material (acero inoxidable, cuero, madera, tagua, acrílico). El resultado es un relieve indeleble, elegante y con un tacto prémium que nunca se borra.</p>
                         </div>
                     </div>
                     
@@ -1142,18 +1197,18 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Puedes hacernos llegar tu logotipo en formatos vectoriales como PDF, AI o SVG, o en imágenes de alta resolución. Nuestro equipo se encargará de realizar el montaje y la adaptación para que quede perfecto.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Puedes hacernos llegar tu logotipo en formatos vectoriales (PDF, AI, SVG) o en imágenes de alta resolución. Nuestro equipo técnico optimiza los nodos y ajusta la escala para que el haz láser logre la máxima definición posible en el producto elegido.</p>
                         </div>
                     </div>
 
                     <!-- Pregunta 4 -->
                     <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Puedo ver una vista previa antes de producir?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Puedo ver una vista previa o muestra antes de grabar?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Totalmente. Antes de iniciar cualquier fase de producción en el taller, te compartiremos una muestra digital o maqueta (vista previa) para tu revisión y aprobación formal.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Totalmente. Antes de iniciar cualquier fase de grabado o personalización en el taller, te compartiremos una muestra digital o maqueta (vista previa) para tu revisión y aprobación formal.</p>
                         </div>
                     </div>
 
@@ -1164,18 +1219,18 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Despachamos pedidos a todas las provincias y ciudades del Ecuador (Guayaquil, Cuenca, Manta, Loja, etc.) a través de Servientrega o cooperativas de transporte interprovincial de tu preferencia.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Sí. Despachamos pedidos embalados cuidadosamente con protección de taller a todas las provincias y cantones del Ecuador (Quito, Guayaquil, Cuenca, Manta, Loja, etc.) a través de Servientrega o cooperativas de transporte seguras.</p>
                         </div>
                     </div>
 
                     <!-- Pregunta 6 -->
                     <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white; transition: all 0.3s ease;">
                         <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Cuál es el tiempo promedio de entrega?</span>
+                            <span style="font-weight: 600; font-size: 0.98rem; color: var(--dark);">¿Cuál es el tiempo de personalización y entrega?</span>
                             <span class="faq-icon"></span>
                         </button>
                         <div class="faq-content">
-                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">El tiempo estándar estimado es de 3 a 5 días laborables, contados a partir de la confirmación del pago y la aprobación del diseño final de las muestras.</p>
+                            <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Al contar con taller propio de tecnología láser, nuestros tiempos son ágiles: típicamente entre 2 a 4 días laborables a partir de la confirmación del pago y la aprobación del render final.</p>
                         </div>
                     </div>
                 </div>
@@ -1183,13 +1238,13 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         </section>
 
         <!-- 11. CTA Final -->
-        <section class="section-padding container reveal-on-scroll" style="text-align: center; max-width: 800px; margin-top: 1rem; margin-bottom: 2rem;">
-            <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Contacto Corporativo</span>
-            <h2 style="margin-bottom: 1.25rem; font-family: var(--font-heading);">¿Necesitas identificar a tu equipo o preparar productos para tu empresa?</h2>
-            <p style="margin-bottom: 2rem; font-size: 1rem; color: var(--text-muted); line-height: 1.6;">Cuéntanos qué necesitas y te ayudamos a elegir una solución de identificación y marcaje de marca adecuada.</p>
+        <section class="section-padding container reveal-on-scroll" style="text-align: center; max-width: 820px; margin-top: 1rem; margin-bottom: 2rem;">
+            <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Taller de Autor</span>
+            <h2 style="margin-bottom: 1.25rem; font-family: var(--font-heading); font-size: 2.3rem;">Tu marca merece la mejor personalización, no un grabado genérico</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.05rem; color: var(--text-muted); line-height: 1.6;">Trabajamos contigo desde piezas exclusivas y proyectos especiales hasta lotes corporativos de alto impacto. Sin barreras de volumen masivo y con la máxima precisión láser del país.</p>
             <div class="hero-actions" style="justify-content: center; display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="cotizacion.php" class="btn btn-primary" style="text-transform: none;">Iniciar cotización</a>
-                <a href="productos.php" class="btn btn-secondary" style="background: white; text-transform: none;">Ver productos</a>
+                <a href="cotizacion.php" class="btn btn-primary" style="text-transform: none; padding: 14px 32px; font-size: 0.95rem;">Iniciar cotización de proyecto</a>
+                <a href="productos.php" class="btn btn-secondary" style="background: white; text-transform: none; padding: 14px 32px; font-size: 0.95rem;">Explorar catálogo</a>
             </div>
         </section>
 

@@ -23,7 +23,7 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
                     <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
                 </a>
                 <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">
-                    Identificación, carnets, credenciales, cintas y productos personalizados para empresas, instituciones y eventos.
+                    Taller especialista en personalización de precisión y grabado láser en Ecuador. Acabados indelebles en acero, cuero, madera, acrílico, marfil vegetal de tagua y credenciales. Calidad de autor pieza por pieza, sin barreras de producción masiva.
                 </p>
             </div>
             <div class="footer-links-column">
@@ -92,7 +92,7 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
     </div>
     <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
         <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <p style="font-size: 0.8rem; color: var(--text-muted);"><a href="admin/" style="color: inherit; text-decoration: none;" title="Panel de Administración">&copy; 2026</a> CardNet.ec — Identificación y accesorios para personal.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);"><a href="admin/" style="color: inherit; text-decoration: none;" title="Panel de Administración">&copy; 2026</a> CardNet.ec — Taller de personalización de precisión y acabados de autor.</p>
         </div>
     </div>
 </footer>

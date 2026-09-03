@@ -537,9 +537,12 @@ $gallery = array_unique($gallery);
                 <!-- Columna Derecha: Información y Compra -->
                 <div class="info-column">
                     <div>
-                        <div class="stock-tag">
-                            <span class="stock-dot"></span>
-                            Stock disponible: <?php echo (int)$product['stock']; ?> unidades
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 0.6rem;">
+                            <span style="font-size: 0.72rem; font-weight: 700; color: #0d110b; background: #9eff42; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em;">Personalización de Autor</span>
+                            <div class="stock-tag" style="margin-bottom: 0;">
+                                <span class="stock-dot"></span>
+                                Calibración individual en taller (<?php echo (int)$product['stock']; ?> uds disponibles)
+                            </div>
                         </div>
                         <h1 class="product-title-style"><?php echo htmlspecialchars($product['name']); ?></h1>
                         <?php if (!empty($selected_tags)): ?>
@@ -556,22 +559,22 @@ $gallery = array_unique($gallery);
                     <div class="purchase-box">
                         <div class="purchase-row">
                             <div>
-                                <span class="qty-label">Cantidad</span>
+                                <span class="qty-label">Cantidad a Personalizar</span>
                                 <div class="qty-selectors">
                                     <button class="qty-btn" id="qty-minus">-</button>
-                                    <input type="text" class="qty-input" id="qty-input" value="20" readonly>
+                                    <input type="text" class="qty-input" id="qty-input" value="10" readonly>
                                     <button class="qty-btn" id="qty-plus">+</button>
                                 </div>
                             </div>
                             <div>
-                                <span class="price-label">Precio Unit.</span>
+                                <span class="price-label">Precio Unit. (Con Grabado)</span>
                                 <div class="unit-price-display" id="unit-price">$<?php echo number_format($product['price'], 2); ?></div>
                             </div>
                         </div>
 
                         <div class="subtotal-row">
                             <span class="subtotal-label">Subtotal Estimado</span>
-                            <span class="subtotal-value" id="subtotal-val">$50.00</span>
+                            <span class="subtotal-value" id="subtotal-val">$<?php echo number_format($product['price'] * 10, 2); ?></span>
                         </div>
 
                         <?php 
@@ -579,7 +582,7 @@ $gallery = array_unique($gallery);
                         if (!empty($vp_rules)): 
                         ?>
                             <div class="volume-discount-box" style="margin-top: 1.25rem; border-top: 1px solid var(--border); padding-top: 1rem; width: 100%;">
-                                <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--dark);">Descuentos por volumen:</h4>
+                                <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--dark);">Escala de precios por lote:</h4>
                                 <table style="width: 100%; font-size: 0.78rem; border-collapse: collapse; margin-bottom: 10px;">
                                     <thead>
                                         <tr style="background: var(--surface-light);">
@@ -604,9 +607,11 @@ $gallery = array_unique($gallery);
                             </div>
                         <?php endif; ?>
                         
-                        <p style="font-size:0.75rem; color:var(--text-muted); margin: 10px 0 20px 0; text-align:center;">
-                            Nuestros valores incluyen la personalización de un logo.
-                        </p>
+                        <div style="background: rgba(99, 174, 44, 0.06); border: 1px dashed rgba(99, 174, 44, 0.35); border-radius: 6px; padding: 10px 12px; margin: 12px 0 16px 0;">
+                            <p style="font-size:0.78rem; color:var(--dark); margin: 0; line-height: 1.4; font-weight: 500;">
+                                ✨ <strong>Personalización incluida:</strong> Grabado láser indeleble de alta fidelidad. Sin mínimos masivos forzados; cotiza las unidades que tu proyecto necesita.
+                            </p>
+                        </div>
 
                         <button class="btn-gradient" id="btn-submit-quote">
                             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -635,6 +640,19 @@ $gallery = array_unique($gallery);
                                 <?php echo htmlspecialchars($product['description_long']); ?>
                             </p>
                         <?php endif; ?>
+
+                        <!-- Garantía de Taller -->
+                        <div style="margin-top: 1.25rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem;">
+                            <h4 style="font-family: var(--font-heading); font-size: 0.95rem; margin-bottom: 0.6rem; color: var(--dark); display: flex; align-items: center; gap: 8px;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                                Garantía de Calidad de Taller
+                            </h4>
+                            <ul style="padding-left: 18px; margin: 0; font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+                                <li><strong>Sin mínimos forzados:</strong> Personalizamos desde unidades exclusivas hasta lotes corporativos.</li>
+                                <li><strong>Validación técnica:</strong> Te mostramos render digital con cotas exactas antes de grabar.</li>
+                                <li><strong>Grabado permanente:</strong> Relieve láser que no se despega, decolora ni borra.</li>
+                            </ul>
+                        </div>
 
                         <?php if (!empty($selected_materials)): ?>
                             <h4 style="font-family: var(--font-heading); font-size: 0.95rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: var(--dark); font-weight: 500;">Materiales y acabados recomendados:</h4>

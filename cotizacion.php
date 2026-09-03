@@ -86,8 +86,8 @@ unset($item);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotiza tus productos personalizados | CardNet.ec</title>
-    <meta name="description" content="Cuéntanos qué producto necesitas, sube tu logo y te ayudamos a elegir el mejor acabado para tu marca.">
+    <title>Cotiza tu Personalización de Precisión | CardNet.ec</title>
+    <meta name="description" content="Cotiza piezas con grabado láser de alta fidelidad. Sin pedidos masivos forzados: personalizamos desde piezas exclusivas hasta lotes corporativos selectos.">
     <link rel="canonical" href="https://cardnet.ec/cotizacion.php">
     <link rel="icon" type="image/png" href="favicon.png?v=2.0">
     
@@ -183,8 +183,8 @@ unset($item);
     <!-- Encabezado de Página Interna -->
     <div class="page-header-block">
         <div class="container">
-            <h1 class="page-header-title">Cotiza tus identificaciones o productos personalizados</h1>
-            <p class="page-header-description">Cuéntanos si necesitas carnets, credenciales, cintas, porta credenciales o productos personalizados, y te ayudamos a preparar una opción adecuada.</p>
+            <h1 class="page-header-title">Cotiza tu Proyecto de Personalización de Precisión</h1>
+            <p class="page-header-description">Cuéntanos qué piezas necesitas y cuántas unidades requieres. No exigimos pedidos masivos: personalizamos desde piezas exclusivas hasta lotes corporativos selectos con grabado láser de alta fidelidad.</p>
         </div>
     </div>
 

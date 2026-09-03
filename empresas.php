@@ -74,10 +74,10 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
         <!-- Hero Section -->
         <section class="empresas-hero">
             <div class="container" style="max-width: 900px; position: relative; z-index: 5;">
-                <span style="color: var(--primary); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;">Aliado Estratégico</span>
-                <h1 style="font-family: var(--font-heading); font-size: 3.2rem; font-weight: 400; margin-top: 15px; margin-bottom: 20px; color: white;">Identificación Corporativa de Alta Gama</h1>
-                <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.85); line-height: 1.6; margin: 0 auto;">
-                    Ayudamos a empresas de todos los sectores a proyectar profesionalismo y resguardar su seguridad mediante credenciales premium, cordones personalizados y accesorios de identidad corporativa.
+                <span style="color: #9eff42; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;">Personalización de Autor para Marcas</span>
+                <h1 style="font-family: var(--font-heading); font-size: 3.2rem; font-weight: 400; margin-top: 15px; margin-bottom: 20px; color: white; line-height: 1.15;">Kits Corporativos & Regalos Ejecutivos de Precisión</h1>
+                <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.88); line-height: 1.6; margin: 0 auto;">
+                    Olvídate del merchandising masivo barato que termina en la basura. Diseñamos y grabamos piezas corporativas selectas —termos de acero, agendas de cuero, kits ejecutivos y credenciales de alta fidelidad— con calibración milimétrica y sin mínimos forzados.
                 </p>
             </div>
         </section>
@@ -86,20 +86,20 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
         <section class="section-padding container">
             <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
                 <div class="stat-box">
-                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 5px;">+10K</div>
-                    <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 0.05em;">Carnets Entregados</div>
+                    <div style="font-size: 2.3rem; font-weight: 700; color: #9eff42; margin-bottom: 5px;">100%</div>
+                    <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 0.05em;">Grabado Indeleble</div>
                 </div>
                 <div class="stat-box">
-                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 5px;">100%</div>
-                    <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 0.05em;">Garantía de Color</div>
+                    <div style="font-size: 2.3rem; font-weight: 700; color: #9eff42; margin-bottom: 5px;">Sin Mínimos</div>
+                    <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 0.05em;">Flexibilidad de Taller</div>
                 </div>
                 <div class="stat-box">
-                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 5px;">24h</div>
-                    <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 0.05em;">Respuesta de Cotización</div>
+                    <div style="font-size: 2.3rem; font-weight: 700; color: #9eff42; margin-bottom: 5px;">24h</div>
+                    <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 0.05em;">Render Técnico Previo</div>
                 </div>
                 <div class="stat-box">
-                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 5px;">Servicio</div>
-                    <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 0.05em;">Nacional en Ecuador</div>
+                    <div style="font-size: 2.3rem; font-weight: 700; color: #9eff42; margin-bottom: 5px;">Nacional</div>
+                    <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: rgba(255,255,255,0.7); letter-spacing: 0.05em;">Envíos a todo el Ecuador</div>
                 </div>
             </div>
         </section>

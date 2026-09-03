@@ -52,8 +52,8 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos personalizados | CardNet.ec</title>
-    <meta name="description" content="Explora termos, agendas, carnets, placas, kits y productos listos para personalizar con grabado láser y acabados corporativos.">
+    <title>Catálogo de Personalización & Grabado Láser | CardNet.ec</title>
+    <meta name="description" content="Catálogo de artículos selectos para personalizar con grabado láser de alta fidelidad en Ecuador. Sin mínimos masivos: cotiza las unidades exactas que necesitas.">
     <link rel="canonical" href="https://cardnet.ec/productos.php">
     <link rel="icon" type="image/png" href="favicon.png?v=2.0">
     <link rel="apple-touch-icon" href="favicon.png?v=2.0">
@@ -110,22 +110,9 @@ try {
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
-                min-height: 2.2em;
-            }
-            .product-card-price {
-                font-size: 0.65rem !important;
-            }
-            .product-specs-badges {
-                display: none !important;
             }
             .product-card-desc {
                 display: none !important;
-            }
-            /* Acomodar botones de acción verticalmente para pantallas angostas */
-            .product-card div[style*="display: flex; gap: 8px;"] {
-                flex-direction: column !important;
-                gap: 6px !important;
-                padding: 0 0.85rem 0.85rem 0.85rem !important;
             }
             .product-card .btn {
                 padding: 8px 4px !important;
@@ -143,14 +130,27 @@ try {
     <!-- Encabezado de Página Interna -->
     <div class="page-header-block">
         <div class="container">
-            <h1 class="page-header-title">Productos de identificación y personalización</h1>
-            <p class="page-header-description">Explora carnets, credenciales, cintas, porta credenciales y productos personalizados para empresas, instituciones y eventos.</p>
+            <h1 class="page-header-title">Catálogo de Artículos para Personalizar</h1>
+            <p class="page-header-description">Piezas nobles grabadas con tecnología láser de ultra-alta definición. No exigimos producción masiva forzada: personalizamos desde piezas exclusivas hasta lotes corporativos selectos.</p>
         </div>
-    </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <main class="section-padding container">
+
+        <!-- Banner Persuasivo de Taller: Sin Mínimos Masivos -->
+        <div style="background: linear-gradient(135deg, #11140e 0%, #1a2215 100%); color: white; padding: 1.25rem 1.75rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid rgba(158, 255, 66, 0.2); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(158, 255, 66, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9eff42;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <div>
+                    <h3 style="font-size: 0.98rem; font-weight: 600; color: white; margin: 0 0 2px 0;">Personalización de taller sin mínimos masivos</h3>
+                    <p style="font-size: 0.82rem; color: rgba(255,255,255,0.7); margin: 0;">Cada artículo incluye calibración óptica de logotipo y grabado láser indeleble que jamás se borra con el uso.</p>
+                </div>
+            </div>
+            <a href="cotizacion.php" class="btn btn-primary" style="padding: 9px 20px; font-size: 0.82rem; text-transform: none; white-space: nowrap;">Cotizar mi proyecto</a>
+        </div>
 
         <!-- Barra de Búsqueda + Ordenamiento -->
         <div style="display: flex; gap: 10px; margin-bottom: 1.25rem; align-items: center; flex-wrap: wrap;">

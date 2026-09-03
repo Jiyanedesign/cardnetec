@@ -15,7 +15,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
 ?>
 <!-- Barra de Anuncios Superior -->
 <div class="top-announcement-bar">
-    Identificación y accesorios para personal · Ecuador
+    Taller de personalización de precisión · Grabado láser indeleble y acabados de autor · Envíos a todo el Ecuador
 </div>
 
 <!-- Cabecera de Página -->
@@ -31,7 +31,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
                 <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <input class="search-input" type="text" placeholder="Buscar carnets, cintas, accesorios...">
+                <input class="search-input" type="text" placeholder="Buscar termos, agendas, placas, acabados láser...">
             </div>
 
             <div class="header-contact-status">
@@ -43,7 +43,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
                             </svg>
                         </span>
                         <div class="status-text">
-                            <h4>Asesoría personalizada</h4>
+                            <h4>Taller & Personalización</h4>
                             <p style="font-size: 0.8rem; font-weight: 500; color: var(--primary);"><?php echo htmlspecialchars($header_wa_display); ?></p>
                         </div>
                     </div>
