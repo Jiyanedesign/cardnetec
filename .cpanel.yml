@@ -2,11 +2,12 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/cardnet/public_html
-    - /bin/cp -rf * /
-    - /bin/cp -rf .htaccess /
-    - /bin/cp -rf includes/* /includes/
-    - /bin/cp -rf uploads/* /uploads/
-    - /bin/cp -rf images/* /images/
-    - /bin/cp -rf css/* /css/
-    - /bin/cp -rf js/* /js/
-    - /bin/cp -rf admin/* /admin/
+    - /bin/cp -rf *.php $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp -rf .htaccess $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp -rf includes $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp -rf images $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp -rf css $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp -rf js $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/cp -rf admin $DEPLOYPATH/ 2>/dev/null || true
+    - /bin/mkdir -p $DEPLOYPATH/uploads/products $DEPLOYPATH/uploads/categories $DEPLOYPATH/uploads/carousel $DEPLOYPATH/uploads/sections 2>/dev/null || true
+    - /bin/cp -rn uploads/* $DEPLOYPATH/uploads/ 2>/dev/null || true

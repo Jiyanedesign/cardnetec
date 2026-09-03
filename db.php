@@ -70,9 +70,9 @@ try {
         $pdo->exec("ALTER TABLE categorias ADD COLUMN is_featured tinyint(1) DEFAULT 1;");
     }
 
-    // Inicializar o actualizar las 4 categorías destacadas del Bento Grid si aún no tienen imagen configurada
-    $featuredCount = $pdo->query("SELECT COUNT(*) FROM categorias WHERE is_featured = 1 AND image IS NOT NULL")->fetchColumn();
-    if ($featuredCount < 4) {
+    // Inicializar categorías destacadas únicamente si no existe ninguna categoría registrada
+    $catCount = $pdo->query("SELECT COUNT(*) FROM categorias")->fetchColumn();
+    if ($catCount == 0) {
         $defaultFeatured = [
             [
                 'name' => 'Cintas y lanyards',
@@ -113,10 +113,7 @@ try {
             $exist->execute([$df['slug'], $df['name']]);
             $existing_id = $exist->fetchColumn();
 
-            if ($existing_id) {
-                $upd = $pdo->prepare("UPDATE categorias SET description = COALESCE(description, ?), image = COALESCE(image, ?), custom_link = COALESCE(custom_link, ?), is_featured = 1, order_val = ? WHERE id = ?");
-                $upd->execute([$df['description'], $df['image'], $df['custom_link'], $df['order_val'], $existing_id]);
-            } else {
+            if (!$existing_id) {
                 $ins = $pdo->prepare("INSERT INTO categorias (name, slug, description, image, custom_link, order_val, is_featured, is_active) VALUES (?, ?, ?, ?, ?, ?, 1, 1)");
                 $ins->execute([$df['name'], $df['slug'], $df['description'], $df['image'], $df['custom_link'], $df['order_val']]);
             }
@@ -162,12 +159,10 @@ try {
         }
     }
 
-    // 1.9. AUTO-MIGRACIÓN: Categoría Tagua al final de todas las categorías (order_val = 99)
+    // 1.9. AUTO-MIGRACIÓN: Categoría Tagua (crear solo si no existe)
     try {
         $existTagua = $pdo->query("SELECT id FROM categorias WHERE slug = 'tagua'")->fetchColumn();
-        if ($existTagua) {
-            $pdo->exec("UPDATE categorias SET order_val = 99, custom_link = 'tagua.php' WHERE id = " . (int)$existTagua);
-        } else {
+        if (!$existTagua) {
             $stmtInsTagua = $pdo->prepare("INSERT INTO categorias (name, slug, description, image, custom_link, order_val, is_featured, is_active) VALUES (?, ?, ?, ?, ?, 99, 0, 1)");
             $stmtInsTagua->execute([
                 'Tagua',
@@ -447,21 +442,21 @@ try {
     }
 
 
-    // AUTO-MIGRACIÓN: Columna de imagen en carrusel y re-seeding automático con las nuevas imágenes del carrusel
+    // AUTO-MIGRACIÓN: Columna de imagen en carrusel y seeding inicial solo si la tabla está vacía
     $carrusel_columns = $pdo->query("DESCRIBE carrusel")->fetchAll(PDO::FETCH_COLUMN);
     if (!in_array('image', $carrusel_columns)) {
         $pdo->exec("ALTER TABLE carrusel ADD COLUMN image varchar(255) DEFAULT NULL;");
     }
 
-    $first_slide_title = $pdo->query("SELECT title FROM carrusel WHERE order_val = 1")->fetchColumn();
-    if ($first_slide_title !== 'Carnets PVC personalizados') {
-        $pdo->exec("DELETE FROM carrusel;");
+    // Seeding inicial de carrusel ÚNICAMENTE si está 100% vacío (nunca borra ni sobreescribe)
+    $carrusel_count = $pdo->query("SELECT COUNT(*) FROM carrusel")->fetchColumn();
+    if ($carrusel_count == 0) {
         $pdo->exec("INSERT INTO `carrusel` (`title`, `subtitle`, `image`, `cta_text`, `cta_url`, `order_val`, `is_active`) VALUES
-            ('Carnets PVC personalizados', 'Identificación profesional para empresas, instituciones, eventos y equipos.', 'carousel_1.jpg', 'Cotizar carnets', 'cotizacion.php', 1, 1),
-            ('Credenciales para eventos y personal', 'Credenciales claras, funcionales y listas para identificar a tu equipo.', 'carousel_2.jpg', 'Ver credenciales', 'productos.php', 2, 1),
-            ('Cintas porta credenciales', 'Cintas impresas full color, a un color o sin impresión para diferentes necesidades.', 'carousel_3.jpg', 'Ver opciones de cintas', 'productos.php', 3, 1),
-            ('Porta credenciales y accesorios', 'Complementos prácticos para proteger y presentar mejor cada identificación.', 'carousel_4.jpg', 'Explorar accesorios', 'productos.php', 4, 1),
-            ('Identificación para empresas e instituciones', 'Soluciones para equipos que necesitan verse organizados y profesionales.', 'carousel_5.jpg', 'Cotizar para mi empresa', 'cotizacion.php', 5, 1);");
+            ('Maestría en Grabado Láser & Personalización', 'No hacemos maquila genérica en serie. Grabamos piezas nobles con precisión milimétrica de taller, sin mínimos forzados y con acabados que jamás se borran.', 'carousel_1.jpg', 'Cotizar piezas de taller', 'cotizacion.php', 1, 1),
+            ('Termos & Artículos en Acero de Autor', 'Grabado láser de fibra óptica de ultra-alta definición. Relieve indeleble, sobrio y elegante para regalos directivos y proyectos corporativos selectos.', 'carousel_2.jpg', 'Ver acabados en acero', 'productos.php', 2, 1),
+            ('Cuero PU, Madera Tratada & Tagua Ecuatoriana', 'Texturas nobles y materiales sustentables personalizados con bajo relieve y corte láser de alta precisión.', 'carousel_3.jpg', 'Explorar materiales', 'productos.php', 3, 1),
+            ('Kits Corporativos & Regalos de Distinción', 'Cajas de autor en madera, agendas ejecutivas y piezas a medida diseñadas para generar impacto real y durar años.', 'carousel_4.jpg', 'Ver kits de autor', 'productos.php', 4, 1),
+            ('Identificación Corporativa de Alta Fidelidad', 'Credenciales en PVC laminado y lanyards de alta definición que proyectan la verdadera jerarquía de tu organización.', 'carousel_5.jpg', 'Cotizar identificación', 'cotizacion.php', 5, 1);");
     }
 
     $prod_columns_migration = $pdo->query("DESCRIBE productos")->fetchAll(PDO::FETCH_COLUMN);
@@ -501,39 +496,29 @@ try {
             ('Consultora Andina', 'logo4.jpg', 4, 1);");
     }
 
-    // 7. AUTO-MIGRACIÓN: Seeding de productos oficiales de CardNet
+    // 7. AUTO-MIGRACIÓN: Seeding de productos oficiales ÚNICAMENTE si la tabla está 100% vacía (0 productos)
     $stmtCount = $pdo->query("SELECT COUNT(*) FROM productos");
     $count = $stmtCount->fetchColumn();
-    
-    // Si la base de datos está vacía o si contiene imágenes antiguas como 'carnets.png', forzar el re-seeding
-    $firstProdImg = '';
-    try {
-        $firstProdImg = $pdo->query("SELECT image_main FROM productos WHERE slug = 'credenciales-pvc'")->fetchColumn();
-    } catch (PDOException $ex) {}
 
-    if ($count == 0 || $firstProdImg === 'carnets.png') {
-        // Limpiar tablas para evitar duplicados o demos como Taza
-        $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
-        $pdo->exec("DELETE FROM productos;");
-        $pdo->exec("DELETE FROM categorias;");
-        $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
-
-        // Insertar Categorías oficiales
-                $cats = [
-            ['Carnets', 'carnets', 1],
-            ['Credenciales', 'credenciales', 2],
-            ['Cintas', 'cintas', 3],
-            ['Porta credenciales', 'porta-credenciales', 4],
-            ['Accesorios', 'accesorios', 5],
-            ['Tarjetas PVC', 'tarjetas-pvc', 6],
-            ['Personalización', 'personalizacion', 7],
-            ['Kits', 'kits', 8],
-            ['Placas', 'placas', 9]
-        ];
-        
-        $insCat = $pdo->prepare("INSERT INTO categorias (name, slug, order_val, is_active) VALUES (?, ?, ?, 1)");
-        foreach ($cats as $c) {
-            $insCat->execute($c);
+    if ($count == 0) {
+        // Solo insertar categorías si no hay ninguna
+        $catCheckCount = $pdo->query("SELECT COUNT(*) FROM categorias")->fetchColumn();
+        if ($catCheckCount == 0) {
+            $cats = [
+                ['Carnets', 'carnets', 1],
+                ['Credenciales', 'credenciales', 2],
+                ['Cintas', 'cintas', 3],
+                ['Porta credenciales', 'porta-credenciales', 4],
+                ['Accesorios', 'accesorios', 5],
+                ['Tarjetas PVC', 'tarjetas-pvc', 6],
+                ['Personalización', 'personalizacion', 7],
+                ['Kits', 'kits', 8],
+                ['Placas', 'placas', 9]
+            ];
+            $insCat = $pdo->prepare("INSERT INTO categorias (name, slug, order_val, is_active) VALUES (?, ?, ?, 1)");
+            foreach ($cats as $c) {
+                $insCat->execute($c);
+            }
         }
 
         // Obtener ids de las categorías insertadas
