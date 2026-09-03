@@ -84,6 +84,9 @@ CREATE TABLE IF NOT EXISTS `configuraciones` (
   `site_title` varchar(150) NOT NULL DEFAULT 'CardNet.ec | Identificación y accesorios para personal',
   `site_description` varchar(255) NOT NULL DEFAULT 'Especialistas en identificación, carnets, credenciales y cintas porta credenciales en Ecuador.',
   `min_order` int(11) DEFAULT 1,
+  `obras_subtitle` varchar(150) DEFAULT 'Obras del Taller',
+  `obras_title` varchar(255) DEFAULT 'Piezas seleccionadas para personalizar',
+  `obras_desc` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -11,6 +11,14 @@ try {
     $slides = [];
 }
 
+// 2. Obtener tarjetas de Obras del Taller desde secciones_home o portfolio de productos
+try {
+    $stmtObras = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'obras_taller' AND is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
+    $obras_items = $stmtObras->fetchAll();
+} catch (PDOException $e) {
+    $obras_items = [];
+}
+
 // 2. Obtener trabajos realizados (portfolio) desde la administración
 try {
     $stmtShowcase = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.is_featured = 1 AND (c.slug != 'tagua' OR c.slug IS NULL) ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC");
@@ -501,9 +509,9 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         <!-- 2. Productos principales de identificación (Showcase Carrusel Moderno) -->
         <section id="productos" class="section-padding container reveal-on-scroll">
             <div class="section-header center" style="margin-bottom: 3rem;">
-                <span class="section-subtitle">Obras del Taller</span>
-                <h2>Piezas seleccionadas para personalizar</h2>
-                <p>Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.</p>
+                <span class="section-subtitle"><?php echo htmlspecialchars($site_settings['obras_subtitle'] ?: 'Obras del Taller'); ?></span>
+                <h2><?php echo htmlspecialchars($site_settings['obras_title'] ?: 'Piezas seleccionadas para personalizar'); ?></h2>
+                <p><?php echo htmlspecialchars($site_settings['obras_desc'] ?: 'Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.'); ?></p>
             </div>
             
             <style>
@@ -634,7 +642,25 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 </button>
                 
                 <div class="showcase-carousel-track">
-                    <?php if (!empty($showcase_items)): ?>
+                    <?php if (!empty($obras_items)): ?>
+                        <?php foreach ($obras_items as $item): ?>
+                            <?php
+                            $item_src = resolveHomeImg($item['image'], 'uploads/carnet_mockup.jpg');
+                            $item_link = !empty($item['btn_link']) ? $item['btn_link'] : 'cotizacion.php';
+                            ?>
+                            <a href="<?php echo htmlspecialchars($item_link); ?>" class="showcase-card" style="text-decoration: none; color: inherit;">
+                                <div class="showcase-image-wrap">
+                                    <img src="<?php echo htmlspecialchars($item_src); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>">
+                                </div>
+                                <div class="showcase-info">
+                                    <h3 class="showcase-title"><?php echo htmlspecialchars($item['title']); ?></h3>
+                                    <?php if (!empty($item['subtitle'])): ?>
+                                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 6px 0 0 0; line-height: 1.3;"><?php echo htmlspecialchars($item['subtitle']); ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </a>
+                        <?php endforeach; ?>
+                    <?php elseif (!empty($showcase_items)): ?>
                         <?php foreach ($showcase_items as $item): ?>
                             <?php
                             $i_img = !empty($item['image_main']) ? $item['image_main'] : '';

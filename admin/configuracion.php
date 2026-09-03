@@ -30,15 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $site_title = trim($_POST['site_title']);
     $site_description = trim($_POST['site_description']);
     $min_order = (int)$_POST['min_order'];
+    $obras_subtitle = trim($_POST['obras_subtitle'] ?? 'Obras del Taller');
+    $obras_title = trim($_POST['obras_title'] ?? 'Piezas seleccionadas para personalizar');
+    $obras_desc = trim($_POST['obras_desc'] ?? 'Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.');
 
     try {
         $count = $pdo->query("SELECT COUNT(*) FROM configuraciones WHERE id = 1")->fetchColumn();
         if ($count > 0) {
-            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ? WHERE id = 1");
-            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
+            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ?, obras_subtitle = ?, obras_title = ?, obras_desc = ? WHERE id = 1");
+            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc]);
         } else {
-            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order]);
+            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order, obras_subtitle, obras_title, obras_desc) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc]);
         }
         $message = 'Configuración guardada correctamente.';
     } catch (PDOException $e) {
@@ -203,6 +206,22 @@ $settings = getSiteSettings($pdo);
                         <label class="form-label" for="facebook">Facebook Link (URL completa)</label>
                         <input class="form-input" type="text" name="facebook" id="facebook" value="<?php echo htmlspecialchars($settings['facebook']); ?>">
                     </div>
+                </div>
+
+                <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">Portada: Textos de Obras del Taller</h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="obras_subtitle">Subtítulo de Sección (Badge Verde)</label>
+                        <input class="form-input" type="text" name="obras_subtitle" id="obras_subtitle" value="<?php echo htmlspecialchars($settings['obras_subtitle'] ?? 'Obras del Taller'); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="obras_title">Título Principal</label>
+                        <input class="form-input" type="text" name="obras_title" id="obras_title" value="<?php echo htmlspecialchars($settings['obras_title'] ?? 'Piezas seleccionadas para personalizar'); ?>">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="obras_desc">Descripción Inferior</label>
+                    <textarea class="form-input" name="obras_desc" id="obras_desc" rows="2"><?php echo htmlspecialchars($settings['obras_desc'] ?? 'Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.'); ?></textarea>
                 </div>
 
                 <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">SEO y Meta Tags (Google)</h2>

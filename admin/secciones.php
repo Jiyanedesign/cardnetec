@@ -29,8 +29,23 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Procesar Formulario (Creación o Edición)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Procesar Formulario de Textos de Encabezado de Obras del Taller
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_header_texts'])) {
+    $obras_subtitle = trim($_POST['obras_subtitle'] ?? '');
+    $obras_title = trim($_POST['obras_title'] ?? '');
+    $obras_desc = trim($_POST['obras_desc'] ?? '');
+
+    try {
+        $stmtH = $pdo->prepare("UPDATE configuraciones SET obras_subtitle = ?, obras_title = ?, obras_desc = ? WHERE id = 1");
+        $stmtH->execute([$obras_subtitle, $obras_title, $obras_desc]);
+        $message = 'Textos del encabezado de Obras del Taller actualizados correctamente.';
+    } catch (PDOException $e) {
+        $error = 'Error al actualizar textos de cabecera: ' . $e->getMessage();
+    }
+}
+
+// Procesar Formulario de Tarjetas (Creación o Edición)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['action_header_texts'])) {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $section_key = trim($_POST['section_key']);
     $group_name = trim($_POST['group_name'] ?? '');
@@ -86,7 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Cargar configuraciones actuales
+$settings = getSiteSettings($pdo);
+
 // Cargar tarjetas de la base de datos
+$cards_obras = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'obras_taller' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
 $cards_soluciones = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'soluciones' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
 $cards_catalogo = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'catalogo_opciones' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
 
@@ -193,6 +212,14 @@ if (isset($_GET['edit'])) {
             border: 1px solid var(--border);
             background: #222;
         }
+        .section-badge-obras {
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
         .section-badge-sol {
             background: #E0E7FF;
             color: #3730A3;
@@ -235,7 +262,7 @@ if (isset($_GET['edit'])) {
 
     <div class="main-content">
         <h1 style="font-family: var(--font-heading); margin-bottom: 0.5rem; font-size: 2rem;">Gestión de Secciones de Portada</h1>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Edita los títulos, fotos, descripciones y botones de las secciones <em>Soluciones de Taller</em> y <em>Catálogo de Cintas y Credenciales</em>.</p>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Edita los títulos, fotos, descripciones y tarjetas de las secciones de portada: <em>Obras del Taller (Carrusel)</em>, <em>Soluciones de Taller</em> y <em>Catálogo de Opciones</em>.</p>
 
         <?php if ($message): ?>
             <div class="alert alert-success"><?php echo $message; ?></div>
@@ -244,9 +271,47 @@ if (isset($_GET['edit'])) {
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
 
+        <!-- 1. FORMULARIO DE TEXTOS DE ENCABEZADO DE OBRAS DEL TALLER -->
+        <div class="form-container" style="border-left: 4px solid var(--primary); margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                <div>
+                    <h2 style="font-family: var(--font-heading); font-size: 1.25rem; margin: 0; display: flex; align-items: center; gap: 8px;">
+                        <span class="section-badge-obras">Encabezado</span> Textos de la Sección: "Obras del Taller"
+                    </h2>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 4px 0 0 0;">Personaliza el subtítulo, título y descripción que aparecen arriba del carrusel de piezas seleccionadas.</p>
+                </div>
+            </div>
+
+            <form method="POST" action="secciones.php">
+                <input type="hidden" name="action_header_texts" value="1">
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="obras_subtitle">Subtítulo de la Sección (Texto pequeño verde)</label>
+                        <input class="form-input" type="text" name="obras_subtitle" id="obras_subtitle" required value="<?php echo htmlspecialchars($settings['obras_subtitle'] ?: 'Obras del Taller'); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="obras_title">Título Principal de la Sección</label>
+                        <input class="form-input" type="text" name="obras_title" id="obras_title" required value="<?php echo htmlspecialchars($settings['obras_title'] ?: 'Piezas seleccionadas para personalizar'); ?>">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="obras_desc">Descripción / Texto Inferior</label>
+                    <textarea class="form-input" name="obras_desc" id="obras_desc" rows="2" required><?php echo htmlspecialchars($settings['obras_desc'] ?: 'Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.'); ?></textarea>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-primary" type="submit">Actualizar Encabezado de Sección</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 2. FORMULARIO DE TARJETA -->
         <div class="form-container">
             <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">
-                <?php echo $edit_card ? 'Editar Tarjeta' : 'Añadir Nueva Tarjeta'; ?>
+                <?php echo $edit_card ? 'Editar Tarjeta' : 'Añadir Nueva Tarjeta a la Portada'; ?>
             </h2>
 
             <form method="POST" action="secciones.php" enctype="multipart/form-data">
@@ -259,6 +324,9 @@ if (isset($_GET['edit'])) {
                     <div class="form-group">
                         <label class="form-label" for="section_key">Sección de Portada *</label>
                         <select class="form-select" name="section_key" id="section_key" required>
+                            <option value="obras_taller" <?php echo ($edit_card && $edit_card['section_key'] === 'obras_taller') ? 'selected' : ''; ?>>
+                                🎨 Obras del Taller (Piezas Seleccionadas / Carrusel)
+                            </option>
                             <option value="soluciones" <?php echo ($edit_card && $edit_card['section_key'] === 'soluciones') ? 'selected' : ''; ?>>
                                 🏢 Soluciones de Taller (Empresas, Eventos...)
                             </option>
@@ -269,8 +337,8 @@ if (isset($_GET['edit'])) {
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="group_name">Grupo / Columna (Para Catálogo)</label>
-                        <input class="form-input" type="text" name="group_name" id="group_name" placeholder="Ej: Cintas porta credenciales" value="<?php echo $edit_card ? htmlspecialchars($edit_card['group_name'] ?? '') : ''; ?>">
+                        <label class="form-label" for="group_name">Grupo / Subcategoría (Opcional)</label>
+                        <input class="form-input" type="text" name="group_name" id="group_name" placeholder="Ej: Showcase, Cintas..." value="<?php echo $edit_card ? htmlspecialchars($edit_card['group_name'] ?? '') : ''; ?>">
                     </div>
 
                     <div class="form-group">
@@ -282,7 +350,7 @@ if (isset($_GET['edit'])) {
                 <div class="grid-2" style="margin-top: 1rem;">
                     <div class="form-group">
                         <label class="form-label" for="title">Título de la Tarjeta *</label>
-                        <input class="form-input" type="text" name="title" id="title" required placeholder="Ej: Empresas, Cintas full color..." value="<?php echo $edit_card ? htmlspecialchars($edit_card['title']) : ''; ?>">
+                        <input class="form-input" type="text" name="title" id="title" required placeholder="Ej: Carnets PVC Corporativos, Termos..." value="<?php echo $edit_card ? htmlspecialchars($edit_card['title']) : ''; ?>">
                     </div>
 
                     <div class="form-group">
@@ -299,18 +367,18 @@ if (isset($_GET['edit'])) {
 
                 <div class="form-group" style="margin-top: 1rem;">
                     <label class="form-label" for="subtitle">Descripción / Texto de la Tarjeta</label>
-                    <textarea class="form-input" name="subtitle" id="subtitle" rows="2" placeholder="Describe brevemente la solución..."><?php echo $edit_card ? htmlspecialchars($edit_card['subtitle'] ?? '') : ''; ?></textarea>
+                    <textarea class="form-input" name="subtitle" id="subtitle" rows="2" placeholder="Describe brevemente la pieza o solución..."><?php echo $edit_card ? htmlspecialchars($edit_card['subtitle'] ?? '') : ''; ?></textarea>
                 </div>
 
                 <div class="grid-2" style="margin-top: 1rem;">
                     <div class="form-group">
-                        <label class="form-label" for="btn_text">Texto del Botón</label>
+                        <label class="form-label" for="btn_text">Texto del Botón (Para Soluciones/Catálogo)</label>
                         <input class="form-input" type="text" name="btn_text" id="btn_text" placeholder="Ej: Cotizar, Ver catálogo..." value="<?php echo $edit_card ? htmlspecialchars($edit_card['btn_text'] ?? '') : 'Cotizar'; ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="btn_link">Enlace del Botón (URL)</label>
-                        <input class="form-input" type="text" name="btn_link" id="btn_link" placeholder="Ej: cotizacion.php o productos.php?cat=cintas" value="<?php echo $edit_card ? htmlspecialchars($edit_card['btn_link'] ?? '') : 'cotizacion.php'; ?>">
+                        <label class="form-label" for="btn_link">Enlace de Destino (Al hacer clic)</label>
+                        <input class="form-input" type="text" name="btn_link" id="btn_link" placeholder="Ej: producto.php?slug=credenciales-pvc" value="<?php echo $edit_card ? htmlspecialchars($edit_card['btn_link'] ?? '') : 'cotizacion.php'; ?>">
                     </div>
                 </div>
 
@@ -330,9 +398,59 @@ if (isset($_GET['edit'])) {
             </form>
         </div>
 
-        <!-- TABLA 1: SOLUCIONES DE TALLER -->
+        <!-- TABLA 1: OBRAS DEL TALLER (CARRUSEL PIEZAS SELECCIONADAS) -->
         <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
-            <span class="section-badge-sol">Sección 1</span> Soluciones de Taller (Empresas, Instituciones, Eventos)
+            <span class="section-badge-obras">Carrusel</span> Obras del Taller (Tarjetas del Carrusel de Piezas Seleccionadas)
+        </h2>
+        <table style="margin-bottom: 3rem;">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">Orden</th>
+                    <th style="width: 80px;">Foto</th>
+                    <th>Título</th>
+                    <th>Subtítulo / Descripción</th>
+                    <th>Enlace al hacer Clic</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($cards_obras)): ?>
+                    <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No hay tarjetas registradas para Obras del Taller.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($cards_obras as $card): ?>
+                        <tr>
+                            <td><strong>#<?php echo (int)$card['order_val']; ?></strong></td>
+                            <td>
+                                <?php if (!empty($card['image'])): ?>
+                                    <img src="<?php echo htmlspecialchars(getUploadedImgUrl($card['image'])); ?>" class="card-thumb-preview" alt="Miniatura">
+                                <?php else: ?>
+                                    <div style="width: 70px; height: 50px; background: #eee; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999;">Sin foto</div>
+                                <?php endif; ?>
+                            </td>
+                            <td><strong><?php echo htmlspecialchars($card['title']); ?></strong></td>
+                            <td style="max-width: 250px; color: var(--text-muted); font-size: 0.84rem;"><?php echo htmlspecialchars($card['subtitle'] ?? '—'); ?></td>
+                            <td>
+                                <code style="font-size: 0.8rem; background: #f3f4f6; padding: 2px 6px; border-radius: 4px;"><?php echo htmlspecialchars($card['btn_link'] ?? 'cotizacion.php'); ?></code>
+                            </td>
+                            <td>
+                                <span class="badge <?php echo $card['is_active'] ? 'badge-success' : 'badge-danger'; ?>" style="font-size: 0.7rem; border-radius: 4px; padding: 2px 6px;">
+                                    <?php echo $card['is_active'] ? 'Activa' : 'Inactiva'; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <a href="secciones.php?edit=<?php echo $card['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: bold; margin-right: 10px;">Editar</a>
+                                <a href="secciones.php?delete=<?php echo $card['id']; ?>" onclick="return confirm('¿Eliminar esta tarjeta?')" style="color: #EF4444; text-decoration: none; font-weight: bold;">Eliminar</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <!-- TABLA 2: SOLUCIONES DE TALLER -->
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+            <span class="section-badge-sol">Sección</span> Soluciones de Taller (Empresas, Instituciones, Eventos)
         </h2>
         <table>
             <thead>
