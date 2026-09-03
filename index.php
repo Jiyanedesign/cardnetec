@@ -67,6 +67,14 @@ try {
     $home_catalogo_opciones = [];
 }
 
+// Obtener tarjetas de Accesorios Diarios
+try {
+    $stmtSecAcc = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'accesorios' AND is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
+    $home_accesorios = $stmtSecAcc->fetchAll();
+} catch (PDOException $e) {
+    $home_accesorios = [];
+}
+
 // Helper para resolver rutas de imágenes
 if (!function_exists('resolveHomeImg')) {
     function resolveHomeImg($img, $default = 'uploads/carnet_mockup.jpg') {
@@ -822,51 +830,64 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
             </div>
         </section>
 
-        <!-- 5. Accesorios para el uso diario con Fotos Ilustrativas -->
+        <!-- 5. Accesorios para el uso diario con Fotos Ilustrativas (100% Dinámico desde el Dashboard) -->
         <section class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border);">
             <div class="container reveal-on-scroll">
                 <div class="section-header center" style="margin-bottom: 3.5rem;">
-                    <span class="section-subtitle">Accesorios Diarios</span>
-                    <h2>Accesorios para el uso diario</h2>
-                    <p>Complementos prácticos para proteger, portar y presentar mejor cada credencial.</p>
+                    <span class="section-subtitle"><?php echo htmlspecialchars($site_settings['accesorios_subtitle'] ?? 'Accesorios Diarios'); ?></span>
+                    <h2><?php echo htmlspecialchars($site_settings['accesorios_title'] ?? 'Accesorios para el uso diario'); ?></h2>
+                    <p><?php echo htmlspecialchars($site_settings['accesorios_desc'] ?? 'Complementos prácticos para proteger, portar y presentar mejor cada credencial.'); ?></p>
                 </div>
 
                 <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
-                    <!-- Porta carnets -->
-                    <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
-                        <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                            <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets">
+                    <?php if (!empty($home_accesorios)): ?>
+                        <?php foreach ($home_accesorios as $acc): ?>
+                            <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                                <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                                    <img src="<?php echo htmlspecialchars(resolveHomeImg($acc['image'], 'uploads/llavero.png')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($acc['title']); ?>">
+                                </div>
+                                <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
+                                    <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);"><?php echo htmlspecialchars($acc['title']); ?></h4>
+                                    <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;"><?php echo htmlspecialchars($acc['subtitle'] ?? ''); ?></p>
+                                    <a href="<?php echo htmlspecialchars($acc['btn_link'] ?: 'productos.php?cat=porta-credenciales'); ?>" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">
+                                        <?php echo htmlspecialchars($acc['btn_text'] ?: 'Ver opciones'); ?>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <!-- Fallback si la tabla está vacía -->
+                        <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                            <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                                <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets">
+                            </div>
+                            <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
+                                <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Porta carnets</h4>
+                                <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Protección práctica para carnets y tarjetas rígidas.</p>
+                                <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Ver opciones</a>
+                            </div>
                         </div>
-                        <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
-                            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Porta carnets</h4>
-                            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Protección práctica para carnets y tarjetas rígidas.</p>
-                            <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Ver opciones</a>
+                        <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                            <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                                <img src="uploads/yoyos.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Yoyos retráctiles">
+                            </div>
+                            <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
+                                <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Yoyos retráctiles</h4>
+                                <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Accesorio cómodo con cordón extensible para accesos rápidos.</p>
+                                <a href="cotizacion.php?producto=accesorios-identificacion" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Cotizar yoyos</a>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- Yoyos retráctiles -->
-                    <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
-                        <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                            <img src="uploads/yoyos.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Yoyos retráctiles">
+                        <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
+                            <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
+                                <img src="uploads/fundas.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Fundas transparentes">
+                            </div>
+                            <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
+                                <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Fundas transparentes</h4>
+                                <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Fundas de PVC blando para acreditaciones de eventos.</p>
+                                <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Ver opciones</a>
+                            </div>
                         </div>
-                        <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
-                            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Yoyos retráctiles</h4>
-                            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Accesorio cómodo con cordón extensible para accesos rápidos.</p>
-                            <a href="cotizacion.php?producto=accesorios-identificacion" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Cotizar yoyos</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Fundas transparentes -->
-                    <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
-                        <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                            <img src="uploads/fundas.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Fundas transparentes">
-                        </div>
-                        <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
-                            <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Fundas transparentes</h4>
-                            <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Fundas de PVC blando para acreditaciones de eventos.</p>
-                            <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Ver opciones</a>
-                        </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>

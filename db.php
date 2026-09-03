@@ -158,6 +158,22 @@ try {
         }
     }
 
+    // 1.85. AUTO-MIGRACIÓN: Tarjetas iniciales para Accesorios Diarios (solo si está vacía)
+    try {
+        $acc_count = $pdo->query("SELECT COUNT(*) FROM secciones_home WHERE section_key = 'accesorios'")->fetchColumn();
+        if ($acc_count == 0) {
+            $defaultAcc = [
+                ['accesorios', NULL, 'Porta carnets', 'Protección práctica para carnets y tarjetas rígidas.', 'llavero.png', 'Ver opciones', 'productos.php?cat=porta-credenciales', 1],
+                ['accesorios', NULL, 'Yoyos retráctiles', 'Accesorio cómodo con cordón extensible para accesos rápidos.', 'yoyos.jpg', 'Cotizar yoyos', 'cotizacion.php?producto=accesorios-identificacion', 2],
+                ['accesorios', NULL, 'Fundas transparentes', 'Fundas de PVC blando para acreditaciones de eventos.', 'fundas.jpg', 'Ver opciones', 'productos.php?cat=porta-credenciales', 3]
+            ];
+            $stmtInsAcc = $pdo->prepare("INSERT INTO secciones_home (section_key, group_name, title, subtitle, image, btn_text, btn_link, order_val, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)");
+            foreach ($defaultAcc as $item) {
+                $stmtInsAcc->execute($item);
+            }
+        }
+    } catch (PDOException $e) {}
+
     // 1.9. AUTO-MIGRACIÓN: Categoría Tagua (crear solo si no existe)
     try {
         $existTagua = $pdo->query("SELECT id FROM categorias WHERE slug = 'tagua'")->fetchColumn();
@@ -439,6 +455,24 @@ try {
     if (!in_array('email_2', $config_columns)) {
         $pdo->exec("ALTER TABLE configuraciones ADD COLUMN email_2 varchar(100) DEFAULT NULL;");
     }
+    if (!in_array('obras_subtitle', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN obras_subtitle varchar(255) DEFAULT 'Obras del Taller';");
+    }
+    if (!in_array('obras_title', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN obras_title varchar(255) DEFAULT 'Piezas seleccionadas para personalizar';");
+    }
+    if (!in_array('obras_desc', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN obras_desc text DEFAULT NULL;");
+    }
+    if (!in_array('accesorios_subtitle', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN accesorios_subtitle varchar(255) DEFAULT 'Accesorios Diarios';");
+    }
+    if (!in_array('accesorios_title', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN accesorios_title varchar(255) DEFAULT 'Accesorios para el uso diario';");
+    }
+    if (!in_array('accesorios_desc', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN accesorios_desc text DEFAULT NULL;");
+    }
 
 
     // AUTO-MIGRACIÓN: Columna de imagen en carrusel y seeding inicial solo si la tabla está vacía
@@ -635,7 +669,13 @@ function getSiteSettings($pdo) {
             'instagram' => '',
             'facebook' => '',
             'site_title' => 'CardNet.ec | Identificación y accesorios para personal en Ecuador',
-            'site_description' => 'Especialistas en carnets PVC, credenciales, cintas porta credenciales impresas y accesorios.'
+            'site_description' => 'Especialistas en carnets PVC, credenciales, cintas porta credenciales impresas y accesorios.',
+            'obras_subtitle' => 'Obras del Taller',
+            'obras_title' => 'Piezas seleccionadas para personalizar',
+            'obras_desc' => 'Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.',
+            'accesorios_subtitle' => 'Accesorios Diarios',
+            'accesorios_title' => 'Accesorios para el uso diario',
+            'accesorios_desc' => 'Complementos prácticos para proteger, portar y presentar mejor cada credencial.'
         ];
     } catch (PDOException $e) {
         return [];

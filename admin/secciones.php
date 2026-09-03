@@ -30,7 +30,7 @@ if (isset($_GET['delete'])) {
 }
 
 // Procesar Formulario de Textos de Encabezado de Obras del Taller
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_header_texts'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['action_header_obras']) || isset($_POST['action_header_texts']))) {
     $obras_subtitle = trim($_POST['obras_subtitle'] ?? '');
     $obras_title = trim($_POST['obras_title'] ?? '');
     $obras_desc = trim($_POST['obras_desc'] ?? '');
@@ -39,6 +39,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_header_texts']
         $stmtH = $pdo->prepare("UPDATE configuraciones SET obras_subtitle = ?, obras_title = ?, obras_desc = ? WHERE id = 1");
         $stmtH->execute([$obras_subtitle, $obras_title, $obras_desc]);
         $message = 'Textos del encabezado de Obras del Taller actualizados correctamente.';
+    } catch (PDOException $e) {
+        $error = 'Error al actualizar textos de cabecera: ' . $e->getMessage();
+    }
+}
+
+// Procesar Formulario de Textos de Encabezado de Accesorios Diarios
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_header_accesorios'])) {
+    $accesorios_subtitle = trim($_POST['accesorios_subtitle'] ?? '');
+    $accesorios_title = trim($_POST['accesorios_title'] ?? '');
+    $accesorios_desc = trim($_POST['accesorios_desc'] ?? '');
+
+    try {
+        $stmtH = $pdo->prepare("UPDATE configuraciones SET accesorios_subtitle = ?, accesorios_title = ?, accesorios_desc = ? WHERE id = 1");
+        $stmtH->execute([$accesorios_subtitle, $accesorios_title, $accesorios_desc]);
+        $message = 'Textos del encabezado de Accesorios Diarios actualizados correctamente.';
     } catch (PDOException $e) {
         $error = 'Error al actualizar textos de cabecera: ' . $e->getMessage();
     }
@@ -108,6 +123,7 @@ $settings = getSiteSettings($pdo);
 $cards_obras = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'obras_taller' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
 $cards_soluciones = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'soluciones' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
 $cards_catalogo = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'catalogo_opciones' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
+$cards_accesorios = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'accesorios' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
 
 // Cargar tarjeta a editar
 $edit_card = null;
@@ -236,6 +252,14 @@ if (isset($_GET['edit'])) {
             font-size: 0.75rem;
             font-weight: 600;
         }
+        .section-badge-acc {
+            background: #E0F2FE;
+            color: #0369A1;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
     </style>
     <link rel="stylesheet" href="../css/admin.css?v=6.3">
 </head>
@@ -262,7 +286,7 @@ if (isset($_GET['edit'])) {
 
     <div class="main-content">
         <h1 style="font-family: var(--font-heading); margin-bottom: 0.5rem; font-size: 2rem;">Gestión de Secciones de Portada</h1>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Edita los títulos, fotos, descripciones y tarjetas de las secciones de portada: <em>Obras del Taller (Carrusel)</em>, <em>Soluciones de Taller</em> y <em>Catálogo de Opciones</em>.</p>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Edita los títulos, fotos, descripciones y tarjetas de las secciones de portada: <em>Obras del Taller (Carrusel)</em>, <em>Soluciones de Taller</em>, <em>Catálogo de Opciones</em> y <em>Accesorios para el uso diario</em>.</p>
 
         <?php if ($message): ?>
             <div class="alert alert-success"><?php echo $message; ?></div>
@@ -271,7 +295,7 @@ if (isset($_GET['edit'])) {
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <!-- 1. FORMULARIO DE TEXTOS DE ENCABEZADO DE OBRAS DEL TALLER -->
+        <!-- 1. FORMULARIO DE TEXTOS DE ENCABEZADO: OBRAS DEL TALLER -->
         <div class="form-container" style="border-left: 4px solid var(--primary); margin-bottom: 2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
                 <div>
@@ -283,7 +307,7 @@ if (isset($_GET['edit'])) {
             </div>
 
             <form method="POST" action="secciones.php">
-                <input type="hidden" name="action_header_texts" value="1">
+                <input type="hidden" name="action_header_obras" value="1">
                 
                 <div class="grid-2">
                     <div class="form-group">
@@ -303,12 +327,49 @@ if (isset($_GET['edit'])) {
                 </div>
 
                 <div style="margin-top: 1rem;">
-                    <button class="btn btn-primary" type="submit">Actualizar Encabezado de Sección</button>
+                    <button class="btn btn-primary" type="submit">Actualizar Encabezado de Obras del Taller</button>
                 </div>
             </form>
         </div>
 
-        <!-- 2. FORMULARIO DE TARJETA -->
+        <!-- 2. FORMULARIO DE TEXTOS DE ENCABEZADO: ACCESORIOS PARA EL USO DIARIO -->
+        <div class="form-container" style="border-left: 4px solid #0369a1; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                <div>
+                    <h2 style="font-family: var(--font-heading); font-size: 1.25rem; margin: 0; display: flex; align-items: center; gap: 8px;">
+                        <span class="section-badge-acc">Encabezado</span> Textos de la Sección: "Accesorios para el uso diario"
+                    </h2>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 4px 0 0 0;">Personaliza el subtítulo, título y descripción que aparecen arriba de las tarjetas de accesorios (Porta carnets, Yoyos, Fundas...).</p>
+                </div>
+            </div>
+
+            <form method="POST" action="secciones.php">
+                <input type="hidden" name="action_header_accesorios" value="1">
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="accesorios_subtitle">Subtítulo de la Sección (Texto pequeño verde)</label>
+                        <input class="form-input" type="text" name="accesorios_subtitle" id="accesorios_subtitle" required value="<?php echo htmlspecialchars($settings['accesorios_subtitle'] ?: 'Accesorios Diarios'); ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="accesorios_title">Título Principal de la Sección</label>
+                        <input class="form-input" type="text" name="accesorios_title" id="accesorios_title" required value="<?php echo htmlspecialchars($settings['accesorios_title'] ?: 'Accesorios para el uso diario'); ?>">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="accesorios_desc">Descripción / Texto Inferior</label>
+                    <textarea class="form-input" name="accesorios_desc" id="accesorios_desc" rows="2" required><?php echo htmlspecialchars($settings['accesorios_desc'] ?: 'Complementos prácticos para proteger, portar y presentar mejor cada credencial.'); ?></textarea>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-primary" type="submit" style="background-color: #0369a1; border-color: #0369a1;">Actualizar Encabezado de Accesorios</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 3. FORMULARIO DE TARJETA -->
         <div class="form-container">
             <h2 style="font-family: var(--font-heading); margin-bottom: 1.5rem; font-size: 1.25rem;">
                 <?php echo $edit_card ? 'Editar Tarjeta' : 'Añadir Nueva Tarjeta a la Portada'; ?>
@@ -332,6 +393,9 @@ if (isset($_GET['edit'])) {
                             </option>
                             <option value="catalogo_opciones" <?php echo ($edit_card && $edit_card['section_key'] === 'catalogo_opciones') ? 'selected' : ''; ?>>
                                 🏷️ Catálogo (Cintas y Credenciales)
+                            </option>
+                            <option value="accesorios" <?php echo ($edit_card && $edit_card['section_key'] === 'accesorios') ? 'selected' : ''; ?>>
+                                🪪 Accesorios Diarios (Porta carnets, Yoyos retráctiles, Fundas...)
                             </option>
                         </select>
                     </div>
@@ -543,7 +607,71 @@ if (isset($_GET['edit'])) {
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <!-- TABLA 4: ACCESORIOS PARA EL USO DIARIO -->
+        <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.35rem; display: flex; align-items: center; gap: 8px; margin-top: 3rem;">
+            <span class="section-badge-acc">Sección 3</span> Accesorios para el Uso Diario (Porta carnets, Yoyos retráctiles, Fundas...)
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: -0.5rem; margin-bottom: 1.25rem;">Tarjetas ilustrativas que se muestran en el bloque de accesorios diarios de la portada.</p>
+        <table style="margin-bottom: 3rem;">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">Orden</th>
+                    <th style="width: 80px;">Foto</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Botón / Enlace</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($cards_accesorios)): ?>
+                    <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No hay tarjetas registradas para Accesorios Diarios.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($cards_accesorios as $card): ?>
+                        <tr>
+                            <td><strong>#<?php echo (int)$card['order_val']; ?></strong></td>
+                            <td>
+                                <?php if (!empty($card['image'])): ?>
+                                    <img src="<?php echo htmlspecialchars(getUploadedImgUrl($card['image'])); ?>" class="card-thumb-preview" alt="Miniatura">
+                                <?php else: ?>
+                                    <div style="width: 70px; height: 50px; background: #eee; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999;">Sin foto</div>
+                                <?php endif; ?>
+                            </td>
+                            <td><strong><?php echo htmlspecialchars($card['title']); ?></strong></td>
+                            <td style="max-width: 250px; color: var(--text-muted); font-size: 0.84rem;"><?php echo htmlspecialchars($card['subtitle'] ?? '—'); ?></td>
+                            <td>
+                                <span style="font-weight: 500;"><?php echo htmlspecialchars($card['btn_text'] ?? 'Ver opciones'); ?></span><br>
+                                <small><code><?php echo htmlspecialchars($card['btn_link'] ?? 'productos.php'); ?></code></small>
+                            </td>
+                            <td>
+                                <span class="badge <?php echo $card['is_active'] ? 'badge-success' : 'badge-danger'; ?>" style="font-size: 0.7rem; border-radius: 4px; padding: 2px 6px;">
+                                    <?php echo $card['is_active'] ? 'Activa' : 'Inactiva'; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <a href="secciones.php?edit=<?php echo $card['id']; ?>" style="color: var(--primary); text-decoration: none; font-weight: bold; margin-right: 10px;">Editar</a>
+                                <a href="secciones.php?delete=<?php echo $card['id']; ?>" onclick="return confirm('¿Eliminar esta tarjeta?')" style="color: #EF4444; text-decoration: none; font-weight: bold;">Eliminar</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 
+    <script>
+    // Preservar scroll al interactuar con formularios
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('admin_secciones_scroll', window.scrollY);
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedY = sessionStorage.getItem('admin_secciones_scroll');
+        if (savedY !== null) {
+            window.scrollTo(0, parseInt(savedY, 10));
+        }
+    });
+    </script>
 </body>
 </html>

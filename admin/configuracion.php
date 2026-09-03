@@ -33,15 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $obras_subtitle = trim($_POST['obras_subtitle'] ?? 'Obras del Taller');
     $obras_title = trim($_POST['obras_title'] ?? 'Piezas seleccionadas para personalizar');
     $obras_desc = trim($_POST['obras_desc'] ?? 'Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.');
+    $accesorios_subtitle = trim($_POST['accesorios_subtitle'] ?? 'Accesorios Diarios');
+    $accesorios_title = trim($_POST['accesorios_title'] ?? 'Accesorios para el uso diario');
+    $accesorios_desc = trim($_POST['accesorios_desc'] ?? 'Complementos prácticos para proteger, portar y presentar mejor cada credencial.');
 
     try {
         $count = $pdo->query("SELECT COUNT(*) FROM configuraciones WHERE id = 1")->fetchColumn();
         if ($count > 0) {
-            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ?, obras_subtitle = ?, obras_title = ?, obras_desc = ? WHERE id = 1");
-            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc]);
+            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ?, obras_subtitle = ?, obras_title = ?, obras_desc = ?, accesorios_subtitle = ?, accesorios_title = ?, accesorios_desc = ? WHERE id = 1");
+            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc]);
         } else {
-            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order, obras_subtitle, obras_title, obras_desc) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc]);
+            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order, obras_subtitle, obras_title, obras_desc, accesorios_subtitle, accesorios_title, accesorios_desc) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc]);
         }
         $message = 'Configuración guardada correctamente.';
     } catch (PDOException $e) {
@@ -222,6 +225,22 @@ $settings = getSiteSettings($pdo);
                 <div class="form-group" style="margin-top: 1rem;">
                     <label class="form-label" for="obras_desc">Descripción Inferior</label>
                     <textarea class="form-input" name="obras_desc" id="obras_desc" rows="2"><?php echo htmlspecialchars($settings['obras_desc'] ?? 'Artículos de alta resistencia diseñados para acoger tu marca con grabado láser de máxima definición.'); ?></textarea>
+                </div>
+
+                <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">Portada: Textos de Accesorios Diarios</h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="accesorios_subtitle">Subtítulo de Sección (Badge Verde)</label>
+                        <input class="form-input" type="text" name="accesorios_subtitle" id="accesorios_subtitle" value="<?php echo htmlspecialchars($settings['accesorios_subtitle'] ?? 'Accesorios Diarios'); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="accesorios_title">Título Principal</label>
+                        <input class="form-input" type="text" name="accesorios_title" id="accesorios_title" value="<?php echo htmlspecialchars($settings['accesorios_title'] ?? 'Accesorios para el uso diario'); ?>">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="accesorios_desc">Descripción Inferior</label>
+                    <textarea class="form-input" name="accesorios_desc" id="accesorios_desc" rows="2"><?php echo htmlspecialchars($settings['accesorios_desc'] ?? 'Complementos prácticos para proteger, portar y presentar mejor cada credencial.'); ?></textarea>
                 </div>
 
                 <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">SEO y Meta Tags (Google)</h2>
