@@ -452,11 +452,11 @@ try {
     $carrusel_count = $pdo->query("SELECT COUNT(*) FROM carrusel")->fetchColumn();
     if ($carrusel_count == 0) {
         $pdo->exec("INSERT INTO `carrusel` (`title`, `subtitle`, `image`, `cta_text`, `cta_url`, `order_val`, `is_active`) VALUES
-            ('Maestría en Grabado Láser & Personalización', 'No hacemos maquila genérica en serie. Grabamos piezas nobles con precisión milimétrica de taller, sin mínimos forzados y con acabados que jamás se borran.', 'carousel_1.jpg', 'Cotizar piezas de taller', 'cotizacion.php', 1, 1),
-            ('Termos & Artículos en Acero de Autor', 'Grabado láser de fibra óptica de ultra-alta definición. Relieve indeleble, sobrio y elegante para regalos directivos y proyectos corporativos selectos.', 'carousel_2.jpg', 'Ver acabados en acero', 'productos.php', 2, 1),
-            ('Cuero PU, Madera Tratada & Tagua Ecuatoriana', 'Texturas nobles y materiales sustentables personalizados con bajo relieve y corte láser de alta precisión.', 'carousel_3.jpg', 'Explorar materiales', 'productos.php', 3, 1),
-            ('Kits Corporativos & Regalos de Distinción', 'Cajas de autor en madera, agendas ejecutivas y piezas a medida diseñadas para generar impacto real y durar años.', 'carousel_4.jpg', 'Ver kits de autor', 'productos.php', 4, 1),
-            ('Identificación Corporativa de Alta Fidelidad', 'Credenciales en PVC laminado y lanyards de alta definición que proyectan la verdadera jerarquía de tu organización.', 'carousel_5.jpg', 'Cotizar identificación', 'cotizacion.php', 5, 1);");
+            ('Carnets PVC personalizados', 'Identificación profesional para empresas, instituciones, eventos y equipos.', 'carousel_1.jpg', 'Cotizar carnets', 'cotizacion.php', 1, 1),
+            ('Credenciales para eventos y personal', 'Credenciales claras, funcionales y listas para identificar a tu equipo.', 'carousel_2.jpg', 'Ver credenciales', 'productos.php', 2, 1),
+            ('Cintas porta credenciales', 'Cintas impresas full color, a un color o sin impresión para diferentes necesidades.', 'carousel_3.jpg', 'Ver opciones de cintas', 'productos.php', 3, 1),
+            ('Porta credenciales y accesorios', 'Complementos prácticos para proteger y presentar mejor cada identificación.', 'carousel_4.jpg', 'Explorar accesorios', 'productos.php', 4, 1),
+            ('Identificación para empresas e instituciones', 'Soluciones para equipos que necesitan verse organizados y profesionales.', 'carousel_5.jpg', 'Cotizar para mi empresa', 'cotizacion.php', 5, 1);");
     }
 
     $prod_columns_migration = $pdo->query("DESCRIBE productos")->fetchAll(PDO::FETCH_COLUMN);
