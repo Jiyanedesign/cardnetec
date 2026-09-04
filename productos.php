@@ -25,9 +25,10 @@ try {
 $site_settings = getSiteSettings($pdo);
 $prod_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
 
-// Obtener productos filtrados si se solicita
+// Obtener productos filtrados o buscados si se solicita
 $category_filter = isset($_GET['cat']) ? trim($_GET['cat']) : '';
 $sort = isset($_GET['sort']) ? trim($_GET['sort']) : '';
+$search_query = isset($_GET['q']) ? trim($_GET['q']) : (isset($_GET['search']) ? trim($_GET['search']) : '');
 
 $order_clause = "ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC";
 if ($sort === 'price_asc') {
@@ -35,7 +36,57 @@ if ($sort === 'price_asc') {
 }
 
 try {
-    if ($category_filter === 'tagua') {
+    if ($search_query !== '') {
+        $q_lower = mb_strtolower($search_query);
+        $terms = [$search_query];
+        
+        $synonyms_map = [
+            'carnet' => ['credencial', 'portacredencial', 'pvc'],
+            'carnets' => ['credencial', 'portacredencial', 'pvc'],
+            'gafete' => ['credencial', 'portacredencial'],
+            'gafetes' => ['credencial', 'portacredencial'],
+            'fotocheck' => ['credencial', 'portacredencial'],
+            'lanyard' => ['cinta', 'cordon'],
+            'lanyards' => ['cinta', 'cordon'],
+            'colgante' => ['cinta', 'cordon'],
+            'tagua' => ['aretes', 'collar'],
+            'placas' => ['placa'],
+            'boligrafo' => ['esfero'],
+            'lapicero' => ['esfero'],
+            'llaveros' => ['llavero'],
+            'cajas' => ['caja']
+        ];
+
+        foreach ($synonyms_map as $trigger => $syns) {
+            if (str_contains($q_lower, $trigger)) {
+                foreach ($syns as $syn) {
+                    if (!in_array($syn, $terms)) {
+                        $terms[] = $syn;
+                    }
+                }
+            }
+        }
+
+        $whereParts = [];
+        $params = [];
+        foreach ($terms as $t) {
+            $st = '%' . $t . '%';
+            $whereParts[] = "(p.name LIKE ? OR p.description_short LIKE ? OR p.description_long LIKE ? OR p.sku LIKE ? OR p.category LIKE ? OR c.name LIKE ? OR p.slug LIKE ?)";
+            for ($i = 0; $i < 7; $i++) {
+                $params[] = $st;
+            }
+        }
+        $whereSql = implode(' OR ', $whereParts);
+
+        $stmtProds = $pdo->prepare("SELECT p.*, c.name as category_name, c.slug as cat_slug 
+                                    FROM productos p 
+                                    LEFT JOIN categorias c ON p.category_id = c.id 
+                                    WHERE p.is_active = 1 
+                                      AND ($whereSql) 
+                                    $order_clause");
+        $stmtProds->execute($params);
+        $products = $stmtProds->fetchAll();
+    } elseif ($category_filter === 'tagua') {
         $stmtProds = $pdo->query("SELECT p.*, c.name as category_name, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND (c.slug = 'tagua' OR p.category = 'Tagua' OR p.slug LIKE '%tagua%') $order_clause");
         $products = $stmtProds->fetchAll();
     } elseif ($category_filter) {
@@ -159,24 +210,38 @@ try {
         </div>
 
         <!-- Barra de Búsqueda + Ordenamiento -->
-        <div style="display: flex; gap: 10px; margin-bottom: 1.25rem; align-items: center; flex-wrap: wrap;">
+        <form action="productos.php" method="GET" style="display: flex; gap: 10px; margin-bottom: 1.25rem; align-items: center; flex-wrap: wrap;">
+            <?php if (!empty($category_filter)): ?>
+                <input type="hidden" name="cat" value="<?php echo htmlspecialchars($category_filter); ?>">
+            <?php endif; ?>
             <!-- Buscador Dinámico -->
             <div style="flex: 1; min-width: 200px; position: relative;">
                 <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--text-muted); fill: none; stroke-width: 2; pointer-events: none;" viewBox="0 0 24 24">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <input type="text" id="product-search" placeholder="Buscar productos..." autocomplete="off"
+                <input type="text" id="product-search" name="q" placeholder="Buscar por nombre, material o técnica..." autocomplete="off" value="<?php echo htmlspecialchars($search_query); ?>"
                     style="width: 100%; padding: 9px 12px 9px 36px; border: 1px solid var(--border); border-radius: 8px; font-family: var(--font-body); font-size: 0.85rem; color: var(--text-dark); background: white; outline: none; transition: border-color 0.2s;">
             </div>
             <!-- Ordenamiento -->
-            <select id="sort-selector" onchange="location.href=this.value;"
+            <select id="sort-selector" name="sort" onchange="this.form.submit();"
                 style="padding: 9px 28px 9px 12px; border-radius: 8px; border: 1px solid var(--border); background: white; font-family: var(--font-body); font-size: 0.82rem; color: var(--text-dark); cursor: pointer; outline: none; font-weight: 500; -webkit-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23999%22%20stroke-width%3D%222%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 8px center; white-space: nowrap;">
-                <option value="productos.php<?php echo $category_filter ? '?cat='.urlencode($category_filter) : ''; ?>" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Destacados</option>
-                <option value="productos.php?<?php echo $category_filter ? 'cat='.urlencode($category_filter).'&' : ''; ?>sort=price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Menor precio</option>
+                <option value="" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Destacados</option>
+                <option value="price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Menor precio</option>
             </select>
-        </div>
+        </form>
 
-        <!-- Contador de resultados de búsqueda (oculto por defecto) -->
+        <?php if (!empty($search_query)): ?>
+            <div style="background: #f4f7f2; border: 1px solid rgba(99, 174, 44, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <span style="font-size: 0.9rem; color: var(--text-dark);">
+                    🔍 Mostrando resultados para: <strong style="color: var(--dark);">"<?php echo htmlspecialchars($search_query); ?>"</strong> (<?php echo count($products); ?> <?php echo count($products) === 1 ? 'producto encontrado' : 'productos encontrados'; ?>)
+                </span>
+                <a href="productos.php<?php echo $category_filter ? '?cat='.urlencode($category_filter) : ''; ?>" style="font-size: 0.82rem; color: var(--primary); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px;">
+                    ✕ Limpiar búsqueda
+                </a>
+            </div>
+        <?php endif; ?>
+
+        <!-- Contador de resultados de búsqueda en tiempo real -->
         <div id="search-results-count" style="display: none; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 500;"></div>
 
         <!-- Barra de Filtros por Categoría (Chips con Scroll Horizontal en móvil) -->
@@ -282,11 +347,15 @@ try {
                     <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.2" style="color: var(--text-muted); opacity: 0.5; margin-bottom: 1rem;">
                         <circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/>
                     </svg>
-                    <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 500;">No encontramos productos con este filtro</h3>
-                    <p style="font-size: 0.88rem; margin-bottom: 1.5rem;">Puedes elegir otra categoría o cotizar una idea desde cero.</p>
-                    <div style="display: flex; gap: 10px; justify-content: center;">
-                        <a href="productos.php" class="btn btn-secondary" style="font-size: 0.8rem; padding: 8px 16px;">Ver todos</a>
-                        <a href="cotizacion.php" class="btn btn-primary" style="font-size: 0.8rem; padding: 8px 16px;">Cotizar una idea</a>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);">
+                        <?php echo !empty($search_query) ? 'No encontramos productos para "' . htmlspecialchars($search_query) . '"' : 'No encontramos productos con este filtro'; ?>
+                    </h3>
+                    <p style="font-size: 0.88rem; margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                        <?php echo !empty($search_query) ? 'Intenta con un término más general (como carnet, cinta, llavero, placa, tagua) o consúltanos directamente por WhatsApp.' : 'Puedes elegir otra categoría o cotizar una idea desde cero.'; ?>
+                    </p>
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <a href="productos.php" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 20px;">Ver todo el catálogo</a>
+                        <a href="https://wa.me/<?php echo $prod_wa_clean; ?>?text=<?php echo urlencode('Hola CardNet, busco un producto que no encontré en el catálogo: ' . $search_query); ?>" class="btn btn-primary" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; padding: 10px 20px;">Consultar por WhatsApp</a>
                     </div>
                 </div>
             <?php endif; ?>
@@ -310,65 +379,8 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.3" defer></script>
+    <script src="js/main.js?v=6.4" defer></script>
     <script src="js/animations.js" defer></script>
-
-    <!-- Buscador Dinámico de Productos -->
-    <script>
-    (function() {
-        const searchInput = document.getElementById('product-search');
-        const resultsCounter = document.getElementById('search-results-count');
-        const productCards = document.querySelectorAll('.catalog-product-item');
-        
-        if (!searchInput || !productCards.length) return;
-
-        // Focus styling
-        searchInput.addEventListener('focus', function() {
-            this.style.borderColor = 'var(--primary)';
-            this.style.boxShadow = '0 0 0 3px rgba(99, 174, 44, 0.1)';
-        });
-        searchInput.addEventListener('blur', function() {
-            this.style.borderColor = '';
-            this.style.boxShadow = '';
-        });
-
-        // Búsqueda en tiempo real
-        searchInput.addEventListener('input', function() {
-            const query = this.value.trim().toLowerCase();
-            let visibleCount = 0;
-
-            productCards.forEach(function(card) {
-                const name = (card.getAttribute('data-name') || '').toLowerCase();
-                const category = (card.getAttribute('data-category') || '').toLowerCase();
-                const material = (card.getAttribute('data-material') || '').toLowerCase();
-                const technique = (card.getAttribute('data-technique') || '').toLowerCase();
-                const use = (card.getAttribute('data-use') || '').toLowerCase();
-
-                const matches = !query || 
-                    name.includes(query) || 
-                    category.includes(query) || 
-                    material.includes(query) || 
-                    technique.includes(query) ||
-                    use.includes(query);
-
-                if (matches) {
-                    card.style.display = '';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Mostrar contador
-            if (query) {
-                resultsCounter.style.display = 'block';
-                resultsCounter.textContent = visibleCount + ' producto' + (visibleCount !== 1 ? 's' : '') + ' encontrado' + (visibleCount !== 1 ? 's' : '');
-            } else {
-                resultsCounter.style.display = 'none';
-            }
-        });
-    })();
-    </script>
 </body>
 </html>
  

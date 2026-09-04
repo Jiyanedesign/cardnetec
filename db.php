@@ -1,4 +1,21 @@
 <?php
+// Polyfills de compatibilidad para PHP 7.4
+if (!function_exists('str_contains')) {
+    function str_contains($haystack, $needle) {
+        return (string)$needle !== '' && mb_strpos((string)$haystack, (string)$needle) !== false;
+    }
+}
+if (!function_exists('str_starts_with')) {
+    function str_starts_with($haystack, $needle) {
+        return (string)$needle !== '' && strncmp((string)$haystack, (string)$needle, strlen((string)$needle)) === 0;
+    }
+}
+if (!function_exists('str_ends_with')) {
+    function str_ends_with($haystack, $needle) {
+        return (string)$needle !== '' && substr((string)$haystack, -strlen((string)$needle)) === (string)$needle;
+    }
+}
+
 // Configuración Oficial de Base de Datos para CardNet.ec (cPanel)
 
 $db_host = 'localhost';

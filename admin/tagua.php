@@ -97,21 +97,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_tagua_product'])
         }
     }
 
+    // Procesar fotos de galería (existentes y nuevas)
+    $gallery_paths = [];
+    if (!empty($_POST['existing_tp_gallery'])) {
+        $gallery_paths = json_decode($_POST['existing_tp_gallery'], true) ?: [];
+    }
+
+    if (isset($_FILES['tp_gallery']) && !empty($_FILES['tp_gallery']['name'])) {
+        $files = $_FILES['tp_gallery'];
+        $fcount = is_array($files['name']) ? count($files['name']) : 0;
+        for ($i = 0; $i < $fcount; $i++) {
+            if (isset($files['error'][$i]) && $files['error'][$i] === UPLOAD_ERR_OK) {
+                $file_tmp = $files['tmp_name'][$i];
+                $file_name = $files['name'][$i];
+                $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+                if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $new_fn = 'tagua_gal_' . time() . '_' . uniqid() . '.' . $ext;
+                    if (move_uploaded_file($file_tmp, $upload_dir . $new_fn)) {
+                        $webp_fn = convertToWebP($upload_dir . $new_fn);
+                        $gallery_paths[] = 'products/' . basename($webp_fn);
+                    }
+                }
+            }
+        }
+    }
+
+    // Si no se asignó foto principal pero sí hay fotos en galería, promover la primera foto a principal
+    if (empty($tp_image) && !empty($gallery_paths)) {
+        $tp_image = $gallery_paths[0];
+    }
+    $gallery_json = json_encode(array_values(array_unique($gallery_paths)));
+
     if (empty($tp_name)) {
         $error = 'El nombre del producto de Tagua es obligatorio.';
     } else {
         if ($tp_id > 0) {
             try {
-                $stmtUp = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, sku = ?, price = ?, stock = ?, order_val = ?, description_short = ?, description_long = ?, cta_text = ?, is_active = ?, image_main = ?, category = 'Tagua', category_id = ? WHERE id = ?");
-                $stmtUp->execute([$tp_name, $tp_slug, $tp_sku, $tp_price, $tp_stock, $tp_order_val, $tp_desc_short, $tp_desc_long, $tp_cta, $tp_is_active, $tp_image, $tagua_cat_id, $tp_id]);
+                $stmtUp = $pdo->prepare("UPDATE productos SET name = ?, slug = ?, sku = ?, price = ?, stock = ?, order_val = ?, description_short = ?, description_long = ?, cta_text = ?, is_active = ?, image_main = ?, gallery_images = ?, category = 'Tagua', category_id = ? WHERE id = ?");
+                $stmtUp->execute([$tp_name, $tp_slug, $tp_sku, $tp_price, $tp_stock, $tp_order_val, $tp_desc_short, $tp_desc_long, $tp_cta, $tp_is_active, $tp_image, $gallery_json, $tagua_cat_id, $tp_id]);
                 $message = 'Producto de Tagua actualizado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al actualizar producto: ' . $e->getMessage();
             }
         } else {
             try {
-                $stmtIn = $pdo->prepare("INSERT INTO productos (category_id, category, name, slug, sku, price, stock, order_val, description_short, description_long, cta_text, is_active, is_featured, image_main) VALUES (?, 'Tagua', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)");
-                $stmtIn->execute([$tagua_cat_id, $tp_name, $tp_slug, $tp_sku, $tp_price, $tp_stock, $tp_order_val, $tp_desc_short, $tp_desc_long, $tp_cta, $tp_is_active, $tp_image]);
+                $stmtIn = $pdo->prepare("INSERT INTO productos (category_id, category, name, slug, sku, price, stock, order_val, description_short, description_long, cta_text, is_active, is_featured, image_main, gallery_images) VALUES (?, 'Tagua', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)");
+                $stmtIn->execute([$tagua_cat_id, $tp_name, $tp_slug, $tp_sku, $tp_price, $tp_stock, $tp_order_val, $tp_desc_short, $tp_desc_long, $tp_cta, $tp_is_active, $tp_image, $gallery_json]);
                 $message = 'Producto de Tagua creado correctamente.';
             } catch (PDOException $e) {
                 $error = 'Error al crear producto: ' . $e->getMessage();
@@ -328,6 +359,80 @@ if ($tagua_cat_id) {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+        }
+        /* Galería de Fotos de Tagua */
+        .gallery-preview {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .gallery-img-wrap {
+            position: relative;
+            width: 86px;
+            height: 86px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+            background: white;
+        }
+        .gallery-img-wrap:active {
+            cursor: grabbing;
+        }
+        .gallery-img-wrap.dragging {
+            opacity: 0.35;
+            transform: scale(0.92);
+            border-style: dashed;
+            border-color: var(--primary);
+        }
+        .gallery-img-wrap.drag-over {
+            transform: scale(1.08);
+            border-color: var(--primary);
+            box-shadow: 0 4px 14px rgba(99, 174, 44, 0.4);
+        }
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+        .gallery-img-wrap .delete-gallery-img {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            border: none;
+            line-height: 1;
+            padding: 0;
+            z-index: 10;
+        }
+        .gallery-img-wrap .delete-gallery-img:hover {
+            background: rgba(220, 38, 38, 1);
+        }
+        .gallery-drag-badge {
+            position: absolute;
+            bottom: 3px;
+            left: 3px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -711,12 +816,43 @@ if ($tagua_cat_id) {
                     </div>
 
                     <div class="form-group" style="margin-top: 1rem;">
-                        <label>Foto Principal del Producto de Tagua:</label>
-                        <input type="file" name="tp_image" class="form-control">
+                        <label>Foto Principal / Portada del Producto de Tagua:</label>
+                        <input type="file" name="tp_image" class="form-control" accept="image/jpeg,image/png,image/webp">
                         <?php if ($edit_tagua_prod && !empty($edit_tagua_prod['image_main'])): ?>
                             <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
                                 <img src="<?php echo htmlspecialchars(getUploadedImgUrl($edit_tagua_prod['image_main'])); ?>" style="width: 44px; height: 44px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border); background: white; padding: 2px;">
-                                <small style="color: var(--text-muted);">Foto actual asignada</small>
+                                <small style="color: var(--text-muted);">Foto de portada actual asignada</small>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Galería de Fotos Adicionales de Tagua -->
+                    <div class="form-group" style="margin-top: 1.25rem;">
+                        <label style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Fotos de la Galería (Puedes seleccionar varias a la vez):</span>
+                            <small style="color: var(--text-muted); font-weight: normal;">Formatos: WEBP, PNG, JPG</small>
+                        </label>
+                        <input type="file" name="tp_gallery[]" class="form-control" multiple accept="image/jpeg,image/png,image/webp">
+                        <input type="hidden" name="existing_tp_gallery" id="existing_tp_gallery" value="<?php echo htmlspecialchars($edit_tagua_prod['gallery_images'] ?? '[]'); ?>">
+
+                        <?php 
+                        $cur_tagua_gallery = [];
+                        if ($edit_tagua_prod && !empty($edit_tagua_prod['gallery_images'])) {
+                            $cur_tagua_gallery = json_decode($edit_tagua_prod['gallery_images'], true) ?: [];
+                        }
+                        if (!empty($cur_tagua_gallery)): 
+                        ?>
+                            <small style="color: var(--text-muted); display: block; margin-top: 8px; font-size: 0.85rem;">
+                                🖐️ <strong>Arrastra y suelta</strong> las imágenes para definir el orden en que se mostrarán en la ficha de Tagua. Haz clic en la <strong>×</strong> para eliminar una foto.
+                            </small>
+                            <div class="gallery-preview" id="tagua-gallery-preview">
+                                <?php foreach ($cur_tagua_gallery as $g_img): ?>
+                                    <div class="gallery-img-wrap" draggable="true" data-img-path="<?php echo htmlspecialchars($g_img); ?>" title="Arrastra para reordenar">
+                                        <img src="<?php echo htmlspecialchars(getUploadedImgUrl($g_img)); ?>" alt="Foto Tagua">
+                                        <span class="gallery-drag-badge">⠿ Mover</span>
+                                        <button type="button" class="delete-gallery-img" onclick="removeTaguaGalleryImage(this, '<?php echo htmlspecialchars($g_img, ENT_QUOTES, 'UTF-8'); ?>')" title="Eliminar foto">&times;</button>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -787,7 +923,21 @@ if ($tagua_cat_id) {
                                     </form>
                                 </td>
                                 <td>
-                                    <img src="<?php echo htmlspecialchars(getUploadedImgUrl($tp['image_main'] ?? '', 'uploads/tagua_llavero.jpg')); ?>" style="width: 44px; height: 44px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border); background: white; padding: 2px;" alt="">
+                                    <?php 
+                                    $gal_count = 0;
+                                    if (!empty($tp['gallery_images'])) {
+                                        $g_dec = json_decode($tp['gallery_images'], true);
+                                        $gal_count = is_array($g_dec) ? count($g_dec) : 0;
+                                    }
+                                    ?>
+                                    <div style="position: relative; display: inline-block;">
+                                        <img src="<?php echo htmlspecialchars(getUploadedImgUrl($tp['image_main'] ?? '', 'uploads/tagua_llavero.webp')); ?>" style="width: 46px; height: 46px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border); background: white; padding: 2px;" alt="">
+                                        <?php if ($gal_count > 0): ?>
+                                            <span style="position: absolute; bottom: -4px; right: -4px; background: var(--primary); color: white; border-radius: 10px; font-size: 0.65rem; padding: 1px 5px; font-weight: 700; box-shadow: 0 1px 3px rgba(0,0,0,0.25);" title="<?php echo $gal_count; ?> fotos adicionales en galería">
+                                                +<?php echo $gal_count; ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                                 <td>
                                     <strong><?php echo htmlspecialchars($tp['name']); ?></strong><br>
@@ -858,6 +1008,33 @@ if ($tagua_cat_id) {
         }, 3200);
     }
 
+    // Gestión de Galería de Tagua (Reordenar y Eliminar)
+    function updateTaguaGalleryInputOrder() {
+        const preview = document.getElementById('tagua-gallery-preview');
+        const input = document.getElementById('existing_tp_gallery');
+        if (!preview || !input) return;
+
+        const updatedPaths = [];
+        preview.querySelectorAll('.gallery-img-wrap').forEach(function(wrap) {
+            const path = wrap.getAttribute('data-img-path');
+            if (path) {
+                updatedPaths.push(path);
+            }
+        });
+        input.value = JSON.stringify(updatedPaths);
+    }
+
+    function removeTaguaGalleryImage(btn, imgPath) {
+        if (confirm('¿Eliminar esta imagen de la galería de Tagua?')) {
+            const wrap = btn.closest('.gallery-img-wrap');
+            if (wrap) {
+                wrap.remove();
+            }
+            updateTaguaGalleryInputOrder();
+            showToast('Foto eliminada de la galería. Guarda los cambios para confirmar.', 'success');
+        }
+    }
+
     // Preservar y restaurar la posición exacta de scroll
     window.addEventListener('beforeunload', function() {
         sessionStorage.setItem('admin_tagua_scroll', window.scrollY);
@@ -867,6 +1044,59 @@ if ($tagua_cat_id) {
         const savedY = sessionStorage.getItem('admin_tagua_scroll');
         if (savedY !== null) {
             window.scrollTo(0, parseInt(savedY, 10));
+        }
+
+        // Inicializar Drag & Drop en la Galería de Tagua
+        const taguaPreview = document.getElementById('tagua-gallery-preview');
+        if (taguaPreview) {
+            let draggedItem = null;
+
+            function addTaguaDragEvents(wrap) {
+                wrap.addEventListener('dragstart', function(e) {
+                    draggedItem = wrap;
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', wrap.getAttribute('data-img-path') || '');
+                    setTimeout(() => wrap.classList.add('dragging'), 0);
+                });
+
+                wrap.addEventListener('dragend', function() {
+                    wrap.classList.remove('dragging');
+                    taguaPreview.querySelectorAll('.gallery-img-wrap').forEach(w => w.classList.remove('drag-over'));
+                    draggedItem = null;
+                    updateTaguaGalleryInputOrder();
+                });
+
+                wrap.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    if (draggedItem && wrap !== draggedItem) {
+                        wrap.classList.add('drag-over');
+                    }
+                });
+
+                wrap.addEventListener('dragleave', function() {
+                    wrap.classList.remove('drag-over');
+                });
+
+                wrap.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    wrap.classList.remove('drag-over');
+                    if (draggedItem && wrap !== draggedItem) {
+                        const allItems = Array.from(taguaPreview.querySelectorAll('.gallery-img-wrap'));
+                        const draggedIdx = allItems.indexOf(draggedItem);
+                        const targetIdx = allItems.indexOf(wrap);
+
+                        if (draggedIdx < targetIdx) {
+                            wrap.parentNode.insertBefore(draggedItem, wrap.nextSibling);
+                        } else {
+                            wrap.parentNode.insertBefore(draggedItem, wrap);
+                        }
+                        updateTaguaGalleryInputOrder();
+                    }
+                });
+            }
+
+            taguaPreview.querySelectorAll('.gallery-img-wrap').forEach(addTaguaDragEvents);
         }
 
         // Eliminación AJAX de producto desde la tabla

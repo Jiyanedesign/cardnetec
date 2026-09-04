@@ -197,6 +197,91 @@
         fill: none;
         pointer-events: none;
     }
+
+    .search-results-dropdown {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        z-index: 1000;
+        max-height: 420px;
+        overflow-y: auto;
+        padding: 6px;
+    }
+    .search-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: var(--text-dark);
+        transition: background-color 0.15s ease;
+    }
+    .search-dropdown-item:hover, .search-dropdown-item.active {
+        background-color: #f4f7f2;
+    }
+    .search-dropdown-img {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+        border-radius: 5px;
+        border: 1px solid var(--border);
+        background: #fafafa;
+        flex-shrink: 0;
+    }
+    .search-dropdown-info {
+        flex-grow: 1;
+        min-width: 0;
+    }
+    .search-dropdown-title {
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: var(--dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 2px;
+    }
+    .search-dropdown-meta {
+        font-size: 0.74rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .search-dropdown-cat {
+        background: rgba(99, 174, 44, 0.12);
+        color: var(--primary);
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-weight: 500;
+    }
+    .search-dropdown-footer {
+        padding: 10px;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        font-size: 0.82rem;
+        color: var(--primary);
+        font-weight: 600;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        border-radius: 0 0 6px 6px;
+    }
+    .search-dropdown-footer:hover {
+        background: #f4f7f2;
+    }
+    .search-dropdown-empty {
+        padding: 18px 12px;
+        text-align: center;
+        font-size: 0.84rem;
+        color: var(--text-muted);
+    }
 }
 
 /* Barra de Contacto Directo (Derecha) */

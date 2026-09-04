@@ -353,98 +353,247 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 9. Buscador y Filtros Combinados en Tiempo Real
-    const searchInput = document.querySelector('.search-input');
-    const filterButtons = document.querySelectorAll('.filter-bar .filter-btn');
-    const productGrid = document.querySelector('.grid-3');
+    // 9. Buscador Global con Auto-Sugerencias en Tiempo Real y Filtros de Catálogo
+    const escapeHtmlHelper = (str) => {
+        if (!str) return '';
+        return String(str).replace(/[&<>'"]/g, tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+        }[tag] || tag));
+    };
 
-    // Cambiar input de búsqueda para que tenga ID si está presente
-    if (searchInput) {
-        searchInput.setAttribute('id', 'catalog-search');
-    }
+    // A. Buscador del Encabezado (Disponible en todas las páginas)
+    const headerSearchForm = document.getElementById('global-header-search');
+    const headerSearchInput = headerSearchForm ? headerSearchForm.querySelector('.search-input') : document.querySelector('.search-input');
+    const headerSearchDropdown = document.getElementById('search-results-dropdown');
 
-    let activeFilter = 'all';
-    let searchQuery = '';
+    if (headerSearchInput && headerSearchDropdown) {
+        let searchDebounceTimer = null;
+        let currentSelectedIndex = -1;
 
-    const filterProducts = () => {
-        const cards = document.querySelectorAll('.catalog-product-item');
-        let matchedCount = 0;
+        const closeDropdown = () => {
+            headerSearchDropdown.style.display = 'none';
+            headerSearchDropdown.innerHTML = '';
+            currentSelectedIndex = -1;
+        };
 
-        cards.forEach(card => {
-            const name = card.getAttribute('data-name').toLowerCase();
-            const category = card.getAttribute('data-category').toLowerCase();
-            const material = card.getAttribute('data-material').toLowerCase();
-            const technique = card.getAttribute('data-technique').toLowerCase();
-            const use = card.getAttribute('data-use').toLowerCase();
-
-            const queryMatch = name.includes(searchQuery) || 
-                               category.includes(searchQuery) || 
-                               material.includes(searchQuery) || 
-                               technique.includes(searchQuery) || 
-                               use.includes(searchQuery);
-
-            let filterMatch = false;
-            if (activeFilter === 'all') {
-                filterMatch = true;
-            } else {
-                const normFilter = activeFilter.toLowerCase();
-                filterMatch = name.includes(normFilter) || 
-                              category.includes(normFilter) || 
-                              material.includes(normFilter) || 
-                              technique.includes(normFilter) || 
-                              use.includes(normFilter);
+        const renderSearchResults = (query, data) => {
+            if (!data.results || data.results.length === 0) {
+                headerSearchDropdown.innerHTML = `
+                    <div class="search-dropdown-empty">
+                        <p style="margin: 0 0 8px; color: var(--text-dark); font-weight: 500;">No encontramos productos para "${escapeHtmlHelper(query)}"</p>
+                        <a href="productos.php?q=${encodeURIComponent(query)}" style="color: var(--primary); font-size: 0.82rem; font-weight: 600; text-decoration: underline;">Ver búsqueda en el catálogo completo →</a>
+                    </div>
+                `;
+                headerSearchDropdown.style.display = 'block';
+                currentSelectedIndex = -1;
+                return;
             }
 
-            if (queryMatch && filterMatch) {
-                card.style.display = 'flex';
+            let html = '';
+            data.results.forEach((item, idx) => {
+                html += `
+                    <a href="${item.url}" class="search-dropdown-item" data-index="${idx}" role="option">
+                        <img src="${item.image}" alt="${escapeHtmlHelper(item.name)}" class="search-dropdown-img" loading="lazy">
+                        <div class="search-dropdown-info">
+                            <div class="search-dropdown-title">${escapeHtmlHelper(item.name)}</div>
+                            <div class="search-dropdown-meta">
+                                <span class="search-dropdown-cat">${escapeHtmlHelper(item.category)}</span>
+                                <span style="font-weight: 600; color: var(--dark);">$${item.price}</span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            });
+
+            html += `
+                <a href="productos.php?q=${encodeURIComponent(query)}" class="search-dropdown-footer">
+                    Ver todos los resultados (${data.count}+) en el catálogo →
+                </a>
+            `;
+
+            headerSearchDropdown.innerHTML = html;
+            headerSearchDropdown.style.display = 'block';
+            currentSelectedIndex = -1;
+        };
+
+        const fetchSearchSuggestions = (query) => {
+            if (!query || query.length < 2) {
+                closeDropdown();
+                return;
+            }
+
+            fetch('search-api.php?q=' + encodeURIComponent(query))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        renderSearchResults(query, data);
+                    } else {
+                        closeDropdown();
+                    }
+                })
+                .catch(() => {
+                    closeDropdown();
+                });
+        };
+
+        headerSearchInput.addEventListener('input', (e) => {
+            clearTimeout(searchDebounceTimer);
+            const query = e.target.value.trim();
+            if (query.length < 2) {
+                closeDropdown();
+                return;
+            }
+            searchDebounceTimer = setTimeout(() => {
+                fetchSearchSuggestions(query);
+            }, 200);
+        });
+
+        headerSearchInput.addEventListener('keydown', (e) => {
+            const items = headerSearchDropdown.querySelectorAll('.search-dropdown-item');
+            if (e.key === 'ArrowDown') {
+                if (headerSearchDropdown.style.display === 'block' && items.length > 0) {
+                    e.preventDefault();
+                    currentSelectedIndex = (currentSelectedIndex + 1) % items.length;
+                    items.forEach((it, i) => it.classList.toggle('active', i === currentSelectedIndex));
+                    if (items[currentSelectedIndex]) items[currentSelectedIndex].scrollIntoView({ block: 'nearest' });
+                }
+            } else if (e.key === 'ArrowUp') {
+                if (headerSearchDropdown.style.display === 'block' && items.length > 0) {
+                    e.preventDefault();
+                    currentSelectedIndex = (currentSelectedIndex - 1 + items.length) % items.length;
+                    items.forEach((it, i) => it.classList.toggle('active', i === currentSelectedIndex));
+                    if (items[currentSelectedIndex]) items[currentSelectedIndex].scrollIntoView({ block: 'nearest' });
+                }
+            } else if (e.key === 'Enter') {
+                if (currentSelectedIndex >= 0 && items[currentSelectedIndex]) {
+                    e.preventDefault();
+                    window.location.href = items[currentSelectedIndex].getAttribute('href');
+                }
+                // Si no hay item seleccionado, el formulario se envía normalmente hacia productos.php?q=...
+            } else if (e.key === 'Escape') {
+                closeDropdown();
+            }
+        });
+
+        // Cerrar menú desplegable al hacer clic fuera del buscador
+        document.addEventListener('click', (e) => {
+            if (headerSearchForm && !headerSearchForm.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+
+        headerSearchInput.addEventListener('focus', () => {
+            const query = headerSearchInput.value.trim();
+            if (query.length >= 2 && headerSearchDropdown.children.length > 0) {
+                headerSearchDropdown.style.display = 'block';
+            }
+        });
+    }
+
+    // B. Buscador Local y Filtros en la Página de Catálogo (productos.php)
+    const catalogSearchInput = document.getElementById('product-search');
+    const catalogCards = document.querySelectorAll('.catalog-product-item');
+    const filterButtons = document.querySelectorAll('.filter-bar .filter-btn');
+    const catalogGrid = document.querySelector('.grid-3');
+    const catalogResultsCount = document.getElementById('search-results-count');
+
+    let activeFilter = 'all';
+    let localQuery = catalogSearchInput ? catalogSearchInput.value.trim().toLowerCase() : '';
+
+    const filterCatalogCards = () => {
+        if (!catalogCards.length) return;
+        let matchedCount = 0;
+
+        catalogCards.forEach(card => {
+            const name = (card.getAttribute('data-name') || '').toLowerCase();
+            const category = (card.getAttribute('data-category') || '').toLowerCase();
+            const material = (card.getAttribute('data-material') || '').toLowerCase();
+            const technique = (card.getAttribute('data-technique') || '').toLowerCase();
+            const use = (card.getAttribute('data-use') || '').toLowerCase();
+
+            const matchesQuery = !localQuery || 
+                                 name.includes(localQuery) || 
+                                 category.includes(localQuery) || 
+                                 material.includes(localQuery) || 
+                                 technique.includes(localQuery) || 
+                                 use.includes(localQuery);
+
+            let matchesCategory = false;
+            if (activeFilter === 'all') {
+                matchesCategory = true;
+            } else {
+                const normFilter = activeFilter.toLowerCase();
+                matchesCategory = name.includes(normFilter) || 
+                                  category.includes(normFilter) || 
+                                  material.includes(normFilter) || 
+                                  technique.includes(normFilter) || 
+                                  use.includes(normFilter);
+            }
+
+            if (matchesQuery && matchesCategory) {
+                card.style.display = '';
                 matchedCount++;
             } else {
                 card.style.display = 'none';
             }
         });
 
-        // Gestionar el mensaje de no resultados
-        let noResultsDiv = document.getElementById('catalog-no-results');
-        if (matchedCount === 0) {
-            if (!noResultsDiv) {
-                noResultsDiv = document.createElement('div');
-                noResultsDiv.setAttribute('id', 'catalog-no-results');
-                noResultsDiv.style.gridColumn = '1 / -1';
-                noResultsDiv.style.textAlign = 'center';
-                noResultsDiv.style.padding = '3rem 0';
-                noResultsDiv.style.color = 'var(--text-muted)';
-                const waCatalogPhone = window.CARDNET_WA_PHONE || '59399978180';
-                noResultsDiv.innerHTML = `
-                    <p style="font-size:1rem; margin-bottom:1.5rem;">No encontramos ese producto en el catálogo, pero podemos revisarlo de forma personalizada.</p>
-                    <a href="https://wa.me/${waCatalogPhone}?text=Hola,%20busco%20un%20producto%20específico%20que%20no%20encontré%20en%20el%20catálogo..." class="btn btn-primary" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
-                `;
-                if (productGrid) productGrid.appendChild(noResultsDiv);
+        if (catalogResultsCount) {
+            if (localQuery) {
+                catalogResultsCount.style.display = 'block';
+                catalogResultsCount.textContent = `${matchedCount} producto${matchedCount !== 1 ? 's' : ''} encontrado${matchedCount !== 1 ? 's' : ''}`;
             } else {
-                noResultsDiv.style.display = 'block';
+                catalogResultsCount.style.display = 'none';
+            }
+        }
+
+        let noResultsEl = document.getElementById('catalog-no-results');
+        if (matchedCount === 0) {
+            if (!noResultsEl) {
+                noResultsEl = document.createElement('div');
+                noResultsEl.setAttribute('id', 'catalog-no-results');
+                noResultsEl.style.gridColumn = '1 / -1';
+                noResultsEl.style.textAlign = 'center';
+                noResultsEl.style.padding = '3rem 1rem';
+                noResultsEl.style.color = 'var(--text-muted)';
+                const waCatalogPhone = window.CARDNET_WA_PHONE || '59399978180';
+                noResultsEl.innerHTML = `
+                    <p style="font-size:1rem; margin-bottom:1.5rem;">No encontramos ese producto en este filtro, pero podemos grabarlo o fabricarlo a tu medida.</p>
+                    <a href="https://wa.me/${waCatalogPhone}?text=Hola,%20busco%20un%20producto%20específico%20en%20CardNet..." class="btn btn-primary" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+                `;
+                if (catalogGrid) catalogGrid.appendChild(noResultsEl);
+            } else {
+                noResultsEl.style.display = 'block';
             }
         } else {
-            if (noResultsDiv) {
-                noResultsDiv.style.display = 'none';
+            if (noResultsEl) {
+                noResultsEl.style.display = 'none';
             }
         }
     };
 
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            searchQuery = e.target.value.trim().toLowerCase();
-            filterProducts();
+    if (catalogSearchInput) {
+        catalogSearchInput.addEventListener('input', (e) => {
+            localQuery = e.target.value.trim().toLowerCase();
+            filterCatalogCards();
         });
     }
 
     if (filterButtons.length > 0) {
         filterButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                filterButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                activeFilter = btn.getAttribute('data-filter') || btn.getAttribute('href').split('cat=')[1] || 'all';
-                filterProducts();
+                const fVal = btn.getAttribute('data-filter');
+                if (fVal) {
+                    e.preventDefault();
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = fVal;
+                    filterCatalogCards();
+                }
             });
         });
     }

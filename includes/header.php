@@ -27,12 +27,16 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
                 <img src="images/logo.webp?v=2.1" alt="CardNet.ec Logo" class="logo-img" width="132" height="48" fetchpriority="high">
             </a>
             
-            <div class="header-search">
+            <form action="productos.php" method="GET" class="header-search" id="global-header-search" role="search" style="position: relative;">
                 <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <input class="search-input" type="text" placeholder="Buscar termos, agendas, placas, acabados láser...">
-            </div>
+                <input class="search-input" type="search" name="q" placeholder="Buscar carnets, cintas, tagua, placas..." value="<?php echo htmlspecialchars($_GET['q'] ?? ''); ?>" autocomplete="off" aria-label="Buscar productos">
+                <button type="submit" class="search-submit-btn" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; padding: 4px;" title="Buscar">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+                <div class="search-results-dropdown" id="search-results-dropdown" style="display: none;"></div>
+            </form>
 
             <div class="header-contact-status">
                 <a href="<?php echo $header_wa_url; ?>" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;" title="Chatear con un Asesor por WhatsApp">
