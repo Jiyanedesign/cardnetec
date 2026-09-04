@@ -11,15 +11,33 @@ try {
     $slides = [];
 }
 
-// 2. Obtener tarjetas de Obras del Taller desde secciones_home o portfolio de productos
+// 2. Obtener todas las tarjetas activas de secciones_home en una sola consulta optimizada
+$obras_items = [];
+$home_soluciones = [];
+$home_catalogo_opciones = [];
+$home_accesorios = [];
 try {
-    $stmtObras = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'obras_taller' AND is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
-    $obras_items = $stmtObras->fetchAll();
+    $stmtSecAll = $pdo->query("SELECT * FROM secciones_home WHERE is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
+    while ($row = $stmtSecAll->fetch()) {
+        $k = $row['section_key'] ?? '';
+        if ($k === 'obras_taller') {
+            $obras_items[] = $row;
+        } elseif ($k === 'soluciones') {
+            $home_soluciones[] = $row;
+        } elseif ($k === 'catalogo_opciones') {
+            $home_catalogo_opciones[] = $row;
+        } elseif ($k === 'accesorios') {
+            $home_accesorios[] = $row;
+        }
+    }
 } catch (PDOException $e) {
     $obras_items = [];
+    $home_soluciones = [];
+    $home_catalogo_opciones = [];
+    $home_accesorios = [];
 }
 
-// 2. Obtener trabajos realizados (portfolio) desde la administración
+// 3. Obtener trabajos realizados (portfolio) desde la administración
 try {
     $stmtShowcase = $pdo->query("SELECT p.*, c.slug as cat_slug FROM productos p LEFT JOIN categorias c ON p.category_id = c.id WHERE p.is_active = 1 AND p.is_featured = 1 AND (c.slug != 'tagua' OR c.slug IS NULL) ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC");
     $showcase_items = $stmtShowcase->fetchAll();
@@ -49,30 +67,6 @@ try {
     $featured_categories = $stmtFeaturedCats->fetchAll();
 } catch (PDOException $e) {
     $featured_categories = [];
-}
-
-// Obtener tarjetas de Soluciones de Taller (Empresas, Instituciones, Eventos)
-try {
-    $stmtSecSol = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'soluciones' AND is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
-    $home_soluciones = $stmtSecSol->fetchAll();
-} catch (PDOException $e) {
-    $home_soluciones = [];
-}
-
-// Obtener opciones de catálogo (Cintas y Credenciales)
-try {
-    $stmtSecCat = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'catalogo_opciones' AND is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
-    $home_catalogo_opciones = $stmtSecCat->fetchAll();
-} catch (PDOException $e) {
-    $home_catalogo_opciones = [];
-}
-
-// Obtener tarjetas de Accesorios Diarios
-try {
-    $stmtSecAcc = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'accesorios' AND is_active = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC");
-    $home_accesorios = $stmtSecAcc->fetchAll();
-} catch (PDOException $e) {
-    $home_accesorios = [];
 }
 
 // Helper para resolver rutas de imágenes
@@ -197,7 +191,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                                         <?php
                                         $img_path = !empty($slide['image']) ? getUploadedImgUrl($slide['image'], 'uploads/carnet_mockup.webp') : 'uploads/carnet_mockup.webp';
                                         ?>
-                                        <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" class="hero-slide-img">
+                                        <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" class="hero-slide-img" <?php echo ($idx === 0) ? 'fetchpriority="high" loading="eager" decoding="sync"' : 'loading="lazy" decoding="async"'; ?>>
                                     </div>
                                     
                                     <!-- Suave capa protectora sobre la imagen completa para integrar contrastes -->
@@ -305,19 +299,19 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                                 }
                                 ?>
                                 <div class="logos-ticker-item">
-                                    <img src="<?php echo htmlspecialchars($c_logo); ?>" alt="<?php echo htmlspecialchars($client['name']); ?>" loading="lazy" onerror="this.style.opacity='0.4';">
+                                    <img src="<?php echo htmlspecialchars($c_logo); ?>" alt="<?php echo htmlspecialchars($client['name']); ?>" loading="lazy" decoding="async" width="120" height="45" onerror="this.style.opacity='0.4';">
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <!-- Fallbacks estáticos premium si no hay datos cargados -->
-                            <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4" loading="lazy" decoding="async" width="120" height="45"></div>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -462,7 +456,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <div class="premium-left-col">
                         <!-- Tarjeta 1: Superior Izquierda Ancha -->
                         <a href="<?php echo htmlspecialchars(getBentoLinkUrl($bento_1)); ?>" class="premium-cat-card" style="aspect-ratio: 595/302;">
-                            <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_1['image'])); ?>" alt="<?php echo htmlspecialchars($bento_1['name']); ?>">
+                            <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_1['image'])); ?>" alt="<?php echo htmlspecialchars($bento_1['name']); ?>" loading="lazy" decoding="async">
                             <div class="premium-cat-overlay">
                                 <h3 class="premium-cat-title"><?php echo htmlspecialchars($bento_1['name']); ?></h3>
                                 <?php if (!empty($bento_1['description'])): ?>
@@ -474,7 +468,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <div class="premium-bottom-row">
                             <!-- Tarjeta 2: Inferior Izquierda 1 -->
                             <a href="<?php echo htmlspecialchars(getBentoLinkUrl($bento_2)); ?>" class="premium-cat-card" style="height: 100%; min-height: 260px;">
-                                <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_2['image'])); ?>" alt="<?php echo htmlspecialchars($bento_2['name']); ?>">
+                                <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_2['image'])); ?>" alt="<?php echo htmlspecialchars($bento_2['name']); ?>" loading="lazy" decoding="async">
                                 <div class="premium-cat-overlay">
                                     <h3 class="premium-cat-title"><?php echo htmlspecialchars($bento_2['name']); ?></h3>
                                     <?php if (!empty($bento_2['description'])): ?>
@@ -484,7 +478,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             </a>
                             <!-- Tarjeta 3: Inferior Izquierda 2 -->
                             <a href="<?php echo htmlspecialchars(getBentoLinkUrl($bento_3)); ?>" class="premium-cat-card" style="height: 100%; min-height: 260px;">
-                                <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_3['image'])); ?>" alt="<?php echo htmlspecialchars($bento_3['name']); ?>">
+                                <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_3['image'])); ?>" alt="<?php echo htmlspecialchars($bento_3['name']); ?>" loading="lazy" decoding="async">
                                 <div class="premium-cat-overlay">
                                     <h3 class="premium-cat-title"><?php echo htmlspecialchars($bento_3['name']); ?></h3>
                                     <?php if (!empty($bento_3['description'])): ?>
@@ -499,7 +493,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <div class="premium-right-col" style="display: flex; flex-direction: column;">
                         <!-- Tarjeta 4: Derecha Alta Vertical -->
                         <a href="<?php echo htmlspecialchars(getBentoLinkUrl($bento_4)); ?>" class="premium-cat-card" style="aspect-ratio: 288/460; height: 100%;">
-                            <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_4['image'])); ?>" alt="<?php echo htmlspecialchars($bento_4['name']); ?>" style="height: 100%; object-fit: cover;">
+                            <img src="<?php echo htmlspecialchars(getBentoImgUrl($bento_4['image'])); ?>" alt="<?php echo htmlspecialchars($bento_4['name']); ?>" style="height: 100%; object-fit: cover;" loading="lazy" decoding="async">
                             <div class="premium-cat-overlay" style="height: 100%;">
                                 <h3 class="premium-cat-title"><?php echo htmlspecialchars($bento_4['name']); ?></h3>
                                 <?php if (!empty($bento_4['description'])): ?>
@@ -656,7 +650,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             ?>
                             <a href="<?php echo htmlspecialchars($item_link); ?>" class="showcase-card" style="text-decoration: none; color: inherit;">
                                 <div class="showcase-image-wrap">
-                                    <img src="<?php echo htmlspecialchars($item_src); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>">
+                                    <img src="<?php echo htmlspecialchars($item_src); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" loading="lazy" decoding="async">
                                 </div>
                                 <div class="showcase-info">
                                     <h3 class="showcase-title"><?php echo htmlspecialchars($item['title']); ?></h3>
@@ -674,7 +668,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             ?>
                             <a href="producto.php?slug=<?php echo htmlspecialchars($item['slug']); ?>" class="showcase-card" style="text-decoration: none; color: inherit;">
                                 <div class="showcase-image-wrap">
-                                    <img src="<?php echo htmlspecialchars($item_src); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+                                    <img src="<?php echo htmlspecialchars($item_src); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" loading="lazy" decoding="async">
                                 </div>
                                 <div class="showcase-info">
                                     <h3 class="showcase-title"><?php echo htmlspecialchars($item['name']); ?></h3>
@@ -685,7 +679,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Carnets PVC -->
                         <div class="showcase-card">
                             <div class="showcase-image-wrap">
-                                <img src="uploads/carnet_mockup.webp" alt="Carnets PVC">
+                                <img src="uploads/carnet_mockup.webp" alt="Carnets PVC" loading="lazy" decoding="async">
                             </div>
                             <div class="showcase-info">
                                 <h3 class="showcase-title">Carnets PVC Corporativos</h3>
@@ -694,7 +688,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Cintas y lanyards -->
                         <div class="showcase-card">
                             <div class="showcase-image-wrap">
-                                <img src="uploads/cintas_mockup.webp" alt="Cintas y lanyards">
+                                <img src="uploads/cintas_mockup.webp" alt="Cintas y lanyards" loading="lazy" decoding="async">
                             </div>
                             <div class="showcase-info">
                                 <h3 class="showcase-title">Cintas Porta Credenciales</h3>
@@ -703,7 +697,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Porta credenciales -->
                         <div class="showcase-card">
                             <div class="showcase-image-wrap">
-                                <img src="uploads/llavero.webp" alt="Porta credenciales y accesorios">
+                                <img src="uploads/llavero.webp" alt="Porta credenciales y accesorios" loading="lazy" decoding="async">
                             </div>
                             <div class="showcase-info">
                                 <h3 class="showcase-title">Porta Carnets y Accesorios</h3>
@@ -758,7 +752,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                                 <?php endif; ?>
                                 <div style="display: flex; gap: 20px; align-items: flex-start;">
                                     <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                        <img src="<?php echo htmlspecialchars(resolveHomeImg($card['image'], 'uploads/cintas_full_color.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($card['title']); ?>">
+                                        <img src="<?php echo htmlspecialchars(resolveHomeImg($card['image'], 'uploads/cintas_full_color.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($card['title']); ?>" loading="lazy" decoding="async">
                                     </div>
                                     <div style="flex-grow: 1;">
                                         <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;"><?php echo htmlspecialchars($card['title']); ?></h4>
@@ -783,7 +777,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                                 <?php endif; ?>
                                 <div style="display: flex; gap: 20px; align-items: flex-start;">
                                     <div style="width: 90px; height: 90px; border-radius: 8px; overflow: hidden; flex-shrink: 0; border: 1px solid var(--border); background: var(--surface-light);">
-                                        <img src="<?php echo htmlspecialchars(resolveHomeImg($card['image'], 'uploads/carnet_mockup.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($card['title']); ?>">
+                                        <img src="<?php echo htmlspecialchars(resolveHomeImg($card['image'], 'uploads/carnet_mockup.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($card['title']); ?>" loading="lazy" decoding="async">
                                     </div>
                                     <div style="flex-grow: 1;">
                                         <h4 style="font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 5px;"><?php echo htmlspecialchars($card['title']); ?></h4>
@@ -813,7 +807,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <?php foreach ($home_soluciones as $sol): ?>
                         <div class="company-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                             <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                <img src="<?php echo htmlspecialchars(resolveHomeImg($sol['image'], 'uploads/carnet_mockup.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($sol['title']); ?>">
+                                <img src="<?php echo htmlspecialchars(resolveHomeImg($sol['image'], 'uploads/carnet_mockup.jpg')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($sol['title']); ?>" loading="lazy" decoding="async">
                             </div>
                             <div style="padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;">
                                 <h3 style="font-size: 1.15rem; font-family: var(--font-heading); margin-bottom: 0.5rem; font-weight: 500; color: var(--dark);"><?php echo htmlspecialchars($sol['title']); ?></h3>
@@ -842,7 +836,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <?php foreach ($home_accesorios as $acc): ?>
                             <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                                 <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                    <img src="<?php echo htmlspecialchars(resolveHomeImg($acc['image'], 'uploads/llavero.png')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($acc['title']); ?>">
+                                    <img src="<?php echo htmlspecialchars(resolveHomeImg($acc['image'], 'uploads/llavero.png')); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($acc['title']); ?>" loading="lazy" decoding="async">
                                 </div>
                                 <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
                                     <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);"><?php echo htmlspecialchars($acc['title']); ?></h4>
@@ -857,7 +851,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Fallback si la tabla está vacía -->
                         <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                             <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                <img src="uploads/llavero.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets">
+                                <img src="uploads/llavero.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets" loading="lazy" decoding="async">
                             </div>
                             <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
                                 <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Porta carnets</h4>
@@ -867,7 +861,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         </div>
                         <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                             <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                <img src="uploads/yoyos.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Yoyos retráctiles">
+                                <img src="uploads/yoyos.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Yoyos retráctiles" loading="lazy" decoding="async">
                             </div>
                             <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
                                 <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Yoyos retráctiles</h4>
@@ -877,7 +871,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         </div>
                         <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                             <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                <img src="uploads/fundas.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Fundas transparentes">
+                                <img src="uploads/fundas.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Fundas transparentes" loading="lazy" decoding="async">
                             </div>
                             <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
                                 <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Fundas transparentes</h4>
@@ -903,42 +897,42 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <!-- Acero -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_acero.webp" alt="Acero" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_acero.webp" alt="Acero" style="width: 100%; height: 100%; object-fit: cover;" width="120" height="120" loading="lazy" decoding="async">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Acero</span>
                     </div>
                     <!-- Madera -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_madera.webp" alt="Madera" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_madera.webp" alt="Madera" style="width: 100%; height: 100%; object-fit: cover;" width="120" height="120" loading="lazy" decoding="async">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Madera</span>
                     </div>
                     <!-- Acrílico -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_acrilico.webp" alt="Acrílico" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_acrilico.webp" alt="Acrílico" style="width: 100%; height: 100%; object-fit: cover;" width="120" height="120" loading="lazy" decoding="async">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Acrílico</span>
                     </div>
                     <!-- Cuero/PU -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_cuero.webp" alt="Cuero/PU" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_cuero.webp" alt="Cuero/PU" style="width: 100%; height: 100%; object-fit: cover;" width="120" height="120" loading="lazy" decoding="async">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Cuero/PU</span>
                     </div>
                     <!-- Vidrio -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_vidrio.webp" alt="Vidrio" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_vidrio.webp" alt="Vidrio" style="width: 100%; height: 100%; object-fit: cover;" width="120" height="120" loading="lazy" decoding="async">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Vidrio</span>
                     </div>
                     <!-- PVC -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_pvc.webp" alt="PVC" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_pvc.webp" alt="PVC" style="width: 100%; height: 100%; object-fit: cover;" width="120" height="120" loading="lazy" decoding="async">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">PVC</span>
                     </div>
@@ -1119,9 +1113,9 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.8); color: white; padding: 6px 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border-radius: 4px; z-index: 8; letter-spacing: 0.05em;">Antes (Liso)</div>
                     <div style="position: absolute; top: 15px; right: 15px; background: var(--primary); color: white; padding: 6px 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border-radius: 4px; z-index: 8; letter-spacing: 0.05em;">Después (Grabado)</div>
                     
-                    <img id="slider-img-after" src="images/termo_after.webp" alt="Termo Grabado" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+                    <img id="slider-img-after" src="images/termo_after.webp" alt="Termo Grabado" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;" loading="lazy" decoding="async">
                     <div id="slider-before-wrap" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; clip-path: inset(0 50% 0 0); border-right: 2px solid white;">
-                        <img id="slider-img-before" src="images/termo_before.webp" alt="Termo Liso" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+                        <img id="slider-img-before" src="images/termo_before.webp" alt="Termo Liso" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;" loading="lazy" decoding="async">
                     </div>
                     <div id="slider-handle" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: white; z-index: 10; margin-left: -2px; pointer-events: none;">
                         <div style="position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; border-radius: 50%; background: white; margin-top: -20px; margin-left: -20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);">
@@ -1286,9 +1280,9 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.3"></script>
-    <script src="js/slider.js?v=2.1"></script>
-    <script src="js/animations.js"></script>
+    <script src="js/main.js?v=6.3" defer></script>
+    <script src="js/slider.js?v=2.1" defer></script>
+    <script src="js/animations.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Slider de Antes/Después con soporte táctil mejorado (evita que se mueva la pantalla al arrastrar)
@@ -1408,6 +1402,13 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 }, 5000); // 5 segundos
             }
 
+            function stopBeforeAfterAutoplay() {
+                if (beforeAfterInterval) {
+                    clearInterval(beforeAfterInterval);
+                    beforeAfterInterval = null;
+                }
+            }
+
             tabs.forEach((btn, index) => {
                 btn.addEventListener("click", function() {
                     currentProdIndex = index;
@@ -1417,8 +1418,22 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 });
             });
 
-            // Iniciar rotación automática al cargar
-            startBeforeAfterAutoplay();
+            // Optimización de rendimiento: Iniciar solo si la sección está en el viewport
+            const antesDespuesSec = document.getElementById("antes-despues");
+            if ('IntersectionObserver' in window && antesDespuesSec) {
+                const baObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            startBeforeAfterAutoplay();
+                        } else {
+                            stopBeforeAfterAutoplay();
+                        }
+                    });
+                }, { threshold: 0.1 });
+                baObserver.observe(antesDespuesSec);
+            } else {
+                startBeforeAfterAutoplay();
+            }
 
             // Fail-safe FAQ Accordion toggle inline
             document.querySelectorAll('.faq-trigger').forEach(trigger => {
@@ -1518,20 +1533,41 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     });
                 });
                 
-                window.addEventListener("resize", updateShowcase);
+                window.addEventListener("resize", updateShowcase, { passive: true });
                 
-                // Autoplay cada 5 segundos
-                let showcaseInterval = setInterval(() => {
-                    if (nextBtn) nextBtn.click();
-                }, 5000);
-                
-                track.addEventListener("mouseenter", () => clearInterval(showcaseInterval));
-                track.addEventListener("mouseleave", () => {
-                    clearInterval(showcaseInterval);
+                // Autoplay inteligente: solo activo si la sección está visible
+                let showcaseInterval = null;
+                function startShowcaseAuto() {
+                    stopShowcaseAuto();
                     showcaseInterval = setInterval(() => {
                         if (nextBtn) nextBtn.click();
                     }, 5000);
-                });
+                }
+                function stopShowcaseAuto() {
+                    if (showcaseInterval) {
+                        clearInterval(showcaseInterval);
+                        showcaseInterval = null;
+                    }
+                }
+                
+                track.addEventListener("mouseenter", stopShowcaseAuto);
+                track.addEventListener("mouseleave", startShowcaseAuto);
+
+                const showcaseSec = document.getElementById("productos");
+                if ('IntersectionObserver' in window && showcaseSec) {
+                    const scObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                startShowcaseAuto();
+                            } else {
+                                stopShowcaseAuto();
+                            }
+                        });
+                    }, { threshold: 0.1 });
+                    scObserver.observe(showcaseSec);
+                } else {
+                    startShowcaseAuto();
+                }
             }
         });
     </script>

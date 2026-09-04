@@ -541,7 +541,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    window.addEventListener('scroll', handleScrollActiveLink);
+    let scrollTicking = false;
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            window.requestAnimationFrame(() => {
+                handleScrollActiveLink();
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
+    }, { passive: true });
 
     // 13. Tooltip Discreto en WhatsApp Flotante
     const waFloat = document.querySelector('.whatsapp-float');

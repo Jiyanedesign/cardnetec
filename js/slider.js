@@ -104,8 +104,30 @@
 
         // Iniciar
         updateSlider();
-        startAutoplay();
-        console.log("Slider: Inicializado correctamente en el index (5s autoplay).");
+        
+        // Pausar rotación si la pestaña está oculta o si el usuario hizo scroll pasando el hero
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                stopAutoplay();
+            } else {
+                startAutoplay();
+            }
+        });
+
+        if ('IntersectionObserver' in window) {
+            const heroObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startAutoplay();
+                    } else {
+                        stopAutoplay();
+                    }
+                });
+            }, { threshold: 0.1 });
+            heroObserver.observe(track);
+        } else {
+            startAutoplay();
+        }
     }
 
     // Ejecutar directamente ya que el script está al final del body

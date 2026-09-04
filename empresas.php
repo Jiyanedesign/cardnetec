@@ -117,7 +117,7 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
                     <!-- Tarjeta 1: Carnets PVC -->
                     <div class="corp-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Credenciales PVC">
+                            <img src="uploads/carnet_mockup.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Credenciales PVC" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2.5rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--dark); margin-bottom: 12px; font-weight: 500;">Credenciales de PVC Laminado</h3>
@@ -134,7 +134,7 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
                     <!-- Tarjeta 2: Cintas y Lanyards -->
                     <div class="corp-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/cintas_full_color.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas Sublimadas">
+                            <img src="uploads/cintas_full_color.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Cintas Sublimadas" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2.5rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--dark); margin-bottom: 12px; font-weight: 500;">Cintas y Lanyards Corporativos</h3>
@@ -151,7 +151,7 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
                     <!-- Tarjeta 3: Accesorios -->
                     <div class="corp-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/yoyos.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Accesorios corporativos">
+                            <img src="uploads/yoyos.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Accesorios corporativos" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2.5rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--dark); margin-bottom: 12px; font-weight: 500;">Accesorios para Identificación</h3>
@@ -168,7 +168,7 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
                     <!-- Tarjeta 4: Grabado y Corporativos -->
                     <div class="corp-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/carousel_2.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Productos Corporativos">
+                            <img src="uploads/carousel_2.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Productos Corporativos" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2.5rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--dark); margin-bottom: 12px; font-weight: 500;">Productos Corporativos Premium</h3>
@@ -225,8 +225,8 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/main.js?v=6.3"></script>
-    <script src="js/animations.js"></script>
+    <script src="js/main.js?v=6.3" defer></script>
+    <script src="js/animations.js" defer></script>
 </body>
 </html>
  

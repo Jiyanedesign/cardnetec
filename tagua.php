@@ -440,7 +440,7 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
                         ?>
                         <div class="tagua-prod-card">
                             <a href="producto.php?slug=<?php echo htmlspecialchars($tp['slug']); ?>" class="tagua-prod-media" style="text-decoration: none;">
-                                <img src="<?php echo htmlspecialchars($img_src); ?>" alt="<?php echo htmlspecialchars($tp['name']); ?>">
+                                <img src="<?php echo htmlspecialchars($img_src); ?>" alt="<?php echo htmlspecialchars($tp['name']); ?>" loading="lazy" decoding="async">
                                 <span style="position: absolute; top: 12px; left: 12px; background: rgba(16, 20, 15, 0.88); color: #9eff42; font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 3px; letter-spacing: 0.05em; text-transform: uppercase;">
                                     Marfil Vegetal
                                 </span>

@@ -196,7 +196,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- PVC Corporativo -->
                     <div class="badge-type-card">
                         <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; background: #1c1b1b;">
-                            <img src="uploads/carnet_mockup.webp" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%);" alt="Carnets PVC Estándar">
+                            <img src="uploads/carnet_mockup.webp" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%);" alt="Carnets PVC Estándar" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem;">
                             <h3 style="font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 400;">Carnets PVC Estándar</h3>
@@ -209,7 +209,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Credenciales Gran Formato -->
                     <div class="badge-type-card">
                         <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; background: #1c1b1b;">
-                            <img src="uploads/carousel_2.webp" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%);" alt="Credenciales para Eventos">
+                            <img src="uploads/carousel_2.webp" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%);" alt="Credenciales para Eventos" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem;">
                             <h3 style="font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 400;">Gran Formato para Eventos</h3>
@@ -222,7 +222,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Tarjetas de Proximidad RFID -->
                     <div class="badge-type-card">
                         <div style="width: 100%; aspect-ratio: 1.6; overflow: hidden; background: #1c1b1b;">
-                            <img src="uploads/carnet_mockup.webp" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); " alt="Tarjetas RFID / Proximidad">
+                            <img src="uploads/carnet_mockup.webp" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); " alt="Tarjetas RFID / Proximidad" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem;">
                             <h3 style="font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 400;">Tecnología y Proximidad</h3>
@@ -295,7 +295,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- COMBO 1: Básico -->
                     <div class="combo-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: #fff; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/fundas.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Combo Básico">
+                            <img src="uploads/fundas.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Combo Básico" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <span class="combo-tag">Combo Básico Económico</span>
@@ -318,7 +318,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- COMBO 2: Ejecutivo -->
                     <div class="combo-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: #fff; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/yoyos.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Combo Ejecutivo">
+                            <img src="uploads/yoyos.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Combo Ejecutivo" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <span class="combo-tag" style="background: rgba(99, 174, 44, 0.15);">Combo Oficina Diario</span>
@@ -341,7 +341,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- COMBO 3: Premium -->
                     <div class="combo-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: #fff; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/cintas_full_color.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Combo Premium">
+                            <img src="uploads/cintas_full_color.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Combo Premium" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem; display: flex; flex-direction: column; flex-grow: 1;">
                             <span class="combo-tag" style="background: rgba(99,174,44,0.2); color: #3b6d13;">Combo Máximo Impacto</span>
@@ -368,8 +368,8 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.3"></script>
-    <script src="js/animations.js"></script>
+    <script src="js/main.js?v=6.3" defer></script>
+    <script src="js/animations.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Manejador interactivo para agregar combos al carrito (Add to Quote list)

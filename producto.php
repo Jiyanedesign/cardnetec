@@ -85,7 +85,7 @@ $gallery = array_unique($gallery);
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Fabric.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js" defer></script>
 
     <style>
         .product-detail-light-theme {
@@ -471,7 +471,7 @@ $gallery = array_unique($gallery);
                                 $g_url = getUploadedImgUrl($g_img);
                             ?>
                                 <div class="thumbnail-item <?php echo $index === 0 ? 'active' : ''; ?>" onclick="changeCanvasBackground('<?php echo htmlspecialchars($g_url); ?>', this)">
-                                    <img src="<?php echo htmlspecialchars($g_url); ?>">
+                                    <img src="<?php echo htmlspecialchars($g_url); ?>" alt="Miniatura <?php echo $index + 1; ?>" loading="lazy" decoding="async">
                                 </div>
                             <?php endforeach; ?>
                         </div>

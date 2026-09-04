@@ -663,11 +663,15 @@ try {
     die("Error de conexión a la base de datos: " . $e->getMessage());
 }
 
-// Función auxiliar para obtener las configuraciones del sitio
+// Función auxiliar para obtener las configuraciones del sitio (con memoización estática)
 function getSiteSettings($pdo) {
+    static $cached = null;
+    if ($cached !== null) {
+        return $cached;
+    }
     try {
         $stmt = $pdo->query("SELECT * FROM configuraciones WHERE id = 1");
-        return $stmt->fetch() ?: [
+        $cached = $stmt->fetch() ?: [
             'whatsapp' => '593000000000',
             'phone_2' => '',
             'phone_3' => '',
@@ -685,6 +689,7 @@ function getSiteSettings($pdo) {
             'accesorios_title' => 'Accesorios para el uso diario',
             'accesorios_desc' => 'Complementos prácticos para proteger, portar y presentar mejor cada credencial.'
         ];
+        return $cached;
     } catch (PDOException $e) {
         return [];
     }
@@ -908,6 +913,10 @@ $defaultTaguaContent = [
 ];
 
 function getTaguaContent($pdo) {
+    static $cached_tagua = null;
+    if ($cached_tagua !== null) {
+        return $cached_tagua;
+    }
     global $defaultTaguaContent;
     $res = [];
     try {
@@ -919,6 +928,7 @@ function getTaguaContent($pdo) {
         }
     } catch (PDOException $e) {}
     
-    return array_merge($defaultTaguaContent, $res);
+    $cached_tagua = array_merge($defaultTaguaContent, $res);
+    return $cached_tagua;
 }
  

@@ -308,8 +308,8 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.3"></script>
-    <script src="js/animations.js"></script>
+    <script src="js/main.js?v=6.3" defer></script>
+    <script src="js/animations.js" defer></script>
 
     <!-- Buscador Dinámico de Productos -->
     <script>

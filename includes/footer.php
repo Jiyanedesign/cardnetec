@@ -20,7 +20,7 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
         <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
             <div class="footer-brand-column">
                 <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
-                    <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" class="logo-img">
+                    <img src="images/logo.webp?v=2.1" alt="CardNet.ec Logo" class="logo-img" width="132" height="48" loading="lazy" decoding="async">
                 </a>
                 <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">
                     Taller especialista en personalización de precisión y grabado láser en Ecuador. Acabados indelebles en acero, cuero, madera, acrílico, marfil vegetal de tagua y credenciales. Calidad de autor pieza por pieza, sin barreras de producción masiva.
