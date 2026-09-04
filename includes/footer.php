@@ -94,20 +94,33 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
             </div>
         </div>
     </div>
-    <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
-        <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">
-                <a href="admin/" style="color: inherit; text-decoration: none;" title="Panel de Administración">&copy; 2026</a> CardNet.ec — Taller de personalización de precisión y acabados de autor.
-                <span style="display: inline-block; margin-left: 8px; padding-left: 10px; border-left: 1px solid var(--border); color: var(--text-muted);">
-                    Diseñado por <strong style="color: var(--text-main); font-weight: 600;">JiyaneDesign</strong>
+    <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.75rem; padding-bottom: 2rem; background-color: var(--surface-light, #fbfcfb); text-align: center;">
+        <div class="container footer-bottom-flex" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; max-width: 980px; margin: 0 auto;">
+            <p class="footer-copyright-row" style="font-size: 0.84rem; color: var(--text-muted); margin: 0; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px 14px; line-height: 1.6; text-align: center;">
+                <span>
+                    <a href="admin/" style="color: inherit; text-decoration: none;" title="Panel de Administración">&copy; 2026</a> 
+                    <strong style="color: var(--dark); font-weight: 600;">CardNet.ec</strong> — Taller de personalización de precisión y acabados de autor.
+                </span>
+                <span class="footer-dev-credit" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--border); font-weight: 300;">|</span>
+                    <span>Diseñado por</span>
+                    <a href="https://jiyanedesign.com" target="_blank" rel="noopener noreferrer" class="jiyanedesign-badge" title="Visitar JiyaneDesign — Diseño Web y Estrategia Digital" style="display: inline-flex; align-items: center; gap: 6px; background: #121610; color: #ffffff !important; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(99, 174, 44, 0.45); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12); transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.3px; vertical-align: middle;" onmouseover="this.style.transform='translateY(-2px) scale(1.03)'; this.style.boxShadow='0 6px 18px rgba(99, 174, 44, 0.4)'; this.style.borderColor='var(--primary, #63ae2c)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.12)'; this.style.borderColor='rgba(99, 174, 44, 0.45)';">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#7dd83c" style="flex-shrink: 0;">
+                            <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
+                        </svg>
+                        <span style="color: #ffffff;">Jiyane<span style="color: #7dd83c;">Design</span></span>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a0aab5" stroke-width="2.5" style="flex-shrink: 0;">
+                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                        </svg>
+                    </a>
                 </span>
             </p>
-            <div class="footer-legal-links" style="display: flex; gap: 14px; font-size: 0.8rem; flex-wrap: wrap; align-items: center;">
-                <a href="privacidad.php" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Política de Privacidad</a>
+            <div class="footer-legal-links" style="display: flex; gap: 14px 18px; font-size: 0.8rem; flex-wrap: wrap; justify-content: center; align-items: center; text-align: center; margin: 0 auto;">
+                <a href="privacidad.php" class="footer-legal-link" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-weight: 500;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Política de Privacidad</a>
                 <span style="color: var(--border);">·</span>
-                <a href="terminos.php" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Términos y Políticas de Uso</a>
+                <a href="terminos.php" class="footer-legal-link" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-weight: 500;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Términos y Políticas de Uso</a>
                 <span style="color: var(--border);">·</span>
-                <a href="cookies.php" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Aviso y Gestión de Cookies</a>
+                <a href="cookies.php" class="footer-legal-link" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-weight: 500;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Aviso y Gestión de Cookies</a>
             </div>
         </div>
     </div>
