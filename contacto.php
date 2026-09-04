@@ -63,9 +63,9 @@ $all_emails = array_filter([$contact_email_display, $contact_email_2]);
                             <div>
                                 <strong>Teléfonos / WhatsApp:</strong><br>
                                 <?php foreach ($all_phones as $idx => $p): ?>
-                                    <span style="display: block; font-size: 0.95rem; color: var(--text-muted); margin-top: 2px;">
-                                        • <?php echo htmlspecialchars($p); ?>
-                                    </span>
+                                    <a href="<?php echo formatWhatsAppUrl($p, 'Hola CardNet, deseo realizar una consulta técnica o cotización.'); ?>" target="_blank" rel="noopener noreferrer" style="display: inline-block; font-size: 0.95rem; color: var(--primary); text-decoration: none; margin-top: 4px; font-weight: 500; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" title="Chatear por WhatsApp">
+                                        • <?php echo htmlspecialchars($p); ?> <span style="font-size:0.8rem; opacity:0.8;">(WhatsApp directo)</span>
+                                    </a><br>
                                 <?php endforeach; ?>
                             </div>
                         </div>

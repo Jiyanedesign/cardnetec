@@ -115,9 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
         // Inyectar Barra Inferior en Móviles con SVG Modernos y Limpios
+        const defaultWaUrl = window.CARDNET_WA_URL || ('https://wa.me/' + (window.CARDNET_WA_PHONE || '59399978180'));
         const bottomBarHtml = `
             <div class="mobile-bottom-bar">
-                <a href="https://wa.me/593900000000" class="btn btn-secondary mobile-bottom-btn-wa" target="_blank" rel="noopener">
+                <a href="${defaultWaUrl}" class="btn btn-secondary mobile-bottom-btn-wa" target="_blank" rel="noopener">
                     <svg style="width: 14px; height: 14px; fill: #25D366;" viewBox="0 0 24 24">
                         <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.982L2 22l5.233-1.371a9.994 9.994 0 0 0 4.779 1.22h.005c5.505 0 9.99-4.478 9.99-9.985A9.988 9.988 0 0 0 12.012 2zm4.7 13.916c-.223.633-1.29 1.205-1.782 1.282-.477.075-.947.168-3.067-.665-2.707-1.06-4.442-3.817-4.577-3.996-.134-.178-1.096-1.455-1.096-2.781 0-1.325.692-1.973.938-2.228.246-.255.535-.319.714-.319.18 0 .358.001.514.009.16.008.375-.062.586.448.223.54.76 1.851.827 1.984.067.134.112.29.022.468-.09.18-.134.29-.268.447-.134.156-.282.35-.403.47-.134.134-.273.28-.117.548.156.268.693 1.139 1.492 1.85 1.026.914 1.89 1.196 2.158 1.33.268.134.424.112.58-.067.157-.18.67-.781.848-1.049.178-.268.358-.223.58-.134.224.089 1.42.67 1.666.792.246.123.411.18.47.282.06.101.06.586-.163 1.218z"/>
                     </svg>
@@ -337,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         msg += `\nPor favor ayúdenme con una cotización.`;
 
-                        const phone = '593900000000'; // Número oficial de taller
+                        const phone = window.CARDNET_WA_PHONE || '59399978180'; // Número oficial de taller con 593
                         const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
                         
                         // Vaciar el carrito en sesión y localmente
@@ -412,9 +413,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 noResultsDiv.style.textAlign = 'center';
                 noResultsDiv.style.padding = '3rem 0';
                 noResultsDiv.style.color = 'var(--text-muted)';
+                const waCatalogPhone = window.CARDNET_WA_PHONE || '59399978180';
                 noResultsDiv.innerHTML = `
                     <p style="font-size:1rem; margin-bottom:1.5rem;">No encontramos ese producto en el catálogo, pero podemos revisarlo de forma personalizada.</p>
-                    <a href="https://wa.me/593900000000?text=Hola,%20busco%20un%20producto%20específico%20que%20no%20encontré%20en%20el%20catálogo..." class="btn btn-primary" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+                    <a href="https://wa.me/${waCatalogPhone}?text=Hola,%20busco%20un%20producto%20específico%20que%20no%20encontré%20en%20el%20catálogo..." class="btn btn-primary" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
                 `;
                 if (productGrid) productGrid.appendChild(noResultsDiv);
             } else {
@@ -463,8 +465,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Configurar WhatsApp directo
+        const waModalPhone = window.CARDNET_WA_PHONE || '59399978180';
         const waLink = document.getElementById('modal-whatsapp-direct');
-        waLink.setAttribute('href', `https://wa.me/593900000000?text=Hola,%20me%20interesa%20obtener%20más%20detalles%20de%20este%20producto:%20${encodeURIComponent(title)}`);
+        waLink.setAttribute('href', `https://wa.me/${waModalPhone}?text=Hola,%20me%20interesa%20obtener%20más%20detalles%20de%20este%20producto:%20${encodeURIComponent(title)}`);
 
         detailModalOverlay.classList.add('open');
         document.body.style.overflow = 'hidden'; // Evitar scroll

@@ -4,7 +4,7 @@ require_once 'db.php';
 $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 $site_settings = getSiteSettings($pdo);
 $emp_c = getEmpresasContent($pdo);
-$emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
+$emp_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
 ?>
 <!DOCTYPE html>
 <html lang="es">

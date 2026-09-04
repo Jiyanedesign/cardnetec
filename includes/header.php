@@ -10,8 +10,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 if (!isset($site_settings) && isset($pdo)) {
     $site_settings = getSiteSettings($pdo);
 }
-$header_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
-$header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 00 000 0000';
+$header_wa_url = formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola CardNet, deseo información sobre sus servicios.');
+$header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 99 978 180';
 ?>
 <!-- Barra de Anuncios Superior -->
 <div class="top-announcement-bar">
@@ -35,7 +35,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
             </div>
 
             <div class="header-contact-status">
-                <a href="https://wa.me/<?php echo $header_wa_clean; ?>" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                <a href="<?php echo $header_wa_url; ?>" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;" title="Chatear con un Asesor por WhatsApp">
                     <div class="contact-status-item">
                         <span class="status-icon-wrap">
                             <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">

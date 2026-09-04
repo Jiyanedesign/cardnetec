@@ -8,8 +8,8 @@ $tagua_c = getTaguaContent($pdo);
 
 $page_title = 'Productos de Tagua Personalizados | Marfil Vegetal Ecuatoriano con Grabado Láser | CardNet.ec';
 $page_description = 'Llaveros, botones, medallas, placas y regalos corporativos en Tagua (marfil vegetal ecuatoriano 100% ecológico). Personalización de alta precisión con grabado láser indeleble.';
-$tagua_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
-$tagua_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 00 000 0000';
+$tagua_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
+$tagua_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 99 978 180';
 
 // Obtener productos de Tagua desde la base de datos (SOLO los productos de la categoría tagua)
 try {

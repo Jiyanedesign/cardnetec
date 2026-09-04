@@ -23,7 +23,7 @@ try {
 
 // Cargar configuraciones del sitio
 $site_settings = getSiteSettings($pdo);
-$prod_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
+$prod_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
 
 // Obtener productos filtrados si se solicita
 $category_filter = isset($_GET['cat']) ? trim($_GET['cat']) : '';

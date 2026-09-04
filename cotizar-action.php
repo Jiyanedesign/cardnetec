@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Obtener número de WhatsApp de configuración del sitio
     $settings = getSiteSettings($pdo);
-    $target_phone = !empty($settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $settings['whatsapp']) : '593000000000';
+    $target_phone = cleanWhatsAppNumber($settings['whatsapp'] ?? '');
 
     // Construir mensaje estructurado para WhatsApp
     $text = "💼 *NUEVA SOLICITUD DE COTIZACIÓN empresas*\n\n";
@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $text .= "\n🎨 _Adjunto los renders y maquetas de simulación generadas en el taller en línea._";
     }
 
-    $whatsappUrl = "https://wa.me/" . $target_phone . "?text=" . urlencode($text);
+    $whatsappUrl = formatWhatsAppUrl($target_phone, $text);
 
     // Vaciar el carrito de la sesión
     $_SESSION['cart'] = [];

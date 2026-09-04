@@ -235,8 +235,8 @@ if (!$quote) {
                     <tr>
                         <td class="meta-label">WhatsApp</td>
                         <td>
-                            <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $quote['whatsapp']); ?>" target="_blank" style="color: var(--primary); font-weight: 600; text-decoration: none;">
-                                <?php echo htmlspecialchars($quote['whatsapp']); ?> ➔ Chatear
+                            <a href="<?php echo formatWhatsAppUrl($quote['whatsapp'], 'Hola ' . $quote['name'] . ', te saludamos desde CardNet con respecto a tu cotización #' . $quote['id']); ?>" target="_blank" style="color: var(--primary); font-weight: 600; text-decoration: none;">
+                                <?php echo htmlspecialchars($quote['whatsapp']); ?> ➔ Chatear por WhatsApp
                             </a>
                         </td>
                     </tr>

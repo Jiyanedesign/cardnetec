@@ -701,6 +701,10 @@ function getSiteSettings($pdo) {
             'accesorios_title' => 'Accesorios para el uso diario',
             'accesorios_desc' => 'Complementos prácticos para proteger, portar y presentar mejor cada credencial.'
         ];
+        if ($cached) {
+            $cached['whatsapp_clean'] = cleanWhatsAppNumber($cached['whatsapp'] ?? '');
+            $cached['whatsapp_url'] = formatWhatsAppUrl($cached['whatsapp'] ?? '');
+        }
         return $cached;
     } catch (PDOException $e) {
         return [];
@@ -740,6 +744,40 @@ function convertToWebP($filePath, $quality = 82) {
         imagedestroy($img);
     }
     return $filePath;
+}
+
+// Función auxiliar para sanitizar el número telefónico para WhatsApp con código 593 garantizado
+function cleanWhatsAppNumber($phone) {
+    if (empty($phone)) {
+        return '59399978180';
+    }
+    $digits = preg_replace('/[^0-9]/', '', (string)$phone);
+    if (empty($digits)) {
+        return '59399978180';
+    }
+    // Si empieza con 00, eliminar
+    if (strpos($digits, '00') === 0) {
+        $digits = substr($digits, 2);
+    }
+    // Si empieza con 0 (prefijo local ecuatoriano ej. 09...), eliminar el 0 inicial
+    if (strpos($digits, '0') === 0) {
+        $digits = substr($digits, 1);
+    }
+    // Si no empieza con código de país 593, anteponer 593
+    if (strpos($digits, '593') !== 0) {
+        $digits = '593' . $digits;
+    }
+    return $digits;
+}
+
+// Función auxiliar para formatear enlaces directos a WhatsApp con código de país 593 garantizado
+function formatWhatsAppUrl($phone, $message = '') {
+    $digits = cleanWhatsAppNumber($phone);
+    $url = 'https://wa.me/' . $digits;
+    if (!empty($message)) {
+        $url .= '?text=' . urlencode($message);
+    }
+    return $url;
 }
 
 // Función auxiliar para resolver rutas de imágenes omni-compatible priorizando WebP

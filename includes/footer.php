@@ -3,8 +3,9 @@
 if (!isset($site_settings) && isset($pdo)) {
     $site_settings = getSiteSettings($pdo);
 }
-$footer_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
-$footer_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 00 000 0000';
+$footer_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
+$footer_wa_url = formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola CardNet, deseo realizar una consulta.');
+$footer_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 99 978 180';
 $footer_phone_2 = !empty($site_settings['phone_2']) ? $site_settings['phone_2'] : '';
 $footer_phone_3 = !empty($site_settings['phone_3']) ? $site_settings['phone_3'] : '';
 $footer_email_display = !empty($site_settings['email']) ? $site_settings['email'] : 'correo@cardnet.ec';
@@ -38,11 +39,14 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
                 </nav>
             </div>
             <div class="footer-links-column">
-                <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto</h3>
+                <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Contacto & Ayuda</h3>
                 <div class="footer-contact-info" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; color: var(--text-muted);">
                     <a href="cotizacion.php" class="footer-link">Cotizar productos</a>
                     <a href="cotizacion.php" class="footer-link">Enviar logo</a>
                     <a href="faq.php" class="footer-link">Preguntas frecuentes</a>
+                    <a href="privacidad.php" class="footer-link">Política de privacidad</a>
+                    <a href="terminos.php" class="footer-link">Términos de uso</a>
+                    <a href="cookies.php" class="footer-link">Gestión de cookies</a>
                 </div>
             </div>
             <div class="footer-links-column">
@@ -53,11 +57,11 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
                 <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin: 0;">
                     <?php if (!empty($all_phones)): ?>
                         <div style="margin-bottom: 4px;">
-                            <strong>Teléfonos:</strong><br>
+                            <strong>Teléfonos / WhatsApp:</strong><br>
                             <?php foreach ($all_phones as $idx => $p): ?>
-                                <span style="display: inline-block; margin-right: 8px;">
-                                    <?php echo htmlspecialchars($p); ?><?php echo ($idx < count($all_phones) - 1) ? ' ·' : ''; ?>
-                                </span>
+                                <a href="<?php echo formatWhatsAppUrl($p, 'Hola CardNet, deseo información sobre sus servicios.'); ?>" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none; display: inline-block; margin-right: 8px; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'" title="Chatear por WhatsApp">
+                                    <?php echo htmlspecialchars($p); ?>
+                                </a><?php echo ($idx < count($all_phones) - 1) ? ' ·' : ''; ?>
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
@@ -92,14 +96,30 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
     </div>
     <div class="footer-bottom" style="border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 1.5rem;">
         <div class="container footer-bottom-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <p style="font-size: 0.8rem; color: var(--text-muted);"><a href="admin/" style="color: inherit; text-decoration: none;" title="Panel de Administración">&copy; 2026</a> CardNet.ec — Taller de personalización de precisión y acabados de autor.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">
+                <a href="admin/" style="color: inherit; text-decoration: none;" title="Panel de Administración">&copy; 2026</a> CardNet.ec — Taller de personalización de precisión y acabados de autor.
+                <span style="display: inline-block; margin-left: 8px; padding-left: 10px; border-left: 1px solid var(--border); color: var(--text-muted);">
+                    Diseñado por <strong style="color: var(--text-main); font-weight: 600;">JiyaneDesign</strong>
+                </span>
+            </p>
+            <div class="footer-legal-links" style="display: flex; gap: 14px; font-size: 0.8rem; flex-wrap: wrap; align-items: center;">
+                <a href="privacidad.php" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Política de Privacidad</a>
+                <span style="color: var(--border);">·</span>
+                <a href="terminos.php" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Términos y Políticas de Uso</a>
+                <span style="color: var(--border);">·</span>
+                <a href="cookies.php" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'">Aviso y Gestión de Cookies</a>
+            </div>
         </div>
     </div>
 </footer>
 
 <!-- Botón de WhatsApp Flotante Global -->
-<a href="https://wa.me/<?php echo $footer_wa_clean; ?>" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" title="¿Tienes dudas? Escríbenos por WhatsApp">
+<a href="<?php echo $footer_wa_url; ?>" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" title="¿Tienes dudas? Escríbenos por WhatsApp">
     <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.982L2 22l5.233-1.371a9.994 9.994 0 0 0 4.779 1.22h.005c5.505 0 9.99-4.478 9.99-9.985A9.988 9.988 0 0 0 12.012 2zm4.7 13.916c-.223.633-1.29 1.205-1.782 1.282-.477.075-.947.168-3.067-.665-2.707-1.06-4.442-3.817-4.577-3.996-.134-.178-1.096-1.455-1.096-2.781 0-1.325.692-1.973.938-2.228.246-.255.535-.319.714-.319.18 0 .358.001.514.009.16.008.375-.062.586.448.223.54.76 1.851.827 1.984.067.134.112.29.022.468-.09.18-.134.29-.268.447-.134.156-.282.35-.403.47-.134.134-.273.28-.117.548.156.268.693 1.139 1.492 1.85 1.026.914 1.89 1.196 2.158 1.33.268.134.424.112.58-.067.157-.18.67-.781.848-1.049.178-.268.358-.223.58-.134.224.089 1.42.67 1.666.792.246.123.411.18.47.282.06.101.06.586-.163 1.218z"/>
     </svg>
 </a>
+<script>
+    window.CARDNET_WA_PHONE = '<?php echo $footer_wa_clean; ?>';
+    window.CARDNET_WA_URL = '<?php echo $footer_wa_url; ?>';
+</script>

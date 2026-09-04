@@ -223,7 +223,7 @@ try {
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $quote['whatsapp']); ?>" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                                    <a href="<?php echo formatWhatsAppUrl($quote['whatsapp']); ?>" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">
                                         <?php echo htmlspecialchars($quote['whatsapp']); ?>
                                     </a>
                                 </td>

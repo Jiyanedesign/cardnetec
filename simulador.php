@@ -2,7 +2,7 @@
 session_start();
 require_once 'db.php';
 $site_settings = getSiteSettings($pdo);
-$sim_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', '', $site_settings['whatsapp']) : '593000000000';
+$sim_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
 ?>
 <!DOCTYPE html>
 <html lang="es">
