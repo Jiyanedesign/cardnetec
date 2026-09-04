@@ -125,7 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['quick_order_id'])) {
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
             $new_filename = 'prod_' . time() . '_' . uniqid() . '.' . $ext;
             if (move_uploaded_file($file_tmp, $upload_dir . $new_filename)) {
-                $image_filename = 'products/' . $new_filename;
+                $webp_file = convertToWebP($upload_dir . $new_filename);
+                $image_filename = 'products/' . basename($webp_file);
             }
         }
     }
@@ -148,7 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['quick_order_id'])) {
                 if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
                     $new_filename = 'gal_' . time() . '_' . uniqid() . '.' . $ext;
                     if (move_uploaded_file($file_tmp, $upload_dir . $new_filename)) {
-                        $gallery_paths[] = 'products/' . $new_filename;
+                        $webp_file = convertToWebP($upload_dir . $new_filename);
+                        $gallery_paths[] = 'products/' . basename($webp_file);
                     }
                 }
             }

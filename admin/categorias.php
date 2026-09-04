@@ -59,7 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'svg'])) {
             $new_filename = 'cat_' . time() . '_' . uniqid() . '.' . $ext;
             if (move_uploaded_file($file_tmp, $upload_dir . $new_filename)) {
-                $image_path = 'categories/' . $new_filename;
+                if ($ext !== 'svg') {
+                    $webp_file = convertToWebP($upload_dir . $new_filename);
+                    $image_path = 'categories/' . basename($webp_file);
+                } else {
+                    $image_path = 'categories/' . $new_filename;
+                }
             }
         }
     }

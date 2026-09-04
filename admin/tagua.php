@@ -91,7 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_tagua_product'])
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
             $new_fn = 'tagua_p_' . time() . '_' . uniqid() . '.' . $ext;
             if (move_uploaded_file($file_tmp, $upload_dir . $new_fn)) {
-                $tp_image = 'products/' . $new_fn;
+                $webp_fn = convertToWebP($upload_dir . $new_fn);
+                $tp_image = 'products/' . basename($webp_fn);
             }
         }
     }
@@ -138,7 +139,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_tagua_content'])
             if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
                 $new_filename = 'tagua_hero_' . time() . '.' . $ext;
                 if (move_uploaded_file($file_tmp, $upload_dir . $new_filename)) {
-                    $hero_image_val = $new_filename;
+                    $webp_hero = convertToWebP($upload_dir . $new_filename);
+                    $hero_image_val = basename($webp_hero);
                 }
             }
         }

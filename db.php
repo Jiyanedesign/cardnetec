@@ -690,8 +690,43 @@ function getSiteSettings($pdo) {
     }
 }
 
-// Función auxiliar para resolver rutas de imágenes omni-compatible
-function getUploadedImgUrl($path, $default = 'uploads/carnet_mockup.jpg', $isAdmin = null) {
+// Función auxiliar para convertir cualquier imagen a formato WebP ligero usando GD
+function convertToWebP($filePath, $quality = 82) {
+    if (!file_exists($filePath)) return $filePath;
+    $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+    if (!in_array($ext, ['jpg', 'jpeg', 'png'])) {
+        return $filePath;
+    }
+
+    $webpPath = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $filePath);
+    
+    $img = false;
+    if ($ext === 'jpg' || $ext === 'jpeg') {
+        $img = @imagecreatefromjpeg($filePath);
+    } elseif ($ext === 'png') {
+        $img = @imagecreatefrompng($filePath);
+        if ($img) {
+            imagepalettetotruecolor($img);
+            imagealphablending($img, false);
+            imagesavealpha($img, true);
+        }
+    }
+
+    if ($img) {
+        if (@imagewebp($img, $webpPath, $quality)) {
+            imagedestroy($img);
+            if ($webpPath !== $filePath && file_exists($webpPath) && filesize($webpPath) > 0) {
+                @unlink($filePath);
+            }
+            return $webpPath;
+        }
+        imagedestroy($img);
+    }
+    return $filePath;
+}
+
+// Función auxiliar para resolver rutas de imágenes omni-compatible priorizando WebP
+function getUploadedImgUrl($path, $default = 'uploads/carnet_mockup.webp', $isAdmin = null) {
     if ($isAdmin === null) {
         $script_name = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
         $isAdmin = (strpos($script_name, '/admin/') !== false);
@@ -709,25 +744,28 @@ function getUploadedImgUrl($path, $default = 'uploads/carnet_mockup.jpg', $isAdm
     // Normalizar eliminando prefijos relativos o uploads/ duplicados
     $clean = preg_replace('#^(\.\./)*(uploads/)?#', '', $path);
     
+    // Convertir extensión .jpg/.jpeg/.png a .webp
+    $webpClean = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $clean);
+    
     if (strpos($clean, 'images/') === 0) {
-        return $prefix . $clean;
+        return $prefix . $webpClean;
     }
     if (strpos($clean, 'categories/') === 0 || strpos($clean, 'products/') === 0 || strpos($clean, 'carousel/') === 0 || strpos($clean, 'sections/') === 0) {
-        return $prefix . 'uploads/' . $clean;
+        return $prefix . 'uploads/' . $webpClean;
     }
     if (strpos($clean, 'cat_') === 0) {
-        return $prefix . 'uploads/categories/' . $clean;
+        return $prefix . 'uploads/categories/' . $webpClean;
     }
     if (strpos($clean, 'prod_') === 0 || strpos($clean, 'gal_') === 0) {
-        return $prefix . 'uploads/products/' . $clean;
+        return $prefix . 'uploads/products/' . $webpClean;
     }
     if (strpos($clean, 'slide_') === 0) {
-        return $prefix . 'uploads/carousel/' . $clean;
+        return $prefix . 'uploads/carousel/' . $webpClean;
     }
     if (strpos($clean, 'sec_') === 0) {
-        return $prefix . 'uploads/sections/' . $clean;
+        return $prefix . 'uploads/sections/' . $webpClean;
     }
-    return $prefix . 'uploads/' . $clean;
+    return $prefix . 'uploads/' . $webpClean;
 }
 
 // Función auxiliar para enriquecer productos con atributos comerciales para buscador, filtros y modales

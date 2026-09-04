@@ -77,7 +77,7 @@ try {
 
 // Helper para resolver rutas de imágenes
 if (!function_exists('resolveHomeImg')) {
-    function resolveHomeImg($img, $default = 'uploads/carnet_mockup.jpg') {
+    function resolveHomeImg($img, $default = 'uploads/carnet_mockup.webp') {
         return getUploadedImgUrl($img, $default);
     }
 }
@@ -195,7 +195,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                                     <!-- Imagen al 100% del fondo -->
                                     <div style="position: absolute; inset: 0; z-index: 1;">
                                         <?php
-                                        $img_path = !empty($slide['image']) ? 'uploads/' . $slide['image'] : 'uploads/carnet_mockup.jpg';
+                                        $img_path = !empty($slide['image']) ? getUploadedImgUrl($slide['image'], 'uploads/carnet_mockup.webp') : 'uploads/carnet_mockup.webp';
                                         ?>
                                         <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" class="hero-slide-img">
                                     </div>
@@ -436,18 +436,18 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 $bento_3 = $featured_categories[2] ?? [
                     'name' => 'Cuero y Madera Grabada',
                     'description' => 'Termograbado en bajo relieve y corte artesanal.',
-                    'image' => 'images/mat_cuero.png',
+                    'image' => 'images/mat_cuero.webp',
                     'custom_link' => 'productos.php?cat=personalizacion'
                 ];
                 $bento_4 = $featured_categories[3] ?? [
                     'name' => 'Identificación de Autor',
                     'description' => 'Credenciales y cintas con estándares de alta presentación institucional.',
-                    'image' => 'carnet_mockup.jpg',
+                    'image' => 'carnet_mockup.webp',
                     'custom_link' => 'carnets.php'
                 ];
 
                 function getBentoImgUrl($img) {
-                    return getUploadedImgUrl($img, 'uploads/cintas_mockup.jpg');
+                    return getUploadedImgUrl($img, 'uploads/cintas_mockup.webp');
                 }
 
                 function getBentoLinkUrl($cat) {
@@ -685,7 +685,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Carnets PVC -->
                         <div class="showcase-card">
                             <div class="showcase-image-wrap">
-                                <img src="uploads/carnet_mockup.jpg?v=2.2" alt="Carnets PVC">
+                                <img src="uploads/carnet_mockup.webp" alt="Carnets PVC">
                             </div>
                             <div class="showcase-info">
                                 <h3 class="showcase-title">Carnets PVC Corporativos</h3>
@@ -694,7 +694,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Cintas y lanyards -->
                         <div class="showcase-card">
                             <div class="showcase-image-wrap">
-                                <img src="uploads/cintas_mockup.jpg?v=2.2" alt="Cintas y lanyards">
+                                <img src="uploads/cintas_mockup.webp" alt="Cintas y lanyards">
                             </div>
                             <div class="showcase-info">
                                 <h3 class="showcase-title">Cintas Porta Credenciales</h3>
@@ -703,7 +703,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Porta credenciales -->
                         <div class="showcase-card">
                             <div class="showcase-image-wrap">
-                                <img src="uploads/llavero.png" alt="Porta credenciales y accesorios">
+                                <img src="uploads/llavero.webp" alt="Porta credenciales y accesorios">
                             </div>
                             <div class="showcase-info">
                                 <h3 class="showcase-title">Porta Carnets y Accesorios</h3>
@@ -857,7 +857,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Fallback si la tabla está vacía -->
                         <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                             <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                <img src="uploads/llavero.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets">
+                                <img src="uploads/llavero.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets">
                             </div>
                             <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
                                 <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Porta carnets</h4>
@@ -867,7 +867,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         </div>
                         <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                             <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                <img src="uploads/yoyos.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Yoyos retráctiles">
+                                <img src="uploads/yoyos.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Yoyos retráctiles">
                             </div>
                             <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
                                 <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Yoyos retráctiles</h4>
@@ -877,7 +877,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         </div>
                         <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                             <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                <img src="uploads/fundas.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Fundas transparentes">
+                                <img src="uploads/fundas.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Fundas transparentes">
                             </div>
                             <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
                                 <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Fundas transparentes</h4>
@@ -903,42 +903,42 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <!-- Acero -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_acero.png" alt="Acero" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_acero.webp" alt="Acero" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Acero</span>
                     </div>
                     <!-- Madera -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_madera.png" alt="Madera" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_madera.webp" alt="Madera" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Madera</span>
                     </div>
                     <!-- Acrílico -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_acrilico.png" alt="Acrílico" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_acrilico.webp" alt="Acrílico" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Acrílico</span>
                     </div>
                     <!-- Cuero/PU -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_cuero.png" alt="Cuero/PU" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_cuero.webp" alt="Cuero/PU" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Cuero/PU</span>
                     </div>
                     <!-- Vidrio -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_vidrio.png" alt="Vidrio" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_vidrio.webp" alt="Vidrio" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">Vidrio</span>
                     </div>
                     <!-- PVC -->
                     <div class="material-visual-item" style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 140px;">
                         <div style="width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: white;">
-                            <img src="images/mat_pvc.png" alt="PVC" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="images/mat_pvc.webp" alt="PVC" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <span style="font-size: 0.78rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.05em;">PVC</span>
                     </div>
@@ -1119,9 +1119,9 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     <div style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.8); color: white; padding: 6px 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border-radius: 4px; z-index: 8; letter-spacing: 0.05em;">Antes (Liso)</div>
                     <div style="position: absolute; top: 15px; right: 15px; background: var(--primary); color: white; padding: 6px 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border-radius: 4px; z-index: 8; letter-spacing: 0.05em;">Después (Grabado)</div>
                     
-                    <img id="slider-img-after" src="images/termo_after.png" alt="Termo Grabado" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+                    <img id="slider-img-after" src="images/termo_after.webp" alt="Termo Grabado" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
                     <div id="slider-before-wrap" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; clip-path: inset(0 50% 0 0); border-right: 2px solid white;">
-                        <img id="slider-img-before" src="images/termo_before.png" alt="Termo Liso" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+                        <img id="slider-img-before" src="images/termo_before.webp" alt="Termo Liso" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
                     </div>
                     <div id="slider-handle" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: white; z-index: 10; margin-left: -2px; pointer-events: none;">
                         <div style="position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; border-radius: 50%; background: white; margin-top: -20px; margin-left: -20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; border: 1px solid var(--border);">
@@ -1346,20 +1346,20 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                 termo: {
                     title: "Termo de Acero",
                     text: "De producto simple a detalle corporativo listo para entregar.",
-                    before: "images/termo_before.png",
-                    after: "images/termo_after.png"
+                    before: "images/termo_before.webp",
+                    after: "images/termo_after.webp"
                 },
                 agenda: {
                     title: "Agenda de Cuero",
                     text: "De agenda lisa a pieza ejecutiva con identidad de marca.",
-                    before: "images/agenda_before.png",
-                    after: "images/agenda_after.png"
+                    before: "images/agenda_before.webp",
+                    after: "images/agenda_after.webp"
                 },
                 caja: {
                     title: "Caja de Madera",
                     text: "De empaque básico a presentación personalizada.",
-                    before: "images/caja_before.png",
-                    after: "images/caja_after.png"
+                    before: "images/caja_before.webp",
+                    after: "images/caja_after.webp"
                 }
             };
             

@@ -55,7 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             if (move_uploaded_file($file_tmp, $dest_path)) {
-                $image_filename = 'carousel/' . $new_filename;
+                $webp_file = convertToWebP($dest_path);
+                $image_filename = 'carousel/' . basename($webp_file);
             } else {
                 $error = 'Error al mover el archivo de cabecera.';
             }

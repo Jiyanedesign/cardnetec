@@ -24,7 +24,7 @@ try {
 }
 
 // Helper para resolver imagen del Hero
-$hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero_image'] : 'tagua_hero_bg.jpg', 'images/tagua_hero_bg.jpg');
+$hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero_image'] : 'tagua_hero_bg.webp', 'images/tagua_hero_bg.webp');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -436,7 +436,7 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
                 <div class="tagua-catalog-grid">
                     <?php foreach ($tagua_products as $tp): ?>
                         <?php
-                        $img_src = getUploadedImgUrl($tp['image_main'] ?? '', 'uploads/tagua_llavero.jpg');
+                        $img_src = getUploadedImgUrl($tp['image_main'] ?? '', 'uploads/tagua_llavero.webp');
                         ?>
                         <div class="tagua-prod-card">
                             <a href="producto.php?slug=<?php echo htmlspecialchars($tp['slug']); ?>" class="tagua-prod-media" style="text-decoration: none;">

@@ -94,7 +94,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                 </div>
                 <div class="split-visual" style="flex: 1; min-width: 300px;">
                     <div style="width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--surface-light);">
-                        <img src="uploads/termo_after.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Grabador Láser en Acción">
+                        <img src="uploads/termo_after.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Grabador Láser en Acción">
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 1: Grabado Láser -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/termo_after.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Grabado Láser de Termos">
+                            <img src="uploads/termo_after.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Grabado Láser de Termos">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Grabado Láser Fibra y CO2</h3>
@@ -131,7 +131,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 2: Sublimación Textil HD -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/cintas_full_color.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Sublimación HD de Cintas">
+                            <img src="uploads/cintas_full_color.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Sublimación HD de Cintas">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Sublimación de Alta Definición</h3>
@@ -149,7 +149,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 3: Impresión Térmica Re-transferencia -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/carnet_mockup.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Impresión de Carnets PVC">
+                            <img src="uploads/carnet_mockup.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Impresión de Carnets PVC">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Impresión por Re-transferencia</h3>
@@ -167,7 +167,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 4: Resina Epóxica Drop -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/yoyos.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Resina Drop en Yoyos">
+                            <img src="uploads/yoyos.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Resina Drop en Yoyos">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Resina Epóxica Drop (Gota de Resina)</h3>
