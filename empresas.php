@@ -80,6 +80,12 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
             border-color: var(--primary) !important;
             box-shadow: 0 15px 30px rgba(99, 174, 44, 0.15);
         }
+        .badge-type-card h3 {
+            color: #ffffff !important;
+        }
+        .badge-type-card p {
+            color: rgba(255, 255, 255, 0.85) !important;
+        }
         .custom-feature-item {
             display: flex;
             gap: 16px;
@@ -290,10 +296,10 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
                             <img src="uploads/<?php echo htmlspecialchars($emp_c['type_card1_img']); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($emp_c['type_card1_title']); ?>" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem;">
-                            <h3 style="font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 400;">
+                            <h3 style="color: #ffffff !important; font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 500;">
                                 <?php echo htmlspecialchars($emp_c['type_card1_title']); ?>
                             </h3>
-                            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.5; margin: 0;">
+                            <p style="font-size: 0.88rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin: 0;">
                                 <?php echo htmlspecialchars($emp_c['type_card1_desc']); ?>
                             </p>
                         </div>
@@ -305,10 +311,10 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
                             <img src="uploads/<?php echo htmlspecialchars($emp_c['type_card2_img']); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($emp_c['type_card2_title']); ?>" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem;">
-                            <h3 style="font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 400;">
+                            <h3 style="color: #ffffff !important; font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 500;">
                                 <?php echo htmlspecialchars($emp_c['type_card2_title']); ?>
                             </h3>
-                            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.5; margin: 0;">
+                            <p style="font-size: 0.88rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin: 0;">
                                 <?php echo htmlspecialchars($emp_c['type_card2_desc']); ?>
                             </p>
                         </div>
@@ -320,10 +326,10 @@ $emp_wa_clean = !empty($site_settings['whatsapp']) ? preg_replace('/[^0-9]/', ''
                             <img src="uploads/<?php echo htmlspecialchars($emp_c['type_card3_img']); ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="<?php echo htmlspecialchars($emp_c['type_card3_title']); ?>" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2rem;">
-                            <h3 style="font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 400;">
+                            <h3 style="color: #ffffff !important; font-size: 1.35rem; font-family: var(--font-heading); margin-bottom: 0.75rem; font-weight: 500;">
                                 <?php echo htmlspecialchars($emp_c['type_card3_title']); ?>
                             </h3>
-                            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.5; margin: 0;">
+                            <p style="font-size: 0.88rem; color: rgba(255,255,255,0.85); line-height: 1.6; margin: 0;">
                                 <?php echo htmlspecialchars($emp_c['type_card3_desc']); ?>
                             </p>
                         </div>
