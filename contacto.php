@@ -35,7 +35,7 @@ $all_emails = array_filter([$contact_email_display, $contact_email_2]);
 
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=6.3">
-    <link rel="stylesheet" href="css/layout.css?v=6.3">
+    <link rel="stylesheet" href="css/layout.css?v=7.0">
     <link rel="stylesheet" href="css/components.css?v=6.3">
     <link rel="stylesheet" href="css/pages.css?v=6.3">
     <link rel="stylesheet" href="css/animations.css?v=1.1.3">
@@ -141,7 +141,7 @@ $all_emails = array_filter([$contact_email_display, $contact_email_2]);
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.3" defer></script>
+    <script src="js/main.js?v=7.0" defer></script>
     <script src="js/animations.js" defer></script>
     <script src="js/forms.js" defer></script>
 </body>

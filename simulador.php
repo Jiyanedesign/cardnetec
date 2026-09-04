@@ -19,7 +19,7 @@ $sim_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=6.3">
-    <link rel="stylesheet" href="css/layout.css?v=6.3">
+    <link rel="stylesheet" href="css/layout.css?v=7.0">
     <link rel="stylesheet" href="css/components.css?v=6.3">
     <link rel="stylesheet" href="css/pages.css?v=6.3">
 

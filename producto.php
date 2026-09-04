@@ -79,7 +79,7 @@ $gallery = array_unique($gallery);
     <title><?php echo htmlspecialchars($product['name']); ?> | CardNet.ec</title>
     <meta name="description" content="<?php echo htmlspecialchars($product['description_short']); ?>">
     <link rel="stylesheet" href="css/base.css?v=6.3">
-    <link rel="stylesheet" href="css/layout.css?v=6.3">
+    <link rel="stylesheet" href="css/layout.css?v=7.0">
     <link rel="stylesheet" href="css/components.css?v=6.3">
     <link rel="stylesheet" href="css/pages.css?v=6.3">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
@@ -999,6 +999,7 @@ $gallery = array_unique($gallery);
             canvas.renderAll();
         }
     </script>
+    <script src="js/main.js?v=7.0" defer></script>
 </body>
 </html>
  

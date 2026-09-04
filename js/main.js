@@ -365,58 +365,112 @@ document.addEventListener('DOMContentLoaded', () => {
         }[tag] || tag));
     };
 
-    // A. Buscador del Encabezado (Disponible en todas las páginas)
+    // A. Buscador del Encabezado Estilo Google (Universal)
     const headerSearchForm = document.getElementById('global-header-search');
     const headerSearchInput = headerSearchForm ? headerSearchForm.querySelector('.search-input') : document.querySelector('.search-input');
     const headerSearchDropdown = document.getElementById('search-results-dropdown');
+    const headerClearBtn = document.getElementById('search-clear-btn');
 
     if (headerSearchInput && headerSearchDropdown) {
         let searchDebounceTimer = null;
         let currentSelectedIndex = -1;
 
+        const updateClearBtn = () => {
+            if (headerClearBtn) {
+                headerClearBtn.style.display = headerSearchInput.value.trim().length > 0 ? 'flex' : 'none';
+            }
+        };
+
+        if (headerClearBtn) {
+            headerClearBtn.addEventListener('click', () => {
+                headerSearchInput.value = '';
+                updateClearBtn();
+                headerSearchInput.focus();
+                closeDropdown();
+            });
+        }
+
         const closeDropdown = () => {
             headerSearchDropdown.style.display = 'none';
             headerSearchDropdown.innerHTML = '';
             currentSelectedIndex = -1;
+            if (headerSearchForm) {
+                headerSearchForm.classList.remove('search-active');
+            }
+        };
+
+        const escapeRegex = (string) => {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         };
 
         const renderSearchResults = (query, data) => {
             if (!data.results || data.results.length === 0) {
                 headerSearchDropdown.innerHTML = `
-                    <div class="search-dropdown-empty">
-                        <p style="margin: 0 0 8px; color: var(--text-dark); font-weight: 500;">No encontramos productos para "${escapeHtmlHelper(query)}"</p>
-                        <a href="productos.php?q=${encodeURIComponent(query)}" style="color: var(--primary); font-size: 0.82rem; font-weight: 600; text-decoration: underline;">Ver búsqueda en el catálogo completo →</a>
+                    <div class="search-dropdown-empty" style="padding: 26px 18px; text-align: center; color: #5f6368;">
+                        <div style="width: 44px; height: 44px; border-radius: 50%; background: #f1f3f4; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; color: #70757a;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </div>
+                        <div style="font-size: 0.92rem; font-weight: 500; color: #202124; margin-bottom: 6px;">
+                            No encontramos productos para "<strong>${escapeHtmlHelper(query)}</strong>"
+                        </div>
+                        <p style="font-size: 0.8rem; color: #70757a; margin: 0 0 14px 0; line-height: 1.4;">
+                            Revisa la ortografía o consulta por WhatsApp si deseas una personalización a medida.
+                        </p>
+                        <a href="productos.php" style="display: inline-block; padding: 7px 18px; background: #f8f9fa; border: 1px solid #dadce0; border-radius: 18px; font-size: 0.8rem; color: var(--primary); font-weight: 600; text-decoration: none;">
+                            Ver todo el catálogo →
+                        </a>
                     </div>
                 `;
                 headerSearchDropdown.style.display = 'block';
+                if (headerSearchForm) headerSearchForm.classList.add('search-active');
                 currentSelectedIndex = -1;
                 return;
             }
 
             let html = '';
+            const safeQ = escapeRegex(query);
+            const qReg = safeQ ? new RegExp('(' + safeQ + ')', 'gi') : null;
+
             data.results.forEach((item, idx) => {
+                let nameHtml = escapeHtmlHelper(item.name);
+                if (qReg) {
+                    nameHtml = nameHtml.replace(qReg, '<strong style="color: #202124; font-weight: 700;">$1</strong>');
+                }
+
                 html += `
-                    <a href="${item.url}" class="search-dropdown-item" data-index="${idx}" role="option">
-                        <img src="${item.image}" alt="${escapeHtmlHelper(item.name)}" class="search-dropdown-img" loading="lazy">
-                        <div class="search-dropdown-info">
-                            <div class="search-dropdown-title">${escapeHtmlHelper(item.name)}</div>
-                            <div class="search-dropdown-meta">
-                                <span class="search-dropdown-cat">${escapeHtmlHelper(item.category)}</span>
-                                <span style="font-weight: 600; color: var(--dark);">$${item.price}</span>
+                    <a href="${item.url}" class="search-dropdown-item" data-index="${idx}" role="option" style="display: flex; align-items: center; gap: 14px; padding: 10px 18px; text-decoration: none; color: #202124; transition: background-color 0.12s ease; border-bottom: 1px solid #f5f5f5; box-sizing: border-box;">
+                        <div class="search-dropdown-img-wrap" style="width: 44px; height: 44px; min-width: 44px; max-width: 44px; min-height: 44px; max-height: 44px; border-radius: 8px; background: #f8f9fa; border: 1px solid #e8eaed; padding: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; box-sizing: border-box;">
+                            <img src="${item.image}" alt="${escapeHtmlHelper(item.name)}" class="search-dropdown-img" loading="lazy" style="width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 6px; display: block;">
+                        </div>
+                        <div class="search-dropdown-info" style="flex: 1; min-width: 0;">
+                            <div class="search-dropdown-title" style="font-size: 0.88rem; font-weight: 500; color: #202124; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;">
+                                ${nameHtml}
                             </div>
+                            <div class="search-dropdown-meta" style="display: flex; align-items: center; gap: 8px; margin-top: 3px; font-size: 0.74rem; color: #70757a;">
+                                <span class="search-dropdown-cat" style="background: #eef7e9; color: #3d781a; padding: 2px 8px; border-radius: 10px; font-weight: 600; font-size: 0.7rem;">${escapeHtmlHelper(item.category)}</span>
+                                <span class="search-dropdown-price" style="font-weight: 700; color: #1f2328;">$${item.price}</span>
+                            </div>
+                        </div>
+                        <div class="search-dropdown-arrow" style="color: #9aa0a6; flex-shrink: 0; display: flex; align-items: center;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                         </div>
                     </a>
                 `;
             });
 
             html += `
-                <a href="productos.php?q=${encodeURIComponent(query)}" class="search-dropdown-footer">
-                    Ver todos los resultados (${data.count}+) en el catálogo →
+                <a href="productos.php?q=${encodeURIComponent(query)}" class="search-dropdown-footer" style="padding: 12px 18px; border-top: 1px solid #ebebeb; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; background: #f8f9fa; border-radius: 0 0 24px 24px; box-sizing: border-box;">
+                    <span style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        Ver todos los resultados (${data.count}) en el catálogo
+                    </span>
+                    <span style="background: #ffffff; border: 1px solid #dadce0; border-radius: 4px; padding: 2px 7px; font-size: 11px; color: #70757a; font-family: inherit;">Enter ↵</span>
                 </a>
             `;
 
             headerSearchDropdown.innerHTML = html;
             headerSearchDropdown.style.display = 'block';
+            if (headerSearchForm) headerSearchForm.classList.add('search-active');
             currentSelectedIndex = -1;
         };
 
@@ -442,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         headerSearchInput.addEventListener('input', (e) => {
             clearTimeout(searchDebounceTimer);
+            updateClearBtn();
             const query = e.target.value.trim();
             if (query.length < 2) {
                 closeDropdown();
@@ -449,8 +504,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             searchDebounceTimer = setTimeout(() => {
                 fetchSearchSuggestions(query);
-            }, 200);
+            }, 180);
         });
+
+        updateClearBtn();
 
         headerSearchInput.addEventListener('keydown', (e) => {
             const items = headerSearchDropdown.querySelectorAll('.search-dropdown-item');
@@ -487,9 +544,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         headerSearchInput.addEventListener('focus', () => {
+            updateClearBtn();
             const query = headerSearchInput.value.trim();
             if (query.length >= 2 && headerSearchDropdown.children.length > 0) {
                 headerSearchDropdown.style.display = 'block';
+                if (headerSearchForm) headerSearchForm.classList.add('search-active');
             }
         });
     }

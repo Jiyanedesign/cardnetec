@@ -117,7 +117,7 @@ try {
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=6.3">
-    <link rel="stylesheet" href="css/layout.css?v=6.3">
+    <link rel="stylesheet" href="css/layout.css?v=7.0">
     <link rel="stylesheet" href="css/components.css?v=6.3">
     <link rel="stylesheet" href="css/pages.css?v=6.3">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
@@ -138,12 +138,13 @@ try {
             background-color: var(--surface-light);
             border: 1px solid var(--border);
             color: var(--text-dark);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             transition: var(--transition-fast);
+            text-decoration: none;
+            display: inline-block;
         }
         .filter-btn:hover, .filter-btn.active {
             background-color: var(--primary);
@@ -152,21 +153,20 @@ try {
         }
         
         /* Grilla responsiva de 2 por fila en móvil */
-        @media (max-width: 767px) {
+        @media (max-width: 768px) {
             .grid-3 {
                 grid-template-columns: repeat(2, 1fr) !important;
-                gap: 12px !important;
+                gap: 10px !important;
             }
             .product-card-body {
-                padding: 0.85rem !important;
+                padding: 0.75rem !important;
             }
             .product-card-title {
-                font-size: 0.95rem !important;
+                font-size: 0.92rem !important;
                 margin-bottom: 0.25rem !important;
-                overflow: hidden;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
+            }
+            .product-specs-badges {
+                display: none !important;
             }
             .product-card-desc {
                 display: none !important;
@@ -209,22 +209,22 @@ try {
             <a href="cotizacion.php" class="btn btn-primary" style="padding: 9px 20px; font-size: 0.82rem; text-transform: none; white-space: nowrap;">Cotizar mi proyecto</a>
         </div>
 
-        <!-- Barra de Búsqueda + Ordenamiento -->
-        <form action="productos.php" method="GET" style="display: flex; gap: 10px; margin-bottom: 1.25rem; align-items: center; flex-wrap: wrap;">
+        <!-- Barra de Búsqueda + Ordenamiento (Estilo Google) -->
+        <form action="productos.php" method="GET" style="display: flex; gap: 12px; margin-bottom: 1.5rem; align-items: center; flex-wrap: wrap;">
             <?php if (!empty($category_filter)): ?>
                 <input type="hidden" name="cat" value="<?php echo htmlspecialchars($category_filter); ?>">
             <?php endif; ?>
-            <!-- Buscador Dinámico -->
-            <div style="flex: 1; min-width: 200px; position: relative;">
-                <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--text-muted); fill: none; stroke-width: 2; pointer-events: none;" viewBox="0 0 24 24">
+            <!-- Buscador Dinámico Estilo Google -->
+            <div style="flex: 1; min-width: 240px; position: relative;">
+                <svg style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 17px; height: 17px; stroke: #9aa0a6; stroke-width: 2.2; fill: none; pointer-events: none;" viewBox="0 0 24 24">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
                 <input type="text" id="product-search" name="q" placeholder="Buscar por nombre, material o técnica..." autocomplete="off" value="<?php echo htmlspecialchars($search_query); ?>"
-                    style="width: 100%; padding: 9px 12px 9px 36px; border: 1px solid var(--border); border-radius: 8px; font-family: var(--font-body); font-size: 0.85rem; color: var(--text-dark); background: white; outline: none; transition: border-color 0.2s;">
+                    style="width: 100%; height: 44px; padding: 0 18px 0 44px; border: 1px solid #dfe1e5; border-radius: 24px; font-family: var(--font-body); font-size: 0.88rem; color: #202124; background: white; outline: none; box-shadow: 0 1px 6px rgba(32, 33, 36, 0.08); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box;">
             </div>
-            <!-- Ordenamiento -->
+            <!-- Ordenamiento Estilo Google -->
             <select id="sort-selector" name="sort" onchange="this.form.submit();"
-                style="padding: 9px 28px 9px 12px; border-radius: 8px; border: 1px solid var(--border); background: white; font-family: var(--font-body); font-size: 0.82rem; color: var(--text-dark); cursor: pointer; outline: none; font-weight: 500; -webkit-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23999%22%20stroke-width%3D%222%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 8px center; white-space: nowrap;">
+                style="height: 44px; padding: 0 32px 0 16px; border-radius: 24px; border: 1px solid #dfe1e5; background: white; font-family: var(--font-body); font-size: 0.84rem; color: #202124; cursor: pointer; outline: none; font-weight: 500; box-shadow: 0 1px 6px rgba(32, 33, 36, 0.08); -webkit-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2370757a%22%20stroke-width%3D%222%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 10px center; white-space: nowrap;">
                 <option value="" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Destacados</option>
                 <option value="price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Menor precio</option>
             </select>
@@ -379,7 +379,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=6.4" defer></script>
+    <script src="js/main.js?v=7.0" defer></script>
     <script src="js/animations.js" defer></script>
 </body>
 </html>

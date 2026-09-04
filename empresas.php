@@ -20,7 +20,7 @@ $emp_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
     <meta name="description" content="Soluciones integrales de identificación para empresas y equipos. Carnets PVC de alta fidelidad, cintas sublimadas, combos promocionales y regalos corporativos en Ecuador.">
     <link rel="canonical" href="https://cardnetec.com.ec/empresas.php">
     <link rel="stylesheet" href="css/base.css?v=6.3">
-    <link rel="stylesheet" href="css/layout.css?v=6.3">
+    <link rel="stylesheet" href="css/layout.css?v=7.0">
     <link rel="stylesheet" href="css/components.css?v=6.3">
     <style>
         .empresas-hero {
@@ -661,7 +661,7 @@ $emp_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/main.js?v=6.3" defer></script>
+    <script src="js/main.js?v=7.0" defer></script>
     <script src="js/animations.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

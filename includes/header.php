@@ -28,13 +28,18 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
             </a>
             
             <form action="productos.php" method="GET" class="header-search" id="global-header-search" role="search" style="position: relative;">
-                <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-                <input class="search-input" type="search" name="q" placeholder="Buscar carnets, cintas, tagua, placas..." value="<?php echo htmlspecialchars($_GET['q'] ?? ''); ?>" autocomplete="off" aria-label="Buscar productos">
-                <button type="submit" class="search-submit-btn" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; padding: 4px;" title="Buscar">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
+                <div class="search-input-wrapper" style="position: relative; width: 100%; display: flex; align-items: center;">
+                    <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9aa0a6" stroke-width="2" style="position: absolute; left: 16px; pointer-events: none;">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input class="search-input" type="text" name="q" placeholder="Buscar productos, carnets, tagua, placas..." value="<?php echo htmlspecialchars($_GET['q'] ?? ''); ?>" autocomplete="off" aria-label="Buscar productos">
+                    <button type="button" class="search-clear-btn" id="search-clear-btn" style="display: none;" title="Limpiar búsqueda" aria-label="Limpiar búsqueda">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                    <button type="submit" class="search-submit-btn" title="Buscar en catálogo" aria-label="Buscar">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
                 <div class="search-results-dropdown" id="search-results-dropdown" style="display: none;"></div>
             </form>
 
