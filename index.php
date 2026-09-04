@@ -437,7 +437,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     'name' => 'Identificación de Autor',
                     'description' => 'Credenciales y cintas con estándares de alta presentación institucional.',
                     'image' => 'carnet_mockup.webp',
-                    'custom_link' => 'carnets.php'
+                    'custom_link' => 'empresas.php'
                 ];
 
                 function getBentoImgUrl($img) {

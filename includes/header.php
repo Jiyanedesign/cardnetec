@@ -63,8 +63,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
             <nav class="nav-menu" aria-label="Navegación principal">
                 <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
                 <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-                <a href="carnets.php" class="nav-link <?php echo ($current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets</a>
-                <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
+                <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php' || $current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets y Empresas</a>
                 <a href="personalizacion.php" class="nav-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
                 <a href="tagua.php" class="nav-link <?php echo ($current_page == 'tagua.php') ? 'active' : ''; ?>">Tagua</a>
                 <a href="cotizacion.php" class="nav-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar<?php
@@ -104,8 +103,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
     <div style="display: flex; flex-direction: column; gap: 1.25rem; width: 100%; padding-top: 0.5rem;">
         <a href="index.php" class="mobile-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
         <a href="productos.php" class="mobile-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-        <a href="carnets.php" class="mobile-link <?php echo ($current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets</a>
-        <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php') ? 'active' : ''; ?>">Empresas</a>
+        <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php' || $current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets y Empresas</a>
         <a href="personalizacion.php" class="mobile-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
         <a href="tagua.php" class="mobile-link <?php echo ($current_page == 'tagua.php') ? 'active' : ''; ?>">Tagua</a>
         <a href="cotizacion.php" class="mobile-link <?php echo ($current_page == 'cotizacion.php') ? 'active' : ''; ?>">Cotizar</a>
