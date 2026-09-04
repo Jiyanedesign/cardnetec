@@ -84,13 +84,15 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
+    <link rel="shortcut icon" href="favicon.ico?v=2.0">
+    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($page_title); ?></title>
     <meta name="description" content="<?php echo htmlspecialchars($page_description); ?>">
     <link rel="canonical" href="https://cardnet.ec/index.php">
-    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
-    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- Open Graph -->
     <meta property="og:title" content="<?php echo htmlspecialchars($page_title); ?>">

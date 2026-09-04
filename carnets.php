@@ -7,6 +7,11 @@ header("Location: empresas.php" . $query);
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
+    <link rel="shortcut icon" href="favicon.ico?v=2.0">
+    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
+
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0;url=empresas.php<?php echo htmlspecialchars($query); ?>">
     <title>Redirigiendo a Carnets y Empresas | CardNet.ec</title>

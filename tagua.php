@@ -29,13 +29,15 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
+    <link rel="shortcut icon" href="favicon.ico?v=2.0">
+    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($page_title); ?></title>
     <meta name="description" content="<?php echo htmlspecialchars($page_description); ?>">
     <link rel="canonical" href="https://cardnet.ec/tagua.php">
-    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
-    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- Open Graph -->
     <meta property="og:title" content="<?php echo htmlspecialchars($page_title); ?>">

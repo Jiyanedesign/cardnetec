@@ -263,6 +263,11 @@ if (isset($_GET['edit'])) {
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/png" href="../favicon.png?v=2.0">
+    <link rel="shortcut icon" href="../favicon.ico?v=2.0">
+    <link rel="apple-touch-icon" href="../favicon.png?v=2.0">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Productos | CardNet.ec</title>

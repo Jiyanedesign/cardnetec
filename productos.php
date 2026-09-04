@@ -54,13 +54,15 @@ try {
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
+    <link rel="shortcut icon" href="favicon.ico?v=2.0">
+    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Personalización & Grabado Láser | CardNet.ec</title>
     <meta name="description" content="Catálogo de artículos selectos para personalizar con grabado láser de alta fidelidad en Ecuador. Sin mínimos masivos: cotiza las unidades exactas que necesitas.">
     <link rel="canonical" href="https://cardnet.ec/productos.php">
-    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
-    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=6.3">

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
+    <link rel="shortcut icon" href="favicon.ico?v=2.0">
+    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preguntas Frecuentes | CardNet.ec</title>
     <meta name="description" content="Preguntas frecuentes sobre identificación de personal, carnets PVC, lanyards, porta credenciales y personalización corporativa.">
     <link rel="canonical" href="https://cardnet.ec/faq.php">
-    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=6.3">

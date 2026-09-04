@@ -6,6 +6,11 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/png" href="favicon.png?v=2.0">
+    <link rel="shortcut icon" href="favicon.ico?v=2.0">
+    <link rel="apple-touch-icon" href="favicon.png?v=2.0">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maestría en Grabado Láser & Personalización de Autor | CardNet.ec</title>
