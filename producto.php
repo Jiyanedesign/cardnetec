@@ -614,7 +614,7 @@ $gallery = array_unique($gallery);
                         
                         <div style="background: rgba(99, 174, 44, 0.06); border: 1px dashed rgba(99, 174, 44, 0.35); border-radius: 6px; padding: 10px 12px; margin: 12px 0 16px 0;">
                             <p style="font-size:0.78rem; color:var(--dark); margin: 0; line-height: 1.4; font-weight: 500;">
-                                ✨ <strong>Personalización incluida:</strong> Grabado láser indeleble de alta fidelidad. Sin mínimos masivos forzados; cotiza las unidades que tu proyecto necesita.
+                                <strong>Personalización incluida:</strong> Grabado láser indeleble de alta fidelidad. Sin mínimos masivos forzados; cotiza las unidades que tu proyecto necesita.
                             </p>
                         </div>
 
