@@ -199,7 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.querySelectorAll('.drawer-item-qty').forEach(input => {
                             input.addEventListener('change', (e) => {
                                 const idx = e.target.getAttribute('data-index');
-                                const val = parseInt(e.target.value) || 1;
+                                const val = Math.max(1, parseInt(e.target.value) || 1);
+                                e.target.value = val;
                                 updateDrawerQty(idx, val);
                             });
                         });
@@ -218,7 +219,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateDrawerQty = (idx, qty) => {
-        fetch(`cart-action.php?action=update_qty&index=${idx}&qty=${qty}`)
+        const safeQty = Math.max(1, parseInt(qty) || 1);
+        fetch(`cart-action.php?action=update_qty&index=${idx}&qty=${safeQty}`)
             .then(res => res.json())
             .then(() => {
                 updateDrawerUI();
@@ -231,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('name', name);
         formData.append('slug', slug);
         formData.append('price', price);
-        formData.append('qty', 20); // cantidad sugerida B2B inicial
+        formData.append('qty', 1); // cantidad mínima de pedido: 1 unidad
 
         fetch('cart-action.php?action=add', {
             method: 'POST',

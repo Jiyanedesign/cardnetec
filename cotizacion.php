@@ -385,7 +385,7 @@ unset($item);
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=7.0" defer></script>
+    <script src="js/main.js?v=7.1" defer></script>
     <script src="js/animations.js" defer></script>
     <script src="js/forms.js" defer></script>
     <script>

@@ -203,7 +203,7 @@ $sim_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
                 <!-- 3. Cotización rápida -->
                 <div class="form-group">
                     <label class="form-label" for="qty-input">Cantidad aproximada</label>
-                    <input class="form-input" type="number" id="qty-input" value="50" min="1">
+                    <input class="form-input" type="number" id="qty-input" value="1" min="1">
                 </div>
 
                 <div class="hero-actions" style="margin-top: 1rem;">

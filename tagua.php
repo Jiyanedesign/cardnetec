@@ -723,6 +723,6 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
             else el.style.display = 'block';
         });
     </script>
-    <script src="js/main.js?v=7.0" defer></script>
+    <script src="js/main.js?v=7.1" defer></script>
 </body>
 </html>

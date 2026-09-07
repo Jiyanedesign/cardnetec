@@ -105,9 +105,6 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
                     <span style="color: var(--border); font-weight: 300;">|</span>
                     <span>Diseñado por</span>
                     <a href="https://jiyanedesign.com" target="_blank" rel="noopener noreferrer" class="jiyanedesign-badge" title="Visitar JiyaneDesign — Diseño Web y Estrategia Digital" style="display: inline-flex; align-items: center; gap: 6px; background: #121610; color: #ffffff !important; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(99, 174, 44, 0.45); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12); transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: 0.3px; vertical-align: middle;" onmouseover="this.style.transform='translateY(-2px) scale(1.03)'; this.style.boxShadow='0 6px 18px rgba(99, 174, 44, 0.4)'; this.style.borderColor='var(--primary, #63ae2c)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 2px 6px rgba(0, 0, 0, 0.12)'; this.style.borderColor='rgba(99, 174, 44, 0.45)';">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#7dd83c" style="flex-shrink: 0;">
-                            <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
-                        </svg>
                         <span style="color: #ffffff;">Jiyane<span style="color: #7dd83c;">Design</span></span>
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a0aab5" stroke-width="2.5" style="flex-shrink: 0;">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>

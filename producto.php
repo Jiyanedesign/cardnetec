@@ -566,9 +566,9 @@ $gallery = array_unique($gallery);
                             <div>
                                 <span class="qty-label">Cantidad a Personalizar</span>
                                 <div class="qty-selectors">
-                                    <button class="qty-btn" id="qty-minus">-</button>
-                                    <input type="text" class="qty-input" id="qty-input" value="10" readonly>
-                                    <button class="qty-btn" id="qty-plus">+</button>
+                                    <button class="qty-btn" id="qty-minus" type="button" aria-label="Disminuir cantidad">-</button>
+                                    <input type="number" class="qty-input" id="qty-input" value="1" min="1" step="1" style="text-align: center; width: 60px;">
+                                    <button class="qty-btn" id="qty-plus" type="button" aria-label="Aumentar cantidad">+</button>
                                 </div>
                             </div>
                             <div>
@@ -579,7 +579,7 @@ $gallery = array_unique($gallery);
 
                         <div class="subtotal-row">
                             <span class="subtotal-label">Subtotal Estimado</span>
-                            <span class="subtotal-value" id="subtotal-val">$<?php echo number_format($product['price'] * 10, 2); ?></span>
+                            <span class="subtotal-value" id="subtotal-val">$<?php echo number_format($product['price'] * 1, 2); ?></span>
                         </div>
 
                         <?php 
@@ -715,7 +715,10 @@ $gallery = array_unique($gallery);
         }
 
         function updateSubtotal() {
-            const qty = parseInt(qtyInput.value) || 20;
+            let qty = parseInt(qtyInput.value);
+            if (isNaN(qty) || qty < 1) {
+                qty = 1;
+            }
             const activePrice = getActiveUnitPrice(qty);
             
             // Actualizar visualizador de precio unitario
@@ -744,17 +747,32 @@ $gallery = array_unique($gallery);
         }
 
         document.getElementById('qty-plus').addEventListener('click', () => {
-            let val = parseInt(qtyInput.value) || 20;
-            qtyInput.value = val + 5;
+            let val = parseInt(qtyInput.value) || 1;
+            qtyInput.value = val + 1;
             updateSubtotal();
         });
 
         document.getElementById('qty-minus').addEventListener('click', () => {
-            let val = parseInt(qtyInput.value) || 20;
-            if (val > 5) {
-                qtyInput.value = val - 5;
+            let val = parseInt(qtyInput.value) || 1;
+            if (val > 1) {
+                qtyInput.value = val - 1;
                 updateSubtotal();
             }
+        });
+
+        qtyInput.addEventListener('input', () => {
+            let val = parseInt(qtyInput.value);
+            if (!isNaN(val) && val >= 1) {
+                updateSubtotal();
+            }
+        });
+
+        qtyInput.addEventListener('change', () => {
+            let val = parseInt(qtyInput.value);
+            if (isNaN(val) || val < 1) {
+                qtyInput.value = 1;
+            }
+            updateSubtotal();
         });
 
         let canvas = null;
@@ -826,14 +844,15 @@ $gallery = array_unique($gallery);
                     quality: 0.95
                 });
 
-                const qty = qtyInput.value;
+                const rawQty = parseInt(qtyInput.value) || 1;
+                const qty = Math.max(1, rawQty);
                 
                 const formData = new FormData();
                 formData.append('action', 'add');
                 formData.append('name', '<?php echo addslashes($product['name']); ?>');
                 formData.append('slug', '<?php echo addslashes($product['slug']); ?>');
                 formData.append('qty', qty);
-                formData.append('price', getActiveUnitPrice(parseInt(qtyInput.value) || 20));
+                formData.append('price', getActiveUnitPrice(qty));
                 formData.append('snapshot', snapshot);
 
                 fetch('cart-action.php', {
@@ -999,7 +1018,7 @@ $gallery = array_unique($gallery);
             canvas.renderAll();
         }
     </script>
-    <script src="js/main.js?v=7.0" defer></script>
+    <script src="js/main.js?v=7.1" defer></script>
 </body>
 </html>
  
