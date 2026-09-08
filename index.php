@@ -239,15 +239,49 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
             </div>
         </section>
         <!-- Sección: Prueba de confianza - Logos de Marcas -->
+        <!-- Sección: Prueba de confianza - Logos de Marcas (En 2 Filas) -->
         <section id="marcas-confianza" style="background: white; border-bottom: 1px solid var(--border); overflow: hidden; padding-top: 3.5rem; padding-bottom: 3.5rem;">
-            <div class="container">
-                <p style="text-align: center; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 600; margin-bottom: 1.75rem;">Marcas y empresas que confían en nosotros</p>
+            <div class="container" style="max-width: 100%; padding-left: 0; padding-right: 0;">
+                <p style="text-align: center; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 600; margin-bottom: 2rem; padding: 0 1.5rem;">
+                    Marcas y empresas que confían en nosotros
+                </p>
                 
                 <style>
-                    .logos-ticker-container {
+                    .logos-ticker-wrapper {
                         width: 100%;
                         overflow: hidden;
                         position: relative;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 22px;
+                    }
+                    .logos-ticker-wrapper::before,
+                    .logos-ticker-wrapper::after {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        width: 120px;
+                        z-index: 5;
+                        pointer-events: none;
+                    }
+                    .logos-ticker-wrapper::before {
+                        left: 0;
+                        background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+                    }
+                    .logos-ticker-wrapper::after {
+                        right: 0;
+                        background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+                    }
+                    @media (max-width: 768px) {
+                        .logos-ticker-wrapper::before,
+                        .logos-ticker-wrapper::after {
+                            width: 35px;
+                        }
+                    }
+                    .logos-ticker-row {
+                        width: 100%;
+                        overflow: hidden;
                         display: flex;
                         align-items: center;
                     }
@@ -255,66 +289,144 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         display: flex;
                         gap: 50px;
                         width: max-content;
-                        animation: scrollTicker 25s linear infinite;
+                        will-change: transform;
+                    }
+                    .logos-ticker-track.track-left {
+                        animation: scrollTickerLeft 45s linear infinite;
+                    }
+                    .logos-ticker-track.track-right {
+                        animation: scrollTickerRight 45s linear infinite;
+                    }
+                    .logos-ticker-track:hover {
+                        animation-play-state: paused;
                     }
                     .logos-ticker-item {
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        height: 45px;
+                        height: 46px;
                         flex-shrink: 0;
                     }
                     .logos-ticker-item img {
                         height: 100%;
+                        max-height: 46px;
                         width: auto;
+                        max-width: 140px;
                         object-fit: contain;
-                        opacity: 0.6;
+                        opacity: 0.65;
                         filter: grayscale(100%);
-                        transition: opacity 0.3s ease, filter 0.3s ease;
+                        transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
                     }
                     .logos-ticker-item img:hover {
                         opacity: 1;
                         filter: grayscale(0%);
+                        transform: scale(1.06);
                     }
-                    @keyframes scrollTicker {
+                    @keyframes scrollTickerLeft {
                         0% { transform: translateX(0); }
                         100% { transform: translateX(-50%); }
                     }
+                    @keyframes scrollTickerRight {
+                        0% { transform: translateX(-50%); }
+                        100% { transform: translateX(0); }
+                    }
                 </style>
                 
-                <div class="logos-ticker-container">
-                    <div class="logos-ticker-track">
-                        <?php if (!empty($clients)): ?>
-                            <?php 
-                            // Duplicar los clientes para hacer scroll infinito fluido
-                            $double_clients = array_merge($clients, $clients);
-                            ?>
-                            <?php foreach ($double_clients as $client): ?>
-                                <?php
-                                $c_logo = trim($client['logo_path']);
-                                if (!empty($c_logo)) {
-                                    if (strpos($c_logo, 'uploads/') !== 0 && strpos($c_logo, 'images/') !== 0 && strpos($c_logo, 'http') !== 0) {
-                                        $c_logo = 'uploads/' . $c_logo;
+                <?php
+                // Preparar las 2 filas de logos alternando para visualización equilibrada
+                $row1_clients = [];
+                $row2_clients = [];
+                if (!empty($clients)) {
+                    foreach ($clients as $idx => $client) {
+                        if ($idx % 2 === 0) {
+                            $row1_clients[] = $client;
+                        } else {
+                            $row2_clients[] = $client;
+                        }
+                    }
+                    if (empty($row2_clients)) {
+                        $row2_clients = $row1_clients;
+                    }
+                    
+                    // Función para asegurar suficiente repetición y bucle infinito perfecto (0% a -50%)
+                    if (!function_exists('expandTickerClients')) {
+                        function expandTickerClients($list, $min = 12) {
+                            if (empty($list)) return [];
+                            $expanded = $list;
+                            while (count($expanded) < $min) {
+                                $expanded = array_merge($expanded, $list);
+                            }
+                            return array_merge($expanded, $expanded);
+                        }
+                    }
+                    $row1_display = expandTickerClients($row1_clients);
+                    $row2_display = expandTickerClients($row2_clients);
+                }
+                ?>
+
+                <div class="logos-ticker-wrapper">
+                    <!-- Fila 1: Dirección Izquierda -->
+                    <div class="logos-ticker-row">
+                        <div class="logos-ticker-track track-left">
+                            <?php if (!empty($clients)): ?>
+                                <?php foreach ($row1_display as $client): ?>
+                                    <?php
+                                    $c_logo = trim($client['logo_path'] ?? '');
+                                    if (!empty($c_logo)) {
+                                        if (strpos($c_logo, 'uploads/') !== 0 && strpos($c_logo, 'images/') !== 0 && strpos($c_logo, 'http') !== 0) {
+                                            $c_logo = 'uploads/' . $c_logo;
+                                        }
+                                    } else {
+                                        $c_logo = 'uploads/cliente1.png';
                                     }
-                                } else {
-                                    $c_logo = 'uploads/cliente1.png';
-                                }
-                                ?>
-                                <div class="logos-ticker-item">
-                                    <img src="<?php echo htmlspecialchars($c_logo); ?>" alt="<?php echo htmlspecialchars($client['name']); ?>" loading="lazy" decoding="async" width="120" height="45" onerror="this.style.opacity='0.4';">
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <!-- Fallbacks estáticos premium si no hay datos cargados -->
-                            <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1" loading="lazy" decoding="async" width="120" height="45"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2" loading="lazy" decoding="async" width="120" height="45"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3" loading="lazy" decoding="async" width="120" height="45"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4" loading="lazy" decoding="async" width="120" height="45"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1" loading="lazy" decoding="async" width="120" height="45"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2" loading="lazy" decoding="async" width="120" height="45"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3" loading="lazy" decoding="async" width="120" height="45"></div>
-                            <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4" loading="lazy" decoding="async" width="120" height="45"></div>
-                        <?php endif; ?>
+                                    ?>
+                                    <div class="logos-ticker-item">
+                                        <img src="<?php echo htmlspecialchars($c_logo); ?>" alt="<?php echo htmlspecialchars($client['name'] ?? 'Cliente'); ?>" loading="lazy" decoding="async" width="120" height="45" onerror="this.style.opacity='0.3';">
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Fila 2: Dirección Derecha -->
+                    <div class="logos-ticker-row">
+                        <div class="logos-ticker-track track-right">
+                            <?php if (!empty($clients)): ?>
+                                <?php foreach ($row2_display as $client): ?>
+                                    <?php
+                                    $c_logo = trim($client['logo_path'] ?? '');
+                                    if (!empty($c_logo)) {
+                                        if (strpos($c_logo, 'uploads/') !== 0 && strpos($c_logo, 'images/') !== 0 && strpos($c_logo, 'http') !== 0) {
+                                            $c_logo = 'uploads/' . $c_logo;
+                                        }
+                                    } else {
+                                        $c_logo = 'uploads/cliente1.png';
+                                    }
+                                    ?>
+                                    <div class="logos-ticker-item">
+                                        <img src="<?php echo htmlspecialchars($c_logo); ?>" alt="<?php echo htmlspecialchars($client['name'] ?? 'Cliente'); ?>" loading="lazy" decoding="async" width="120" height="45" onerror="this.style.opacity='0.3';">
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa3.svg" alt="Empresa 3" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa4.svg" alt="Empresa 4" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa1.svg" alt="Empresa 1" loading="lazy" decoding="async" width="120" height="45"></div>
+                                <div class="logos-ticker-item"><img src="images/empresa2.svg" alt="Empresa 2" loading="lazy" decoding="async" width="120" height="45"></div>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
