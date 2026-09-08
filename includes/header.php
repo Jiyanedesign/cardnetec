@@ -86,15 +86,13 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
             </nav>
             <div class="header-bottom-actions" style="display: flex; align-items: center; gap: 15px;">
                 <div class="header-cart-dropdown-wrapper">
-                    <a href="cotizacion.php" class="cart-icon-btn" aria-label="Ver mi lista de cotización">
+                    <a href="cotizacion.php" class="cart-icon-btn toggle-quote-drawer-btn" aria-label="Ver mi lista de cotización" style="position: relative;">
                         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
                             <line x1="3" y1="6" x2="21" y2="6"/>
                             <path d="M16 10a4 4 0 0 1-8 0"/>
                         </svg>
-                        <?php if ($c_count > 0): ?>
-                            <span class="cart-count"><?php echo $c_count; ?></span>
-                        <?php endif; ?>
+                        <span class="cart-badge-count cart-count" style="<?php echo ($c_count > 0) ? 'display:flex;' : 'display:none;'; ?>"><?php echo $c_count; ?></span>
                     </a>
                 </div>
                 <a href="cotizacion.php" class="btn btn-primary header-cta" style="padding: 8px 16px; font-size: 0.8rem; text-transform: none;">Cotizar</a>

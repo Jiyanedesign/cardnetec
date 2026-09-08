@@ -232,7 +232,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/main.js?v=7.3" defer></script>
+    <script src="js/main.js?v=7.4" defer></script>
     <script src="js/animations.js" defer></script>
 </body>
 </html>

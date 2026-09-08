@@ -340,11 +340,25 @@ unset($item);
                             <?php foreach ($cart as $index => $item): ?>
                                 <div class="cart-item-card" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
                                     <div style="display: flex; align-items: center; gap: 12px;">
-                                        <?php if ($item['snapshot']): ?>
-                                            <img src="<?php echo htmlspecialchars($item['snapshot']); ?>" style="width: 48px; height: 48px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--border);">
-                                        <?php else: ?>
-                                            <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background: var(--surface-light); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--text-muted); font-weight: 500;">Sin logo</div>
-                                        <?php endif; ?>
+                                        <?php 
+                                        $item_img = !empty($item['snapshot']) ? $item['snapshot'] : (!empty($item['image']) ? $item['image'] : '');
+                                        if (empty($item_img) && !empty($item['slug']) && $item['slug'] !== 'custom') {
+                                            try {
+                                                $stmtIm = $pdo->prepare("SELECT image_main FROM productos WHERE slug = ? LIMIT 1");
+                                                $stmtIm->execute([$item['slug']]);
+                                                $rIm = $stmtIm->fetch();
+                                                if ($rIm && !empty($rIm['image_main'])) {
+                                                    $item_img = getUploadedImgUrl($rIm['image_main']);
+                                                }
+                                            } catch (Exception $e) {}
+                                        }
+                                        if (empty($item_img)) {
+                                            $item_img = 'uploads/carnet_mockup.webp';
+                                        }
+                                        ?>
+                                        <div style="width: 50px; height: 50px; min-width: 50px; max-width: 50px; border-radius: 8px; background: #f8f9fa; border: 1px solid #e8eaed; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 2px; flex-shrink: 0;">
+                                            <img src="<?php echo htmlspecialchars($item_img); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;" onerror="this.src='uploads/carnet_mockup.webp';">
+                                        </div>
                                         <div>
                                             <h4 style="font-size: 0.85rem; font-weight: 600; margin: 0; color: var(--dark);"><?php echo htmlspecialchars($item['name']); ?></h4>
                                             <span style="font-size: 0.75rem; color: var(--text-muted);">Cantidad: <strong style="color: var(--dark);"><?php echo (int)$item['qty']; ?> unidades</strong></span>
@@ -396,7 +410,7 @@ unset($item);
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=7.3" defer></script>
+    <script src="js/main.js?v=7.4" defer></script>
     <script src="js/animations.js" defer></script>
     <script src="js/forms.js" defer></script>
     <script>

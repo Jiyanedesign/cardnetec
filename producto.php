@@ -978,7 +978,7 @@ $gallery = array_unique($gallery);
             canvas.renderAll();
         }
     </script>
-    <script src="js/main.js?v=7.3" defer></script>
+    <script src="js/main.js?v=7.4" defer></script>
 </body>
 </html>
  

@@ -338,6 +338,7 @@ try {
                             <button class="btn btn-primary btn-add-to-quote" 
                                     data-slug="<?php echo htmlspecialchars($prod['slug']); ?>" 
                                     data-name="<?php echo htmlspecialchars($prod['name']); ?>" 
+                                    data-image="<?php echo htmlspecialchars(getUploadedImgUrl($prod['image_main'] ?? '')); ?>"
                                     data-price="<?php echo (float)$prod['price']; ?>"
                                     style="flex-grow: 1; padding: 8px 12px; font-size: 0.78rem; font-weight: 600; border: none; cursor: pointer; text-align: center;">
                                 Cotizar
@@ -386,7 +387,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=7.3" defer></script>
+    <script src="js/main.js?v=7.4" defer></script>
     <script src="js/animations.js" defer></script>
 </body>
 </html>

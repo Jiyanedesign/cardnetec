@@ -661,7 +661,7 @@ $emp_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/main.js?v=7.3" defer></script>
+    <script src="js/main.js?v=7.4" defer></script>
     <script src="js/animations.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

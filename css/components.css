@@ -525,7 +525,7 @@
     color: var(--primary);
 }
 
-.cart-badge-count {
+.cart-badge-count, .cart-count {
     position: absolute;
     top: -2px;
     right: -2px;

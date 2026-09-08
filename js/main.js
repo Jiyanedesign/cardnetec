@@ -44,7 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="quote-drawer-overlay" id="quote-drawer-overlay"></div>
             <div class="quote-drawer" id="quote-drawer" aria-label="Mi Cotización" role="dialog">
                 <div class="quote-drawer-header">
-                    <h3>Mi Lista de Cotización</h3>
+                    <h3 style="display:flex; align-items:center; gap:8px; margin:0; font-size:1.15rem;">
+                        <span>Mi Lista de Cotización</span>
+                        <span id="quote-drawer-count" style="display:none; font-size:0.75rem; font-weight:700; background:rgba(99,174,44,0.12); color:var(--primary); padding:2px 8px; border-radius:12px;"></span>
+                    </h3>
                     <button class="quote-drawer-close" id="quote-drawer-close" aria-label="Cerrar">&times;</button>
                 </div>
                 <div class="quote-drawer-body">
@@ -124,14 +127,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     </svg>
                     WhatsApp
                 </a>
-                <button class="btn btn-primary toggle-quote-drawer-btn mobile-bottom-btn-quote">
+                <button class="btn btn-primary toggle-quote-drawer-btn mobile-bottom-btn-quote" style="position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
                     <svg style="width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
                         <line x1="16" y1="13" x2="8" y2="13"/>
                         <line x1="16" y1="17" x2="8" y2="17"/>
                     </svg>
-                    Mi Cotización
+                    <span>Mi Cotización</span>
+                    <span class="cart-badge-count mobile-cart-badge" style="display:none; background:#ffffff; color:var(--primary); font-size:11px; font-weight:700; border-radius:10px; padding:1px 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">0</span>
                 </button>
             </div>
         `;
@@ -157,36 +161,76 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    const cart = data.cart;
-                    // Actualizar el contador del badge en el header
-                    const badges = document.querySelectorAll('.cart-badge-count');
+                    const cart = data.cart || [];
+                    let totalUnits = 0;
+                    cart.forEach(item => {
+                        totalUnits += Math.max(1, parseInt(item.qty) || 1);
+                    });
+
+                    // Actualizar el contador del badge en el header y barra móvil
+                    const badges = document.querySelectorAll('.cart-badge-count, .cart-count');
                     badges.forEach(b => {
                         b.textContent = cart.length;
                         b.style.display = cart.length > 0 ? 'flex' : 'none';
                     });
 
+                    // Actualizar el contador en el título del Drawer
+                    const drawerCountBadge = document.getElementById('quote-drawer-count');
+                    if (drawerCountBadge) {
+                        if (cart.length > 0) {
+                            drawerCountBadge.textContent = `${cart.length} ${cart.length === 1 ? 'ítem' : 'ítems'}`;
+                            drawerCountBadge.style.display = 'inline-flex';
+                        } else {
+                            drawerCountBadge.style.display = 'none';
+                        }
+                    }
+
                     if (cart.length === 0) {
                         drawerItemsContainer.innerHTML = '';
                         drawerEmpty.style.display = 'block';
                         drawerFormContainer.style.display = 'none';
+                        const existingSummary = document.getElementById('drawer-summary-bar');
+                        if (existingSummary) existingSummary.remove();
                     } else {
                         drawerEmpty.style.display = 'none';
                         drawerFormContainer.style.display = 'block';
 
-                        drawerItemsContainer.innerHTML = cart.map((item, idx) => `
-                            <div class="drawer-item-card" data-index="${idx}">
-                                <div class="drawer-item-info">
-                                    <h4 class="drawer-item-name">${item.name}</h4>
-                                    <span class="drawer-item-meta" style="font-size: 0.76rem; color: var(--primary); font-weight: 600;">A cotizar</span>
+                        drawerItemsContainer.innerHTML = cart.map((item, idx) => {
+                            const qty = Math.max(1, parseInt(item.qty) || 1);
+                            const imgSrc = item.snapshot || item.image || 'uploads/carnet_mockup.webp';
+
+                            return `
+                            <div class="drawer-item-card" data-index="${idx}" style="display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border);">
+                                <div class="drawer-item-img-wrap" style="width:52px; height:52px; min-width:52px; max-width:52px; border-radius:8px; background:#f8f9fa; border:1px solid #e8eaed; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:2px; flex-shrink:0;">
+                                    <img src="${imgSrc}" alt="${escapeHtmlHelper(item.name)}" style="width:100%; height:100%; object-fit:contain; border-radius:6px;" onerror="this.src='uploads/carnet_mockup.webp';">
                                 </div>
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <input type="number" class="form-input drawer-item-qty" value="${item.qty}" min="1" data-index="${idx}" style="width:65px; padding:4px 8px; text-align:center; font-size:0.85rem; height:auto;">
-                                    <button class="btn-delete-item drawer-item-remove" data-index="${idx}" title="Quitar" style="position:static; padding:4px; color:#EF4444; background:none; border:none; cursor:pointer;">
+                                <div class="drawer-item-info" style="flex:1; min-width:0;">
+                                    <h4 class="drawer-item-name" style="margin:0 0 4px 0; font-size:0.88rem; font-weight:600; color:var(--dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${escapeHtmlHelper(item.name)}">${escapeHtmlHelper(item.name)}</h4>
+                                    <span class="drawer-item-meta" style="font-size:0.75rem; color:var(--primary); font-weight:600;">A cotizar</span>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                                    <input type="number" class="form-input drawer-item-qty" value="${qty}" min="1" data-index="${idx}" style="width:60px; padding:4px 6px; text-align:center; font-size:0.85rem; height:34px; border:1px solid var(--border); border-radius:6px;">
+                                    <button class="btn-delete-item drawer-item-remove" data-index="${idx}" title="Quitar de la lista" style="padding:6px; color:#EF4444; background:none; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;" aria-label="Eliminar producto">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><line x1="10" y1="11" x2="10" y2="17"/></svg>
                                     </button>
                                 </div>
                             </div>
-                        `).join('');
+                            `;
+                        }).join('');
+
+                        // Mostrar resumen del total de ítems y unidades
+                        let summaryBar = document.getElementById('drawer-summary-bar');
+                        if (!summaryBar) {
+                            summaryBar = document.createElement('div');
+                            summaryBar.id = 'drawer-summary-bar';
+                            summaryBar.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:var(--surface-light); padding:10px 14px; border-radius:8px; margin-top:14px; font-size:0.82rem; border:1px solid var(--border);';
+                            drawerItemsContainer.after(summaryBar);
+                        }
+                        summaryBar.innerHTML = `
+                            <span style="color:var(--text-muted); font-weight:500;">Total agregado:</span>
+                            <strong style="color:var(--dark); font-weight:700;">${cart.length} ${cart.length === 1 ? 'producto' : 'productos'} (${totalUnits} uds)</strong>
+                        `;
+                        summaryBar.style.display = 'flex';
 
                         // Escuchadores de eliminación y cambio de cantidad
                         document.querySelectorAll('.drawer-item-remove').forEach(btn => {
@@ -227,13 +271,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // 5. Agregar a Cotización con Microinteracción
-    const addToQuote = (name, slug, price) => {
+    // 5. Agregar a Cotización con Microinteracción e Imagen
+    const addToQuote = (name, slug, price, image) => {
         const formData = new FormData();
         formData.append('name', name);
         formData.append('slug', slug);
-        formData.append('price', price);
+        formData.append('price', price || 0);
         formData.append('qty', 1); // cantidad mínima de pedido: 1 unidad
+        if (image) {
+            formData.append('image', image);
+        }
 
         fetch('cart-action.php?action=add', {
             method: 'POST',
@@ -243,7 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             if (data.success) {
                 updateDrawerUI();
-                showNotification(`¡${name} agregado a tu lista!`);
+                const countMsg = data.cart_count ? ` (${data.cart_count} en lista)` : '';
+                showNotification(`¡${name} agregado a tu lista!${countMsg}`);
                 openDrawer();
             }
         });
@@ -251,12 +299,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Escuchar clicks globales para agregar a cotización
     document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btn-add-to-quote')) {
-            const btn = e.target;
+        const btn = e.target.closest('.btn-add-to-quote');
+        if (btn) {
             const name = btn.getAttribute('data-name');
             const slug = btn.getAttribute('data-slug');
-            const price = btn.getAttribute('data-price');
-            addToQuote(name, slug, price);
+            const price = btn.getAttribute('data-price') || 0;
+            const image = btn.getAttribute('data-image') || '';
+            addToQuote(name, slug, price, image);
         }
     });
 
@@ -307,6 +356,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
     if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+
+    // Sincronizar badges e imágenes de cotización en carga inicial
+    updateDrawerUI();
 
     // 8. Enviar Solicitud por WhatsApp (Estructurada)
     const btnSubmitWhatsapp = document.getElementById('btn-submit-drawer-whatsapp');
