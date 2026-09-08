@@ -292,10 +292,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         will-change: transform;
                     }
                     .logos-ticker-track.track-left {
-                        animation: scrollTickerLeft 45s linear infinite;
+                        animation: scrollTickerLeft 80s linear infinite;
                     }
                     .logos-ticker-track.track-right {
-                        animation: scrollTickerRight 45s linear infinite;
+                        animation: scrollTickerRight 80s linear infinite;
                     }
                     .logos-ticker-track:hover {
                         animation-play-state: paused;
