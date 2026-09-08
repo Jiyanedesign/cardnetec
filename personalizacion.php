@@ -16,7 +16,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     <title>Maestría en Grabado Láser & Personalización de Autor | CardNet.ec</title>
     <meta name="description" content="El referente en personalización de precisión y grabado láser en Ecuador. Acabados indelebles en acero, cuero, madera, acrílico y tagua. Sin mínimos masivos.">
     <link rel="stylesheet" href="css/base.css?v=6.3">
-    <link rel="stylesheet" href="css/layout.css?v=7.0">
+    <link rel="stylesheet" href="css/layout.css?v=7.2">
     <link rel="stylesheet" href="css/components.css?v=6.3">
     <style>
         .personalizacion-hero {

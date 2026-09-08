@@ -529,12 +529,128 @@
     .nav-link.active::after, .nav-link:hover::after {
         width: 100%;
     }
+
+    /* Botón Destacado de Tagua (Píldora con Destello/Pulso) */
+    .nav-link-tagua {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 7px !important;
+        background: linear-gradient(135deg, #f2f9ee 0%, #e2f2da 100%) !important;
+        border: 1.5px solid #63ae2c !important;
+        border-radius: 20px !important;
+        padding: 5px 14px !important;
+        color: #1e3f11 !important;
+        font-weight: 700 !important;
+        font-size: 0.82rem !important;
+        box-shadow: 0 2px 8px rgba(99, 174, 44, 0.18) !important;
+        transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        position: relative !important;
+        text-decoration: none !important;
+        margin: 0 2px;
+    }
+
+    .nav-link-tagua::after {
+        display: none !important;
+    }
+
+    .nav-link-tagua:hover {
+        background: var(--primary, #63ae2c) !important;
+        color: #ffffff !important;
+        border-color: var(--primary, #63ae2c) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 14px rgba(99, 174, 44, 0.38) !important;
+    }
+
+    .nav-link-tagua.active {
+        background: var(--primary, #63ae2c) !important;
+        color: #ffffff !important;
+        border-color: var(--primary, #63ae2c) !important;
+        box-shadow: 0 2px 10px rgba(99, 174, 44, 0.32) !important;
+    }
+
+    .nav-link-tagua:hover .tagua-pulse-dot,
+    .nav-link-tagua.active .tagua-pulse-dot {
+        background-color: #ffffff !important;
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+        animation: none;
+    }
     
     .header-bottom-actions {
         display: flex;
         align-items: center;
         gap: 16px;
     }
+}
+
+/* Indicador Pulsante Sutil de Tagua */
+.tagua-pulse-dot {
+    width: 7px;
+    height: 7px;
+    background-color: var(--primary, #63ae2c);
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 0 rgba(99, 174, 44, 0.7);
+    animation: taguaPulse 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes taguaPulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(99, 174, 44, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(99, 174, 44, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(99, 174, 44, 0);
+    }
+}
+
+/* Tagua en Menú Móvil */
+.mobile-link-tagua {
+    background: linear-gradient(135deg, #f2f9ee 0%, #e2f2da 100%) !important;
+    border: 1.5px solid #63ae2c !important;
+    border-radius: 12px !important;
+    padding: 10px 16px !important;
+    color: #1e3f11 !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    box-shadow: 0 2px 8px rgba(99, 174, 44, 0.15) !important;
+}
+
+.mobile-link-tagua.active {
+    background: var(--primary, #63ae2c) !important;
+    color: #ffffff !important;
+    border-color: var(--primary, #63ae2c) !important;
+}
+
+.mobile-link-tagua.active .tagua-pulse-dot {
+    background-color: #ffffff !important;
+}
+
+/* Tagua en Filtro del Catálogo */
+.filter-btn-tagua {
+    background: #eef8ea !important;
+    color: #1e3f11 !important;
+    border: 1.5px solid var(--primary, #63ae2c) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 6px rgba(99, 174, 44, 0.12) !important;
+}
+
+.filter-btn-tagua.active,
+.filter-btn-tagua:hover {
+    background: var(--primary, #63ae2c) !important;
+    color: #ffffff !important;
+}
+
+.filter-btn-tagua.active .tagua-pulse-dot,
+.filter-btn-tagua:hover .tagua-pulse-dot {
+    background-color: #ffffff !important;
 }
 
 /* Botón Hamburguesa */

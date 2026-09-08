@@ -117,7 +117,7 @@ try {
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=6.3">
-    <link rel="stylesheet" href="css/layout.css?v=7.0">
+    <link rel="stylesheet" href="css/layout.css?v=7.2">
     <link rel="stylesheet" href="css/components.css?v=6.3">
     <link rel="stylesheet" href="css/pages.css?v=6.3">
     <link rel="stylesheet" href="css/animations.css?v=1.1.2">
@@ -249,9 +249,13 @@ try {
             <button class="filter-btn <?php echo empty($category_filter) ? 'active' : ''; ?>" data-filter="all" style="border:none; cursor:pointer; white-space:nowrap;">Todos</button>
             <?php if (!empty($categories)): ?>
                 <?php foreach ($categories as $cat): ?>
-                    <button class="filter-btn <?php echo ($category_filter === $cat['slug']) ? 'active' : ''; ?>" 
+                    <?php $is_tagua = ($cat['slug'] === 'tagua'); ?>
+                    <button class="filter-btn <?php echo ($category_filter === $cat['slug']) ? 'active' : ''; ?> <?php echo $is_tagua ? 'filter-btn-tagua' : ''; ?>" 
                             data-filter="<?php echo htmlspecialchars($cat['name']); ?>" 
-                            style="border:none; cursor:pointer; white-space:nowrap;">
+                            style="<?php echo $is_tagua ? 'border: 1.5px solid var(--primary); font-weight: 700; cursor:pointer; white-space:nowrap;' : 'border:none; cursor:pointer; white-space:nowrap;'; ?>">
+                        <?php if ($is_tagua): ?>
+                            <span class="tagua-pulse-dot" style="margin-right: 5px;"></span>
+                        <?php endif; ?>
                         <?php echo htmlspecialchars($cat['name']); ?>
                     </button>
                 <?php endforeach; ?>

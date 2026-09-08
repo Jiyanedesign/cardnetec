@@ -20,7 +20,7 @@ $emp_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
     <meta name="description" content="Soluciones integrales de identificación para empresas y equipos. Carnets PVC de alta fidelidad, cintas sublimadas, combos promocionales y regalos corporativos en Ecuador.">
     <link rel="canonical" href="https://cardnetec.com.ec/empresas.php">
     <link rel="stylesheet" href="css/base.css?v=6.3">
-    <link rel="stylesheet" href="css/layout.css?v=7.0">
+    <link rel="stylesheet" href="css/layout.css?v=7.2">
     <link rel="stylesheet" href="css/components.css?v=6.3">
     <style>
         .empresas-hero {
