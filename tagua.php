@@ -461,11 +461,9 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
                                     <span style="font-size: 0.78rem; color: var(--text-muted);">
                                         Grabado: <strong style="color: var(--dark);">Láser HD</strong>
                                     </span>
-                                    <?php if (!empty($tp['price']) && $tp['price'] > 0): ?>
-                                        <span style="font-size: 0.95rem; font-weight: 700; color: var(--primary);">
-                                            Desde $<?php echo number_format($tp['price'], 2); ?>
-                                        </span>
-                                    <?php endif; ?>
+                                    <span style="font-size: 0.76rem; font-weight: 600; color: var(--primary-hover); background: rgba(99, 174, 44, 0.08); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(99, 174, 44, 0.15);">
+                                        Bajo cotización
+                                    </span>
                                 </div>
 
                                 <a href="cotizacion.php?producto=<?php echo htmlspecialchars($tp['slug']); ?>" class="btn btn-primary" style="width: 100%; text-align: center; font-size: 0.82rem; padding: 9px 0; text-transform: none;">
@@ -723,6 +721,6 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
             else el.style.display = 'block';
         });
     </script>
-    <script src="js/main.js?v=7.1" defer></script>
+    <script src="js/main.js?v=7.3" defer></script>
 </body>
 </html>

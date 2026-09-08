@@ -220,32 +220,32 @@ $settings = getSiteSettings($pdo);
 
                 <!-- Caja de Compra y Subtotales PVC -->
                 <div class="purchase-box">
-                    <div class="purchase-row">
+                    <div class="purchase-row" style="align-items: center; justify-content: space-between;">
                         <div>
-                            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; display:block; margin-bottom:4px;">Cantidad</span>
+                            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; display:block; margin-bottom:4px;">Cantidad a Cotizar</span>
                             <div class="qty-selectors">
-                                <button class="qty-btn" id="qty-minus">-</button>
+                                <button class="qty-btn" id="qty-minus" type="button" aria-label="Disminuir">-</button>
                                 <input type="text" class="qty-input" id="qty-input" value="50" readonly>
-                                <button class="qty-btn" id="qty-plus">+</button>
+                                <button class="qty-btn" id="qty-plus" type="button" aria-label="Aumentar">+</button>
                             </div>
                         </div>
                         <div style="text-align: right;">
-                            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; display:block; margin-bottom:4px;">Precio Unit.</span>
-                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-main);">$1.80</div>
+                            <span style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:600; display:block; margin-bottom:4px;">Modalidad</span>
+                            <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(99, 174, 44, 0.08); border: 1px solid rgba(99, 174, 44, 0.25); color: var(--primary-hover); font-weight: 600; font-size: 0.85rem; padding: 6px 14px; border-radius: 20px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+                                Bajo Cotización
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="subtotal-row" style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 600; font-size: 0.88rem; text-transform: uppercase;">Subtotal Estimado</span>
-                        <span style="font-size: 1.8rem; font-weight: bold; color: var(--primary);" id="subtotal-val">$90.00</span>
+                    <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem;">
+                        <p style="font-size:0.78rem; color:var(--text-muted); text-align:center; margin: 0 0 15px 0; line-height: 1.4;">
+                            Impresión full color en PVC de alta resistencia con acabado laminado y chip/código según tus requerimientos.
+                        </p>
                     </div>
 
-                    <p style="font-size:0.75rem; color:var(--text-muted); text-align:center; margin: 10px 0 15px 0;">
-                        Los valores incluyen impresión a color en PVC de alta resistencia.
-                    </p>
-
                     <button class="btn-gradient" id="btn-submit-pvc">
-                        Guardar en mi Carrito
+                        Guardar en mi Lista de Cotización
                     </button>
                 </div>
 
@@ -267,7 +267,7 @@ $settings = getSiteSettings($pdo);
             <h3 style="font-family:var(--font-heading); font-size:1.5rem; margin-bottom:0.75rem;">¡Añadido al Cotizador!</h3>
             <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.5; margin-bottom:2rem;">Hemos agregado las credenciales personalizadas a tus requerimientos de cotización.</p>
             <div style="display:flex; flex-direction:column; gap:10px;">
-                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:12px; font-weight:600;">Ver Carrito y Cotizar</a>
+                <a href="cotizacion.php" class="btn btn-primary" style="width:100%; text-align:center; padding:12px; font-weight:600;">Ver Lista y Cotizar</a>
                 <button onclick="document.getElementById('cart-modal').style.display='none'" class="btn btn-secondary" style="width:100%; padding:12px; font-weight:600; border:1px solid var(--border);">Seguir Diseñando</button>
             </div>
         </div>
@@ -281,14 +281,11 @@ $settings = getSiteSettings($pdo);
 
     <!-- Script de Renderizado -->
     <script>
-        const unitPrice = 1.80;
+        const unitPrice = 0;
         const qtyInput = document.getElementById('qty-input');
-        const subtotalVal = document.getElementById('subtotal-val');
 
         function updateSubtotal() {
-            const qty = parseInt(qtyInput.value) || 50;
-            const subtotal = qty * unitPrice;
-            subtotalVal.textContent = '$' + subtotal.toFixed(2);
+            // Precios omitidos para cotización personalizada
         }
 
         document.getElementById('qty-plus').addEventListener('click', () => {

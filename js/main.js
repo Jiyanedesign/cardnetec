@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="drawer-item-card" data-index="${idx}">
                                 <div class="drawer-item-info">
                                     <h4 class="drawer-item-name">${item.name}</h4>
-                                    <span class="drawer-item-meta">$${parseFloat(item.price).toFixed(2)} c/u</span>
+                                    <span class="drawer-item-meta" style="font-size: 0.76rem; color: var(--primary); font-weight: 600;">A cotizar</span>
                                 </div>
                                 <div style="display:flex; align-items:center; gap:8px;">
                                     <input type="number" class="form-input drawer-item-qty" value="${item.qty}" min="1" data-index="${idx}" style="width:65px; padding:4px 8px; text-align:center; font-size:0.85rem; height:auto;">
@@ -450,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div class="search-dropdown-meta" style="display: flex; align-items: center; gap: 8px; margin-top: 3px; font-size: 0.74rem; color: #70757a;">
                                 <span class="search-dropdown-cat" style="background: #eef7e9; color: #3d781a; padding: 2px 8px; border-radius: 10px; font-weight: 600; font-size: 0.7rem;">${escapeHtmlHelper(item.category)}</span>
-                                <span class="search-dropdown-price" style="font-weight: 700; color: #1f2328;">$${item.price}</span>
+                                <span class="search-dropdown-action" style="font-weight: 600; color: #3d781a; font-size: 0.72rem;">Cotizar</span>
                             </div>
                         </div>
                         <div class="search-dropdown-arrow" style="color: #9aa0a6; flex-shrink: 0; display: flex; align-items: center;">

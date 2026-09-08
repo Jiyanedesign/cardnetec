@@ -137,13 +137,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $text .= "\n📦 *Resumen del Pedido:*\n";
     
-    $grand_total = 0;
     foreach ($cart as $item) {
-        $text .= "• " . $item['name'] . " - " . $item['qty'] . " uds. (Subtotal: $" . number_format($item['subtotal'], 2) . ")\n";
-        $grand_total += $item['subtotal'];
+        $text .= "• " . $item['name'] . " - " . $item['qty'] . " uds.\n";
     }
-
-    $text .= "\n💰 *Presupuesto Estimado:* $" . number_format($grand_total, 2) . "\n";
     
     if ($message) {
         $text .= "\n📝 *Notas:* " . $message . "\n";

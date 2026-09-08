@@ -395,7 +395,7 @@ $page_description = 'Conoce los términos y condiciones de uso del taller CardNe
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=7.1" defer></script>
+    <script src="js/main.js?v=7.3" defer></script>
     <script src="js/animations.js" defer></script>
 </body>
 </html>

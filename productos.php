@@ -31,8 +31,10 @@ $sort = isset($_GET['sort']) ? trim($_GET['sort']) : '';
 $search_query = isset($_GET['q']) ? trim($_GET['q']) : (isset($_GET['search']) ? trim($_GET['search']) : '');
 
 $order_clause = "ORDER BY CASE WHEN p.order_val IS NULL OR p.order_val = 0 THEN 999999 ELSE p.order_val END ASC, p.id DESC";
-if ($sort === 'price_asc') {
-    $order_clause = "ORDER BY p.price ASC";
+if ($sort === 'name_asc') {
+    $order_clause = "ORDER BY p.name ASC";
+} elseif ($sort === 'newest') {
+    $order_clause = "ORDER BY p.id DESC";
 }
 
 try {
@@ -225,8 +227,9 @@ try {
             <!-- Ordenamiento Estilo Google -->
             <select id="sort-selector" name="sort" onchange="this.form.submit();"
                 style="height: 44px; padding: 0 32px 0 16px; border-radius: 24px; border: 1px solid #dfe1e5; background: white; font-family: var(--font-body); font-size: 0.84rem; color: #202124; cursor: pointer; outline: none; font-weight: 500; box-shadow: 0 1px 6px rgba(32, 33, 36, 0.08); -webkit-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2370757a%22%20stroke-width%3D%222%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 10px center; white-space: nowrap;">
-                <option value="" <?php echo ($sort != 'price_asc') ? 'selected' : ''; ?>>Destacados</option>
-                <option value="price_asc" <?php echo ($sort == 'price_asc') ? 'selected' : ''; ?>>Menor precio</option>
+                <option value="" <?php echo empty($sort) ? 'selected' : ''; ?>>Destacados</option>
+                <option value="name_asc" <?php echo ($sort === 'name_asc') ? 'selected' : ''; ?>>Nombre (A - Z)</option>
+                <option value="newest" <?php echo ($sort === 'newest') ? 'selected' : ''; ?>>Más recientes</option>
             </select>
         </form>
 
@@ -383,7 +386,7 @@ try {
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=7.1" defer></script>
+    <script src="js/main.js?v=7.3" defer></script>
     <script src="js/animations.js" defer></script>
 </body>
 </html>

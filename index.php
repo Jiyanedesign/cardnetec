@@ -1394,7 +1394,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=7.1" defer></script>
+    <script src="js/main.js?v=7.3" defer></script>
     <script src="js/slider.js?v=2.1" defer></script>
     <script src="js/animations.js" defer></script>
     <script>

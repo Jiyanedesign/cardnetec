@@ -562,53 +562,41 @@ $gallery = array_unique($gallery);
 
                     <!-- Ficha de Cotización Directa -->
                     <div class="purchase-box">
-                        <div class="purchase-row">
+                        <div class="purchase-row" style="align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
                             <div>
-                                <span class="qty-label">Cantidad a Personalizar</span>
+                                <span class="qty-label">Cantidad a Cotizar</span>
                                 <div class="qty-selectors">
                                     <button class="qty-btn" id="qty-minus" type="button" aria-label="Disminuir cantidad">-</button>
                                     <input type="number" class="qty-input" id="qty-input" value="1" min="1" step="1" style="text-align: center; width: 60px;">
                                     <button class="qty-btn" id="qty-plus" type="button" aria-label="Aumentar cantidad">+</button>
                                 </div>
                             </div>
-                            <div>
-                                <span class="price-label">Precio Unit. (Con Grabado)</span>
-                                <div class="unit-price-display" id="unit-price">$<?php echo number_format($product['price'], 2); ?></div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 4px;">Modalidad</span>
+                                <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(99, 174, 44, 0.08); border: 1px solid rgba(99, 174, 44, 0.25); color: var(--primary-hover); font-weight: 600; font-size: 0.85rem; padding: 6px 14px; border-radius: 20px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+                                    Bajo Cotización
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="subtotal-row">
-                            <span class="subtotal-label">Subtotal Estimado</span>
-                            <span class="subtotal-value" id="subtotal-val">$<?php echo number_format($product['price'] * 1, 2); ?></span>
                         </div>
 
                         <?php 
                         $vp_rules = json_decode($product['volume_prices'], true) ?: [];
                         if (!empty($vp_rules)): 
                         ?>
-                            <div class="volume-discount-box" style="margin-top: 1.25rem; border-top: 1px solid var(--border); padding-top: 1rem; width: 100%;">
-                                <h4 style="font-family: var(--font-heading); font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--dark);">Escala de precios por lote:</h4>
-                                <table style="width: 100%; font-size: 0.78rem; border-collapse: collapse; margin-bottom: 10px;">
-                                    <thead>
-                                        <tr style="background: var(--surface-light);">
-                                            <th style="padding: 4px; border: 1px solid var(--border); text-align: center;">Cantidad</th>
-                                            <th style="padding: 4px; border: 1px solid var(--border); text-align: center;">Precio unitario</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr style="border-bottom: 1px solid var(--border);">
-                                            <td style="padding: 4px; border: 1px solid var(--border); text-align: center;">Base</td>
-                                            <td style="padding: 4px; border: 1px solid var(--border); text-align: center;">$<?php echo number_format($product['price'], 2); ?></td>
-                                        </tr>
-                                        <?php foreach ($vp_rules as $rule): ?>
-                                            <tr style="border-bottom: 1px solid var(--border);">
-                                                <td style="padding: 4px; border: 1px solid var(--border); text-align: center;"><?php echo $rule['qty']; ?>+ uds</td>
-                                                <td style="padding: 4px; border: 1px solid var(--border); text-align: center; color: var(--primary); font-weight: 600;">$<?php echo number_format($rule['price'], 2); ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                                <div id="savings-alert" style="display: none; margin-top: 8px; background: rgba(99, 174, 44, 0.08); border: 1px solid rgba(99, 174, 44, 0.2); padding: 6px 10px; border-radius: 4px; font-size: 0.72rem; color: var(--primary-hover); font-weight: 600; text-align: center;"></div>
+                            <div class="volume-discount-box" style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.85rem; width: 100%;">
+                                <div style="display: flex; align-items: center; gap: 8px; color: var(--dark); font-size: 0.82rem; font-weight: 600; margin-bottom: 8px;">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                                    Descuentos preferenciales por volumen:
+                                </div>
+                                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                    <span style="font-size: 0.74rem; background: var(--surface-light); border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px; color: var(--text-muted);">Desde 1 unidad</span>
+                                    <?php foreach ($vp_rules as $rule): ?>
+                                        <span style="font-size: 0.74rem; background: rgba(99, 174, 44, 0.08); border: 1px solid rgba(99, 174, 44, 0.2); padding: 4px 10px; border-radius: 4px; color: var(--primary-hover); font-weight: 600;">
+                                            <?php echo (int)$rule['qty']; ?>+ uds (Precio por mayor)
+                                        </span>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         <?php endif; ?>
                         
@@ -715,35 +703,7 @@ $gallery = array_unique($gallery);
         }
 
         function updateSubtotal() {
-            let qty = parseInt(qtyInput.value);
-            if (isNaN(qty) || qty < 1) {
-                qty = 1;
-            }
-            const activePrice = getActiveUnitPrice(qty);
-            
-            // Actualizar visualizador de precio unitario
-            const unitPriceElem = document.getElementById('unit-price');
-            if (unitPriceElem) {
-                unitPriceElem.textContent = '$' + activePrice.toFixed(2);
-            }
-            
-            // Calcular subtotal
-            const subtotal = qty * activePrice;
-            subtotalVal.textContent = '$' + subtotal.toFixed(2);
-            
-            // Calcular ahorro/beneficio
-            const savingsAlert = document.getElementById('savings-alert');
-            if (savingsAlert) {
-                if (activePrice < basePrice) {
-                    const baseCost = qty * basePrice;
-                    const savings = baseCost - subtotal;
-                    const percent = ((basePrice - activePrice) / basePrice * 100).toFixed(0);
-                    savingsAlert.innerHTML = `¡Ahorras $${savings.toFixed(2)} (${percent}% de descuento por cantidad)!`;
-                    savingsAlert.style.display = 'block';
-                } else {
-                    savingsAlert.style.display = 'none';
-                }
-            }
+            // Precios omitidos por política de cotización directa
         }
 
         document.getElementById('qty-plus').addEventListener('click', () => {
@@ -1018,7 +978,7 @@ $gallery = array_unique($gallery);
             canvas.renderAll();
         }
     </script>
-    <script src="js/main.js?v=7.1" defer></script>
+    <script src="js/main.js?v=7.3" defer></script>
 </body>
 </html>
  

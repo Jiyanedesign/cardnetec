@@ -347,11 +347,11 @@ unset($item);
                                         <?php endif; ?>
                                         <div>
                                             <h4 style="font-size: 0.85rem; font-weight: 600; margin: 0; color: var(--dark);"><?php echo htmlspecialchars($item['name']); ?></h4>
-                                            <span style="font-size: 0.75rem; color: var(--text-muted);"><?php echo $item['qty']; ?> uds x $<?php echo number_format($item['price'], 2); ?></span>
+                                            <span style="font-size: 0.75rem; color: var(--text-muted);">Cantidad: <strong style="color: var(--dark);"><?php echo (int)$item['qty']; ?> unidades</strong></span>
                                         </div>
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 8px;">
-                                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--dark);">$<?php echo number_format($item['subtotal'], 2); ?></span>
+                                        <span style="font-size: 0.72rem; font-weight: 600; color: var(--primary); background: rgba(99, 174, 44, 0.08); padding: 3px 8px; border-radius: 12px;">A cotizar</span>
                                         <button onclick="removeCartItem(<?php echo $index; ?>)" style="background: none; border: none; color: #EF4444; cursor: pointer; padding: 2px;" title="Eliminar">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -362,9 +362,20 @@ unset($item);
                             <?php endforeach; ?>
                         </div>
 
-                        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-light); padding: 12px 15px; border-radius: var(--radius-sm); margin-bottom: 1.5rem;">
-                            <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Total Estimado:</span>
-                            <span style="font-size: 1.35rem; font-weight: 700; color: var(--primary);">$<?php echo number_format($grand_total, 2); ?></span>
+                        <?php
+                        $total_units = 0;
+                        foreach ($cart as $it) {
+                            $total_units += (int)($it['qty'] ?? 1);
+                        }
+                        ?>
+                        <div style="background: var(--surface-light); padding: 12px 15px; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted);">Total Artículos:</span>
+                                <span style="font-size: 1.1rem; font-weight: 700; color: var(--dark);"><?php echo count($cart); ?> <?php echo count($cart) === 1 ? 'ítem' : 'ítems'; ?> (<?php echo $total_units; ?> uds)</span>
+                            </div>
+                            <span style="font-size: 0.74rem; color: var(--text-muted); display: block; line-height: 1.3;">
+                                Cotización personalizada formalizada por un asesor comercial según tus especificaciones.
+                            </span>
                         </div>
                     <?php else: ?>
                         <div style="text-align: center; padding: 2.5rem 0; color: var(--text-muted);">
@@ -385,7 +396,7 @@ unset($item);
     <?php include 'includes/footer.php'; ?>
 
     <!-- Scripts Modulares -->
-    <script src="js/main.js?v=7.1" defer></script>
+    <script src="js/main.js?v=7.3" defer></script>
     <script src="js/animations.js" defer></script>
     <script src="js/forms.js" defer></script>
     <script>
