@@ -546,7 +546,7 @@ $gallery = array_unique($gallery);
                             <span style="font-size: 0.72rem; font-weight: 700; color: #0d110b; background: #9eff42; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em;">Personalización de Autor</span>
                             <div class="stock-tag" style="margin-bottom: 0;">
                                 <span class="stock-dot"></span>
-                                Calibración individual en taller (<?php echo (int)$product['stock']; ?> uds disponibles)
+                                Calibración individual en taller
                             </div>
                         </div>
                         <h1 class="product-title-style"><?php echo htmlspecialchars($product['name']); ?></h1>
