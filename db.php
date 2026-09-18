@@ -515,6 +515,15 @@ try {
     if (!in_array('accesorios_desc', $config_columns)) {
         $pdo->exec("ALTER TABLE configuraciones ADD COLUMN accesorios_desc text DEFAULT NULL;");
     }
+    if (!in_array('bento_subtitle', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN bento_subtitle varchar(255) DEFAULT 'Maestría en Materiales';");
+    }
+    if (!in_array('bento_title', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN bento_title varchar(255) DEFAULT 'Líneas de personalización de autor';");
+    }
+    if (!in_array('bento_desc', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN bento_desc text DEFAULT NULL;");
+    }
 
 
     // AUTO-MIGRACIÓN: Columna de imagen en carrusel y seeding inicial solo si la tabla está vacía

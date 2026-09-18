@@ -59,8 +59,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_header_accesor
     }
 }
 
+// Procesar Formulario de Textos de Encabezado de Líneas de Personalización (Bento Grid)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_header_bento'])) {
+    $bento_subtitle = trim($_POST['bento_subtitle'] ?? '');
+    $bento_title = trim($_POST['bento_title'] ?? '');
+    $bento_desc = trim($_POST['bento_desc'] ?? '');
+
+    try {
+        $stmtH = $pdo->prepare("UPDATE configuraciones SET bento_subtitle = ?, bento_title = ?, bento_desc = ? WHERE id = 1");
+        $stmtH->execute([$bento_subtitle, $bento_title, $bento_desc]);
+        $message = 'Textos del encabezado de Líneas de Personalización actualizados correctamente.';
+    } catch (PDOException $e) {
+        $error = 'Error al actualizar textos de cabecera: ' . $e->getMessage();
+    }
+}
+
+// Procesar Formulario de Edición de Tarjeta del Bento Grid
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_save_bento_card'])) {
+    $bento_id = (int)$_POST['bento_id'];
+    $name = trim($_POST['name']);
+    $description = trim($_POST['description'] ?? '');
+    $custom_link = trim($_POST['custom_link'] ?? '');
+    $order_val = isset($_POST['order_val']) ? (int)$_POST['order_val'] : 1;
+
+    // Carpeta de subidas de categorías
+    $upload_dir = '../uploads/categories/';
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+
+    $image_path = isset($_POST['existing_image']) ? $_POST['existing_image'] : '';
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['image']['tmp_name'];
+        $file_name = $_FILES['image']['name'];
+        $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'svg'])) {
+            $new_filename = 'cat_' . time() . '_' . uniqid() . '.' . $ext;
+            if (move_uploaded_file($file_tmp, $upload_dir . $new_filename)) {
+                if ($ext !== 'svg') {
+                    $webp_file = convertToWebP($upload_dir . $new_filename);
+                    $image_path = 'categories/' . basename($webp_file);
+                } else {
+                    $image_path = 'categories/' . $new_filename;
+                }
+            }
+        }
+    }
+
+    if (empty($name)) {
+        $error = 'El título de la tarjeta es obligatorio.';
+    } else {
+        try {
+            $stmtUB = $pdo->prepare("UPDATE categorias SET name = ?, description = ?, custom_link = ?, order_val = ?, image = ? WHERE id = ?");
+            $stmtUB->execute([$name, $description, $custom_link, $order_val, $image_path, $bento_id]);
+            $message = 'Tarjeta de la grilla Bento actualizada correctamente.';
+        } catch (PDOException $e) {
+            $error = 'Error al actualizar tarjeta: ' . $e->getMessage();
+        }
+    }
+}
+
 // Procesar Formulario de Tarjetas (Creación o Edición)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['action_header_texts'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['action_header_texts']) && !isset($_POST['action_header_obras']) && !isset($_POST['action_header_accesorios']) && !isset($_POST['action_header_bento']) && !isset($_POST['action_save_bento_card'])) {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $section_key = trim($_POST['section_key']);
     $group_name = trim($_POST['group_name'] ?? '');
@@ -129,6 +190,18 @@ $cards_obras = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'ob
 $cards_soluciones = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'soluciones' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
 $cards_catalogo = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'catalogo_opciones' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
 $cards_accesorios = $pdo->query("SELECT * FROM secciones_home WHERE section_key = 'accesorios' ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC")->fetchAll();
+
+// Cargar las 4 categorías destacadas del Bento Grid
+$bento_cards = $pdo->query("SELECT * FROM categorias WHERE is_active = 1 AND is_featured = 1 ORDER BY CASE WHEN order_val IS NULL OR order_val = 0 THEN 999999 ELSE order_val END ASC, id ASC LIMIT 4")->fetchAll();
+
+// Cargar tarjeta Bento a editar si se solicita
+$edit_bento = null;
+if (isset($_GET['edit_bento'])) {
+    $edit_bento_id = (int)$_GET['edit_bento'];
+    $stmtEB = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
+    $stmtEB->execute([$edit_bento_id]);
+    $edit_bento = $stmtEB->fetch();
+}
 
 // Cargar tarjeta a editar
 $edit_card = null;
@@ -297,7 +370,7 @@ if (isset($_GET['edit'])) {
 
     <div class="main-content">
         <h1 style="font-family: var(--font-heading); margin-bottom: 0.5rem; font-size: 2rem;">Gestión de Secciones de Portada</h1>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Edita los títulos, fotos, descripciones y tarjetas de las secciones de portada: <em>Obras del Taller (Carrusel)</em>, <em>Soluciones de Taller</em>, <em>Catálogo de Opciones</em> y <em>Accesorios para el uso diario</em>.</p>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Edita los títulos, fotos, descripciones y tarjetas de las secciones de portada: <em>Líneas de Personalización (Grilla Bento)</em>, <em>Obras del Taller (Carrusel)</em>, <em>Soluciones de Taller</em>, <em>Catálogo de Opciones</em> y <em>Accesorios para el uso diario</em>.</p>
 
         <?php if ($message): ?>
             <div class="alert alert-success"><?php echo $message; ?></div>
@@ -305,6 +378,156 @@ if (isset($_GET['edit'])) {
         <?php if ($error): ?>
             <div class="alert alert-danger"><?php echo $error; ?></div>
         <?php endif; ?>
+
+        <!-- 0. SECCIÓN DESTACADA: LÍNEAS DE PERSONALIZACIÓN DE AUTOR (BENTO GRID) -->
+        <div class="form-container" id="seccion-bento" style="border-left: 4px solid #10b981; margin-bottom: 2.5rem; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <h2 style="font-family: var(--font-heading); font-size: 1.35rem; margin: 0; display: flex; align-items: center; gap: 8px;">
+                        <span style="background: #10b981; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Grilla Principal</span>
+                        Líneas de Personalización de Autor (Bento Grid)
+                    </h2>
+                    <p style="color: var(--text-muted); font-size: 0.88rem; margin: 4px 0 0 0;">
+                        Controla los textos del encabezado superior y las 4 tarjetas visuales principales de la portada.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <a href="categorias.php" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">Ver Catálogo de Categorías</a>
+                    <a href="../index.php#categorias-visuales" target="_blank" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px; background: #f0fdf4; border-color: #86efac; color: #15803d;">Ver en Portada ↗</a>
+                </div>
+            </div>
+
+            <!-- Formulario de Textos de Encabezado -->
+            <form method="POST" action="secciones.php" style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 2rem;">
+                <input type="hidden" name="action_header_bento" value="1">
+                <h3 style="font-size: 1rem; font-weight: 600; margin-top: 0; margin-bottom: 1rem; color: var(--dark); display: flex; align-items: center; gap: 6px;">
+                    <span>📝</span> Textos del Encabezado de la Sección
+                </h3>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="bento_subtitle">Subtítulo Superior (Badge verde)</label>
+                        <input class="form-input" type="text" name="bento_subtitle" id="bento_subtitle" required value="<?php echo htmlspecialchars($settings['bento_subtitle'] ?: 'Maestría en Materiales'); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bento_title">Título Principal de la Sección</label>
+                        <input class="form-input" type="text" name="bento_title" id="bento_title" required value="<?php echo htmlspecialchars($settings['bento_title'] ?: 'Líneas de personalización de autor'); ?>">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="bento_desc">Descripción / Párrafo Inferior</label>
+                    <textarea class="form-input" name="bento_desc" id="bento_desc" rows="2" required><?php echo htmlspecialchars($settings['bento_desc'] ?: 'No producimos volumen genérico descartable. Grabamos y personalizamos piezas nobles con acabado indeleble, textura palpable y control de calidad individual.'); ?></textarea>
+                </div>
+                <div style="margin-top: 1.25rem;">
+                    <button class="btn btn-primary" type="submit" style="background-color: #10b981; border-color: #10b981;">Guardar Encabezado de Líneas de Autor</button>
+                </div>
+            </form>
+
+            <!-- Formulario de Edición de Tarjeta Bento (si se solicitó editar una) -->
+            <?php if ($edit_bento): ?>
+            <div style="background: #ecfdf5; border: 2px solid #10b981; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;" id="form-edit-bento">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="margin: 0; font-size: 1.05rem; color: #065f46; font-weight: 700;">
+                        ✏️ Editando Tarjeta Bento: "<?php echo htmlspecialchars($edit_bento['name']); ?>"
+                    </h3>
+                    <a href="secciones.php" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 10px;">✕ Cerrar Edición</a>
+                </div>
+
+                <form method="POST" action="secciones.php" enctype="multipart/form-data">
+                    <input type="hidden" name="action_save_bento_card" value="1">
+                    <input type="hidden" name="bento_id" value="<?php echo (int)$edit_bento['id']; ?>">
+                    <input type="hidden" name="existing_image" value="<?php echo htmlspecialchars($edit_bento['image'] ?? ''); ?>">
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label class="form-label" for="bento_card_name">Título de la Tarjeta *</label>
+                            <input class="form-input" type="text" name="name" id="bento_card_name" required value="<?php echo htmlspecialchars($edit_bento['name']); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bento_card_link">Enlace de Destino</label>
+                            <input class="form-input" type="text" name="custom_link" id="bento_card_link" placeholder="Ej: productos.php?cat=personalizacion" value="<?php echo htmlspecialchars($edit_bento['custom_link'] ?: ('productos.php?cat=' . $edit_bento['slug'])); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bento_card_order">Posición en la Grilla (1, 2, 3, 4)</label>
+                            <input class="form-input" type="number" name="order_val" id="bento_card_order" required value="<?php echo (int)$edit_bento['order_val']; ?>">
+                            <small style="color: var(--text-muted); font-size: 0.72rem; display: block; margin-top: 3px;">1: Sup. Izq. Ancha | 2: Inf. Izq. 1 | 3: Inf. Izq. 2 | 4: Derecha Alta</small>
+                        </div>
+                    </div>
+
+                    <div class="grid-2" style="margin-top: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label" for="bento_card_desc">Subtítulo / Bajada de la Tarjeta (Opcional)</label>
+                            <textarea class="form-input" name="description" id="bento_card_desc" rows="2" placeholder="Texto descriptivo corto..."><?php echo htmlspecialchars($edit_bento['description'] ?? ''); ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bento_card_image">Cambiar Foto / Imagen de Fondo</label>
+                            <input class="form-input" type="file" name="image" id="bento_card_image">
+                            <?php if (!empty($edit_bento['image'])): ?>
+                                <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                                    <img src="<?php echo htmlspecialchars(getUploadedImgUrl($edit_bento['image'])); ?>" style="width: 60px; height: 42px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border);" alt="Foto actual">
+                                    <small style="color: var(--text-muted);">Foto actual asignada</small>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.25rem; display: flex; gap: 10px;">
+                        <button class="btn btn-primary" type="submit" style="background-color: #10b981; border-color: #10b981;">Guardar Cambios de Tarjeta</button>
+                        <a href="secciones.php" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+            <?php endif; ?>
+
+            <!-- Visualización de las 4 Tarjetas Actuales del Bento Grid -->
+            <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--dark); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                <span>🖼️ Las 4 Tarjetas Visuales de la Portada</span>
+                <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted);">Haz clic en "Editar Tarjeta" en cualquiera para cambiar foto, texto o enlace</span>
+            </h3>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+                <?php 
+                $pos_labels = [
+                    1 => 'Posición #1 (Superior Izq. - Ancha)',
+                    2 => 'Posición #2 (Inferior Izq. 1)',
+                    3 => 'Posición #3 (Inferior Izq. 2)',
+                    4 => 'Posición #4 (Columna Derecha - Alta)'
+                ];
+                foreach ($bento_cards as $idx => $bCard): 
+                    $pos_num = $idx + 1;
+                    $pos_label = $pos_labels[$pos_num] ?? ("Posición #" . $pos_num);
+                ?>
+                    <div style="background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+                        <div style="position: relative; aspect-ratio: 16/10; background: #1c1b1b; overflow: hidden;">
+                            <?php if (!empty($bCard['image'])): ?>
+                                <img src="<?php echo htmlspecialchars(getUploadedImgUrl($bCard['image'])); ?>" style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(70%);" alt="<?php echo htmlspecialchars($bCard['name']); ?>">
+                            <?php else: ?>
+                                <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#888; font-size:0.8rem;">Sin imagen</div>
+                            <?php endif; ?>
+                            <span style="position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.8); color: #9eff42; padding: 2px 8px; border-radius: 4px; font-size: 0.68rem; font-weight: 700;">
+                                <?php echo $pos_label; ?>
+                            </span>
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 12px; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 100%); color: white;">
+                                <div style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 500;"><?php echo htmlspecialchars($bCard['name']); ?></div>
+                                <?php if (!empty($bCard['description'])): ?>
+                                    <div style="font-size: 0.75rem; color: rgba(255,255,255,0.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;"><?php echo htmlspecialchars($bCard['description']); ?></div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div style="padding: 12px; display: flex; flex-direction: column; gap: 6px; flex-grow: 1; background: #fafafa;">
+                            <div style="font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px;">
+                                <strong>Enlace:</strong> <code style="font-size: 0.72rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo htmlspecialchars($bCard['custom_link'] ?: ('productos.php?cat=' . $bCard['slug'])); ?></code>
+                            </div>
+                            <div style="margin-top: auto; padding-top: 8px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Orden: <strong>#<?php echo (int)$bCard['order_val']; ?></strong></span>
+                                <a href="secciones.php?edit_bento=<?php echo (int)$bCard['id']; ?>#form-edit-bento" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 10px; background: white;">
+                                    ✏️ Editar Tarjeta
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
 
         <!-- 1. FORMULARIO DE TEXTOS DE ENCABEZADO: OBRAS DEL TALLER -->
         <div class="form-container" style="border-left: 4px solid var(--primary); margin-bottom: 2rem;">

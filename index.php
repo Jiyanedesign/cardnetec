@@ -436,9 +436,9 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
         <section id="categorias-visuales" class="section-padding" style="background: #121212; color: white; padding-top: 5rem; padding-bottom: 5rem;">
             <div class="container">
                 <div class="section-header" style="margin-bottom: 3.5rem; text-align: left; max-width: 720px;">
-                    <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);">Maestría en Materiales</span>
-                    <h2 style="font-family: var(--font-heading); font-size: 3rem; color: white; font-weight: 400; margin-bottom: 1rem;">Líneas de personalización de autor</h2>
-                    <p style="color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.6; margin: 0;">No producimos volumen genérico descartable. Grabamos y personalizamos piezas nobles con acabado indeleble, textura palpable y control de calidad individual.</p>
+                    <span class="section-subtitle" style="color: var(--primary); border-color: var(--primary);"><?php echo htmlspecialchars($site_settings['bento_subtitle'] ?: 'Maestría en Materiales'); ?></span>
+                    <h2 style="font-family: var(--font-heading); font-size: 3rem; color: white; font-weight: 400; margin-bottom: 1rem;"><?php echo htmlspecialchars($site_settings['bento_title'] ?: 'Líneas de personalización de autor'); ?></h2>
+                    <p style="color: rgba(255,255,255,0.75); font-size: 1rem; line-height: 1.6; margin: 0;"><?php echo htmlspecialchars($site_settings['bento_desc'] ?: 'No producimos volumen genérico descartable. Grabamos y personalizamos piezas nobles con acabado indeleble, textura palpable y control de calidad individual.'); ?></p>
                 </div>
                 
                 <style>

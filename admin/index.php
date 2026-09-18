@@ -179,6 +179,22 @@ try {
             <a href="../index.php" target="_blank" class="btn btn-secondary">Ver Sitio Público</a>
         </div>
 
+        <!-- Accesos Rápidos -->
+        <div style="display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap;">
+            <a href="secciones.php" class="btn btn-primary" style="font-size: 0.85rem; padding: 10px 18px; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                <span>✨</span> Secciones de Portada & Bento Grid
+            </a>
+            <a href="productos.php" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 18px; text-decoration: none;">
+                🏷️ Catálogo de Productos
+            </a>
+            <a href="categorias.php" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 18px; text-decoration: none;">
+                📁 Categorías
+            </a>
+            <a href="configuracion.php" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 18px; text-decoration: none;">
+                ⚙️ Configuración
+            </a>
+        </div>
+
         <!-- Métrica General -->
         <div class="stats-grid">
             <div class="stat-card">
