@@ -642,9 +642,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const normFilter = activeFilter.toLowerCase();
                 matchesCategory = name.includes(normFilter) || 
                                   category.includes(normFilter) || 
+                                  normFilter.includes(category) || 
                                   material.includes(normFilter) || 
                                   technique.includes(normFilter) || 
                                   use.includes(normFilter);
+                if (!matchesCategory && (normFilter.includes('personaliz') || normFilter.includes('laser') || normFilter.includes('láser'))) {
+                    matchesCategory = category.includes('personaliz') || technique.includes('láser') || technique.includes('laser') || name.includes('láser') || name.includes('laser');
+                }
             }
 
             if (matchesQuery && matchesCategory) {

@@ -100,8 +100,8 @@ try {
                 'order_val' => 1
             ],
             [
-                'name' => 'Cajas y Empaques',
-                'slug' => 'cajas-y-empaques',
+                'name' => 'Personalización con láser',
+                'slug' => 'personalizacion',
                 'description' => 'Packaging corporativo a medida.',
                 'image' => 'caja.png',
                 'custom_link' => 'productos.php?cat=personalizacion',
@@ -136,6 +136,11 @@ try {
             }
         }
     }
+
+    // AUTO-MIGRACIÓN: Renombrar categoría "Cajas y Empaques" a "Personalización con láser"
+    try {
+        $pdo->exec("UPDATE categorias SET name = 'Personalización con láser', slug = 'personalizacion', custom_link = 'productos.php?cat=personalizacion' WHERE id = 69 OR name = 'Cajas y Empaques'");
+    } catch (PDOException $e) {}
 
     // 1.8. AUTO-MIGRACIÓN: Tabla secciones_home para Soluciones de Taller y Opciones de Catálogo
     $tableSecciones = $pdo->query("SHOW TABLES LIKE 'secciones_home'")->fetch();

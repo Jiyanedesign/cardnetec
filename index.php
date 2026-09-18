@@ -548,10 +548,10 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                     'custom_link' => 'productos.php?cat=personalizacion'
                 ];
                 $bento_4 = $featured_categories[3] ?? [
-                    'name' => 'Identificación de Autor',
-                    'description' => 'Credenciales y cintas con estándares de alta presentación institucional.',
-                    'image' => 'carnet_mockup.webp',
-                    'custom_link' => 'empresas.php'
+                    'name' => 'Personalización con láser',
+                    'description' => 'Packaging corporativo a medida.',
+                    'image' => 'caja.png',
+                    'custom_link' => 'productos.php?cat=personalizacion'
                 ];
 
                 function getBentoImgUrl($img) {
