@@ -32,7 +32,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
                     <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#9aa0a6" stroke-width="2" style="position: absolute; left: 16px; pointer-events: none;">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
-                    <input class="search-input" type="text" name="q" placeholder="Buscar productos, carnets, tagua, placas..." value="<?php echo htmlspecialchars($_GET['q'] ?? ''); ?>" autocomplete="off" aria-label="Buscar productos">
+                    <input class="search-input" type="text" name="q" placeholder="Buscar productos, credenciales, tagua, placas..." value="<?php echo htmlspecialchars($_GET['q'] ?? ''); ?>" autocomplete="off" aria-label="Buscar productos">
                     <button type="button" class="search-clear-btn" id="search-clear-btn" style="display: none;" title="Limpiar búsqueda" aria-label="Limpiar búsqueda">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                     </button>
@@ -72,7 +72,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
             <nav class="nav-menu" aria-label="Navegación principal">
                 <a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
                 <a href="productos.php" class="nav-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-                <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php' || $current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets y Empresas</a>
+                <a href="empresas.php" class="nav-link <?php echo ($current_page == 'empresas.php' || $current_page == 'carnets.php') ? 'active' : ''; ?>">Credenciales y Empresas</a>
                 <a href="personalizacion.php" class="nav-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
                 <a href="tagua.php" class="nav-link nav-link-tagua <?php echo ($current_page == 'tagua.php') ? 'active' : ''; ?>" title="Colección Exclusiva de Tagua — Marfil Vegetal">
                     <span class="tagua-pulse-dot"></span>
@@ -113,7 +113,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
     <div style="display: flex; flex-direction: column; gap: 1.25rem; width: 100%; padding-top: 0.5rem;">
         <a href="index.php" class="mobile-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Inicio</a>
         <a href="productos.php" class="mobile-link <?php echo ($current_page == 'productos.php' || $current_page == 'producto.php') ? 'active' : ''; ?>">Productos</a>
-        <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php' || $current_page == 'carnets.php') ? 'active' : ''; ?>">Carnets y Empresas</a>
+        <a href="empresas.php" class="mobile-link <?php echo ($current_page == 'empresas.php' || $current_page == 'carnets.php') ? 'active' : ''; ?>">Credenciales y Empresas</a>
         <a href="personalizacion.php" class="mobile-link <?php echo ($current_page == 'personalizacion.php') ? 'active' : ''; ?>">Personalización</a>
         <a href="tagua.php" class="mobile-link mobile-link-tagua <?php echo ($current_page == 'tagua.php') ? 'active' : ''; ?>" title="Colección Exclusiva de Tagua">
             <span style="display: flex; align-items: center; gap: 8px;">

@@ -15,7 +15,7 @@ $sim_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Personalización | CardNet.ec</title>
-    <meta name="description" content="Simula tu logo o texto sobre nuestros carnets, cintas y artículos corporativos.">
+    <meta name="description" content="Simula tu logo o texto sobre nuestras credenciales, cintas y artículos corporativos.">
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=6.3">

@@ -1040,16 +1040,16 @@ $defaultEmpresasContent = [
     'stat_val_4' => 'Nacional',
     'stat_lbl_4' => 'Envíos a todo el Ecuador',
 
-    // Sección: Importancia del Carnet
+    // Sección: Importancia de las Credenciales
     'why_badge' => 'Valor Institucional',
-    'why_title' => '¿Por qué es vital un carnet profesional en tu empresa?',
+    'why_title' => '¿Por qué son vitales las credenciales profesionales en tu empresa?',
     'why_subtitle' => 'Implementar credenciales de alta calidad aporta múltiples beneficios operativos y de identidad en el entorno laboral.',
     
     'why_card1_title' => 'Seguridad y Control',
     'why_card1_desc' => 'Permite al personal de seguridad y a los sistemas de acceso verificar al instante la identidad de colaboradores y visitas autorizadas.',
     
     'why_card2_title' => 'Imagen de Marca',
-    'why_card2_desc' => 'Un carnet premium con impresión nítida transmite seriedad, orden y profesionalismo ante clientes externos, proveedores y visitas.',
+    'why_card2_desc' => 'Una credencial premium con impresión nítida transmite seriedad, orden y profesionalismo ante clientes externos, proveedores y visitas.',
     
     'why_card3_title' => 'Pertenencia y Orgullo',
     'why_card3_desc' => 'Portar la credencial de la empresa fomenta la cohesión del equipo y genera un fuerte orgullo de pertenecer a la organización.',
@@ -1057,12 +1057,12 @@ $defaultEmpresasContent = [
     'why_card4_title' => 'Organización Interna',
     'why_card4_desc' => 'Facilita la distinción de cargos, áreas o roles (ej. directivos, staff, contratistas) mediante colores y diseños específicos.',
 
-    // Sección: Tipos de Carnets
+    // Sección: Tipos de Credenciales
     'types_badge' => 'Formatos y Materiales',
-    'types_title' => 'Nuestros tipos de carnets',
+    'types_title' => 'Nuestros tipos de credenciales',
     'types_subtitle' => 'Preparamos credenciales en distintos formatos para adaptarnos a las necesidades de tu organización.',
     
-    'type_card1_title' => 'Carnets PVC Estándar',
+    'type_card1_title' => 'Credenciales PVC Estándar',
     'type_card1_desc' => 'Tarjetas plásticas rígidas de alta resistencia (espesor de 30 milésimas / CR80), impresas por ambas caras con laminación de larga vida útil. Ideales para el uso diario de colaboradores.',
     'type_card1_img' => 'carnet_mockup.webp',
 
@@ -1080,16 +1080,16 @@ $defaultEmpresasContent = [
     'finishes_subtitle' => 'Añade características funcionales para hacer que cada credencial sea duradera y única.',
     
     'finish_1_title' => 'Impresión Dúplex (Doble Cara)',
-    'finish_1_desc' => 'Aprovecha el reverso del carnet para imprimir códigos de conducta, números de emergencia, firma del directivo o políticas internas.',
+    'finish_1_desc' => 'Aprovecha el reverso de la credencial para imprimir códigos de conducta, números de emergencia, firma del directivo o políticas internas.',
     
     'finish_2_title' => 'Laminado de Protección Brillante o Mate',
     'finish_2_desc' => 'El laminado protege la impresión contra el roce diario. El acabado brillante resalta la saturación de colores y el mate ofrece una estética ejecutiva.',
     
     'finish_3_title' => 'Perforación de Ranura (Slot Punch)',
-    'finish_3_desc' => 'Realizamos una perforación ovalada precisa para que puedas prender el carnet directamente a un yoyo retráctil o cinta, sin necesidad de funda.',
+    'finish_3_desc' => 'Realizamos una perforación ovalada precisa para que puedas prender la credencial directamente a un yoyo retráctil o cinta, sin necesidad de porta credencial.',
     
     'finish_4_title' => 'Códigos QR y de Barras Dinámicos',
-    'finish_4_desc' => 'Integramos elementos legibles por lector óptico para que puedas vincular el carnet al registro digital de tu base de datos.',
+    'finish_4_desc' => 'Integramos elementos legibles por lector óptico para que puedas vincular la credencial al registro digital de tu base de datos.',
 
     // Sección: Soluciones Corporativas
     'solutions_badge' => 'Categorías de Servicio',
@@ -1113,7 +1113,7 @@ $defaultEmpresasContent = [
     'sol_2_btn2_url' => 'cotizacion.php?slug=cintas-full-color',
 
     'sol_3_title' => 'Accesorios para Identificación',
-    'sol_3_desc' => 'Protege y porta tus carnets con yoyos retráctiles personalizados con resina drop (gel tridimensional), fundas protectoras plásticas flexibles o estuches rígidos de policarbonato de alta seguridad.',
+    'sol_3_desc' => 'Protege y porta tus credenciales con yoyos retráctiles personalizados con resina drop (gel tridimensional), fundas protectoras plásticas flexibles o estuches rígidos de policarbonato de alta seguridad.',
     'sol_3_img' => 'yoyos.webp',
     'sol_3_btn1_text' => 'Ver catálogo',
     'sol_3_btn1_url' => 'productos.php',
@@ -1131,25 +1131,25 @@ $defaultEmpresasContent = [
     // Sección: Combos Inteligentes
     'combos_badge' => 'Promoción & Soluciones',
     'combos_title' => 'Combos y Combinaciones Inteligentes',
-    'combos_subtitle' => 'Facilita la compra corporativa de tu equipo combinando carnets con sus accesorios a juego.',
+    'combos_subtitle' => 'Facilita la compra corporativa de tu equipo combinando credenciales con sus accesorios a juego.',
     
     'combo_1_tag' => 'Combo Básico Económico',
     'combo_1_title' => 'Combo Identificación Básica',
     'combo_1_desc' => 'La solución más económica para congresos de gran cantidad de asistentes o identificaciones rápidas.',
     'combo_1_img' => 'fundas.webp',
-    'combo_1_items' => "1x Carnet PVC Estándar\n1x Funda de PVC flexible\n1x Cinta lisa sin impresión",
+    'combo_1_items' => "1x Credencial PVC Estándar\n1x Funda de PVC flexible\n1x Cinta lisa sin impresión",
 
     'combo_2_tag' => 'Combo Oficina Diario',
     'combo_2_title' => 'Combo Ejecutivo Diario',
     'combo_2_desc' => 'Comodidad y accesibilidad total. Excelente para personal administrativo con accesos por tarjeta.',
     'combo_2_img' => 'yoyos.webp',
-    'combo_2_items' => "1x Carnet PVC Estándar\n1x Porta Carnet Rígido\n1x Yoyo retráctil corporativo",
+    'combo_2_items' => "1x Credencial PVC Estándar\n1x Porta Credencial Rígido\n1x Yoyo retráctil corporativo",
 
     'combo_3_tag' => 'Combo Máximo Impacto',
     'combo_3_title' => 'Combo Presencia Premium',
-    'combo_3_desc' => 'La máxima expresión corporativa. Combina tu carnet con una cinta impresa full color con tu logotipo.',
+    'combo_3_desc' => 'La máxima expresión corporativa. Combina tu credencial con una cinta impresa full color con tu logotipo.',
     'combo_3_img' => 'cintas_full_color.webp',
-    'combo_3_items' => "1x Carnet PVC Estándar\n1x Porta Carnet Rígido Premium\n1x Cinta personalizada full color",
+    'combo_3_items' => "1x Credencial PVC Estándar\n1x Porta Credencial Rígido Premium\n1x Cinta personalizada full color",
 
     // Sección: Ventajas
     'adv_badge' => 'Nuestra Diferencia',
@@ -1168,7 +1168,7 @@ $defaultEmpresasContent = [
     // CTA Final
     'cta_badge' => 'Área de Ventas Corporativas',
     'cta_title' => '¿Listo para elevar la presencia de tu marca?',
-    'cta_desc' => 'Envíanos los requerimientos de tu equipo (número de colaboradores, tipos de carnet o accesorios) y te responderemos con una cotización formal en menos de 24 horas laborables.',
+    'cta_desc' => 'Envíanos los requerimientos de tu equipo (número de colaboradores, tipos de credencial o accesorios) y te responderemos con una cotización formal en menos de 24 horas laborables.',
     'cta_btn1_text' => 'Iniciar Cotización Corporativa',
     'cta_btn2_text' => 'Hablar con un Asesor'
 ];

@@ -15,7 +15,7 @@ $settings = getSiteSettings($pdo);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diseño y Simulación de Credenciales PVC | CardNet.ec</title>
-    <meta name="description" content="Diseña, previsualiza y cotiza credenciales, identificaciones y carnets de PVC corporativos en línea con códigos QR y fotos de empleados.">
+    <meta name="description" content="Diseña, previsualiza y cotiza credenciales e identificaciones de PVC corporativas en línea con códigos QR y fotos de empleados.">
     
     <!-- CSS Modulares -->
     <link rel="stylesheet" href="css/base.css?v=6.3">
@@ -151,7 +151,7 @@ $settings = getSiteSettings($pdo);
 
     <!-- Barra de Anuncios Superior -->
     <div class="top-announcement-bar">
-        Taller de credenciales y carnets PVC en Quito | Envíos a todo el Ecuador
+        Taller de credenciales PVC y accesorios en Quito | Envíos a todo el Ecuador
     </div>
 
     <?php include 'includes/header.php'; ?>
@@ -160,7 +160,7 @@ $settings = getSiteSettings($pdo);
     <main class="container section-padding">
         <div class="section-header">
             <span class="section-subtitle">Simulador de Credenciales</span>
-            <h1 style="font-family: var(--font-heading); font-weight: 400; margin-bottom: 0.5rem; font-size: 2.2rem;">Crea y simula tus carnets PVC</h1>
+            <h1 style="font-family: var(--font-heading); font-weight: 400; margin-bottom: 0.5rem; font-size: 2.2rem;">Crea y simula tus credenciales PVC</h1>
             <p>Elige una plantilla y completa los datos para previsualizar cómo quedarán las identificaciones de tu personal.</p>
         </div>
 

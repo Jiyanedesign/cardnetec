@@ -16,8 +16,8 @@ $emp_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carnets Corporativos y Soluciones para Empresas | CardNet.ec</title>
-    <meta name="description" content="Soluciones integrales de identificación para empresas y equipos. Carnets PVC de alta fidelidad, cintas sublimadas, combos promocionales y regalos corporativos en Ecuador.">
+    <title>Credenciales Corporativas y Soluciones para Empresas | Cardnetec</title>
+    <meta name="description" content="Soluciones integrales de identificación para empresas y equipos. Credenciales PVC de alta fidelidad, cintas sublimadas, combos promocionales y regalos corporativos en Ecuador.">
     <link rel="canonical" href="https://cardnetec.com.ec/empresas.php">
     <link rel="stylesheet" href="css/base.css?v=6.3">
     <link rel="stylesheet" href="css/layout.css?v=7.2">
@@ -668,18 +668,18 @@ $emp_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
             // Manejador interactivo para agregar combos al carrito (Add to Quote list)
             const comboData = {
                 basico: [
-                    { name: "Carnet PVC Estándar (Combo)", slug: "credenciales-pvc", qty: 100, price: 1.20, snapshot: "uploads/carnet_mockup.webp" },
+                    { name: "Credencial PVC Estándar (Combo)", slug: "credenciales-pvc", qty: 100, price: 1.20, snapshot: "uploads/carnet_mockup.webp" },
                     { name: "Funda de PVC flexible (Combo)", slug: "porta-credenciales", qty: 100, price: 0.40, snapshot: "uploads/fundas.webp" },
                     { name: "Cinta lisa sin impresión (Combo)", slug: "cintas-sin-impresion", qty: 100, price: 0.80, snapshot: "uploads/cintas_mockup.webp" }
                 ],
                 ejecutivo: [
-                    { name: "Carnet PVC Estándar (Combo)", slug: "credenciales-pvc", qty: 100, price: 1.20, snapshot: "uploads/carnet_mockup.webp" },
-                    { name: "Porta Carnet Rígido (Combo)", slug: "porta-carnets", qty: 100, price: 0.50, snapshot: "uploads/llavero.webp" },
+                    { name: "Credencial PVC Estándar (Combo)", slug: "credenciales-pvc", qty: 100, price: 1.20, snapshot: "uploads/carnet_mockup.webp" },
+                    { name: "Porta Credencial Rígido (Combo)", slug: "porta-carnets", qty: 100, price: 0.50, snapshot: "uploads/llavero.webp" },
                     { name: "Yoyo retráctil corporativo (Combo)", slug: "accesorios-identificacion", qty: 100, price: 0.60, snapshot: "uploads/yoyos.webp" }
                 ],
                 premium: [
-                    { name: "Carnet PVC Estándar (Combo)", slug: "credenciales-pvc", qty: 100, price: 1.20, snapshot: "uploads/carnet_mockup.webp" },
-                    { name: "Porta Carnet Rígido Premium (Combo)", slug: "porta-carnets", qty: 100, price: 0.50, snapshot: "uploads/llavero.webp" },
+                    { name: "Credencial PVC Estándar (Combo)", slug: "credenciales-pvc", qty: 100, price: 1.20, snapshot: "uploads/carnet_mockup.webp" },
+                    { name: "Porta Credencial Rígido Premium (Combo)", slug: "porta-carnets", qty: 100, price: 0.50, snapshot: "uploads/llavero.webp" },
                     { name: "Cinta personalizada full color (Combo)", slug: "cintas-full-color", qty: 100, price: 1.80, snapshot: "uploads/cintas_full_color.webp" }
                 ]
             };

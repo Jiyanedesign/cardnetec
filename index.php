@@ -790,13 +790,13 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                             </a>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <!-- Carnets PVC -->
+                        <!-- Credenciales PVC -->
                         <div class="showcase-card">
                             <div class="showcase-image-wrap">
-                                <img src="uploads/carnet_mockup.webp" alt="Carnets PVC" loading="lazy" decoding="async">
+                                <img src="uploads/carnet_mockup.webp" alt="Credenciales PVC" loading="lazy" decoding="async">
                             </div>
                             <div class="showcase-info">
-                                <h3 class="showcase-title">Carnets PVC Corporativos</h3>
+                                <h3 class="showcase-title">Credenciales PVC Corporativas</h3>
                             </div>
                         </div>
                         <!-- Cintas y lanyards -->
@@ -814,7 +814,7 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                                 <img src="uploads/llavero.webp" alt="Porta credenciales y accesorios" loading="lazy" decoding="async">
                             </div>
                             <div class="showcase-info">
-                                <h3 class="showcase-title">Porta Carnets y Accesorios</h3>
+                                <h3 class="showcase-title">Porta Credenciales y Accesorios</h3>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -965,11 +965,11 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         <!-- Fallback si la tabla está vacía -->
                         <div class="accessory-card-item" style="background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; display: flex; flex-direction: column;">
                             <div style="width: 100%; aspect-ratio: 1.4; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--surface-light);">
-                                <img src="uploads/llavero.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta carnets" loading="lazy" decoding="async">
+                                <img src="uploads/llavero.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Porta credenciales" loading="lazy" decoding="async">
                             </div>
                             <div style="padding: 1.25rem; text-align: center; display: flex; flex-direction: column; flex-grow: 1;">
-                                <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Porta carnets</h4>
-                                <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Protección práctica para carnets y tarjetas rígidas.</p>
+                                <h4 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 5px; color: var(--dark);">Porta credenciales</h4>
+                                <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1;">Protección práctica para credenciales y tarjetas rígidas.</p>
                                 <a href="productos.php?cat=porta-credenciales" style="font-size: 0.75rem; color: var(--primary); font-weight: 600; text-decoration: none; text-transform: none; margin-top: auto;">Ver opciones</a>
                             </div>
                         </div>

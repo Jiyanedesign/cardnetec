@@ -359,7 +359,7 @@ try {
                         <?php echo !empty($search_query) ? 'No encontramos productos para "' . htmlspecialchars($search_query) . '"' : 'No encontramos productos con este filtro'; ?>
                     </h3>
                     <p style="font-size: 0.88rem; margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-                        <?php echo !empty($search_query) ? 'Intenta con un término más general (como carnet, cinta, llavero, placa, tagua) o consúltanos directamente por WhatsApp.' : 'Puedes elegir otra categoría o cotizar una idea desde cero.'; ?>
+                        <?php echo !empty($search_query) ? 'Intenta con un término más general (como credencial, cinta, llavero, placa, tagua) o consúltanos directamente por WhatsApp.' : 'Puedes elegir otra categoría o cotizar una idea desde cero.'; ?>
                     </p>
                     <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                         <a href="productos.php" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 20px;">Ver todo el catálogo</a>

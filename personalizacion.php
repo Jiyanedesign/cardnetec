@@ -154,7 +154,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 3: Impresión Térmica Re-transferencia -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/carnet_mockup.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Impresión de Carnets PVC" loading="lazy" decoding="async">
+                            <img src="uploads/carnet_mockup.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Impresión de Credenciales PVC" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Impresión por Re-transferencia</h3>

@@ -311,7 +311,7 @@ $page_description = 'Conoce nuestra política de privacidad y protección de dat
                         <p>Tus datos son procesados bajo bases jurídicas legítimas (ejecución de medidas precontractuales, cumplimiento contractual y obligaciones tributarias) para los siguientes fines exclusivos:</p>
                         <ul>
                             <li><strong>Emisión de Cotizaciones:</strong> Elaborar proformas detalladas y presupuestos ajustados a los insumos, acabados y volumen requerido por tu empresa.</li>
-                            <li><strong>Simulación y Aprobación de Artes:</strong> Generar maquetas virtuales de pre-producción (renders de marcaje en carnets, cintas, madera o tagua) para tu revisión y visto bueno técnico.</li>
+                            <li><strong>Simulación y Aprobación de Artes:</strong> Generar maquetas virtuales de pre-producción (renders de marcaje en credenciales, cintas, madera o tagua) para tu revisión y visto bueno técnico.</li>
                             <li><strong>Producción y Marcaje:</strong> Programar la maquinaria de impresión digital y grabado láser con las especificaciones y datos exactos de cada colaborador o credencial.</li>
                             <li><strong>Despacho y Notificación:</strong> Gestionar el envío mediante operadores logísticos autorizados (Servientrega u operadores locales) y notificar el código de guía para rastreo.</li>
                             <li><strong>Facturación Electrónica:</strong> Emitir los comprobantes legales autorizados por el SRI.</li>

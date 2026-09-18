@@ -1,3 +1,12 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'db.php';
+if (!isset($site_settings) && isset($pdo)) {
+    $site_settings = getSiteSettings($pdo);
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,7 +17,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preguntas Frecuentes | CardNet.ec</title>
-    <meta name="description" content="Preguntas frecuentes sobre identificación de personal, carnets PVC, lanyards, porta credenciales y personalización corporativa.">
+    <meta name="description" content="Preguntas frecuentes sobre identificación de personal, credenciales PVC, lanyards, porta credenciales y personalización corporativa.">
     <link rel="canonical" href="https://cardnet.ec/faq.php">
     
     <!-- CSS Modulares -->
@@ -42,12 +51,12 @@
             
             <div class="faq-item" style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: white;">
                 <button class="faq-trigger" style="background: none; border: none; outline: none; width: 100%; text-align: left; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--dark);">
-                    ¿Hacen carnets personalizados?
+                    ¿Hacen credenciales personalizadas?
                     <span class="faq-icon"></span>
                 </button>
                 <div class="faq-content">
                     <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
-                        Sí. Preparamos carnets PVC y credenciales para empresas, instituciones, eventos y equipos de trabajo en diferentes espesores y acabados.
+                        Sí. Preparamos credenciales PVC de alta durabilidad para empresas, instituciones, eventos y equipos de trabajo en diferentes espesores y acabados.
                     </p>
                 </div>
             </div>
@@ -71,7 +80,7 @@
                 </button>
                 <div class="faq-content">
                     <p style="padding: 0 1.5rem 1.25rem 1.5rem; margin: 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
-                        Sí. Contamos con porta carnets rígidos, fundas de PVC transparentes flexibles, yoyos retráctiles corporativos, clips cocodrilo y adaptadores de sujeción.
+                        Sí. Contamos con porta credenciales rígidos, fundas de PVC transparentes flexibles, yoyos retráctiles corporativos, clips cocodrilo y adaptadores de sujeción.
                     </p>
                 </div>
             </div>

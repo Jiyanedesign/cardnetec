@@ -278,7 +278,7 @@ $page_description = 'Conoce los términos y condiciones de uso del taller CardNe
                             CardNet es un taller técnico ecuatoriano dedicado a la confección, impresión y grabado de artículos de identificación corporativa, institucional y promocional. Nuestros servicios abarcan:
                         </p>
                         <ul>
-                            <li>Fabricación de carnets PVC laminados de alta fidelidad, credenciales institucionales, tarjetas de membresía y formatos de proximidad RFID.</li>
+                            <li>Fabricación de credenciales PVC laminadas de alta fidelidad, credenciales institucionales, tarjetas de membresía y formatos de proximidad RFID.</li>
                             <li>Cintas y lanyards textiles sublimados a full color con accesorios y broches de seguridad.</li>
                             <li>Personalización en marfil vegetal de Tagua 100% natural ecuatoriana (llaveros, botones, medallas, broches y reconocimientos).</li>
                             <li>Marcado y grabado láser de alta precisión sobre acero inoxidable, aluminio, madera, cuero, corcho y acrílicos.</li>

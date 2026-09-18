@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_empresas_content
             }
         }
 
-        $message = 'Contenidos de Carnets y Empresas actualizados con éxito.';
+        $message = 'Contenidos de Credenciales y Empresas actualizados con éxito.';
     } catch (PDOException $e) {
         $error = 'Error al guardar los contenidos: ' . $e->getMessage();
     }
@@ -87,7 +87,7 @@ $emp_c = getEmpresasContent($pdo);
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Carnets y Empresas | CardNet Admin</title>
+    <title>Gestión de Credenciales y Empresas | CardNet Admin</title>
     <link rel="stylesheet" href="../css/base.css?v=6.3">
     <link rel="stylesheet" href="../css/layout.css?v=6.3">
     <link rel="stylesheet" href="../css/components.css?v=6.3">
@@ -285,7 +285,7 @@ $emp_c = getEmpresasContent($pdo);
         <img src="../images/logo.webp?v=2.1" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
-            <a href="carnets-empresas.php" class="nav-admin-link active">Carnets y Empresas</a>
+            <a href="carnets-empresas.php" class="nav-admin-link active">Credenciales y Empresas</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="secciones.php" class="nav-admin-link">Secciones Home</a>
             <a href="tagua.php" class="nav-admin-link">Tagua</a>
@@ -305,7 +305,7 @@ $emp_c = getEmpresasContent($pdo);
     <div class="main-content">
         <div class="dashboard-header">
             <div>
-                <h1 style="font-family: var(--font-heading); margin: 0; font-size: 2rem;">Página: Carnets y Empresas</h1>
+                <h1 style="font-family: var(--font-heading); margin: 0; font-size: 2rem;">Página: Credenciales y Empresas</h1>
                 <p style="color: var(--text-muted); margin: 5px 0 0 0;">Personaliza todos los textos, imágenes, tarjetas y llamados a la acción de la página unificada.</p>
             </div>
             <a href="../empresas.php" target="_blank" class="btn btn-secondary">Ver Página Pública</a>
@@ -321,8 +321,8 @@ $emp_c = getEmpresasContent($pdo);
         <!-- Navegación por Pestañas -->
         <div class="tab-nav">
             <button type="button" class="tab-btn active" onclick="switchTab('tab-hero')">1. Hero & Métricas</button>
-            <button type="button" class="tab-btn" onclick="switchTab('tab-why')">2. Importancia del Carnet</button>
-            <button type="button" class="tab-btn" onclick="switchTab('tab-types')">3. Tipos de Carnets</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-why')">2. Importancia de las Credenciales</button>
+            <button type="button" class="tab-btn" onclick="switchTab('tab-types')">3. Tipos de Credenciales</button>
             <button type="button" class="tab-btn" onclick="switchTab('tab-finishes')">4. Acabados de Taller</button>
             <button type="button" class="tab-btn" onclick="switchTab('tab-solutions')">5. Soluciones Corporativas</button>
             <button type="button" class="tab-btn" onclick="switchTab('tab-combos')">6. Combos Inteligentes</button>

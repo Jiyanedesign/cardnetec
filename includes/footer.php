@@ -31,10 +31,10 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
             <div class="footer-links-column">
                 <h3 class="footer-heading" style="font-size: 0.9rem; font-family: var(--font-heading); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dark);">Productos</h3>
                 <nav class="footer-links" aria-label="Enlaces de productos" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
-                    <a href="productos.php?cat=carnets" class="footer-link">Carnets</a>
-                    <a href="productos.php?cat=credenciales" class="footer-link">Credenciales</a>
-                    <a href="productos.php?cat=cintas" class="footer-link">Cintas</a>
-                    <a href="productos.php?cat=porta-credenciales" class="footer-link">Porta carnets</a>
+                    <a href="productos.php?cat=carnets" class="footer-link">Credenciales PVC</a>
+                    <a href="productos.php?cat=credenciales" class="footer-link">Credenciales Corporativas</a>
+                    <a href="productos.php?cat=cintas" class="footer-link">Cintas y Lanyards</a>
+                    <a href="productos.php?cat=porta-credenciales" class="footer-link">Porta credenciales</a>
                     <a href="personalizacion.php" class="footer-link">Personalización</a>
                     <a href="tagua.php" class="footer-link">Productos de Tagua</a>
                 </nav>
