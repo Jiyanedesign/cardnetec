@@ -254,7 +254,7 @@ $page_description = 'Conoce nuestra política de privacidad y protección de dat
                     </ul>
                     <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted);">
                         ¿Tienes dudas sobre tus datos?<br>
-                        <a href="<?php echo formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola CardNet, deseo realizar una consulta sobre privacidad de datos.'); ?>" target="_blank" rel="noopener noreferrer" style="color: var(--primary); font-weight: 600; text-decoration: none; display: inline-block; margin-top: 4px;">
+                        <a href="<?php echo formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola Cardnetec, deseo realizar una consulta sobre privacidad de datos.'); ?>" target="_blank" rel="noopener noreferrer" style="color: var(--primary); font-weight: 600; text-decoration: none; display: inline-block; margin-top: 4px;">
                             Escríbenos por WhatsApp ➔
                         </a>
                     </div>
@@ -397,7 +397,7 @@ $page_description = 'Conoce nuestra política de privacidad y protección de dat
                             <a href="mailto:<?php echo htmlspecialchars($site_settings['email'] ?? 'correo@cardnet.ec'); ?>" class="btn btn-primary" style="padding: 10px 22px; font-size: 0.88rem;">
                                 Enviar Correo Electrónico
                             </a>
-                            <a href="<?php echo formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola CardNet, deseo consultar sobre el tratamiento de datos personales.'); ?>" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" style="padding: 10px 22px; font-size: 0.88rem;">
+                            <a href="<?php echo formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola Cardnetec, deseo consultar sobre el tratamiento de datos personales.'); ?>" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" style="padding: 10px 22px; font-size: 0.88rem;">
                                 Consultar por WhatsApp
                             </a>
                         </div>

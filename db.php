@@ -527,6 +527,9 @@ try {
     if (!in_array('footer_desc', $config_columns)) {
         $pdo->exec("ALTER TABLE configuraciones ADD COLUMN footer_desc text DEFAULT NULL;");
     }
+    if (!in_array('whatsapp_message', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN whatsapp_message varchar(255) DEFAULT 'Hola Cardnetec, deseo realizar una consulta.';");
+    }
 
 
     // AUTO-MIGRACIÓN: Columna de imagen en carrusel y seeding inicial solo si la tabla está vacía

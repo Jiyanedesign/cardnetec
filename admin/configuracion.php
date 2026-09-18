@@ -20,6 +20,7 @@ $error = '';
 // Procesar Formulario de Guardado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $whatsapp = trim($_POST['whatsapp']);
+    $whatsapp_message = trim($_POST['whatsapp_message'] ?? 'Hola Cardnetec, deseo realizar una consulta.');
     $phone_2 = trim($_POST['phone_2'] ?? '');
     $phone_3 = trim($_POST['phone_3'] ?? '');
     $email = trim($_POST['email']);
@@ -44,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $count = $pdo->query("SELECT COUNT(*) FROM configuraciones WHERE id = 1")->fetchColumn();
         if ($count > 0) {
-            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ?, obras_subtitle = ?, obras_title = ?, obras_desc = ?, accesorios_subtitle = ?, accesorios_title = ?, accesorios_desc = ?, bento_subtitle = ?, bento_title = ?, bento_desc = ?, footer_desc = ? WHERE id = 1");
-            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc, $bento_subtitle, $bento_title, $bento_desc, $footer_desc]);
+            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, whatsapp_message = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ?, obras_subtitle = ?, obras_title = ?, obras_desc = ?, accesorios_subtitle = ?, accesorios_title = ?, accesorios_desc = ?, bento_subtitle = ?, bento_title = ?, bento_desc = ?, footer_desc = ? WHERE id = 1");
+            $stmt->execute([$whatsapp, $whatsapp_message, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc, $bento_subtitle, $bento_title, $bento_desc, $footer_desc]);
         } else {
-            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order, obras_subtitle, obras_title, obras_desc, accesorios_subtitle, accesorios_title, accesorios_desc, bento_subtitle, bento_title, bento_desc, footer_desc) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc, $bento_subtitle, $bento_title, $bento_desc, $footer_desc]);
+            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, whatsapp_message, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order, obras_subtitle, obras_title, obras_desc, accesorios_subtitle, accesorios_title, accesorios_desc, bento_subtitle, bento_title, bento_desc, footer_desc) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$whatsapp, $whatsapp_message, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc, $bento_subtitle, $bento_title, $bento_desc, $footer_desc]);
         }
         $message = 'Configuración guardada correctamente.';
     } catch (PDOException $e) {
@@ -182,6 +183,12 @@ $settings = getSiteSettings($pdo);
                         <label class="form-label" for="phone_3">Teléfono 3 (Adicional / Celular)</label>
                         <input class="form-input" type="text" name="phone_3" id="phone_3" placeholder="Ej: 0987654321" value="<?php echo htmlspecialchars($settings['phone_3'] ?? ''); ?>">
                     </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label" for="whatsapp_message">Mensaje Predeterminado de WhatsApp (Botón Flotante)</label>
+                    <input class="form-input" type="text" name="whatsapp_message" id="whatsapp_message" placeholder="Hola Cardnetec, deseo realizar una consulta." value="<?php echo htmlspecialchars($settings['whatsapp_message'] ?? 'Hola Cardnetec, deseo realizar una consulta.'); ?>">
+                    <small style="color: var(--text-muted); font-size: 0.8rem;">Texto predeterminado con el que se abrirá la app o web de WhatsApp al hacer clic en el botón flotante.</small>
                 </div>
 
                 <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">Correos Electrónicos (2 Correos)</h2>

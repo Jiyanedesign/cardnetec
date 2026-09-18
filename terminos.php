@@ -254,7 +254,7 @@ $page_description = 'Conoce los términos y condiciones de uso del taller CardNe
                     </ul>
                     <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted);">
                         ¿Preguntas comerciales?<br>
-                        <a href="<?php echo formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola CardNet, deseo resolver dudas sobre los términos de servicio.'); ?>" target="_blank" rel="noopener noreferrer" style="color: var(--primary); font-weight: 600; text-decoration: none; display: inline-block; margin-top: 4px;">
+                        <a href="<?php echo formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola Cardnetec, deseo resolver dudas sobre los términos de servicio.'); ?>" target="_blank" rel="noopener noreferrer" style="color: var(--primary); font-weight: 600; text-decoration: none; display: inline-block; margin-top: 4px;">
                             Hablar con un Asesor ➔
                         </a>
                     </div>

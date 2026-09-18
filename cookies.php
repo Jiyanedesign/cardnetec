@@ -399,7 +399,7 @@ $page_description = 'Conoce nuestra política de cookies y gestiona tus preferen
                     </ul>
                     <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted);">
                         Soporte técnico directo:<br>
-                        <a href="<?php echo formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola CardNet, tengo una duda sobre las cookies del sitio.'); ?>" target="_blank" rel="noopener noreferrer" style="color: var(--primary); font-weight: 600; text-decoration: none; display: inline-block; margin-top: 4px;">
+                        <a href="<?php echo formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola Cardnetec, tengo una duda sobre las cookies del sitio.'); ?>" target="_blank" rel="noopener noreferrer" style="color: var(--primary); font-weight: 600; text-decoration: none; display: inline-block; margin-top: 4px;">
                             Escríbenos por WhatsApp ➔
                         </a>
                     </div>

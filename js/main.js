@@ -680,7 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const waCatalogPhone = window.CARDNET_WA_PHONE || '59399978180';
                 noResultsEl.innerHTML = `
                     <p style="font-size:1rem; margin-bottom:1.5rem;">No encontramos ese producto en este filtro, pero podemos grabarlo o fabricarlo a tu medida.</p>
-                    <a href="https://wa.me/${waCatalogPhone}?text=Hola,%20busco%20un%20producto%20específico%20en%20CardNet..." class="btn btn-primary" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+                    <a href="https://wa.me/${waCatalogPhone}?text=Hola,%20busco%20un%20producto%20específico%20en%20Cardnetec..." class="btn btn-primary" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
                 `;
                 if (catalogGrid) catalogGrid.appendChild(noResultsEl);
             } else {

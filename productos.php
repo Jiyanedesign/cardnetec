@@ -363,7 +363,7 @@ try {
                     </p>
                     <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                         <a href="productos.php" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 20px;">Ver todo el catálogo</a>
-                        <a href="https://wa.me/<?php echo $prod_wa_clean; ?>?text=<?php echo urlencode('Hola CardNet, busco un producto que no encontré en el catálogo: ' . $search_query); ?>" class="btn btn-primary" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; padding: 10px 20px;">Consultar por WhatsApp</a>
+                        <a href="https://wa.me/<?php echo $prod_wa_clean; ?>?text=<?php echo urlencode('Hola Cardnetec, busco un producto que no encontré en el catálogo: ' . $search_query); ?>" class="btn btn-primary" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; padding: 10px 20px;">Consultar por WhatsApp</a>
                     </div>
                 </div>
             <?php endif; ?>

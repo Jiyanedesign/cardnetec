@@ -4,7 +4,8 @@ if (!isset($site_settings) && isset($pdo)) {
     $site_settings = getSiteSettings($pdo);
 }
 $footer_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
-$footer_wa_url = formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola CardNet, deseo realizar una consulta.');
+$footer_wa_msg = !empty($site_settings['whatsapp_message']) ? $site_settings['whatsapp_message'] : 'Hola Cardnetec, deseo realizar una consulta.';
+$footer_wa_url = formatWhatsAppUrl($site_settings['whatsapp'] ?? '', $footer_wa_msg);
 $footer_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 99 978 180';
 $footer_phone_2 = !empty($site_settings['phone_2']) ? $site_settings['phone_2'] : '';
 $footer_phone_3 = !empty($site_settings['phone_3']) ? $site_settings['phone_3'] : '';
@@ -59,7 +60,7 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
                         <div style="margin-bottom: 4px;">
                             <strong>Teléfonos / WhatsApp:</strong><br>
                             <?php foreach ($all_phones as $idx => $p): ?>
-                                <a href="<?php echo formatWhatsAppUrl($p, 'Hola CardNet, deseo información sobre sus servicios.'); ?>" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none; display: inline-block; margin-right: 8px; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'" title="Chatear por WhatsApp">
+                                <a href="<?php echo formatWhatsAppUrl($p, 'Hola Cardnetec, deseo información sobre sus servicios.'); ?>" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none; display: inline-block; margin-right: 8px; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'" title="Chatear por WhatsApp">
                                     <?php echo htmlspecialchars($p); ?>
                                 </a><?php echo ($idx < count($all_phones) - 1) ? ' ·' : ''; ?>
                             <?php endforeach; ?>

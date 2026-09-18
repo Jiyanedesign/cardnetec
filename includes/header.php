@@ -10,7 +10,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 if (!isset($site_settings) && isset($pdo)) {
     $site_settings = getSiteSettings($pdo);
 }
-$header_wa_url = formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola CardNet, deseo información sobre sus servicios.');
+$header_wa_url = formatWhatsAppUrl($site_settings['whatsapp'] ?? '', 'Hola Cardnetec, deseo información sobre sus servicios.');
 $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsapp'] : '+593 99 978 180';
 ?>
 <!-- Barra de Anuncios Superior -->

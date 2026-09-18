@@ -497,7 +497,7 @@ $sim_wa_clean = cleanWhatsAppNumber($site_settings['whatsapp'] ?? '');
                 const productName = productSelect.options[productSelect.selectedIndex].text;
                 
                 // Mensaje prellenado para WhatsApp
-                let message = `Hola CardNet.ec, acabo de realizar una simulación de mi marca en tu simulador web:\n\n`;
+                let message = `Hola Cardnetec, acabo de realizar una simulación de mi marca en tu simulador web:\n\n`;
                 message += `*Producto:* ${productName}\n`;
                 message += `*Cantidad Estimada:* ${qty} unidades\n`;
                 if (textInput.value) {

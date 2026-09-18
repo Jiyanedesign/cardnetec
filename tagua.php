@@ -342,7 +342,7 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
                     <a href="<?php echo htmlspecialchars($tagua_c['hero_btn_url']); ?>" class="btn btn-primary" style="padding: 12px 28px; font-size: 0.88rem; text-transform: none; font-weight: 600;">
                         <?php echo htmlspecialchars($tagua_c['hero_btn_text']); ?>
                     </a>
-                    <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20CardNet,%20deseo%20cotizar%20articulos%20en%20Tagua%20personalizada" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 12px 24px; font-size: 0.88rem; text-transform: none; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.25);">
+                    <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20Cardnetec,%20deseo%20cotizar%20articulos%20en%20Tagua%20personalizada" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 12px 24px; font-size: 0.88rem; text-transform: none; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.25);">
                         <?php echo htmlspecialchars($tagua_c['hero_btn_sec_text']); ?>
                     </a>
                 </div>
@@ -479,7 +479,7 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
                     <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 1.25rem auto;">
                         <?php echo htmlspecialchars($tagua_c['custom_box_desc']); ?>
                     </p>
-                    <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20CardNet,%20deseo%20solicitar%20piezas%20de%20Tagua%20con%20medidas%20especiales" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-transform: none; font-size: 0.85rem; padding: 10px 24px;">
+                    <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20Cardnetec,%20deseo%20solicitar%20piezas%20de%20Tagua%20con%20medidas%20especiales" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-transform: none; font-size: 0.85rem; padding: 10px 24px;">
                         <?php echo htmlspecialchars($tagua_c['custom_box_btn_text']); ?>
                     </a>
                 </div>
@@ -693,7 +693,7 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
                     <a href="cotizacion.php?cat=tagua" class="btn btn-primary" style="padding: 13px 30px; font-size: 0.92rem; text-transform: none; font-weight: 600;">
                         <?php echo htmlspecialchars($tagua_c['cta_btn_text']); ?>
                     </a>
-                    <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20CardNet,%20deseo%20asesoria%20tecnica%20para%20un%20pedido%20en%20Tagua" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 13px 26px; font-size: 0.92rem; text-transform: none; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.25);">
+                    <a href="https://wa.me/<?php echo $tagua_wa_clean; ?>?text=Hola%20Cardnetec,%20deseo%20asesoria%20tecnica%20para%20un%20pedido%20en%20Tagua" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 13px 26px; font-size: 0.92rem; text-transform: none; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.25);">
                         <?php echo htmlspecialchars($tagua_c['cta_btn_sec_text']); ?>
                     </a>
                 </div>
