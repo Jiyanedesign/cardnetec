@@ -24,7 +24,7 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
                     <img src="images/logo.webp?v=2.1" alt="CardNet.ec Logo" class="logo-img" width="132" height="48" loading="lazy" decoding="async">
                 </a>
                 <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">
-                    Taller especialista en personalización de precisión y grabado láser en Ecuador. Acabados indelebles en acero, cuero, madera, acrílico, marfil vegetal de tagua y credenciales. Calidad de autor pieza por pieza, sin barreras de producción masiva.
+                    <?php echo htmlspecialchars(!empty($site_settings['footer_desc']) ? $site_settings['footer_desc'] : 'Taller especializado en identificación y accesorios para personal. Y en personalización con láser de última tecnología. Acabados indelebles en diversos materiales y sustratos. Calidad de autor pieza por pieza sin barreras de producción masiva.'); ?>
                 </p>
             </div>
             <div class="footer-links-column">

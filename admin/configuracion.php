@@ -39,15 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bento_subtitle = trim($_POST['bento_subtitle'] ?? 'Maestría en Materiales');
     $bento_title = trim($_POST['bento_title'] ?? 'Líneas de personalización de autor');
     $bento_desc = trim($_POST['bento_desc'] ?? 'No producimos volumen genérico descartable. Grabamos y personalizamos piezas nobles con acabado indeleble, textura palpable y control de calidad individual.');
+    $footer_desc = trim($_POST['footer_desc'] ?? 'Taller especializado en identificación y accesorios para personal. Y en personalización con láser de última tecnología. Acabados indelebles en diversos materiales y sustratos. Calidad de autor pieza por pieza sin barreras de producción masiva.');
 
     try {
         $count = $pdo->query("SELECT COUNT(*) FROM configuraciones WHERE id = 1")->fetchColumn();
         if ($count > 0) {
-            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ?, obras_subtitle = ?, obras_title = ?, obras_desc = ?, accesorios_subtitle = ?, accesorios_title = ?, accesorios_desc = ?, bento_subtitle = ?, bento_title = ?, bento_desc = ? WHERE id = 1");
-            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc, $bento_subtitle, $bento_title, $bento_desc]);
+            $stmt = $pdo->prepare("UPDATE configuraciones SET whatsapp = ?, phone_2 = ?, phone_3 = ?, email = ?, email_2 = ?, address = ?, instagram = ?, facebook = ?, site_title = ?, site_description = ?, min_order = ?, obras_subtitle = ?, obras_title = ?, obras_desc = ?, accesorios_subtitle = ?, accesorios_title = ?, accesorios_desc = ?, bento_subtitle = ?, bento_title = ?, bento_desc = ?, footer_desc = ? WHERE id = 1");
+            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc, $bento_subtitle, $bento_title, $bento_desc, $footer_desc]);
         } else {
-            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order, obras_subtitle, obras_title, obras_desc, accesorios_subtitle, accesorios_title, accesorios_desc, bento_subtitle, bento_title, bento_desc) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc, $bento_subtitle, $bento_title, $bento_desc]);
+            $stmt = $pdo->prepare("INSERT INTO configuraciones (id, whatsapp, phone_2, phone_3, email, email_2, address, instagram, facebook, site_title, site_description, min_order, obras_subtitle, obras_title, obras_desc, accesorios_subtitle, accesorios_title, accesorios_desc, bento_subtitle, bento_title, bento_desc, footer_desc) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$whatsapp, $phone_2, $phone_3, $email, $email_2, $address, $instagram, $facebook, $site_title, $site_description, $min_order, $obras_subtitle, $obras_title, $obras_desc, $accesorios_subtitle, $accesorios_title, $accesorios_desc, $bento_subtitle, $bento_title, $bento_desc, $footer_desc]);
         }
         $message = 'Configuración guardada correctamente.';
     } catch (PDOException $e) {
@@ -266,6 +267,12 @@ $settings = getSiteSettings($pdo);
                 <div class="form-group" style="margin-top: 1rem;">
                     <label class="form-label" for="bento_desc">Descripción Inferior</label>
                     <textarea class="form-input" name="bento_desc" id="bento_desc" rows="2"><?php echo htmlspecialchars($settings['bento_desc'] ?? 'No producimos volumen genérico descartable. Grabamos y personalizamos piezas nobles con acabado indeleble, textura palpable y control de calidad individual.'); ?></textarea>
+                </div>
+
+                <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">Pie de Página (Footer): Descripción del Taller</h2>
+                <div class="form-group">
+                    <label class="form-label" for="footer_desc">Texto Descriptivo del Pie de Página (Bajo el logo)</label>
+                    <textarea class="form-input" name="footer_desc" id="footer_desc" rows="3"><?php echo htmlspecialchars($settings['footer_desc'] ?? 'Taller especializado en identificación y accesorios para personal. Y en personalización con láser de última tecnología. Acabados indelebles en diversos materiales y sustratos. Calidad de autor pieza por pieza sin barreras de producción masiva.'); ?></textarea>
                 </div>
 
                 <h2 style="font-family: var(--font-heading); margin-top: 2rem; margin-bottom: 1.5rem; font-size: 1.25rem;">SEO y Meta Tags (Google)</h2>

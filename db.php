@@ -524,6 +524,9 @@ try {
     if (!in_array('bento_desc', $config_columns)) {
         $pdo->exec("ALTER TABLE configuraciones ADD COLUMN bento_desc text DEFAULT NULL;");
     }
+    if (!in_array('footer_desc', $config_columns)) {
+        $pdo->exec("ALTER TABLE configuraciones ADD COLUMN footer_desc text DEFAULT NULL;");
+    }
 
 
     // AUTO-MIGRACIÓN: Columna de imagen en carrusel y seeding inicial solo si la tabla está vacía
