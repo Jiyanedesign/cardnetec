@@ -241,37 +241,6 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
             letter-spacing: 0.05em;
         }
 
-        /* TABLA COMPARATIVA */
-        .tagua-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-            font-size: 0.88rem;
-        }
-        .tagua-table th {
-            background: #101511;
-            color: white;
-            padding: 1.25rem 1rem;
-            font-weight: 600;
-            text-align: left;
-            border-bottom: 2px solid var(--primary);
-        }
-        .tagua-table td {
-            padding: 1.15rem 1rem;
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
-            color: var(--text-dark);
-        }
-        .tagua-table tr:last-child td {
-            border-bottom: none;
-        }
-        .tagua-table tr:nth-child(even) {
-            background: #fbfcfb;
-        }
-
         /* FAQ ACCORDION */
         .faq-item-serious {
             background: white;
@@ -486,61 +455,7 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
             </div>
         </section>
 
-        <!-- 4. TABLA COMPARATIVA TÉCNICA -->
-        <section class="section-padding container">
-            <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle">Especificaciones Técnicas</span>
-                <h2>Comparativa de Materiales para Identificación</h2>
-                <p>Análisis técnico entre Tagua y materiales convencionales de marcaje.</p>
-            </div>
-
-            <div style="overflow-x: auto;">
-                <table class="tagua-table">
-                    <thead>
-                        <tr>
-                            <th>Característica</th>
-                            <th style="color: #8CFF32;">Tagua (Marfil Vegetal)</th>
-                            <th>Acrílico Comercial</th>
-                            <th>Plástico Inyectado / PVC</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Origen del Material</strong></td>
-                            <td>Semilla 100% natural y renovable</td>
-                            <td>Polímero sintético derivado de petróleo</td>
-                            <td>Plástico derivado de hidrocarburos</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Impacto Ambiental</strong></td>
-                            <td>Biodegradable y compostable</td>
-                            <td>No biodegradable (cientos de años)</td>
-                            <td>Alta huella de carbono</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Técnica de Marcado</strong></td>
-                            <td>Grabado térmico láser indeleble</td>
-                            <td>Corte / grabado láser superficial</td>
-                            <td>Impresión por tinta o serigrafía</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Durabilidad del Grabado</strong></td>
-                            <td>Permanente (nunca se borra)</td>
-                            <td>Media (susceptible a rayones)</td>
-                            <td>Baja (se desgasta con fricción)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Percepción de Marca</strong></td>
-                            <td>Exclusiva, artesanal y responsable</td>
-                            <td>Estándar industrial</td>
-                            <td>Promocional básica</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- 5. PROCESO DE TALLER -->
+        <!-- 4. PROCESO DE TALLER -->
         <section class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
             <div class="container">
                 <div class="section-header center" style="margin-bottom: 3.5rem;">
@@ -585,47 +500,8 @@ $hero_bg_url = getUploadedImgUrl(!empty($tagua_c['hero_image']) ? $tagua_c['hero
             </div>
         </section>
 
-        <!-- 6. SECTORES Y APLICACIONES -->
-        <section class="section-padding container">
-            <div class="section-header center" style="margin-bottom: 3.5rem;">
-                <span class="section-subtitle"><?php echo htmlspecialchars($tagua_c['sectors_badge']); ?></span>
-                <h2><?php echo htmlspecialchars($tagua_c['sectors_title']); ?></h2>
-                <p><?php echo htmlspecialchars($tagua_c['sectors_description']); ?></p>
-            </div>
-
-            <div class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
-                <div style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-sm);">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['sector_1_title']); ?></h3>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        <?php echo htmlspecialchars($tagua_c['sector_1_desc']); ?>
-                    </p>
-                </div>
-
-                <div style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-sm);">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['sector_2_title']); ?></h3>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        <?php echo htmlspecialchars($tagua_c['sector_2_desc']); ?>
-                    </p>
-                </div>
-
-                <div style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-sm);">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['sector_3_title']); ?></h3>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        <?php echo htmlspecialchars($tagua_c['sector_3_desc']); ?>
-                    </p>
-                </div>
-
-                <div style="background: white; border: 1px solid var(--border); padding: 2rem; border-radius: var(--radius-sm);">
-                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--dark); margin-bottom: 0.6rem;"><?php echo htmlspecialchars($tagua_c['sector_4_title']); ?></h3>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
-                        <?php echo htmlspecialchars($tagua_c['sector_4_desc']); ?>
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. PREGUNTAS FRECUENTES (FAQ) -->
-        <section class="section-padding" style="background: var(--surface-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+        <!-- 5. PREGUNTAS FRECUENTES (FAQ) -->
+        <section class="section-padding">
             <div class="container">
                 <div class="section-header center" style="margin-bottom: 3rem;">
                     <span class="section-subtitle">Preguntas Frecuentes</span>
