@@ -172,7 +172,7 @@ $c_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
                     <!-- Técnica 4: Resina Epóxica Drop -->
                     <div class="tech-card">
                         <div style="width: 100%; aspect-ratio: 1.8; overflow: hidden; background: white; border-bottom: 1px solid var(--border);">
-                            <img src="uploads/yoyos.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Resina Drop en Yoyos" loading="lazy" decoding="async">
+                            <img src="uploads/resina_drop.webp?v=1.0" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" alt="Resina Drop en Yoyos Retráctiles" loading="lazy" decoding="async">
                         </div>
                         <div style="padding: 2.25rem;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: var(--dark); margin-bottom: 10px; font-weight: 500;">Resina Epóxica Drop (Gota de Resina)</h3>
