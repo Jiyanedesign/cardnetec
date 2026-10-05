@@ -108,7 +108,7 @@ if (!empty($cedula)) {
     <div class="verification-card">
         
         <!-- Logotipo CardNet -->
-        <img src="images/logo.png?v=2.0" alt="CardNet.ec Logo" style="max-width: 130px; margin-bottom: 2rem; display: block; margin-left: auto; margin-right: auto;">
+        <img src="images/logo.png?v=4.0" alt="CardNet.ec Logo" style="max-width: 130px; margin-bottom: 2rem; display: block; margin-left: auto; margin-right: auto;">
 
         <?php if ($employee): ?>
             

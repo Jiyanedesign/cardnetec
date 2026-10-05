@@ -22,7 +22,7 @@ $all_emails = array_filter([$footer_email_display, $footer_email_2]);
         <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px;">
             <div class="footer-brand-column">
                 <a href="index.php" class="logo footer-logo" aria-label="CardNet.ec Inicio">
-                    <img src="images/logo.webp?v=2.1" alt="CardNet.ec Logo" class="logo-img" width="132" height="48" loading="lazy" decoding="async">
+                    <img src="images/logo.webp?v=4.0" alt="CardNet.ec Logo" class="logo-img" width="132" height="48" loading="lazy" decoding="async">
                 </a>
                 <p class="footer-description" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-top: 1rem;">
                     <?php echo htmlspecialchars(!empty($site_settings['footer_desc']) ? $site_settings['footer_desc'] : 'Taller especializado en identificación y accesorios para personal. Y en personalización con láser de última tecnología. Acabados indelebles en diversos materiales y sustratos. Calidad de autor pieza por pieza sin barreras de producción masiva.'); ?>

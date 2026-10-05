@@ -24,7 +24,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
         <div class="header-middle">
             <!-- Logotipo Real en Imagen (logo.webp) -->
             <a href="index.php" class="logo" aria-label="CardNet.ec Inicio">
-                <img src="images/logo.webp?v=2.1" alt="CardNet.ec Logo" class="logo-img" width="132" height="48" fetchpriority="high">
+                <img src="images/logo.webp?v=4.0" alt="CardNet.ec Logo" class="logo-img" width="132" height="48" fetchpriority="high">
             </a>
             
             <form action="productos.php" method="GET" class="header-search" id="global-header-search" role="search" style="position: relative;">
@@ -106,7 +106,7 @@ $header_wa_display = !empty($site_settings['whatsapp']) ? $site_settings['whatsa
 <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil">
     <!-- Logotipo al inicio del menú -->
     <div style="text-align: center; margin-bottom: 2.25rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); width: 100%;">
-        <img src="images/logo.webp?v=2.1" alt="CardNet.ec Logo" style="height: 48px; width: auto; display: inline-block;" width="132" height="48" loading="lazy" decoding="async">
+        <img src="images/logo.webp?v=4.0" alt="CardNet.ec Logo" style="height: 48px; width: auto; display: inline-block;" width="132" height="48" loading="lazy" decoding="async">
     </div>
     
     <!-- Enlaces con margen superior incrementado -->
