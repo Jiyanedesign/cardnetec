@@ -412,11 +412,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vaciar el carrito de la sesión
     $_SESSION['cart'] = [];
 
-    // Responder
+    // Responder con confirmación de éxito
     header('Content-Type: application/json');
     echo json_encode([
         'success' => true,
-        'redirect_url' => $whatsappUrl
+        'message' => '¡Cotización enviada con éxito! Pronto nos comunicaremos contigo para atenderte.'
     ]);
     exit;
 }

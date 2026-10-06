@@ -412,7 +412,7 @@ unset($item);
     <!-- Scripts Modulares -->
     <script src="js/main.js?v=7.4" defer></script>
     <script src="js/animations.js" defer></script>
-    <script src="js/forms.js" defer></script>
+    <script src="js/forms.js?v=3.0" defer></script>
     <script>
         // Chips funcionales interactivos
         function initChips(groupId, hiddenInputId) {

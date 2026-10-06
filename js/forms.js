@@ -101,8 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (data.success) {
                         const alertDiv = document.createElement('div');
                         alertDiv.className = 'alert alert-success reveal-on-scroll active';
+                        alertDiv.style.cssText = 'padding: 18px 22px; border-radius: 10px; margin-bottom: 24px; background: #ecfdf5; border: 1.5px solid #10b981; color: #065f46; font-size: 0.95rem; line-height: 1.5; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);';
                         alertDiv.innerHTML = `
-                            <strong>¡Solicitud Registrada!</strong> Redirigiendo a WhatsApp para finalizar tu presupuesto...
+                            <div style="display: flex; align-items: flex-start; gap: 14px;">
+                                <span style="font-size: 1.6rem; line-height: 1;">✅</span>
+                                <div>
+                                    <strong style="display: block; font-size: 1.15rem; margin-bottom: 6px; color: #047857; font-weight: 700;">¡Cotización enviada con éxito!</strong>
+                                    <span style="display: block; color: #065f46;">Hemos recibido tu solicitud correctamente. Pronto nuestro equipo se pondrá en contacto contigo para atenderte y enviarte tu presupuesto.</span>
+                                </div>
+                            </div>
                         `;
                         
                         quoteForm.prepend(alertDiv);
@@ -111,17 +118,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalText;
 
-                        if (data.redirect_url) {
-                            window.open(data.redirect_url, '_blank');
-                        }
+                        // Desplazar suavemente hacia el mensaje de éxito
+                        alertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
                         setTimeout(() => {
-                            alertDiv.remove();
-                            // Recargar la página para vaciar el resumen del carrito ya enviado
+                            // Recargar tras 7 segundos para refrescar el resumen del carrito
                             window.location.reload();
-                        }, 5000);
+                        }, 7000);
                     } else {
-                        alert('Ocurrió un error al procesar tu solicitud.');
+                        alert(data.message || 'Ocurrió un error al procesar tu solicitud.');
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalText;
                     }
@@ -172,8 +177,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     const alertDiv = document.createElement('div');
                     alertDiv.className = 'alert alert-success reveal-on-scroll active';
+                    alertDiv.style.cssText = 'padding: 18px 22px; border-radius: 10px; margin-bottom: 24px; background: #ecfdf5; border: 1.5px solid #10b981; color: #065f46; font-size: 0.95rem; line-height: 1.5; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);';
                     alertDiv.innerHTML = `
-                        <strong>¡Mensaje Enviado!</strong> Gracias por contactarnos. Te responderemos a la brevedad.
+                        <div style="display: flex; align-items: flex-start; gap: 14px;">
+                            <span style="font-size: 1.6rem; line-height: 1;">✅</span>
+                            <div>
+                                <strong style="display: block; font-size: 1.15rem; margin-bottom: 6px; color: #047857; font-weight: 700;">¡Mensaje enviado con éxito!</strong>
+                                <span style="display: block; color: #065f46;">Hemos recibido tu consulta correctamente. Pronto nuestro equipo se pondrá en contacto contigo para atenderte.</span>
+                            </div>
+                        </div>
                     `;
                     
                     contactForm.prepend(alertDiv);
@@ -182,9 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
 
-                    if (data.redirect_url) {
-                        window.open(data.redirect_url, '_blank');
-                    }
+                    alertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
                     setTimeout(() => alertDiv.remove(), 8000);
                 })
