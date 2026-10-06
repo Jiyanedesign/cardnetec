@@ -235,13 +235,14 @@ if (isset($_GET['edit'])) {
                 <?php endif; ?>
 
                 <div class="form-group">
-                    <label class="form-label" for="title">Título del Slide</label>
-                    <input class="form-input" type="text" name="title" id="title" required value="<?php echo $edit_slide ? htmlspecialchars($edit_slide['title']) : ''; ?>">
+                    <label class="form-label" for="title">Título del Slide <small style="color: var(--text-muted); font-weight: normal;">(Opcional - dejar vacío para mostrar solo la imagen)</small></label>
+                    <input class="form-input" type="text" name="title" id="title" placeholder="Ej: Credenciales PVC personalizadas" value="<?php echo $edit_slide ? htmlspecialchars($edit_slide['title']) : ''; ?>">
                 </div>
 
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label class="form-label" for="subtitle">Subtítulo / Texto Corto</label>
-                    <textarea class="form-input" name="subtitle" id="subtitle" rows="2" required><?php echo $edit_slide ? htmlspecialchars($edit_slide['subtitle']) : ''; ?></textarea>
+                    <label class="form-label" for="subtitle">Subtítulo / Texto Corto <small style="color: var(--text-muted); font-weight: normal;">(Opcional)</small></label>
+                    <textarea class="form-input" name="subtitle" id="subtitle" rows="2" placeholder="Ej: Identificación profesional para empresas e instituciones..."><?php echo $edit_slide ? htmlspecialchars($edit_slide['subtitle']) : ''; ?></textarea>
+                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">Tip: Si dejas el título y subtítulo vacíos, el slide no mostrará el cuadro blanco flotante y lucirá el banner o imagen de fondo al 100%.</small>
                 </div>
 
                 <div class="grid-3" style="margin-top: 1rem;">
@@ -313,7 +314,15 @@ if (isset($_GET['edit'])) {
                             <?php endif; ?>
                         </td>
                         <td><?php echo (int)$sl['order_val']; ?></td>
-                        <td><strong><?php echo htmlspecialchars($sl['title']); ?></strong></td>
+                        <td>
+                            <?php 
+                            $clean_t = trim(str_replace(['.', '-', ' '], '', $sl['title'] ?? ''));
+                            if (!empty($clean_t)): ?>
+                                <strong><?php echo htmlspecialchars($sl['title']); ?></strong>
+                            <?php else: ?>
+                                <span class="badge" style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; border-radius:4px; padding:2px 8px;">🖼️ Solo Banner / Imagen</span>
+                            <?php endif; ?>
+                        </td>
                         <td><?php echo htmlspecialchars($sl['subtitle']); ?></td>
                         <td><?php echo htmlspecialchars($sl['cta_text']); ?></td>
                         <td><code><?php echo htmlspecialchars($sl['cta_url']); ?></code></td>

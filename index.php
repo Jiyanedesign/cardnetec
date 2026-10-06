@@ -186,25 +186,45 @@ $page_description = !empty($site_settings['site_description']) ? $site_settings[
                         
                         <?php if (!empty($slides)): ?>
                             <?php foreach ($slides as $idx => $slide): ?>
-                                <div class="hero-slide-item <?php echo ($idx === 0) ? 'active' : ''; ?>" data-slide-index="<?php echo $idx; ?>" style="position: absolute; inset: 0; display: flex; align-items: center; opacity: <?php echo ($idx === 0) ? '1' : '0'; ?>; visibility: <?php echo ($idx === 0) ? 'visible' : 'hidden'; ?>; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: <?php echo ($idx === 0) ? '5' : '1'; ?>; padding: 3rem;">
+                                <?php
+                                $img_path = !empty($slide['image']) ? getUploadedImgUrl($slide['image'], 'uploads/carnet_mockup.webp') : 'uploads/carnet_mockup.webp';
+                                
+                                // Comprobar si el slide contiene texto o botón real (ignorar puntos o caracteres de relleno)
+                                $t_clean = trim(str_replace(['.', '-', ' '], '', $slide['title'] ?? ''));
+                                $s_clean = trim(str_replace(['.', '-', ' '], '', $slide['subtitle'] ?? ''));
+                                $c_clean = trim($slide['cta_text'] ?? '');
+                                
+                                $has_text_card = (!empty($t_clean) || !empty($s_clean) || !empty($c_clean));
+                                ?>
+                                <div class="hero-slide-item <?php echo ($idx === 0) ? 'active' : ''; ?> <?php echo !$has_text_card ? 'hero-slide-full-img' : ''; ?>" data-slide-index="<?php echo $idx; ?>" style="position: absolute; inset: 0; display: flex; align-items: center; opacity: <?php echo ($idx === 0) ? '1' : '0'; ?>; visibility: <?php echo ($idx === 0) ? 'visible' : 'hidden'; ?>; transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out; z-index: <?php echo ($idx === 0) ? '5' : '1'; ?>; padding: 3rem; background: #ffffff;">
                                     
                                     <!-- Imagen al 100% del fondo -->
                                     <div style="position: absolute; inset: 0; z-index: 1;">
-                                        <?php
-                                        $img_path = !empty($slide['image']) ? getUploadedImgUrl($slide['image'], 'uploads/carnet_mockup.webp') : 'uploads/carnet_mockup.webp';
-                                        ?>
-                                        <img src="<?php echo $img_path; ?>?v=2.2" alt="<?php echo htmlspecialchars($slide['title']); ?>" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" class="hero-slide-img" <?php echo ($idx === 0) ? 'fetchpriority="high" loading="eager" decoding="sync"' : 'loading="lazy" decoding="async"'; ?>>
+                                        <img src="<?php echo $img_path; ?>?v=2.3" alt="<?php echo htmlspecialchars($slide['title'] ?: 'Cardnetec Identificación'); ?>" style="width: 100%; height: 100%; object-fit: <?php echo !$has_text_card ? 'contain' : 'cover'; ?>; object-position: center;" class="hero-slide-img" <?php echo ($idx === 0) ? 'fetchpriority="high" loading="eager" decoding="sync"' : 'loading="lazy" decoding="async"'; ?>>
                                     </div>
                                     
-                                    <!-- Suave capa protectora sobre la imagen completa para integrar contrastes -->
-                                    <div style="position: absolute; inset: 0; background: rgba(255, 255, 255, 0.15); z-index: 2; pointer-events: none;"></div>
-                                    
-                                    <!-- Tarjeta Flotante con Glassmorphism para el Texto -->
-                                    <div class="hero-text-card" style="position: relative; z-index: 3; max-width: 460px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2.75rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 30px 60px rgba(0,0,0,0.06), 0 10px 20px rgba(0,0,0,0.02); margin-left: 2rem;">
-                                        <h2 style="font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--dark); font-weight: 600; margin-bottom: 0.75rem; line-height: 1.25;"><?php echo htmlspecialchars($slide['title']); ?></h2>
-                                        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.75rem;"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
-                                        <a href="<?php echo htmlspecialchars($slide['cta_url']); ?>" class="btn btn-primary" style="padding: 12px 28px; font-weight: 600; text-transform: none; display: inline-block; text-align: center; border-radius: 6px; text-decoration: none; font-size: 0.85rem;"><?php echo htmlspecialchars($slide['cta_text']); ?></a>
-                                    </div>
+                                    <?php if ($has_text_card): ?>
+                                        <!-- Suave capa protectora sobre la imagen completa para integrar contrastes -->
+                                        <div style="position: absolute; inset: 0; background: rgba(255, 255, 255, 0.15); z-index: 2; pointer-events: none;"></div>
+                                        
+                                        <!-- Tarjeta Flotante con Glassmorphism para el Texto -->
+                                        <div class="hero-text-card" style="position: relative; z-index: 3; max-width: 460px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2.75rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 30px 60px rgba(0,0,0,0.06), 0 10px 20px rgba(0,0,0,0.02); margin-left: 2rem;">
+                                            <?php if (!empty($t_clean)): ?>
+                                                <h2 style="font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--dark); font-weight: 600; margin-bottom: 0.75rem; line-height: 1.25;"><?php echo htmlspecialchars($slide['title']); ?></h2>
+                                            <?php endif; ?>
+                                            <?php if (!empty($s_clean)): ?>
+                                                <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.75rem;"><?php echo htmlspecialchars($slide['subtitle']); ?></p>
+                                            <?php endif; ?>
+                                            <?php if (!empty($c_clean)): ?>
+                                                <a href="<?php echo htmlspecialchars($slide['cta_url'] ?: 'cotizacion.php'); ?>" class="btn btn-primary" style="padding: 12px 28px; font-weight: 600; text-transform: none; display: inline-block; text-align: center; border-radius: 6px; text-decoration: none; font-size: 0.85rem;"><?php echo htmlspecialchars($slide['cta_text']); ?></a>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php else: ?>
+                                        <?php if (!empty($slide['cta_url']) && $slide['cta_url'] !== '#'): ?>
+                                            <!-- Enlace completo sobre el slide cuando es solo arte o banner -->
+                                            <a href="<?php echo htmlspecialchars($slide['cta_url']); ?>" style="position: absolute; inset: 0; z-index: 4; text-decoration: none;" aria-label="Ir a <?php echo htmlspecialchars($slide['cta_url']); ?>"></a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
