@@ -178,7 +178,8 @@ if (!$quote) {
     <div class="sidebar">
         <img src="../images/logo.png?v=4.0" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
-            <a href="index.php" class="nav-admin-link active">Dashboard</a>
+            <a href="index.php" class="nav-admin-link">Dashboard</a>
+            <a href="cotizaciones.php" class="nav-admin-link active">📋 Cotizaciones</a>
             <a href="carnets-empresas.php" class="nav-admin-link">Credenciales y Empresas</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="secciones.php" class="nav-admin-link">Secciones Home</a>
@@ -199,7 +200,7 @@ if (!$quote) {
         
         <div class="quote-header">
             <div>
-                <a href="index.php" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">← Volver al Dashboard</a>
+                <a href="cotizaciones.php" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem;">← Volver a Cotizaciones</a>
                 <h1 style="font-family: var(--font-heading); margin: 10px 0 0 0; font-size: 2rem;">Ficha de Cotización #<?php echo $quote['id']; ?></h1>
             </div>
             <div>

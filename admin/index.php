@@ -153,6 +153,7 @@ try {
         <img src="../images/logo.png?v=4.0" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link active">Dashboard</a>
+            <a href="cotizaciones.php" class="nav-admin-link">📋 Cotizaciones</a>
             <a href="carnets-empresas.php" class="nav-admin-link">Credenciales y Empresas</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="secciones.php" class="nav-admin-link">Secciones Home</a>
@@ -181,7 +182,10 @@ try {
 
         <!-- Accesos Rápidos -->
         <div style="display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap;">
-            <a href="secciones.php" class="btn btn-primary" style="font-size: 0.85rem; padding: 10px 18px; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+            <a href="cotizaciones.php" class="btn btn-primary" style="font-size: 0.85rem; padding: 10px 18px; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                <span>📋</span> Ver Todas las Cotizaciones
+            </a>
+            <a href="secciones.php" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 18px; text-decoration: none; display: flex; align-items: center; gap: 8px;">
                 <span>✨</span> Secciones de Portada & Bento Grid
             </a>
             <a href="productos.php" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 18px; text-decoration: none;">
@@ -212,7 +216,10 @@ try {
         </div>
 
         <!-- Listado de Solicitudes Recientes -->
-        <h2 style="font-family: var(--font-heading); margin-bottom: 1.25rem; font-size: 1.4rem;">Solicitudes de Cotización Recientes</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h2 style="font-family: var(--font-heading); margin: 0; font-size: 1.4rem;">Solicitudes de Cotización Recientes</h2>
+            <a href="cotizaciones.php" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.88rem;">Ver todas las cotizaciones (<?php echo $total_quotes; ?>) →</a>
+        </div>
         <div class="table-container">
             <table>
                 <thead>

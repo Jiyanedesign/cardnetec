@@ -216,6 +216,7 @@ if (isset($_GET['edit'])) {
         <img src="../images/logo.png?v=4.0" alt="CardNet Logo" class="sidebar-logo">
         <nav class="nav-admin">
             <a href="index.php" class="nav-admin-link">Dashboard</a>
+            <a href="cotizaciones.php" class="nav-admin-link">📋 Cotizaciones</a>
             <a href="carnets-empresas.php" class="nav-admin-link">Credenciales y Empresas</a>
             <a href="categorias.php" class="nav-admin-link">Categorías</a>
             <a href="secciones.php" class="nav-admin-link">Secciones Home</a>
